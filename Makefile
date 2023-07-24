@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/07/24 12:41:49 by jboeve        ########   odam.nl          #
+#    Updated: 2023/07/24 15:20:45 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,11 +30,12 @@ RUN_CMD = ./$(NAME)
 
 LIBFT = libft/build/libft.a
 
-INC = -Ilibft/include -Iinclude 
+INC = -Ilibft/include -Iinclude -I $(shell brew --prefix readline)/include
+
+LFLAGS = -lreadline -L $(shell brew --prefix readline)/lib
 
 SRC_DIR = src
-SRCS = main.c \
-	   builtins/builtin.c
+SRCS = main.c
 
 HEADER_DIR = include
 HEADERS = megashell.h
@@ -54,20 +55,15 @@ OBJ_DIRS := $(dir $(OBJS))
 all: make_libs $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT) 
-	$(CC) $(OBJS) $(LIBFT) $(CFLAGS) $(INC) -o $(NAME)
+	$(CC) $(OBJS) $(LIBFT) $(CFLAGS) $(INC) $(LFLAGS) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
-	@echo objs
-	@echo $(OBJS)
-	@echo obj_dirs
-	@echo $(OBJ_DIRS)
 	mkdir -p $(OBJ_DIRS)
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $< 
 
 
 make_libs:
 	$(MAKE) -C libft
-
 
 clean:
 	rm -rf $(OBJ_DIR)
