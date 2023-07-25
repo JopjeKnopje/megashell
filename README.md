@@ -1,1 +1,4 @@
-
+signal
+sigaction
+sigemptyset
+sigaddset

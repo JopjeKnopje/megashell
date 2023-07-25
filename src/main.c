@@ -6,19 +6,19 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/24 12:00:23 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/07/25 17:30:50 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/07/25 18:24:04 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <readline/readline.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/signal.h>
 #include <signal.h>
 #include <unistd.h>
 #include "libft.h"
 #include <stdbool.h>
-
 #include <termios.h>
 
 typedef enum e_cmd_name {
@@ -42,16 +42,15 @@ void	set_termios(void)
 	attributes.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attributes);
 }
-void	signal_handler(int signum)
+void	signal_handler(int sig)
 {
-	printf("got signal %d\n", signum);
-	if (signum == SIGINT)
+	if (sig == SIGINT)
 	{
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		rl_redisplay();
 	}
+	rl_redisplay();
 }
 
 bool is_cmd(t_cmd_name c, char *s)
@@ -66,6 +65,7 @@ int main(int argc, char *argv[])
 {
 	set_termios();
 	signal(SIGINT, &signal_handler);
+	signal(SIGQUIT, &signal_handler);
 
 
 	while (1) 
@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
 		char *line = readline("megashell> ");
 		if (line == NULL)
 		{
-			printf("ctrl-d\n");
+			exit(0);
 			continue;
 		}
 		else if (ft_strisempty(line))
