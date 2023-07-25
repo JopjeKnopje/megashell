@@ -3,3 +3,4 @@ app
 compile_commands.json
 .cache/
 libft/build/libft.a
+.vscode/
