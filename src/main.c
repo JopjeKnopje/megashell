@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/24 12:00:23 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/07/25 18:24:04 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/07/25 20:17:26 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,14 @@ void	signal_handler(int sig)
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
+		rl_redisplay();
 	}
-	rl_redisplay();
+	if (sig == SIGQUIT)
+	{
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 }
 
 bool is_cmd(t_cmd_name c, char *s)
