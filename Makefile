@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/07/24 15:20:45 by jboeve        ########   odam.nl          #
+#    Updated: 2023/07/24 16:49:20 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ endif
 RUN_CMD = ./$(NAME)
 
 # CFLAGS += -Wall -Wextra -Werror
-# CFLAGS += -g -fsanitize=address
+CFLAGS += -g -fsanitize=address
 
 LIBFT = libft/build/libft.a
 

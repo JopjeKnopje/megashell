@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/24 12:00:23 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/07/25 12:27:11 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/07/25 12:27:58 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int main(int argc, char *argv[])
 
 		add_history(line);
 		printf("line: [%s]\n", line);
+		rl_line_buffer = ft_strdup("1231321");
+		rl_redisplay();
 		if (is_cmd(CMD_EXIT, line))
 			exit(0);
 		else if (is_cmd(CMD_CLEAR_HIS, line))
