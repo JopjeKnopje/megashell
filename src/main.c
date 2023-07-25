@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/24 12:00:23 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/07/25 15:25:56 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/07/25 17:30:50 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "libft.h"
 #include <stdbool.h>
 
+#include <termios.h>
 
 typedef enum e_cmd_name {
 	CMD_EXIT,
@@ -33,21 +34,25 @@ static const char *BUILTINS[] = {
 
 
 
-void handler(int sig)
+void	set_termios(void)
 {
-    printf("\n");
-    rl_on_new_line(); // Regenerate the prompt on a newline
-    rl_replace_line("", 0); // Clear the previous text
-    rl_redisplay();
-}
+	struct termios	attributes;
 
-// void	init_shell_envioment(void)
-// {
-// 	struct termios	attributes;
-// 	tcgetattr(STDIN_FILENO, &attributes);
-// 	attributes.c_lflag &= ~(ECHOCTL);
-// 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attributes);
-// }
+	tcgetattr(STDIN_FILENO, &attributes);
+	attributes.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attributes);
+}
+void	signal_handler(int signum)
+{
+	printf("got signal %d\n", signum);
+	if (signum == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
 
 bool is_cmd(t_cmd_name c, char *s)
 {
@@ -59,7 +64,8 @@ bool is_cmd(t_cmd_name c, char *s)
 }
 int main(int argc, char *argv[])
 {
-	signal(SIGINT, &handler);
+	set_termios();
+	signal(SIGINT, &signal_handler);
 
 
 	while (1) 
