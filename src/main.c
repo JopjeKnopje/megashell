@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/24 12:00:23 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/07/25 20:17:26 by joppe         ########   odam.nl         */
+/*   Updated: 2023/07/26 12:14:17 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,86 +14,72 @@
 #include <readline/readline.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/resource.h>
 #include <sys/signal.h>
 #include <signal.h>
+#include <sys/ttycom.h>
 #include <unistd.h>
 #include "libft.h"
 #include <stdbool.h>
 #include <termios.h>
-
-typedef enum e_cmd_name {
-	CMD_EXIT,
-	CMD_CLEAR_HIS,
-	CMD_COUNT,
-} t_cmd_name;
-
-static const char *BUILTINS[] = {
-	"exit",
-	"clear_his",
-};
+#include <errno.h>
+#include <sys/ioctl.h>
 
 
 
-void	set_termios(void)
+const int FD = STDOUT_FILENO;
+
+
+void print_winsize(struct winsize *size)
 {
-	struct termios	attributes;
-
-	tcgetattr(STDIN_FILENO, &attributes);
-	attributes.c_lflag &= ~(ECHOCTL);
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attributes);
-}
-void	signal_handler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-	if (sig == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
+	printf("ws_row %d | ws_col %d | ws_xpixel %d | ws_ypixel %d\n", size->ws_row, size->ws_col, size->ws_xpixel, size->ws_ypixel);
 }
 
-bool is_cmd(t_cmd_name c, char *s)
+void error_exit()
 {
-	const char *cmd = BUILTINS[c];
-	size_t len = strlen(s);
-	if (len < strlen(cmd))
-		len = strlen(cmd);
-	return (!ft_strncmp(cmd, s, len));
+	perror(strerror(errno));
+	exit(1);
 }
+
+void resize_tty_window()
+{
+	struct winsize size;
+
+	if (ioctl(FD, TIOCGWINSZ, &size) == -1)
+		error_exit();
+	print_winsize(&size);
+
+	size.ws_ypixel = 2812;
+	size.ws_xpixel = 2620;
+	size.ws_row = 10;
+	size.ws_col = 10;
+
+	if (ioctl(FD, TIOCSWINSZ, &size) == -1)
+		error_exit();
+
+	if (ioctl(FD, TIOCGWINSZ, &size) == -1)
+		error_exit();
+	print_winsize(&size);
+}
+
 int main(int argc, char *argv[])
 {
-	set_termios();
-	signal(SIGINT, &signal_handler);
-	signal(SIGQUIT, &signal_handler);
+	int istty = isatty(FD);
+	if (!istty)
+		error_exit();
+	printf("isatty: %d\n", istty);
+
+	const char *name = ttyname(FD);
+	if (!name)
+		error_exit();
+	printf("ttyname: [%s]\n", name);
 
 
-	while (1) 
-	{
-		char *line = readline("megashell> ");
-		if (line == NULL)
-		{
-			exit(0);
-			continue;
-		}
-		else if (ft_strisempty(line))
-		{
-			free(line);
-			continue;
-		}
-		printf("line [%s]\n", line);
+	resize_tty_window();
 
-		if (is_cmd(CMD_EXIT, line))
-			exit(0);
-		else if (is_cmd(CMD_CLEAR_HIS, line))
-			rl_clear_history();
-		free(line);
-	}
-	return 0;
+
+
+
+
+	return (0);
 }
