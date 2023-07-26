@@ -6,14 +6,16 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/24 12:00:23 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/07/25 20:17:26 by joppe         ########   odam.nl         */
+/*   Updated: 2023/07/26 12:35:14 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include <stdio.h>
 #include <readline/readline.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/_types/_sigset_t.h>
 #include <sys/signal.h>
 #include <signal.h>
 #include <unistd.h>
@@ -70,8 +72,24 @@ bool is_cmd(t_cmd_name c, char *s)
 int main(int argc, char *argv[])
 {
 	set_termios();
-	signal(SIGINT, &signal_handler);
-	signal(SIGQUIT, &signal_handler);
+
+	struct sigaction new_act, old_act;
+
+	sigemptyset(&new_act.sa_mask);
+	new_act.sa_flags = 0;
+	new_act.sa_handler = &signal_handler;
+
+	sigaction(SIGINT, NULL, &old_act);
+	
+	if (old_act.sa_handler == SIG_IGN)
+	{
+		printf("dasd\n");
+	}
+
+
+
+	// signal(SIGINT, &signal_handler);
+	// signal(SIGQUIT, &signal_handler);
 
 
 	while (1) 
