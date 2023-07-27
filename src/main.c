@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/24 12:00:23 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/07/26 12:35:14 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/07/27 11:01:32 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <readline/readline.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/_types/_sigset_t.h>
 #include <sys/signal.h>
 #include <signal.h>
 #include <unistd.h>
@@ -73,23 +72,15 @@ int main(int argc, char *argv[])
 {
 	set_termios();
 
-	struct sigaction new_act, old_act;
+	struct sigaction new_act, query_act;
 
 	sigemptyset(&new_act.sa_mask);
 	new_act.sa_flags = 0;
 	new_act.sa_handler = &signal_handler;
 
-	sigaction(SIGINT, NULL, &old_act);
-	
-	if (old_act.sa_handler == SIG_IGN)
-	{
-		printf("dasd\n");
-	}
+	sigaction(SIGINT, &new_act, &query_act);
+	sigaction(SIGQUIT, &new_act, &query_act);
 
-
-
-	// signal(SIGINT, &signal_handler);
-	// signal(SIGQUIT, &signal_handler);
 
 
 	while (1) 
@@ -97,6 +88,10 @@ int main(int argc, char *argv[])
 		char *line = readline("megashell> ");
 		if (line == NULL)
 		{
+			char s[4];
+			s[9] = 123;
+			printf("%c\n", s[1232142]);
+			printf("ctrl-d\n");
 			exit(0);
 			continue;
 		}
