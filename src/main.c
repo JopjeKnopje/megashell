@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/24 12:00:23 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/07/27 11:01:32 by joppe         ########   odam.nl         */
+/*   Updated: 2023/07/27 13:47:53 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,20 @@ void	signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("\n");
+		write(STDOUT_FILENO, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	if (sig == SIGQUIT)
 	{
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	if (sig == SIGUSR1)
+	{
+		printf("got the siggie\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -68,19 +75,34 @@ bool is_cmd(t_cmd_name c, char *s)
 		len = strlen(cmd);
 	return (!ft_strncmp(cmd, s, len));
 }
+
 int main(int argc, char *argv[])
 {
 	set_termios();
 
-	struct sigaction new_act, query_act;
+	struct sigaction act_int;
+	struct sigaction act_quit;
+	struct sigaction act_usr1;
 
-	sigemptyset(&new_act.sa_mask);
-	new_act.sa_flags = 0;
-	new_act.sa_handler = &signal_handler;
+	sigemptyset(&act_int.sa_mask);
+	act_int.sa_flags = SA_RESTART;
+	act_int.sa_handler = &signal_handler;
 
-	sigaction(SIGINT, &new_act, &query_act);
-	sigaction(SIGQUIT, &new_act, &query_act);
 
+	sigemptyset(&act_quit.sa_mask);
+	act_quit.sa_flags = 0;
+	act_quit.sa_handler = SIG_IGN;
+
+	sigemptyset(&act_usr1.sa_mask);
+	act_usr1.sa_flags = SA_RESTART;
+	act_usr1.sa_handler = &signal_handler;
+
+	printf("pid: %d\n", getpid());
+
+
+	sigaction(SIGINT, &act_int, NULL);
+	sigaction(SIGQUIT, &act_quit, NULL);
+	sigaction(SIGUSR1, &act_usr1, NULL);
 
 
 	while (1) 
@@ -88,10 +110,6 @@ int main(int argc, char *argv[])
 		char *line = readline("megashell> ");
 		if (line == NULL)
 		{
-			char s[4];
-			s[9] = 123;
-			printf("%c\n", s[1232142]);
-			printf("ctrl-d\n");
 			exit(0);
 			continue;
 		}

@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/07/27 10:59:31 by joppe         ########   odam.nl          #
+#    Updated: 2023/07/27 13:31:48 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ endif
 RUN_CMD = ./$(NAME)
 
 # CFLAGS += -Wall -Wextra -Werror
-# CFLAGS += -g -fsanitize=address
+CFLAGS += -g -fsanitize=address
 
 LIBFT = libft/build/libft.a
 
@@ -53,6 +53,7 @@ OBJ_DIRS := $(dir $(OBJS))
 .PHONY: make_libs
 
 all: make_libs $(NAME)
+	$(CC) $(LIBFT) $(CFLAGS) $(INC) $(LFLAGS) src/sender.c -o sender
 
 $(NAME): $(OBJS) $(LIBFT) 
 	$(CC) $(OBJS) $(LIBFT) $(CFLAGS) $(INC) $(LFLAGS) -o $(NAME)
