@@ -6,25 +6,48 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:00:23 by jboeve            #+#    #+#             */
-/*   Updated: 2023/07/25 18:18:11 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/07/31 18:13:03 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <dirent.h>
-#include <stdlib.h>
-#include <limits.h>
-#include <unistd.h>
-#include <sys/stat.h>
-#include <readline/readline.h>
-#include <readline/history.h>	
+// #include <stdio.h>
+// #include <dirent.h>
+// #include <stdlib.h>
+// #include <limits.h>
+// #include <unistd.h>
+// #include <sys/stat.h>
+// #include <readline/readline.h>
+// #include <readline/history.h>	
+
+#include "../execute.h"
+
+// instead of error with 2 check builtins
+
+void	use_list(char **envp)
+{
+	t_exec	execute;
+	t_pipes	pipes;
+	t_cmds	*list;
+
+	list = mock_input();
+	// printf("list: %s\n", list->action[0]);
+	search_path(&execute, envp);
+	// execute(&execute, pipes);
+	
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	use_list(envp);
+	return (0);
+}
 
 // GETENV:
-int	main()
-{
-	char *path = getenv("home");
-	printf("getenv: %s\n", path);
-}
+// int	main()
+// {
+// 	char *path = getenv("home`");
+// 	printf("getenv: %s\n", path);
+// }
 
 // OPENDIR & CLOSEDIR:
 

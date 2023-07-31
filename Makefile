@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                          :+:    :+:              #
-#                                                      +:+                     #
-#    By: jboeve <jboeve@student.codam.nl>             +#+                      #
-#                                                    +#+                       #
-#    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/07/24 15:20:45 by jboeve        ########   odam.nl          #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/10/17 12:05:02 by jboeve            #+#    #+#              #
+#    Updated: 2023/07/31 18:08:02 by ivan-mel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,12 @@ INC = -Ilibft/include -Iinclude -I $(shell brew --prefix readline)/include
 LFLAGS = -lreadline -L $(shell brew --prefix readline)/lib
 
 SRC_DIR = src
-SRCS = main.c
+SRCS = main.c \
+		error.c \
+		path.c \
+		free.c \
+		list.c \
+		environment.c
 
 HEADER_DIR = include
 HEADERS = megashell.h

@@ -1,27 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/10 19:15:59 by joppe             #+#    #+#             */
-/*   Updated: 2023/07/31 18:10:12 by ivan-mel         ###   ########.fr       */
+/*   Created: 2023/07/31 17:17:38 by ivan-mel          #+#    #+#             */
+/*   Updated: 2023/07/31 18:11:22 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../execute.h"
 
-void	*ft_calloc(size_t nmemb, size_t size)
+
+char **get_environment(char **envp)
 {
-	size_t	buf_size;
-	void	*buffer;
+	char	**environment;
+	int		i;
 
-	buf_size = nmemb * size;
-	buffer = malloc(buf_size);
-	if (buffer)
-		ft_bzero(buffer, buf_size);
-	else
+	i = 0;
+	while (envp[i])
+	{
+		printf("i: %d\n", i);
+		printf("envp: %s\n", envp[i]);
+		i++;
+	}
+	environment = ft_calloc(sizeof(char *), i + 1);
+	if (!environment)
 		return (NULL);
-	return (buffer);
+	i = 0;
+	while (envp[i])
+	{
+		environment[i] = ft_strdup(envp[i]);
+		printf("environment: %s\n", environment[i]);
+		i++;
+	}
+	return (environment);
 }

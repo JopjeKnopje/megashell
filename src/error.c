@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/10 19:15:59 by joppe             #+#    #+#             */
-/*   Updated: 2023/07/31 18:10:12 by ivan-mel         ###   ########.fr       */
+/*   Created: 2023/07/31 13:19:02 by ivan-mel          #+#    #+#             */
+/*   Updated: 2023/07/31 14:00:34 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../execute.h"
 
-void	*ft_calloc(size_t nmemb, size_t size)
+char	*get_error_name(t_error er)
 {
-	size_t	buf_size;
-	void	*buffer;
+	static char	*str[] = {\
+		[ERROR_ARGUMENTS] = "Invalid Amount of Arguments", \
+		[ERROR_PATH] = "Path Allocation Failure"};
 
-	buf_size = nmemb * size;
-	buffer = malloc(buf_size);
-	if (buffer)
-		ft_bzero(buffer, buf_size);
-	else
-		return (NULL);
-	return (buffer);
+	return (str[er]);
+}
+
+int	print_error(char *str)
+{
+	write (STDERR_FILENO, str, ft_strlen(str));
+	write (STDERR_FILENO, "\n", 2);
+	return (EXIT_FAILURE);
 }

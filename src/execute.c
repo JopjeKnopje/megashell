@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/10 19:15:59 by joppe             #+#    #+#             */
-/*   Updated: 2023/07/31 18:10:12 by ivan-mel         ###   ########.fr       */
+/*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
+/*   Updated: 2023/07/31 13:31:26 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../execute.h"
 
-void	*ft_calloc(size_t nmemb, size_t size)
+void	execute(t_exec *execute)
 {
-	size_t	buf_size;
-	void	*buffer;
-
-	buf_size = nmemb * size;
-	buffer = malloc(buf_size);
-	if (buffer)
-		ft_bzero(buffer, buf_size);
-	else
-		return (NULL);
-	return (buffer);
+	
 }
