@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/07/24 15:20:45 by jboeve        ########   odam.nl          #
+#    Updated: 2023/07/31 17:18:02 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,8 @@ UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
 endif
 ifeq ($(UNAME_S),Darwin)
+	I_RL = -I $(shell brew --prefix readline)/include
+	L_RL = -L $(shell brew --prefix readline)/lib
 	CFLAGS = -DOS_MAC
 endif
 
@@ -26,19 +28,25 @@ endif
 RUN_CMD = ./$(NAME)
 
 # CFLAGS += -Wall -Wextra -Werror
-# CFLAGS += -g -fsanitize=address
+CFLAGS += -Wall -Wextra
+CFLAGS += -g -fsanitize=address
 
 LIBFT = libft/build/libft.a
 
-INC = -Ilibft/include -Iinclude -I $(shell brew --prefix readline)/include
-
-LFLAGS = -lreadline -L $(shell brew --prefix readline)/lib
+INC = -Ilibft/include -Iinclude $(I_RL)
+LFLAGS = -lreadline $(L_RL)
 
 SRC_DIR = src
-SRCS = main.c
+SRCS =	input/prompt.c \
+	  	input/signals.c \
+	  	lexer/lexer.c \
+	  	megashell.c \
+	  	main.c
+
 
 HEADER_DIR = include
-HEADERS = megashell.h
+HEADERS = megashell.h \
+		  input.h
 OBJ_DIR = obj
 
 

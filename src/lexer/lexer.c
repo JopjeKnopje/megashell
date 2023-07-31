@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   main.c                                            :+:    :+:             */
+/*   lexer.c                                           :+:    :+:             */
 /*                                                    +:+                     */
-/*   By: jboeve <marvin@42.fr>                       +#+                      */
+/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
-/*   Created: 2023/07/24 12:00:23 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/07/31 16:46:46 by joppe         ########   odam.nl         */
+/*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
+/*   Updated: 2023/07/31 17:17:46 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "megashell.h"
+#include <stdint.h>
+#include <stdio.h>
 
-int main(int argc, char *argv[], char *envp[])
+void lexer(char *s)
 {
-	return megashell(argc, argv, envp);
+	printf("lexer input: %s\n", s);
+	// uint32_t i = 0;
+	//
+	// while (s[i]) 
+	// {
+	// 		
+	// }
 }

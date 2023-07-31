@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   main.c                                            :+:    :+:             */
+/*   lexer.h                                           :+:    :+:             */
 /*                                                    +:+                     */
-/*   By: jboeve <marvin@42.fr>                       +#+                      */
+/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
-/*   Created: 2023/07/24 12:00:23 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/07/31 16:46:46 by joppe         ########   odam.nl         */
+/*   Created: 2023/07/31 17:15:13 by joppe         #+#    #+#                 */
+/*   Updated: 2023/07/31 17:15:34 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "megashell.h"
+#ifndef LEXER_H
+#define LEXER_H
 
-int main(int argc, char *argv[], char *envp[])
-{
-	return megashell(argc, argv, envp);
-}
+
+
+// lexer.c
+void lexer(char *s);
+
+
+#endif // !LEXER_H
