@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/07/31 18:11:27 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/01 14:12:47 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,14 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <sys/wait.h>
+# include <sys/types.h>
 
 typedef enum e_error {
 	ERROR_ARGUMENTS,
 	ERROR_PATH,
+	ERROR_FIND_PATH,
+	ERROR_PIPE,
 }	t_error;
 
 typedef struct s_pipes{
@@ -46,18 +50,21 @@ char	*get_error_name(t_error er);
 int		print_error(char *str);
 
 // path:
-char	*find_path(char **envp);
+char	*find_path(t_exec *execute);
 char	**split_path(char *path);
 char	**put_slash(char **path);
 int		search_path(t_exec *execute, char **envp);
 
 // environment:
-char **get_environment(char **envp);
+char	**get_environment(char **envp);
+
+// execute :
+void	execute(t_exec *execute, t_cmds *list);
 
 // free:
 void	free_2d(char **str);
 
 // list:
-t_cmds	*mock_input();
+t_cmds	*mock_input(void);
 
 #endif

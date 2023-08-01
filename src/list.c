@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:29:05 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/07/31 17:02:08 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/01 13:50:33 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_cmds	*create_mock_node(char *action[4])
 	while (action[i])
 	{
 		new_array[i] = ft_strdup(action[i]);
-		printf("new array: %s\n", new_array[i]);
+		// printf("new array: %s\n", new_array[i]);
 		i++;
 	}
 	node->action = new_array;

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:00:23 by jboeve            #+#    #+#             */
-/*   Updated: 2023/07/31 18:13:03 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/01 14:09:38 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,11 @@
 void	use_list(char **envp)
 {
 	t_exec	execute;
-	t_pipes	pipes;
 	t_cmds	*list;
 
 	list = mock_input();
 	// printf("list: %s\n", list->action[0]);
-	search_path(&execute, envp);
+	search_path(&execute, list);
 	// execute(&execute, pipes);
 	
 }

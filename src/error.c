@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:19:02 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/07/31 14:00:34 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/01 14:13:38 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ char	*get_error_name(t_error er)
 {
 	static char	*str[] = {\
 		[ERROR_ARGUMENTS] = "Invalid Amount of Arguments", \
-		[ERROR_PATH] = "Path Allocation Failure"};
+		[ERROR_PATH] = "Path Allocation Failure", \
+		[ERROR_FIND_PATH] = "Path not Found", \
+		[ERROR_PIPE] = "Pipe Error"};
 
 	return (str[er]);
 }

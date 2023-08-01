@@ -6,20 +6,24 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:34:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/07/31 18:02:53 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/01 14:00:57 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute.h"
 
-// fix own environment later (linkedlist?)
-
-char	*find_path(char **envp)
+char	*find_path(t_exec *execute)
 {
-	char	*path;
+	int		index;
 
-	path = getenv("PATH");
-	return (path);
+	index = 0;
+	while (execute->envp[index])
+	{
+		if (ft_strncmp(execute->envp[index], "PATH=", 5) == 0)
+			return (execute->envp[index] + 5);
+		index++;
+	}
+	return (NULL);
 }
 
 char	**split_path(char *path)
@@ -61,7 +65,9 @@ int	search_path(t_exec *execute, char **envp)
 	char	**path_after_split;
 
 	execute->envp = get_environment(envp);
-	path = find_path(execute->envp);
+	path = find_path(execute);
+	if (!path)
+		return (print_error(get_error_name(ERROR_FIND_PATH)));
 	path_after_split = split_path(path);
 	if (!path_after_split)
 		return (print_error(get_error_name(ERROR_PATH)));
