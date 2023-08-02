@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:00:23 by jboeve            #+#    #+#             */
-/*   Updated: 2023/08/01 14:09:38 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/02 12:30:47 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,18 @@
 
 // instead of error with 2 check builtins
 
-void	use_list(char **envp)
+void	initialization(t_exec *execute, char **argv)
+{
+	execute->argv = &argv[1];
+}
+
+void	use_list(char **argv, char **envp)
 {
 	t_exec	execute;
 	t_cmds	*list;
 
 	list = mock_input();
+	initialization(&execute, argv);
 	// printf("list: %s\n", list->action[0]);
 	search_path(&execute, list);
 	// execute(&execute, pipes);
@@ -37,7 +43,7 @@ void	use_list(char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	use_list(envp);
+	use_list(argv, envp);
 	return (0);
 }
 

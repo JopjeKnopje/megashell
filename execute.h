@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/01 14:12:47 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/02 12:43:10 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,21 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <sys/types.h>
+# include <fcntl.h>
+# include <errno.h>
+
+typedef enum e_files {
+	READ,
+	WRITE,
+}	t_files;
 
 typedef enum e_error {
 	ERROR_ARGUMENTS,
 	ERROR_PATH,
 	ERROR_FIND_PATH,
 	ERROR_PIPE,
+	ERROR_FORK,
+	ERROR_DUP2,
 }	t_error;
 
 typedef struct s_pipes{
@@ -38,6 +47,7 @@ typedef struct s_cmds {
 
 typedef struct s_exec {
 	int		args;
+	int		pid;
 	char	**argv;
 	char	**envp;
 	char	**split_path;
@@ -60,6 +70,10 @@ char	**get_environment(char **envp);
 
 // execute :
 void	execute(t_exec *execute, t_cmds *list);
+
+// execute_utils:
+int		dup_stdin(int file);
+int		dup_stdout(int file);
 
 // free:
 void	free_2d(char **str);
