@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/02 18:50:58 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/02 18:57:46 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static t_token lexer_tokenize_quote(char *s)
 	uint32_t i;
 
 	i = 1;
+	// TODO For each quote move from center to first occourance of quote
 	while (s[i] && s[i] != '\'')
 	{
 		i++;
