@@ -6,17 +6,16 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:01 by joppe         #+#    #+#                 */
-/*   Updated: 2023/07/31 17:03:46 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/02 13:11:16 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <termios.h>
 #include "libft.h"
-#include "megashell.h"
 #include "input.h"
 
 static void	disable_echoctl(void)

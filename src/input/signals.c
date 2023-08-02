@@ -6,15 +6,15 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:28:16 by joppe         #+#    #+#                 */
-/*   Updated: 2023/07/31 17:11:28 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/02 13:10:52 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <readline/readline.h>
 #include <signal.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <readline/readline.h>
 
 static void	signal_handler(int sig)
 {

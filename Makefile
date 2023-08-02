@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/07/31 17:18:02 by joppe         ########   odam.nl          #
+#    Updated: 2023/08/02 13:09:35 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,13 +40,14 @@ SRC_DIR = src
 SRCS =	input/prompt.c \
 	  	input/signals.c \
 	  	lexer/lexer.c \
-	  	megashell.c \
-	  	main.c
+	  	main.c \
+	  	megashell.c
 
 
 HEADER_DIR = include
-HEADERS = megashell.h \
-		  input.h
+HEADERS = input.h \
+		  lexer.h \
+		  megashell.h
 OBJ_DIR = obj
 
 

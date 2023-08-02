@@ -6,25 +6,51 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/07/31 18:56:35 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/02 14:10:35 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
 #include "lexer.h"
 
-t_token lexer(char *s)
+static t_token token_set(t_token_kind k, char *s, uint32_t len)
 {
-	uint32_t i = 0;
 	t_token t;
 
-	printf("lexer input: %s\n", s);
+	t.kind = k;
+	t.content = s;
+	t.content_len = len;
 
-	while (s[i]) 
+	return (t);
+}
+
+static t_token lexer_next(t_lexer *l, char *s)
+{
+	t_token t;
+
+	if (*s == '\'')
+		t = token_set(TOKEN_QUOTE_SINGLE, s, 1);
+	else if (*s == '\"')
+		t = token_set(TOKEN_QUOTE_DOUBLE, s, 1);
+	else
+		t = token_set(TOKEN_UNKNOWN, s, 1);
+
+	return (t);
+}
+
+void lexer(char *s)
+{
+	t_lexer l;
+	t_token t;
+
+	// printf("lexer input: %s\n", s);
+
+	while (*s) 
 	{
-		
+		t = lexer_next(&l, s);
+		printf("token_kind %s | %.*s\n", TOKEN_NAMES[t.kind], t.content_len, s);
+		s++;
 	}
-
-	return t;
 }
