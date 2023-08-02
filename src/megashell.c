@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/07/31 17:19:19 by joppe         ########   odam.nl         */
+/*   Updated: 2023/07/31 18:55:56 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int megashell(int argc, char *argv[], char *envp[])
 	while (!meta.stop)
 	{
 		line = prompt_get_line();
-		lexer(line);
+		t_token t = lexer(line);
 		free(line);
 	}
 
