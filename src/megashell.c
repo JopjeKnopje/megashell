@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/03 18:32:25 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/03 18:33:25 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 
 static void builtin_exit()
 {
-	printf("exit\n");
 	exit(0);
 }
 
@@ -65,9 +64,7 @@ static void runner(char *s)
 	while (i < BUILTIN_COUNT)
 	{
 		if (is_cmd(BUILTIN_NAMES[i], s))
-		{
 			(*BUILTIN_FUNCS[i])();
-		}
 		i++;
 	}
 }

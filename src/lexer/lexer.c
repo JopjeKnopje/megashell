@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/03 18:07:55 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/03 18:43:46 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ static t_token lexer_next(t_lexer *l, char *s)
 {
 	t_token	t;
 
-	if (*s == '\'')
+	if (*s == '\'' || *s == '\"')
 		t = lexer_tokenize_quote(s, *s);
-	else if (*s == '\"')
-		t = lexer_tokenize_quote(s, *s);
+	else if (*s == ' ')
+		t = token_set(TOKEN_SPACE, s, 1);
 	else
 		t = token_set(TOKEN_UNKNOWN, s, 1);
 
@@ -64,7 +64,11 @@ void lexer(char *s)
 	while (*l.content)
 	{
 		t = lexer_next(&l, l.content);
-		printf("token [%.*s]\n", t.content_len, t.content);
+
+		printf("token_kind %s | token_content [%.*s] | token_content_len [%d]\n", TOKEN_NAMES[t.kind], t.content_len, t.content, t.content_len);
 		l.content += (t.content_len * sizeof(char));
+
+		// if (*l.content)
+		// 	printf("lexer_content [%s]\n", l.content);
 	}
 }
