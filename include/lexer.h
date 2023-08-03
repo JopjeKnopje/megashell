@@ -6,15 +6,15 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 17:15:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/03 12:09:23 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/03 18:13:34 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-
 #include <stdint.h>
+
 typedef enum e_token_kind {
 	TOKEN_UNKNOWN,
 	TOKEN_QUOTE_SINGLE,
