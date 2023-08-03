@@ -6,13 +6,14 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/02 18:57:46 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/03 12:18:48 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include "lexer.h"
 #include "libft.h"
 
@@ -29,17 +30,30 @@ static t_token token_set(t_token_kind k, char *s, uint32_t len)
 
 static t_token lexer_tokenize_quote(char *s)
 {
-	t_token t;
-	uint32_t i;
+	t_token		t;
+	uint32_t	i;
+	uint32_t	count;
+
+	i = 0;
+	count = 0;
+	while (s[i])
+	{
+		if (s[i] == '\'')
+			count++;
+		i++;
+	}
+
+	if (count % 2)
+		return (token_set(TOKEN_ERROR, s, i));
 
 	i = 1;
-	// TODO For each quote move from center to first occourance of quote
 	while (s[i] && s[i] != '\'')
 	{
 		i++;
 	}
 	t = token_set(TOKEN_QUOTE_SINGLE, s, i + 1);
-	return (t);
+	
+	return t;
 }
 
 static t_token lexer_next(t_lexer *l, char *s)
@@ -53,6 +67,8 @@ static t_token lexer_next(t_lexer *l, char *s)
 	else
 		t = token_set(TOKEN_UNKNOWN, s, 1);
 
+	if (t.kind == TOKEN_ERROR)
+		printf("Error\n");
 	return (t);
 }
 
@@ -67,6 +83,6 @@ void lexer(char *s)
 		t = lexer_next(&l, s);
 		printf("token_kind %s | token_content_len [%d] | token_content [%.*s]\n", TOKEN_NAMES[t.kind], t.content_len, t.content_len, t.content);
 		printf("lexer_content [%s]\n", l.content);
-		l.content += t.content_len;
+		l.content += (t.content_len * sizeof(char));
 	}
 }

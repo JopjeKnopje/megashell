@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 17:15:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/02 18:19:07 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/03 12:09:23 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef enum e_token_kind {
 	TOKEN_UNKNOWN,
 	TOKEN_QUOTE_SINGLE,
 	TOKEN_QUOTE_DOUBLE,
+	TOKEN_ERROR,
 
 }	t_token_kind;
 
@@ -26,6 +27,7 @@ static const char *TOKEN_NAMES[] = {
 	"TOKEN_UNKNOWN",
 	"TOKEN_QUOTE_SINGLE",
 	"TOKEN_QUOTE_DOUBLE",
+	"TOKEN_ERROR",
 };
 
 typedef struct e_token {
