@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:01 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/02 13:11:16 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/04 11:14:54 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	disable_echoctl(void)
 void prompt_env_setup()
 {
 	sigals_setup();
-	disable_echoctl();
+	// disable_echoctl();
 }
 
 char *prompt_get_line()

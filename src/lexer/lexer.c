@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/03 18:43:46 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/04 11:07:54 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,13 @@ void lexer(char *s)
 	t_lexer	l;
 	t_token	t;
 
-	l.content = s;
-	while (*l.content)
+	l.cursor = s;
+	while (*l.cursor)
 	{
-		t = lexer_next(&l, l.content);
+		t = lexer_next(&l, l.cursor);
 
 		printf("token_kind %s | token_content [%.*s] | token_content_len [%d]\n", TOKEN_NAMES[t.kind], t.content_len, t.content, t.content_len);
-		l.content += (t.content_len * sizeof(char));
-
+		l.cursor += (t.content_len * sizeof(char));
 		// if (*l.content)
 		// 	printf("lexer_content [%s]\n", l.content);
 	}
