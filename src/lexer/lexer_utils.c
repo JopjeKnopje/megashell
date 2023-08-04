@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/04 15:11:36 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/04 19:11:30 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/04 19:31:19 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ bool lexer_is_metachar(char c)
 	while (METACHARS[i])
 	{
 		if (c == METACHARS[i])	
-			return true;
+			return (true);
 		i++;
 	}
-	return false;
+	return (false);
 }
 
 bool lexer_is_varchar(char c)
 {
-	return (ft_isalpha(c) || c == '_');
+	return ((ft_isalpha(c) || c == '_') && !lexer_is_metachar(c));
 }

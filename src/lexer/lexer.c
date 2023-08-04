@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/04 19:15:27 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/04 19:35:34 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,19 @@ static t_token lexer_tokenize_quote(char *s, char c)
 
 static t_token lexer_tokenize_dollar(char *s)
 {
-	t_token_kind k;
-	uint32_t i = 1;
+	uint32_t		i;
+	t_token_kind	k;
 	
+	i = 1;
 	k = TOKEN_DOLLAR;
-	if (!lexer_is_varchar(s[i]))
+	if (!lexer_is_varchar(s[i]) || ft_isdigit(s[i]))
 		k = TOKEN_ERROR;
-
-	while (s[i] && !lexer_is_metachar(s[i]) && (lexer_is_varchar(s[i]) || ft_isdigit(s[i])))
+	while (s[i] && !lexer_is_metachar(s[i]))
 	{
+		if (!lexer_is_varchar(s[i]) && !ft_isdigit(s[i]))
+			k = TOKEN_ERROR;
 		i++;
 	}
-
 	return (token_set(k, s, i));
 }
 
