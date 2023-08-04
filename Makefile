@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/08/02 13:09:35 by jboeve        ########   odam.nl          #
+#    Updated: 2023/08/04 18:36:44 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRC_DIR = src
 SRCS =	input/prompt.c \
 	  	input/signals.c \
 	  	lexer/lexer.c \
+	  	lexer/lexer_utils.c \
 	  	main.c \
 	  	megashell.c
 
