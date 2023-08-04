@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/02 12:43:10 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/05 01:09:33 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_cmds {
 
 typedef struct s_exec {
 	int		args;
+	int		argc;
 	int		pid;
 	char	**argv;
 	char	**envp;

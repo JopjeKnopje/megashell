@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:00:23 by jboeve            #+#    #+#             */
-/*   Updated: 2023/08/02 12:30:47 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/05 01:10:22 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,19 @@
 
 // instead of error with 2 check builtins
 
-void	initialization(t_exec *execute, char **argv)
+void	initialization(t_exec *execute, char **argv, int argc)
 {
 	execute->argv = &argv[1];
+	execute->argc = argc - 1;
 }
 
-void	use_list(char **argv, char **envp)
+void	use_list(char **argv, int argc, char **envp)
 {
 	t_exec	execute;
 	t_cmds	*list;
 
 	list = mock_input();
-	initialization(&execute, argv);
+	initialization(&execute, argv, argc);
 	// printf("list: %s\n", list->action[0]);
 	search_path(&execute, list);
 	// execute(&execute, pipes);
@@ -43,7 +44,7 @@ void	use_list(char **argv, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	use_list(argv, envp);
+	use_list(argv, argc, envp);
 	return (0);
 }
 
