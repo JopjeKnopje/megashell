@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:19:02 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/02 12:39:27 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/06 00:28:45 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ char	*get_error_name(t_error er)
 		[ERROR_FIND_PATH] = "Path not Found", \
 		[ERROR_PIPE] = "Pipe Error", \
 		[ERROR_FORK] = "Fork Error", \
-		[ERROR_DUP2] = "Duplication Error"};
+		[ERROR_DUP2] = "Duplication Error", \
+		[ERROR_ACCESS] = "Access Failure"};
 
 	return (str[er]);
 }

@@ -6,13 +6,13 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/05 01:16:38 by iris             ###   ########.fr       */
+/*   Updated: 2023/08/06 00:31:22 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute.h"
 
-void	check_input(t_exec *execute, int pipes_fd[2], int prev_pipe)
+int	check_input(t_exec *execute, int pipes_fd[2], int prev_pipe)
 {
 	int	fd_in;
 	if (prev_pipe == STDIN_FILENO) /* first child */
@@ -21,8 +21,6 @@ void	check_input(t_exec *execute, int pipes_fd[2], int prev_pipe)
 		fd_in = open(execute->argv[0], O_RDONLY); /* infile is stdin */
 		if (fd_in == -1)
 			return (print_error(strerror(errno)));
-		dup_stdin(fd_in);
-		// dup_stdout(pipes_fd[WRITE]);
 		close(fd_in);
 		
 	}
@@ -31,9 +29,10 @@ void	check_input(t_exec *execute, int pipes_fd[2], int prev_pipe)
 		dup_stdin(prev_pipe);
 		close(prev_pipe);
 	}
+	return (0);
 }
 
-void	check_output(t_exec *execute, int pipes_fd[2], int prev_pipe)
+int	check_output(t_exec *execute, int pipes_fd[2], int prev_pipe)
 {
 	int	fd_out;
 	if (pipes_fd[WRITE] == STDOUT_FILENO) /* last child */
@@ -50,18 +49,40 @@ void	check_output(t_exec *execute, int pipes_fd[2], int prev_pipe)
 	{
 		dup_stdout(pipes_fd[WRITE]);
 	}
+	return (0);
 }
 
-void	children_spawn(t_exec *execute, int pipes_fd[2], int prev_pipe)
+bool	find_access(t_exec *execute, t_cmds *list)
+{
+	char *cmd;
+	char *cmd_in_path;
+	int	i;
+
+	i = 0;
+	cmd = ft_strdup(execute->split_path[i]);
+	if (!cmd)
+		return (false);
+	cmd_in_path = access_possible(execute, &cmd[0]);
+	if (!cmd_in_path)
+		return (false);
+		if (execve (cmd_in_path, &execute->split_path[i], execute->envp) == -1)
+			return (false);
+	return (true);
+}
+
+void	children_spawn(t_exec *execute, int pipes_fd[2], int prev_pipe, t_cmds *list)
 {
 	check_input(execute, pipes_fd, prev_pipe);
 	check_output(execute, pipes_fd, prev_pipe);
+	if (find_access(execute, list) == false)
+		print_error(get_error_name(ERROR_ACCESS));
 }
 
-void	execute(t_exec *execute, t_cmds *list)
+char	execution(t_exec *execute, t_cmds *list)
 {
 	int		pipes_fd[2];
 	int		prev_pipe;
+	int		status;
 	t_cmds	*cmds;
 
 	cmds = list;
@@ -74,7 +95,7 @@ void	execute(t_exec *execute, t_cmds *list)
 		if (execute->pid == -1) /* fork returns -1 in case of error*/
 			return (print_error(get_error_name(ERROR_FORK)));
 		if (execute->pid == 0) /* fork returns 0 for child process */
-			children_spawn(execute, pipes_fd, prev_pipe);
+			children_spawn(execute, pipes_fd, prev_pipe, list);
 		cmds = cmds->next; /* goes to next command*/
 	}
 	waitpid(execute->pid, &status, 0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:34:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/01 14:00:57 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/06 00:28:21 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ char	**put_slash(char **path)
 	return (path);
 }
 
-int	search_path(t_exec *execute, char **envp)
+int	search_path(t_exec *execute, char **environment)
 {
 	char	*path;
 	char	**path_after_split;
 
-	execute->envp = get_environment(envp);
+	execute->envp = get_environment(environment);
 	path = find_path(execute);
 	if (!path)
 		return (print_error(get_error_name(ERROR_FIND_PATH)));

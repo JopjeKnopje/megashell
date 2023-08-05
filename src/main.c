@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:00:23 by jboeve            #+#    #+#             */
-/*   Updated: 2023/08/05 01:10:22 by iris             ###   ########.fr       */
+/*   Updated: 2023/08/06 00:28:09 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	use_list(char **argv, int argc, char **envp)
 	list = mock_input();
 	initialization(&execute, argv, argc);
 	// printf("list: %s\n", list->action[0]);
-	search_path(&execute, list);
-	// execute(&execute, pipes);
+	search_path(&execute, envp);
+	execution(&execute, list);
 	
 }
 

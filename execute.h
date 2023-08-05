@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/05 01:09:33 by iris             ###   ########.fr       */
+/*   Updated: 2023/08/06 00:25:28 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <sys/types.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <string.h>
+# include <stdbool.h>
 
 typedef enum e_files {
 	READ,
@@ -34,6 +36,7 @@ typedef enum e_error {
 	ERROR_PIPE,
 	ERROR_FORK,
 	ERROR_DUP2,
+	ERROR_ACCESS,
 }	t_error;
 
 typedef struct s_pipes{
@@ -64,17 +67,22 @@ int		print_error(char *str);
 char	*find_path(t_exec *execute);
 char	**split_path(char *path);
 char	**put_slash(char **path);
-int		search_path(t_exec *execute, char **envp);
+int		search_path(t_exec *execute, char **environment);
 
 // environment:
 char	**get_environment(char **envp);
 
-// execute :
-void	execute(t_exec *execute, t_cmds *list);
+// execute:
+int		check_input(t_exec *execute, int pipes_fd[2], int prev_pipe);
+int		check_output(t_exec *execute, int pipes_fd[2], int prev_pipe);
+bool	find_access(t_exec *execute, t_cmds *list);
+void	children_spawn(t_exec *execute, int pipes_fd[2], int prev_pipe, t_cmds *list);
+char	execution(t_exec *execute, t_cmds *list);
 
 // execute_utils:
 int		dup_stdin(int file);
 int		dup_stdout(int file);
+char	*access_possible(t_exec *execute, char *list);
 
 // free:
 void	free_2d(char **str);

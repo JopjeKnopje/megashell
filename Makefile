@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
+#    By: iris <iris@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 12:05:02 by jboeve            #+#    #+#              #
-#    Updated: 2023/07/31 18:08:02 by ivan-mel         ###   ########.fr        #
+#    Updated: 2023/08/05 23:23:30 by iris             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,9 @@ SRCS = main.c \
 		path.c \
 		free.c \
 		list.c \
-		environment.c
+		environment.c \
+		execute.c \
+		execute_utils.c
 
 HEADER_DIR = include
 HEADERS = megashell.h
