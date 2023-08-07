@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 17:15:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/07 18:05:46 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/07 19:18:52 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ bool	lexer_is_varchar(char c);
 t_token token_set(t_token_kind k, char *s, uint32_t len);
 t_token lexer_tokenize_quote(char *s, char c);
 t_token lexer_tokenize_dollar(char *s);
+
+// tokenize_utils.c
+bool	tokenize_is_valid_var_name(char *s);
 
 
 
