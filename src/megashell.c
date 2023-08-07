@@ -6,14 +6,13 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/04 11:17:04 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/07 18:03:22 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "megashell.h"
 #include "input.h"
 #include "libft.h"
-#include "lexer.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>

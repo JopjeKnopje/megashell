@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/04 19:35:34 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/07 18:05:57 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,49 +16,6 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "lexer.h"
-#include "libft.h"
-
-static t_token token_set(t_token_kind k, char *s, uint32_t len)
-{
-	t_token t;
-
-	t.kind = k;
-	t.content = s;
-	t.content_len = len;
-
-	return (t);
-}
-
-static t_token lexer_tokenize_quote(char *s, char c)
-{
-	uint32_t i = 1;
-
-	while (s[i])
-	{
-		if (s[i] == c)
-			return (token_set(TOKEN_QUOTE_SINGLE, s, i + 1));
-		i++;
-	}
-	return (token_set(TOKEN_ERROR, s, 1));
-}
-
-static t_token lexer_tokenize_dollar(char *s)
-{
-	uint32_t		i;
-	t_token_kind	k;
-	
-	i = 1;
-	k = TOKEN_DOLLAR;
-	if (!lexer_is_varchar(s[i]) || ft_isdigit(s[i]))
-		k = TOKEN_ERROR;
-	while (s[i] && !lexer_is_metachar(s[i]))
-	{
-		if (!lexer_is_varchar(s[i]) && !ft_isdigit(s[i]))
-			k = TOKEN_ERROR;
-		i++;
-	}
-	return (token_set(k, s, i));
-}
 
 static void lexer_trim_space(t_lexer *l)
 {

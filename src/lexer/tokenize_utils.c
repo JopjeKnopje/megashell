@@ -1,27 +1,13 @@
+/* ************************************************************************** */
+/*                                                                            */
 /*                                                       ::::::::             */
-/*   megashell.h                                       :+:    :+:             */
+/*   tokenize_utils.c                                  :+:    :+:             */
 /*                                                    +:+                     */
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
-/*   Created: 2023/07/24 12:09:29 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/07/31 16:46:03 by joppe         ########   odam.nl         */
+/*   Created: 2023/08/07 18:06:38 by jboeve        #+#    #+#                 */
+/*   Updated: 2023/08/07 18:06:39 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MEGASHELL_H
-#define MEGASHELL_H
 
-#include <stdbool.h>
-
-typedef struct s_meta {
-	bool stop;
-} t_meta;
-
-
-// megashell.c
-int megashell(int argc, char *argv[], char *envp[]);
-
-// lexer.c
-void lexer(char *s);
-
-#endif // !MEGASHELL_H

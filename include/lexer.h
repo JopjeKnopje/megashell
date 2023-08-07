@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 17:15:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/04 19:15:36 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/07 18:05:46 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,22 @@ typedef struct e_lexer {
 }	t_lexer;
 
 
-// lexer.c
-void	lexer(char *s);
+/**************************
+* Included in megashell.h *
+**************************/
+// void	lexer(char *s);
+
+
 
 // lexer_utils.c
 bool	lexer_is_metachar(char c);
 bool	lexer_is_varchar(char c);
+
+// tokenize.c
+t_token token_set(t_token_kind k, char *s, uint32_t len);
+t_token lexer_tokenize_quote(char *s, char c);
+t_token lexer_tokenize_dollar(char *s);
+
+
 
 #endif
