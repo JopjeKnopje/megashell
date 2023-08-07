@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 17:15:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/07 19:18:52 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/07 20:51:30 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef enum e_token_kind {
 	TOKEN_SPACE,
 	TOKEN_COMMAND,
 	TOKEN_DOLLAR,
+	TOKEN_VARIABLE,
 	TOKEN_ERROR,
 	TOKEN_COUNT,
 }	t_token_kind;
@@ -34,6 +35,7 @@ static const char *TOKEN_NAMES[] = {
 	"TOKEN_SPACE",
 	"TOKEN_COMMAND",
 	"TOKEN_DOLLAR",
+	"TOKEN_VARIABLE",
 	"TOKEN_ERROR",
 	"TOKEN_COUNT",
 };
@@ -66,9 +68,10 @@ bool	lexer_is_varchar(char c);
 t_token token_set(t_token_kind k, char *s, uint32_t len);
 t_token lexer_tokenize_quote(char *s, char c);
 t_token lexer_tokenize_dollar(char *s);
+t_token lexer_tokenize_variable(char *s);
 
 // tokenize_utils.c
-bool	tokenize_is_valid_var_name(char *s);
+bool	lexer_is_valid_var_name(char *s);
 
 
 

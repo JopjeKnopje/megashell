@@ -24,4 +24,7 @@ int megashell(int argc, char *argv[], char *envp[]);
 // lexer.c
 void lexer(char *s);
 
+// lexer_utils.c
+bool lexer_is_valid_var_name(char *s);
+
 #endif // !MEGASHELL_H

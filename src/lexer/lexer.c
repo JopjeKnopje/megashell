@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/07 18:05:57 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/07 20:56:37 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void lexer_trim_space(t_lexer *l)
 	}
 }
 
-static t_token lexer_next(t_lexer *l, char *s)
+static t_token lexer_next(char *s)
 {
 	t_token	t;
 
@@ -33,6 +33,11 @@ static t_token lexer_next(t_lexer *l, char *s)
 		t = lexer_tokenize_quote(s, *s);
 	else if (*s == '$')
 		t = lexer_tokenize_dollar(s);
+	else if (lexer_is_valid_var_name(s))
+	{
+		printf("valid name\n");
+		t = lexer_tokenize_variable(s);
+	}
 	else
 		t = token_set(TOKEN_UNKNOWN, s, 1);
 
@@ -50,7 +55,7 @@ void lexer(char *s)
 		lexer_trim_space(&l);
 		printf("\x1b[36;49m");
 		printf("lexer_content [%s]\n", l.cursor);
-		t = lexer_next(&l, l.cursor);
+		t = lexer_next(l.cursor);
 		printf("token_kind %s | token_content [%.*s] | token_content_len [%d]\n", TOKEN_NAMES[t.kind], t.content_len, t.content, t.content_len);
 		printf("\x1b[0m");
 		l.cursor += (t.content_len * sizeof(char));
