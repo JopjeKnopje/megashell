@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:29:05 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/06 00:28:03 by iris             ###   ########.fr       */
+/*   Updated: 2023/08/07 13:38:56 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,17 @@ void	add_to_end(t_cmds **list, t_cmds *new)
 	if (!list || !new)
 		return ;
 	if (!*list)
+	{
 		*list = new;
+		(*list)->prev = *list;
+	}
 	else
 	{
 		tmp = *list;
 		while (tmp->next != '\0')
 			tmp = tmp->next;
 		tmp->next = new;
+		new->prev = tmp;
 	}
 }
 

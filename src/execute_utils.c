@@ -3,55 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/05 23:53:46 by iris             ###   ########.fr       */
+/*   Created: 2023/08/07 16:26:21 by ivan-mel          #+#    #+#             */
+/*   Updated: 2023/08/07 16:28:22 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute.h"
 
-int	dup_stdin(int file)
+bool	dup_stdin(int file)
 {
 	if (dup2(file, STDIN_FILENO) == -1)
 	{
 		close (file);
-		return (print_error(get_error_name(ERROR_DUP2)));
+		return (false);
 	}
 	close(file);
-	return (0);
+	return (true);
 }
 
-int	dup_stdout(int file)
+bool	dup_stdout(int file)
 {
 	if (dup2(file, STDOUT_FILENO) == -1)
 	{
 		close (file);
-		return (print_error(get_error_name(ERROR_DUP2)));
+		return (false);
 	}
 	close(file);
-	return (0);
-}
-
-char	*access_possible(t_exec *execute, char *list)
-{
-	int		i;
-	char	*tmp;
-
-	i = 0;
-	while (execute->split_path[i])
-	{
-		tmp = ft_strjoin(execute->split_path[i], ft_strjoin("/", list));
-		if (!tmp)
-			return (NULL);
-		if (access(tmp, X_OK | F_OK) == 0)
-		{
-			printf("cmd: %s\n", tmp);
-			return (tmp);
-		}
-		free(tmp);
-		i++;
-	}
-	return (NULL);
+	return (true);
 }

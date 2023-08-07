@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/06 00:25:28 by iris             ###   ########.fr       */
+/*   Updated: 2023/08/07 17:14:53 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <stdbool.h>
 
 typedef enum e_files {
-	READ,
-	WRITE,
+	IN,
+	OUT,
 }	t_files;
 
 typedef enum e_error {
@@ -46,13 +46,17 @@ typedef struct s_pipes{
 typedef struct s_cmds {
 	char			**action;
 	struct s_cmds	*next;
+	struct s_cmds	*prev;
 }	t_cmds;
 
 typedef struct s_exec {
 	int		args;
 	int		argc;
 	int		pid;
+	int		pipes_fd[2];
 	char	**argv;
+	char	*infile;
+	char	*outfile;
 	char	**envp;
 	char	**split_path;
 
@@ -73,15 +77,19 @@ int		search_path(t_exec *execute, char **environment);
 char	**get_environment(char **envp);
 
 // execute:
-int		check_input(t_exec *execute, int pipes_fd[2], int prev_pipe);
+int		check_input(t_exec *execute, int pipes_fd[2],
+			int prev_pipe, t_cmds *cmds);
 int		check_output(t_exec *execute, int pipes_fd[2], int prev_pipe);
-bool	find_access(t_exec *execute, t_cmds *list);
-void	children_spawn(t_exec *execute, int pipes_fd[2], int prev_pipe, t_cmds *list);
-char	execution(t_exec *execute, t_cmds *list);
+void	start_pipe(t_exec *execute, t_cmds *cmds);
+void	children_spawn(t_exec *execute, t_cmds *cmds);
+void	execution(t_exec *execute, t_cmds *list);
 
 // execute_utils:
-int		dup_stdin(int file);
-int		dup_stdout(int file);
+bool	dup_stdin(int file);
+bool	dup_stdout(int file);
+
+// access:
+bool	find_access(t_exec *execute, t_cmds *list);
 char	*access_possible(t_exec *execute, char *list);
 
 // free:

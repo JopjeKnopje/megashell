@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:00:23 by jboeve            #+#    #+#             */
-/*   Updated: 2023/08/06 00:28:09 by iris             ###   ########.fr       */
+/*   Updated: 2023/08/07 17:47:47 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	initialization(t_exec *execute, char **argv, int argc)
 {
 	execute->argv = &argv[1];
 	execute->argc = argc - 1;
+	execute->infile = argv[0];
+	execute->outfile = argv[argc - 1];
 }
 
 void	use_list(char **argv, int argc, char **envp)
@@ -39,7 +41,6 @@ void	use_list(char **argv, int argc, char **envp)
 	// printf("list: %s\n", list->action[0]);
 	search_path(&execute, envp);
 	execution(&execute, list);
-	
 }
 
 int	main(int argc, char **argv, char **envp)
