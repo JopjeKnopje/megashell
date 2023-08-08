@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:34:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/06 00:28:21 by iris             ###   ########.fr       */
+/*   Updated: 2023/08/08 16:25:22 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ char	**split_path(char *path)
 		return (NULL);
 	return (path2);
 }
+
+// is het path of command -> zet in struct
+// als het path is hoef je geen path aan toe te voegen (/)
 
 char	**put_slash(char **path)
 {

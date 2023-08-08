@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:00:23 by jboeve            #+#    #+#             */
-/*   Updated: 2023/08/07 17:47:47 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:40:18 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	initialization(t_exec *execute, char **argv, int argc)
 
 void	use_list(char **argv, int argc, char **envp)
 {
-	t_exec	execute;
-	t_cmds	*list;
+	t_exec		execute;
+	t_cmd_list	*list;
 
 	list = mock_input();
 	initialization(&execute, argv, argc);

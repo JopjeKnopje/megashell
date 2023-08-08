@@ -6,13 +6,13 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/07 18:05:31 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:40:00 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute.h"
 
-bool	find_access(t_exec *execute, t_cmds *cmds)
+bool	find_access(t_exec *execute, t_cmd_list *cmds)
 {
 	char	*cmd_in_path;
 

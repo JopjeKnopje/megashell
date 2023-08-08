@@ -6,19 +6,19 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:29:05 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/07 13:38:56 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:40:40 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../execute.h"
 
-t_cmds	*create_mock_node(char *action[4])
+t_cmd_list	*create_mock_node(char *action[4])
 {
 	char	**new_array;
-	t_cmds	*node;
+	t_cmd_list	*node;
 	int		i = 3;
 
-	node = malloc(sizeof(t_cmds));
+	node = malloc(sizeof(t_cmd_list));
 	if (!node)
 		return (NULL);
 	new_array = ft_calloc(sizeof(char *), i + 1);
@@ -33,9 +33,9 @@ t_cmds	*create_mock_node(char *action[4])
 	return (node);
 }
 
-void	add_to_end(t_cmds **list, t_cmds *new)
+void	add_to_end(t_cmd_list **list, t_cmd_list *new)
 {
-	t_cmds	*tmp;
+	t_cmd_list	*tmp;
 
 	if (!list || !new)
 		return ;
@@ -54,14 +54,13 @@ void	add_to_end(t_cmds **list, t_cmds *new)
 	}
 }
 
-t_cmds	*mock_input(void)
+t_cmd_list	*mock_input(void)
 {
-	int		i;
-	char	*action[3][4] = {{"cat", "-e", "MAKEFILE"}, {"wc", "-l"}, };
-	t_cmds	*head = 0;
+	int			i;
+	char		*action[3][4] = {{"cat", "-e", "MAKEFILE"}, {"wc", "-l"}, };
+	t_cmd_list	*head = 0;
 
-	i = 0;	
-
+	i = 0;
 	while (i < 2)
 	{
 		add_to_end(&(head), create_mock_node(action[i]));

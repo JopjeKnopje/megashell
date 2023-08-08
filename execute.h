@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/07 17:14:53 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:41:59 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,13 @@
 # include <stdbool.h>
 
 typedef enum e_files {
-	IN,
-	OUT,
+	IN_READ,
+	OUT_WRITE,
 }	t_files;
+
+// typedef enum e_value_node {
+// 	PIPE,
+// }	t_value_node;
 
 typedef enum e_error {
 	ERROR_ARGUMENTS,
@@ -39,15 +43,18 @@ typedef enum e_error {
 	ERROR_ACCESS,
 }	t_error;
 
-typedef struct s_pipes{
-	int	pipes;
-}	t_pipes;
+typedef struct s_redir{
+	int	type;
+}	t_redir;
 
-typedef struct s_cmds {
-	char			**action;
-	struct s_cmds	*next;
-	struct s_cmds	*prev;
-}	t_cmds;
+typedef struct s_cmd_list {
+	char				**action;
+	struct s_cmds_list	*next;
+	struct s_cmds_list	*prev;
+	t_redir				redirect;
+}	t_cmd_list;
+
+//cmds_list
 
 typedef struct s_exec {
 	int		args;
@@ -63,39 +70,38 @@ typedef struct s_exec {
 }	t_exec;
 
 // error:
-
-char	*get_error_name(t_error er);
-int		print_error(char *str);
+char		*get_error_name(t_error er);
+int			print_error(char *str);
 
 // path:
-char	*find_path(t_exec *execute);
-char	**split_path(char *path);
-char	**put_slash(char **path);
-int		search_path(t_exec *execute, char **environment);
+char		*find_path(t_exec *execute);
+char		**split_path(char *path);
+char		**put_slash(char **path);
+int			search_path(t_exec *execute, char **environment);
 
 // environment:
-char	**get_environment(char **envp);
+char		**get_environment(char **envp);
 
 // execute:
-int		check_input(t_exec *execute, int pipes_fd[2],
-			int prev_pipe, t_cmds *cmds);
-int		check_output(t_exec *execute, int pipes_fd[2], int prev_pipe);
-void	start_pipe(t_exec *execute, t_cmds *cmds);
-void	children_spawn(t_exec *execute, t_cmds *cmds);
-void	execution(t_exec *execute, t_cmds *list);
+void		dup_io(t_exec *execute, t_cmd_list *cmds);
+void		children_spawn(t_exec *execute, t_cmd_list *cmds);
+void		start_pipe(t_exec *execute, t_cmd_list *cmds);
+void		execution(t_exec *execute, t_cmd_list *list);
 
 // execute_utils:
-bool	dup_stdin(int file);
-bool	dup_stdout(int file);
+bool		dup_stdin(int file);
+bool		dup_stdout(int file);
 
 // access:
-bool	find_access(t_exec *execute, t_cmds *list);
-char	*access_possible(t_exec *execute, char *list);
+bool		find_access(t_exec *execute, t_cmd_list *list);
+char		*access_possible(t_exec *execute, char *list);
 
 // free:
-void	free_2d(char **str);
+void		free_2d(char **str);
 
 // list:
-t_cmds	*mock_input(void);
+t_cmd_list	*create_mock_node(char *action[4]);
+void		add_to_end(t_cmd_list **list, t_cmd_list *new);
+t_cmd_list	*mock_input(void);
 
 #endif
