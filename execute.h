@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/08 17:41:59 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/08 23:32:12 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,22 @@
 # include <string.h>
 # include <stdbool.h>
 
+// redirections:
+// INFILE = <
+// OUTFILE = >
+// APPEND = >>
+// HEREDOC = <<
+
+# define INFILE 0
+# define OUTFILE 1
+# define APPEND 2
+# define HEREDOC 3
+
+
 typedef enum e_files {
 	IN_READ,
 	OUT_WRITE,
 }	t_files;
-
-// typedef enum e_value_node {
-// 	PIPE,
-// }	t_value_node;
 
 typedef enum e_error {
 	ERROR_ARGUMENTS,
