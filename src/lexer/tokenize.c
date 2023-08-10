@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/07 17:43:17 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/07 20:55:11 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/10 21:43:34 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ t_token lexer_tokenize_dollar(char *s)
 	}
 	return (token_set(TOKEN_DOLLAR, s, i));
 }
+
 
 t_token lexer_tokenize_variable(char *s)
 {

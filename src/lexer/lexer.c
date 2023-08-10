@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/07 20:56:37 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/10 23:10:22 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ static t_token lexer_next(char *s)
 		t = lexer_tokenize_quote(s, *s);
 	else if (*s == '$')
 		t = lexer_tokenize_dollar(s);
+	// TODO Check if is var
+	// blabla=
+	// $blabla
+	// TODO Have a function that checks if there is a variable present.
 	else if (lexer_is_valid_var_name(s))
 	{
 		printf("valid name\n");

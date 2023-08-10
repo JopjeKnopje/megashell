@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/04 15:11:36 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/07 20:52:22 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/10 13:29:36 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ bool lexer_is_varchar(char c)
 
 bool lexer_is_valid_var_name(char *s)
 {
-	uint32_t		i;
+	uint32_t	i;
 
 	i = 0;
 	if (!lexer_is_varchar(s[i]) || ft_isdigit(s[i]))
