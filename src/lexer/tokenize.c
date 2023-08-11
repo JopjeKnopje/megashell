@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/07 17:43:17 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/11 17:44:11 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/11 17:49:20 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ t_token lexer_tokenize_dollar(char *s)
 	uint32_t	i;
 
 	i = 1;
+	if (s[i] == '?')
+		return (token_set(TOKEN_DOLLAR, s, i + 1));
 	if (!lexer_is_varchar(s[i]) || ft_isdigit(s[i]))
 		return (token_set(TOKEN_ERROR, s, i));
 	while (s[i] && !lexer_is_metachar(s[i]))
