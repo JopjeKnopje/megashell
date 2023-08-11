@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/11 16:26:39 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/11 17:37:49 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,12 @@ static t_token lexer_next(char *s)
 		t = lexer_tokenize_dollar(s);
 	else if (*s == '|')
 		t = token_set(TOKEN_PIPE, s, 1);
+	else if (*s == '>')
+		t = token_set(TOKEN_GREATER_THAN, s, 1);
+	else if (*s == '<')
+		t = token_set(TOKEN_LESS_THAN, s, 1);
 	else
-		t = token_set(TOKEN_UNKNOWN, s, 1);
+		t = lexer_tokenize_text(s);
 
 	return (t);
 }
@@ -50,7 +54,7 @@ void lexer(char *s)
 	while (*l.cursor)
 	{
 		lexer_trim_space(&l);
-		if (!(*l.cursor))
+		if (!l.cursor[0])
 			return;
 		t = lexer_next(l.cursor);
 

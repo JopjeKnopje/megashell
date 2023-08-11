@@ -6,12 +6,13 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/07 17:43:17 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/11 16:22:23 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/11 17:44:11 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include <stdbool.h>
+#include <stdint.h>
 #include "libft.h"
 
 t_token token_set(t_token_kind k, char *s, uint32_t len)
@@ -52,4 +53,16 @@ t_token lexer_tokenize_dollar(char *s)
 		i++;
 	}
 	return (token_set(TOKEN_DOLLAR, s, i));
+}
+
+t_token lexer_tokenize_text(char *s)
+{
+	int32_t i;
+
+	i = 0;
+	while (s[i] && s[i] != ' ' && !lexer_is_metachar(s[i]))
+	{
+		i++;
+	}
+	return (token_set(TOKEN_TEXT, s, i));
 }
