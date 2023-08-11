@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 17:15:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/07 20:51:30 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/11 16:23:26 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef enum e_token_kind {
 	TOKEN_SPACE,
 	TOKEN_COMMAND,
 	TOKEN_DOLLAR,
-	TOKEN_VARIABLE,
+	TOKEN_PIPE,
 	TOKEN_ERROR,
 	TOKEN_COUNT,
 }	t_token_kind;
@@ -35,7 +35,7 @@ static const char *TOKEN_NAMES[] = {
 	"TOKEN_SPACE",
 	"TOKEN_COMMAND",
 	"TOKEN_DOLLAR",
-	"TOKEN_VARIABLE",
+	"TOKEN_PIPE",
 	"TOKEN_ERROR",
 	"TOKEN_COUNT",
 };
@@ -51,6 +51,14 @@ typedef struct e_lexer {
 
 	char			*cursor;
 }	t_lexer;
+
+
+typedef struct e_cmd {
+
+	int infile;
+}	t_cmd;
+
+
 
 
 /**************************

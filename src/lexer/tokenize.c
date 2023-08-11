@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/07 17:43:17 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/10 21:43:34 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/11 16:22:23 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_token lexer_tokenize_quote(char *s, char c)
 
 t_token lexer_tokenize_dollar(char *s)
 {
-	uint32_t		i;
+	uint32_t	i;
 
 	i = 1;
 	if (!lexer_is_varchar(s[i]) || ft_isdigit(s[i]))
@@ -52,20 +52,4 @@ t_token lexer_tokenize_dollar(char *s)
 		i++;
 	}
 	return (token_set(TOKEN_DOLLAR, s, i));
-}
-
-
-t_token lexer_tokenize_variable(char *s)
-{
-	uint32_t	i;
-
-	i = 0;
-	while (s[i] && s[i] != '=')
-	{
-		i++;
-	}
-	if (!s[i])
-		return (token_set(TOKEN_ERROR, s, i));
-	return (token_set(TOKEN_VARIABLE, s, i));
-
 }
