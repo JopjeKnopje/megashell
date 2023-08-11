@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:00:23 by jboeve            #+#    #+#             */
-/*   Updated: 2023/08/08 17:40:18 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/11 16:47:06 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 // #include <readline/readline.h>
 // #include <readline/history.h>	
 
-#include "../execute.h"
+#include "execute.h"
 
 // instead of error with 2 check builtins
 
@@ -27,8 +27,6 @@ void	initialization(t_exec *execute, char **argv, int argc)
 {
 	execute->argv = &argv[1];
 	execute->argc = argc - 1;
-	execute->infile = argv[0];
-	execute->outfile = argv[argc - 1];
 }
 
 void	use_list(char **argv, int argc, char **envp)

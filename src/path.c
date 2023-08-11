@@ -6,11 +6,11 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:34:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/08 16:25:22 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/11 16:19:42 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../execute.h"
+#include "execute.h"
 
 char	*find_path(t_exec *execute)
 {

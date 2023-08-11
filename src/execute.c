@@ -6,11 +6,11 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/08 17:43:06 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/11 16:57:36 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../execute.h"
+#include "execute.h"
 
 // @param execute: struct that contains execution info
 // @param cmds: struct with linked list of commands
@@ -21,9 +21,9 @@
 
 void	dup_io(t_exec *execute, t_cmd_list *cmds)
 {
-	if (cmds->prev && dup_stdin(execute->pipes_fd[IN_READ]) == false)
+	if (cmds->prev && dup_stdin(execute->io_file[IN_READ]) == false)
 		print_error(get_error_name(ERROR_DUP2));
-	if (cmds->next && dup_stdout(execute->pipes_fd[OUT_WRITE]) == false)
+	if (cmds->next && dup_stdout(execute->io_file[OUT_WRITE]) == false)
 		print_error(get_error_name(ERROR_DUP2));
 }
 
@@ -35,11 +35,11 @@ void	dup_io(t_exec *execute, t_cmd_list *cmds)
 
 void	children_spawn(t_exec *execute, t_cmd_list *cmds)
 {
-	redirects();
-	// builtins();
+	// redirects();
+	is_it_builtin(cmds->action[0]);
 	if (find_access(execute, cmds) == false)
 		print_error(get_error_name(ERROR_ACCESS));
-	dup_cmd(execute, cmds);
+	dup_io(execute, cmds);
 }
 
 // @param execute: struct that contains execution info
@@ -53,7 +53,7 @@ void	start_pipe(t_exec *execute, t_cmd_list *cmds)
 {
 	while (cmds->next)
 	{
-		if (pipe(execute->pipes_fd) == -1)
+		if (pipe(execute->io_file) == -1)
 		{
 			print_error(get_error_name(ERROR_PIPE));
 			return ;
@@ -68,8 +68,8 @@ void	start_pipe(t_exec *execute, t_cmd_list *cmds)
 			children_spawn(execute, cmds);
 		else
 		{
-			close(execute->pipes_fd[IN_READ]);/* close fds in main process */
-			close(execute->pipes_fd[OUT_WRITE]);
+			close(execute->io_file[IN_READ]);/* close fds in main process */
+			close(execute->io_file[OUT_WRITE]);
 		}
 		cmds = cmds->next;
 	}
@@ -82,7 +82,6 @@ void	start_pipe(t_exec *execute, t_cmd_list *cmds)
 
 void	execution(t_exec *execute, t_cmd_list *list)
 {
-	int			pipes_fd[2];
 	int			prev_pipe;
 	int			status;
 	t_cmd_list	*cmd_list;

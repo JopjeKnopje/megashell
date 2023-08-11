@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 12:05:02 by jboeve            #+#    #+#              #
-#    Updated: 2023/08/07 17:15:15 by ivan-mel         ###   ########.fr        #
+#    Updated: 2023/08/11 16:39:48 by ivan-mel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,8 @@ SRCS = main.c \
 		environment.c \
 		execute.c \
 		execute_utils.c \
+		builtins.c \
+		builtins_funct.c \
 		access.c
 
 HEADER_DIR = include

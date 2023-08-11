@@ -6,15 +6,15 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:29:05 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/08 17:40:40 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/11 16:57:57 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../execute.h"
+#include "execute.h"
 
 t_cmd_list	*create_mock_node(char *action[4])
 {
-	char	**new_array;
+	char		**new_array;
 	t_cmd_list	*node;
 	int		i = 3;
 
@@ -57,7 +57,7 @@ void	add_to_end(t_cmd_list **list, t_cmd_list *new)
 t_cmd_list	*mock_input(void)
 {
 	int			i;
-	char		*action[3][4] = {{"cat", "-e", "MAKEFILE"}, {"wc", "-l"}, };
+	char		*action[3][4] = {{"pwd", "-e", "MAKEFILE"}, {"wc", "-l"}, };
 	t_cmd_list	*head = 0;
 
 	i = 0;

@@ -6,11 +6,11 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:26:21 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/07 16:28:22 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/11 16:19:17 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../execute.h"
+#include "execute.h"
 
 bool	dup_stdin(int file)
 {

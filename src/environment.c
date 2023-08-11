@@ -6,11 +6,11 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:17:38 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/01 13:47:07 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/11 16:18:59 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../execute.h"
+#include "execute.h"
 
 char	**get_environment(char **envp)
 {
@@ -27,6 +27,11 @@ char	**get_environment(char **envp)
 	while (envp[i])
 	{
 		environment[i] = ft_strdup(envp[i]);
+		if (!environment[i])
+		{
+			free_2d(environment);
+			return (NULL);
+		}
 		i++;
 	}
 	return (environment);

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/11 11:53:26 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/11 16:57:20 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,12 @@
 # include <errno.h>
 # include <string.h>
 # include <stdbool.h>
+# include <limits.h>
 
 typedef enum e_files {
 	IN_READ,
 	OUT_WRITE,
 }	t_files;
-
-// typedef enum e_value_node {
-// 	PIPE,
-// }	t_value_node;
 
 typedef enum e_error {
 	ERROR_ARGUMENTS,
@@ -60,10 +57,8 @@ typedef struct s_exec {
 	int		args;
 	int		argc;
 	int		pid;
-	int		pipes_fd[2];
+	int		io_file[2];
 	char	**argv;
-	char	*infile;
-	char	*outfile;
 	char	**envp;
 	char	**split_path;
 
@@ -91,6 +86,13 @@ void		execution(t_exec *execute, t_cmd_list *list);
 // execute_utils:
 bool		dup_stdin(int file);
 bool		dup_stdout(int file);
+
+// builtins:
+void		is_it_builtin(char *cmd);
+
+// builtins_funct:
+bool		pwd_builtin(void);
+bool		env_builtin(void);
 
 // access:
 bool		find_access(t_exec *execute, t_cmd_list *list);
