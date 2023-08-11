@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:03:58 by joppe         #+#    #+#                 */
-/*   Updated: 2023/07/31 17:03:48 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/12 01:05:32 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 // prompt.c
 void	prompt_env_setup();
-char	*prompt_get_line();
+char *prompt_get_line(t_list *tokens);
 
 // signals.c
 void	sigals_setup();

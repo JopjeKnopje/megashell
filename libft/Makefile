@@ -6,14 +6,14 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/07/24 12:41:07 by jboeve        ########   odam.nl          #
+#    Updated: 2023/08/12 00:37:24 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 
-# CFLAGS = -Wall -Wextra -Werror -g
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
+# CFLAGS = -Wall -Wextra -Werror
 INC_FLAGS = -Iinclude
 
 SRC_DIR = src

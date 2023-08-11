@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:01 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/11 16:11:39 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/12 01:07:22 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void prompt_env_setup()
 	// disable_echoctl();
 }
 
-char *prompt_get_line()
+char *prompt_get_line(t_list *tokens)
 {
 	char *line;
 	

@@ -12,17 +12,17 @@
 #define MEGASHELL_H
 
 #include <stdbool.h>
+#include "libft.h"
 
 typedef struct s_meta {
 	bool stop;
 } t_meta;
 
-
 // megashell.c
 int megashell(int argc, char *argv[], char *envp[]);
 
 // lexer.c
-void lexer(char *s);
+t_list *lexer(char *s);
 
 // lexer_utils.c
 bool lexer_is_valid_var_name(char *s);

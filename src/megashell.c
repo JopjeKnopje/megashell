@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/11 17:26:58 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/12 01:11:29 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 // NOTE: All this stuff is for testing only should eventually be replaced with Iris's part.
 #pragma region test
+
+#include "lexer.h"
 
 static void builtin_exit()
 {
@@ -68,12 +71,26 @@ static void runner(char *s)
 	}
 }
 
+static void print_tokens(t_list *l)
+{
+	while (l)
+	{
+		t_token *t = l->content;
+		printf("\x1b[36;49m");
+		printf("token_kind %s | token_content [%.*s] | token_content_len [%d]\n", TOKEN_NAMES[t->kind], t->content_len, t->content, t->content_len);
+		printf("\x1b[0m");
+		l = l->next;
+	}
+
+}
+
 #pragma endregion test
 
 int megashell(int argc, char *argv[], char *envp[])
 {
 	char *line;
 	t_meta meta;
+	t_list *tokens;
 
 	(void) argc;
 	(void) argv;
@@ -84,9 +101,11 @@ int megashell(int argc, char *argv[], char *envp[])
 	prompt_env_setup();
 	while (!meta.stop)
 	{
-		line = prompt_get_line();
-		lexer(line);
+		line = prompt_get_line(tokens);
+		tokens = lexer(line);
+		print_tokens(tokens);
 		runner(line);
+		ft_lstiter(tokens, free);
 		free(line);
 	}
 

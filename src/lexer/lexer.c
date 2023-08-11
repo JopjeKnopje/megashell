@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/11 17:37:49 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/12 01:08:55 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,50 @@ static t_token lexer_next(char *s)
 	return (t);
 }
 
-void lexer(char *s)
+
+static t_list *lexer_list_add_token(t_list **token_lst, t_token t)
+{
+	t_list	*node;
+	t_token	*content;
+
+	content = ft_calloc(sizeof(t_token), 1);
+	if (!content)
+		return (NULL);
+	ft_memcpy(content, &t, sizeof(t_token));
+	if (!token_lst)
+	{
+		*token_lst = ft_lstnew(content);
+		if (!token_lst)
+			return (NULL);
+	}
+	else
+	{
+		node = ft_lstnew(content);
+		if (!node)
+			return (NULL);
+		ft_lstadd_back(token_lst, node);
+	}
+	return (*token_lst);
+}
+
+t_list *lexer(char *s)
 {
 	t_lexer	l;
 	t_token	t;
 
 	l.cursor = s;
+	l.token_lst = NULL;
 	while (*l.cursor)
 	{
 		lexer_trim_space(&l);
 		if (!l.cursor[0])
-			return;
+			return (NULL);
 		t = lexer_next(l.cursor);
 
-		printf("\x1b[36;49m");
-		printf("lexer_content [%s]\n", l.cursor);
-		printf("token_kind %s | token_content [%.*s] | token_content_len [%d]\n", TOKEN_NAMES[t.kind], t.content_len, t.content, t.content_len);
-		printf("\x1b[0m");
+		// TODO Error handling
+		lexer_list_add_token(&l.token_lst, t);
 
 		l.cursor += t.content_len;
 	}
+	return (l.token_lst);
 }
