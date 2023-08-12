@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/12 13:39:11 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/12 14:00:04 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ static void print_tokens(t_list *l)
 		printf("\x1b[0m");
 		l = l->next;
 	}
-
 }
 
 #pragma endregion test

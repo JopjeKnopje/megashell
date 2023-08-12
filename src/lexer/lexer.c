@@ -6,17 +6,11 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/12 13:47:25 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/12 13:49:19 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ctype.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdbool.h>
 #include "lexer.h"
-#include "libft.h"
 
 static void lexer_trim_space(char **cursor)
 {
@@ -85,7 +79,10 @@ t_list *lexer(char *s)
 		t = lexer_next(s);
 
 		// TODO Error handling
-		lexer_list_add_token(&token_lst, t);
+		if (!lexer_list_add_token(&token_lst, t))
+		{
+
+		}
 		s += t.content_len;
 	}
 	return (token_lst);
