@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 17:15:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/12 00:28:47 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/12 13:45:26 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,6 @@ typedef struct e_token {
 	uint32_t		content_len;
 	char			*content;
 }	t_token;
-
-
-typedef struct e_lexer {
-
-	char			*cursor;
-	t_list 			*token_lst;
-}	t_lexer;
-
 
 
 

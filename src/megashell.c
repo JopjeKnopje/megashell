@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/12 13:26:28 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/12 13:39:11 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,8 @@ static void lst_free(t_list *lst)
 	{
 		tmp = lst;
 		lst = lst->next;
-		if (tmp)
-		{
-			free(tmp->content);
-			free(tmp);
-		}
+		free(tmp->content);
+		free(tmp);
 	}
 
 }

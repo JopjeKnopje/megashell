@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/12 01:08:55 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/12 13:47:25 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@
 #include "lexer.h"
 #include "libft.h"
 
-static void lexer_trim_space(t_lexer *l)
+static void lexer_trim_space(char **cursor)
 {
-	while (*l->cursor && *l->cursor == ' ')
+	while (*cursor && **cursor == ' ')
 	{
-		l->cursor++;
+		(*cursor)++;
 	}
 }
 static t_token lexer_next(char *s)
@@ -73,22 +73,20 @@ static t_list *lexer_list_add_token(t_list **token_lst, t_token t)
 
 t_list *lexer(char *s)
 {
-	t_lexer	l;
 	t_token	t;
+	t_list 	*token_lst;
 
-	l.cursor = s;
-	l.token_lst = NULL;
-	while (*l.cursor)
+	token_lst = NULL;
+	while (*s)
 	{
-		lexer_trim_space(&l);
-		if (!l.cursor[0])
+		lexer_trim_space(&s);
+		if (!s[0])
 			return (NULL);
-		t = lexer_next(l.cursor);
+		t = lexer_next(s);
 
 		// TODO Error handling
-		lexer_list_add_token(&l.token_lst, t);
-
-		l.cursor += t.content_len;
+		lexer_list_add_token(&token_lst, t);
+		s += t.content_len;
 	}
-	return (l.token_lst);
+	return (token_lst);
 }
