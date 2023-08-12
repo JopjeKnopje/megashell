@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/12 01:11:29 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/12 13:26:28 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,23 @@ static void runner(char *s)
 	}
 }
 
+static void lst_free(t_list *lst)
+{
+
+	t_list *tmp = lst;
+	while (lst)
+	{
+		tmp = lst;
+		lst = lst->next;
+		if (tmp)
+		{
+			free(tmp->content);
+			free(tmp);
+		}
+	}
+
+}
+
 static void print_tokens(t_list *l)
 {
 	while (l)
@@ -105,7 +122,7 @@ int megashell(int argc, char *argv[], char *envp[])
 		tokens = lexer(line);
 		print_tokens(tokens);
 		runner(line);
-		ft_lstiter(tokens, free);
+		lst_free(tokens);
 		free(line);
 	}
 
