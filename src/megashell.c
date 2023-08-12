@@ -6,16 +6,13 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/12 14:00:04 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/12 23:57:49 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "megashell.h"
 #include "input.h"
-#include "libft.h"
-#include <stdint.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 
@@ -114,7 +111,12 @@ int megashell(int argc, char *argv[], char *envp[])
 	prompt_env_setup();
 	while (!meta.stop)
 	{
-		line = prompt_get_line(tokens);
+		line = prompt_get_line();
+		if (!line)
+		{
+			printf("line is empty, exiting...\n");
+			return (0);
+		}
 		tokens = lexer(line);
 		print_tokens(tokens);
 		runner(line);

@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/08/11 17:25:15 by joppe         ########   odam.nl          #
+#    Updated: 2023/08/12 23:23:12 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRCS =	input/prompt.c \
 	  	lexer/lexer.c \
 	  	lexer/lexer_utils.c \
 	  	lexer/tokenize.c \
+	  	parser/parser.c \
 	  	main.c \
 	  	megashell.c
 

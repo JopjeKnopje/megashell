@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:01 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/12 01:07:22 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/12 23:53:01 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,16 @@ void prompt_env_setup()
 	// disable_echoctl();
 }
 
-char *prompt_get_line(t_list *tokens)
+char *prompt_get_line()
 {
-	char *line;
+	char	*line;
 	
 	while (1)
 	{
 		line = readline("megashell> ");
 		if (line == NULL)
-			exit(0);
-		else if (ft_strisempty(line))
+			return (NULL);
+		if (ft_strisempty(line))
 		{
 			free(line);
 			continue;
