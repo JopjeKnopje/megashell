@@ -6,12 +6,11 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/12 23:57:49 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/13 20:18:58 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "megashell.h"
-#include "input.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -68,25 +67,24 @@ static void runner(char *s)
 	}
 }
 
-static void lst_free(t_list *lst)
+static void lst_free(t_token_list *lst)
 {
 
-	t_list *tmp = lst;
+	t_token_list *tmp = lst;
 	while (lst)
 	{
 		tmp = lst;
 		lst = lst->next;
-		free(tmp->content);
 		free(tmp);
 	}
 
 }
 
-static void print_tokens(t_list *l)
+static void print_tokens(t_token_list *l)
 {
 	while (l)
 	{
-		t_token *t = l->content;
+		t_token *t = &l->content;
 		printf("\x1b[36;49m");
 		printf("token_kind %s | token_content [%.*s] | token_content_len [%d]\n", TOKEN_NAMES[t->kind], t->content_len, t->content, t->content_len);
 		printf("\x1b[0m");
@@ -100,7 +98,7 @@ int megashell(int argc, char *argv[], char *envp[])
 {
 	char *line;
 	t_meta meta;
-	t_list *tokens;
+	t_token_list *tokens;
 
 	(void) argc;
 	(void) argv;
@@ -117,8 +115,8 @@ int megashell(int argc, char *argv[], char *envp[])
 			printf("line is empty, exiting...\n");
 			return (0);
 		}
-		tokens = lexer(line);
-		print_tokens(tokens);
+		tokens = lx_main(line);
+		pr_main(tokens);
 		runner(line);
 		lst_free(tokens);
 		free(line);

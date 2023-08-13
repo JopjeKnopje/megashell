@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/04 15:11:36 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/10 13:29:36 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/13 18:44:56 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static const char METACHARS[] = {
 	'\0'
 };
 
-bool lexer_is_metachar(char c)
+bool lx_is_metachar(char c)
 {
 	uint32_t i = 0;
 
@@ -39,21 +39,21 @@ bool lexer_is_metachar(char c)
 	return (false);
 }
 
-bool lexer_is_varchar(char c)
+bool lx_is_varchar(char c)
 {
-	return ((ft_isalpha(c) || c == '_') && !lexer_is_metachar(c));
+	return ((ft_isalpha(c) || c == '_') && !lx_is_metachar(c));
 }
 
-bool lexer_is_valid_var_name(char *s)
+bool lx_is_valid_var_name(char *s)
 {
 	uint32_t	i;
 
 	i = 0;
-	if (!lexer_is_varchar(s[i]) || ft_isdigit(s[i]))
+	if (!lx_is_varchar(s[i]) || ft_isdigit(s[i]))
 		return (false);
-	while (s[i] && !lexer_is_metachar(s[i]))
+	while (s[i] && !lx_is_metachar(s[i]))
 	{
-		if (!lexer_is_varchar(s[i]) && !ft_isdigit(s[i]))
+		if (!lx_is_varchar(s[i]) && !ft_isdigit(s[i]))
 			return (false);
 		i++;
 	}

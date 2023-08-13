@@ -11,20 +11,31 @@
 #ifndef MEGASHELL_H
 #define MEGASHELL_H
 
+#include <fcntl.h>
 #include <stdbool.h>
+#include "lexer.h"
 #include "libft.h"
 
 typedef struct s_meta {
 	bool stop;
 } t_meta;
 
+
+// forward decl for token_list
+typedef struct e_token_list t_token_list;
+
+
 // megashell.c
 int megashell(int argc, char *argv[], char *envp[]);
 
-// lexer.c
-t_list *lexer(char *s);
+// prompt.c
+void	prompt_env_setup();
+char	*prompt_get_line();
 
-// lexer_utils.c
-bool lexer_is_valid_var_name(char *s);
+// lexer.c
+t_token_list *lx_main(char *s);
+
+// parser.c
+void	pr_main(t_token_list *tok_list);
 
 #endif // !MEGASHELL_H

@@ -1,34 +1,56 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   parser.c                                          :+:    :+:             */
+/*   lexer_list.c                                      :+:    :+:             */
 /*                                                    +:+                     */
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
-/*   Created: 2023/08/12 23:18:28 by joppe         #+#    #+#                 */
+/*   Created: 2023/08/13 18:59:15 by joppe         #+#    #+#                 */
 /*   Updated: 2023/08/13 20:18:29 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-/** The parser spits out a linked of all the commands it should run
-  * With their corresponding attrs such as, in/out file, args, 
-  *
-  */
-
-#include "libft.h"
 #include "lexer.h"
-#include <stdio.h>
 
-void pr_main(t_token_list *tok_list)
+t_token_list	*lx_lstlast(t_token_list *lst)
 {
-	t_token_list *tmp = tok_list;
+	t_token_list	*tmp;
 
+	if (!lst)
+		return (NULL);
+	tmp = lst;
 	while (tmp)
 	{
-		t_token *t = &(tmp->content);
-
-
+		if (!tmp->next)
+			break ;
 		tmp = tmp->next;
 	}
+	return (tmp);
+}
+
+void	lx_lstadd_back(t_token_list **lst, t_token_list *new)
+{
+	t_token_list	*last;
+
+	if (!lst || !new)
+		return ;
+	if (!(*lst))
+		*lst = new;
+	else
+	{
+		last = lx_lstlast(*lst);
+		last->next = new;
+	}
+}
+
+t_token_list	*lx_lstnew(t_token content)
+{
+	t_token_list	*node;
+
+	node = (t_token_list *) malloc(sizeof(t_token_list));
+	if (!node)
+		return (NULL);
+	node->content = content;
+	node->next = NULL;
+	return (node);
 }
