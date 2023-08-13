@@ -6,11 +6,12 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/12 13:49:19 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/13 13:02:34 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include <stdio.h>
 
 static void lexer_trim_space(char **cursor)
 {
@@ -75,14 +76,11 @@ t_list *lexer(char *s)
 	{
 		lexer_trim_space(&s);
 		if (!s[0])
-			return (NULL);
+			return (token_lst);
 		t = lexer_next(s);
 
 		// TODO Error handling
-		if (!lexer_list_add_token(&token_lst, t))
-		{
-
-		}
+		lexer_list_add_token(&token_lst, t);
 		s += t.content_len;
 	}
 	return (token_lst);
