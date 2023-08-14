@@ -1,5 +1,6 @@
 obj/
 app
+argv_test
 compile_commands.json
 .cache/
 libft/build/libft.a

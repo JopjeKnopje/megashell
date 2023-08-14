@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/08/14 10:08:52 by joppe         ########   odam.nl          #
+#    Updated: 2023/08/14 10:23:17 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,7 @@ OBJ_DIRS := $(dir $(OBJS))
 
 .PHONY: make_libs
 
-all: make_libs $(NAME)
+all: make_libs argv_test $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT) 
 	$(CC) $(OBJS) $(LIBFT) $(CFLAGS) $(INC) $(LFLAGS) -o $(NAME)
@@ -100,3 +100,6 @@ norm:
 
 dre: re
 	$(MAKE) -C libft re
+
+argv_test: tests/argv_test.c
+	gcc tests/argv_test.c -o argv_test
