@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 16:40:07 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/14 18:13:40 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/14 21:08:21 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@
 #include <stdint.h>
 
 typedef enum e_io_flags {
-	IO_STDOUT 	= 0x0001,
-	IO_STDIN  	= 0x0002,
-	IO_INFILE 	= 0x0004,
-	IO_OUTFILE	= 0x0008,
-	IO_APPEND 	= 0x0010,
-	IO_PIPE 	= 0x0020,
+	IO_STDOUT 	= 1 << 0, // 1
+	IO_STDIN  	= 1 << 1, // 2
+	IO_INFILE 	= 1 << 2, // 4
+	IO_OUTFILE	= 1 << 3, // 8
+	IO_APPEND 	= 1 << 4, // 16
+	IO_PIPE 	= 1 << 5, // 32
 } t_io_flags;
 
 // if infile and outfile are set read from them otherwise just stdin/stdout

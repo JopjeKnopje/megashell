@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/12 23:18:28 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/14 18:22:18 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/14 21:14:35 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,13 @@ int main(int argc, char *argv[])
 {
 
 
-	// uint8_t io = IO_STDOUT | IO_OUTFILE | IO_PIPE | IO_APPEND | IO_STDIN | IO_INFILE;
 	uint8_t io = 0;
 
-	// io = IO_INFILE | IO_STDOUT;
-	io = IO_INFILE;
+	io = IO_INFILE | IO_STDOUT;
 
 	print_bits(1, &io);
 
-	uint8_t check = (IO_STDOUT | IO_INFILE);
+	uint8_t check = (IO_STDOUT);
 	print_bits(1, &check);
 
 	if (io & check)
