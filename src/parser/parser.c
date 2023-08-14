@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/12 23:18:28 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/14 16:43:04 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/14 18:22:18 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@
 
 #include "libft.h"
 #include "lexer.h"
+#include "test_utils.h"
 #include "parser.h"
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 
 static t_cf_list *pr_list_add_token(t_cf_list **cf_list, t_command_frame frame)
@@ -42,11 +44,6 @@ static t_cf_list *pr_list_add_token(t_cf_list **cf_list, t_command_frame frame)
 	return (*cf_list);
 }
 
-t_command_frame *pr_frame_init()
-{
-
-}
-
 void pr_main(t_token_list *tok_list)
 {
 	t_token_list *tmp = tok_list;
@@ -56,11 +53,6 @@ void pr_main(t_token_list *tok_list)
 	while (tmp)
 	{
 		t_token *t = &(tmp->content);
-
-		if (t->kind == TOKEN_TEXT)
-		{
-
-		}
 
 		// is input redir?
 		// is text/command
@@ -73,6 +65,33 @@ void pr_main(t_token_list *tok_list)
 
 
 		tmp = tmp->next;
-		i++;
 	}
+
+
+	frame.io = 0;
+
+	frame.io = IO_APPEND | IO_INFILE;
+
+	print_bits(1, &frame.io);
+}
+
+int main(int argc, char *argv[])
+{
+
+
+	// uint8_t io = IO_STDOUT | IO_OUTFILE | IO_PIPE | IO_APPEND | IO_STDIN | IO_INFILE;
+	uint8_t io = 0;
+
+	// io = IO_INFILE | IO_STDOUT;
+	io = IO_INFILE;
+
+	print_bits(1, &io);
+
+	uint8_t check = (IO_STDOUT | IO_INFILE);
+	print_bits(1, &check);
+
+	if (io & check)
+		printf("yup\n");
+
+	return 0;
 }

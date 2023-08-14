@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 16:40:07 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/14 16:50:55 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/14 18:13:40 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+#include <stdint.h>
 
-typedef enum e_io {
-	REDIR_STDOUT = 0x0000,
-	REDIR_PIPE = 0x0001,
-	REDIR_STDIN = 0x0020,
-} t_io;
-
-// 0000
-
+typedef enum e_io_flags {
+	IO_STDOUT 	= 0x0001,
+	IO_STDIN  	= 0x0002,
+	IO_INFILE 	= 0x0004,
+	IO_OUTFILE	= 0x0008,
+	IO_APPEND 	= 0x0010,
+	IO_PIPE 	= 0x0020,
+} t_io_flags;
 
 // if infile and outfile are set read from them otherwise just stdin/stdout
 // if `is_piped` is set it overrules the outfile.
@@ -30,7 +31,7 @@ typedef struct s_command_frame {
 	char **argv;
 	char *infile;
 	char *outfile;
-	t_io io;
+	uint8_t io;
 
 } t_command_frame;
 

@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   main.c                                            :+:    :+:             */
+/*   test_utils.h                                      :+:    :+:             */
 /*                                                    +:+                     */
-/*   By: jboeve <marvin@42.fr>                       +#+                      */
+/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
-/*   Created: 2023/07/24 12:00:23 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/14 17:40:22 by joppe         ########   odam.nl         */
+/*   Created: 2023/08/14 18:06:33 by joppe         #+#    #+#                 */
+/*   Updated: 2023/08/14 18:07:02 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "megashell.h"
+#ifndef TEST_UTILS_H
+#define TEST_UTILS_H
+#include <unistd.h>
 
-int main1(int argc, char *argv[], char *envp[])
-{
-	return megashell(argc, argv, envp);
-}
+void print_bits(size_t const size, void const * const ptr);
+
+#endif 

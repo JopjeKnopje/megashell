@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/08/14 10:23:17 by joppe         ########   odam.nl          #
+#    Updated: 2023/08/14 18:07:36 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,8 @@ SRCS =	input/prompt.c \
 	  	parser/parser.c \
 	  	parser/parser_list.c \
 	  	main.c \
-	  	megashell.c
+	  	megashell.c \
+		test_utils.c
 
 
 HEADER_DIR = include
