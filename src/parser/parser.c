@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/12 23:18:28 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/14 10:32:46 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/14 11:43:56 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ static t_cf_list *pr_list_add_token(t_cf_list **cf_list, t_command_frame frame)
 		pr_lstadd_back(cf_list, node);
 	}
 	return (*cf_list);
+}
+
+t_command_frame *pr_frame_init()
+{
+
 }
 
 void pr_main(t_token_list *tok_list)
