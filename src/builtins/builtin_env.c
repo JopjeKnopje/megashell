@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:08:36 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/14 16:22:29 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:34:29 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,5 @@ bool	builtin_run_env(t_exec *execute)
 		printf("%s\n", execute->envp[i]);
 		i++;
 	}
+	return (true);
 }
