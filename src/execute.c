@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/14 15:50:07 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/14 17:56:13 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,17 @@ void	dup_io(t_exec *execute, t_cmd_list *cmds)
 void	children_spawn(t_exec *execute, t_cmd_list *cmds)
 {
 	t_builtin	is_builtin;
-	
+
 	// redirects();
 	is_builtin = get_builtin(cmds->action[0]);
 	printf("%s\n", BUILTINS_NAME[is_builtin]);
-	// if (is_builtin != BUILTIN_INVALID)
-	// 	run_builtin(is_builtin);
-	// else if (find_access(execute, cmds) == false)
-	// 	print_error(get_error_name(ERROR_ACCESS));
+	if (is_builtin != BUILTIN_INVALID)
+	{
+		run_builtin(is_builtin, execute, cmds);
+		return ;
+	}
+	else if (find_access(execute, cmds) == false)
+		print_error(get_error_name(ERROR_ACCESS));
 	dup_io(execute, cmds);
 }
 

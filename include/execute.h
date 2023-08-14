@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/14 15:29:30 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/14 17:56:23 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,12 @@ typedef struct s_cmd_list {
 }	t_cmd_list;
 
 typedef struct s_exec {
-	int		args;
-	// int		argc;
-	int		pid;
-	int		io_file[2];
-	char	**argv;
-	char	**envp;
-	char	**split_path;
-
+	int			args;
+	int			pid;
+	int			io_file[2];
+	char		**argv;
+	char		**envp;
+	char		**split_path;
 }	t_exec;
 
 // error:
@@ -87,10 +85,7 @@ bool		dup_stdout(int file);
 
 // builtins:
 t_builtin	get_builtin(char *cmd);
-
-// builtins_funct:
-bool		pwd_builtin(void);
-void		env_builtin(t_exec *execute);
+void		run_builtin(t_builtin builtin, t_exec *execute, t_cmd_list *cmds);
 
 // access:
 bool		find_access(t_exec *execute, t_cmd_list *list);
