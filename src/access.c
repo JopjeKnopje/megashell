@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/11 16:44:44 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/14 13:49:01 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*access_possible(t_exec *execute, char *cmd)
 			return (NULL);
 		if (access(tmp, F_OK) == 0)
 		{
-			printf("cmd: %s\n", tmp);
+			// printf("cmd: %s\n", tmp);
 			return (tmp);
 		}
 		free(tmp);

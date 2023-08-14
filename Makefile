@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 12:05:02 by jboeve            #+#    #+#              #
-#    Updated: 2023/08/11 16:39:48 by ivan-mel         ###   ########.fr        #
+#    Updated: 2023/08/14 16:17:09 by ivan-mel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,8 +43,14 @@ SRCS = main.c \
 		environment.c \
 		execute.c \
 		execute_utils.c \
-		builtins.c \
-		builtins_funct.c \
+		builtins/builtins.c \
+		builtins/builtin_cd.c \
+		builtins/builtin_echo.c \
+		builtins/builtin_env.c \
+		builtins/builtin_exit.c \
+		builtins/builtin_export.c \
+		builtins/builtin_pwd.c \
+		builtins/builtin_unset.c \
 		access.c
 
 HEADER_DIR = include

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:29:05 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/11 16:57:57 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:44:47 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_cmd_list	*create_mock_node(char *action[4])
 	}
 	node->action = new_array;
 	node->next = NULL;
+	node->prev = NULL;
 	return (node);
 }
 
@@ -57,7 +58,7 @@ void	add_to_end(t_cmd_list **list, t_cmd_list *new)
 t_cmd_list	*mock_input(void)
 {
 	int			i;
-	char		*action[3][4] = {{"pwd", "-e", "MAKEFILE"}, {"wc", "-l"}, };
+	char		*action[3][4] = {{"pwd", "\0", " "}, {"wc", "-l"}, };
 	t_cmd_list	*head = 0;
 
 	i = 0;

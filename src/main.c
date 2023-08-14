@@ -6,28 +6,19 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:00:23 by jboeve            #+#    #+#             */
-/*   Updated: 2023/08/11 16:47:06 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:29:31 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// #include <stdio.h>
-// #include <dirent.h>
-// #include <stdlib.h>
-// #include <limits.h>
-// #include <unistd.h>
-// #include <sys/stat.h>
-// #include <readline/readline.h>
-// #include <readline/history.h>	
 
 #include "execute.h"
 
 // instead of error with 2 check builtins
 
-void	initialization(t_exec *execute, char **argv, int argc)
-{
-	execute->argv = &argv[1];
-	execute->argc = argc - 1;
-}
+// void	initialization(t_exec *execute, char **argv, int argc)
+// {
+// 	execute->argv = &argv[1];
+	// execute->argc = argc - 1;
+// }
 
 void	use_list(char **argv, int argc, char **envp)
 {
@@ -35,8 +26,7 @@ void	use_list(char **argv, int argc, char **envp)
 	t_cmd_list	*list;
 
 	list = mock_input();
-	initialization(&execute, argv, argc);
-	// printf("list: %s\n", list->action[0]);
+	// initialization(&execute, argv, argc);
 	search_path(&execute, envp);
 	execution(&execute, list);
 }

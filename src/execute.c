@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/11 16:57:36 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:50:07 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // @param cmds: struct with linked list of commands
 
 // dup_cmd: duplicates the read side of pipe to stdin
-// and the write side of the pipe to stdout as long as
+// and the write side of the pipe to stdout as long
 // as it has a previous or next command.
 
 void	dup_io(t_exec *execute, t_cmd_list *cmds)
@@ -27,23 +27,22 @@ void	dup_io(t_exec *execute, t_cmd_list *cmds)
 		print_error(get_error_name(ERROR_DUP2));
 }
 
-// @param execute: struct that contains execution info
-// @param cmds: struct with linked list of commands
-
 // children_spawn: checks whether command has access
 // if so it executes it and changes the stdin and stdout
 
 void	children_spawn(t_exec *execute, t_cmd_list *cmds)
 {
+	t_builtin	is_builtin;
+	
 	// redirects();
-	is_it_builtin(cmds->action[0]);
-	if (find_access(execute, cmds) == false)
-		print_error(get_error_name(ERROR_ACCESS));
+	is_builtin = get_builtin(cmds->action[0]);
+	printf("%s\n", BUILTINS_NAME[is_builtin]);
+	// if (is_builtin != BUILTIN_INVALID)
+	// 	run_builtin(is_builtin);
+	// else if (find_access(execute, cmds) == false)
+	// 	print_error(get_error_name(ERROR_ACCESS));
 	dup_io(execute, cmds);
 }
-
-// @param execute: struct that contains execution info
-// @param cmds: struct with linked list of commands
 
 // checks whether there is a next command, if so then
 // the function will first pipe and then fork
@@ -59,7 +58,7 @@ void	start_pipe(t_exec *execute, t_cmd_list *cmds)
 			return ;
 		}
 		execute->pid = fork();
-		if (execute->pid == -1) /* fork returns -1 in case of error*/
+		if (execute->pid == -1) /* fork returns -1 in case of error */
 		{
 			print_error(get_error_name(ERROR_FORK));
 			return ;

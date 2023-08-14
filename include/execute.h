@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/11 16:57:20 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:29:30 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define EXECUTE_H
 
 # include "libft.h"
+# include "builtins.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -46,16 +47,14 @@ typedef struct s_redir{
 
 typedef struct s_cmd_list {
 	char				**action;
-	struct s_cmds_list	*next;
-	struct s_cmds_list	*prev;
+	struct s_cmd_list	*next;
+	struct s_cmd_list	*prev;
 	t_redir				redirect;
 }	t_cmd_list;
 
-//cmds_list
-
 typedef struct s_exec {
 	int		args;
-	int		argc;
+	// int		argc;
 	int		pid;
 	int		io_file[2];
 	char	**argv;
@@ -78,7 +77,6 @@ int			search_path(t_exec *execute, char **environment);
 char		**get_environment(char **envp);
 
 // execute:
-void		dup_io(t_exec *execute, t_cmd_list *cmds);
 void		children_spawn(t_exec *execute, t_cmd_list *cmds);
 void		start_pipe(t_exec *execute, t_cmd_list *cmds);
 void		execution(t_exec *execute, t_cmd_list *list);
@@ -88,11 +86,11 @@ bool		dup_stdin(int file);
 bool		dup_stdout(int file);
 
 // builtins:
-void		is_it_builtin(char *cmd);
+t_builtin	get_builtin(char *cmd);
 
 // builtins_funct:
 bool		pwd_builtin(void);
-bool		env_builtin(void);
+void		env_builtin(t_exec *execute);
 
 // access:
 bool		find_access(t_exec *execute, t_cmd_list *list);
