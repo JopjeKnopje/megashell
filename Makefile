@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/08/13 19:42:09 by joppe         ########   odam.nl          #
+#    Updated: 2023/08/14 10:08:52 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRCS =	input/prompt.c \
 	  	lexer/lexer_list.c \
 	  	lexer/tokenize.c \
 	  	parser/parser.c \
+	  	parser/parser_list.c \
 	  	main.c \
 	  	megashell.c
 
@@ -51,6 +52,7 @@ SRCS =	input/prompt.c \
 HEADER_DIR = include
 HEADERS = input.h \
 		  lexer.h \
+		  parser.h \
 		  megashell.h
 OBJ_DIR = obj
 

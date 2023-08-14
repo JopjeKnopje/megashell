@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/12 23:18:28 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/13 23:37:00 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/14 10:07:08 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,6 @@
 #include "lexer.h"
 #include <stdio.h>
 
-typedef struct s_command_frame {
-	char **argv;
-	int infile;
-	int outfile;
-} t_command_frame;
 
 void pr_main(t_token_list *tok_list)
 {

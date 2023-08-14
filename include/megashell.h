@@ -15,6 +15,7 @@
 #include <stdbool.h>
 #include "lexer.h"
 #include "libft.h"
+#include "parser.h"
 
 typedef struct s_meta {
 	bool stop;
@@ -23,6 +24,7 @@ typedef struct s_meta {
 
 // forward decl for token_list
 typedef struct e_token_list t_token_list;
+typedef struct e_cf_list t_cf_list;
 
 
 // megashell.c
