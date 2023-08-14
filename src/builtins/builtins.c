@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   builtins.c                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/14 16:28:57 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:32:08 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_builtin	get_builtin(char *cmd)
 
 void	run_builtin(t_builtin builtin, t_exec *execute)
 {
-	const bool	(*BUILTINS_FUNCTS[BUILTIN_COUNT]) (t_exec *a) = {
+	 bool	(*BUILTINS_FUNCTS[BUILTIN_COUNT]) (t_exec *a) = {
 		builtin_run_pwd,
 		builtin_run_env,
 		builtin_run_echo,
