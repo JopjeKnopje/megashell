@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/12 23:18:28 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/14 11:43:56 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/14 16:43:04 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ t_command_frame *pr_frame_init()
 void pr_main(t_token_list *tok_list)
 {
 	t_token_list *tmp = tok_list;
-	size_t i = 0;
 
 	t_command_frame frame;
 
