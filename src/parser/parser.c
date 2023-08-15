@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/12 23:18:28 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 19:23:15 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/15 19:24:32 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static void print_cf_list(t_cf_list *list)
 			printf("outfile -> [%s]\n", outfile);
 		if (io_flags)
 			printf("io_flags -> [%x]\n", io_flags);
+		if (list->next)
+			printf("\n");
 		list = list->next;
 	}
 	printf("\x1b[0m");
@@ -136,6 +138,8 @@ void pr_main(t_token_list *tok_list)
 		{
 			uint32_t count = pr_count_argv(it);
 			frame.argv = ft_calloc(sizeof(char *), count + 1);
+			frame.outfile = "sjaak";
+			frame.infile = "kaak";
 			
 			for (size_t i = 0; i < count; i++)
 			{
