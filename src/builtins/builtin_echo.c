@@ -6,19 +6,27 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:08:55 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/15 17:11:40 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/15 18:35:17 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-bool	builtin_run_echo(t_exec *execute, t_cmd_list *cmds)
+void	print_echo_output(t_cmd_list *cmds, bool flag)
+{
+	printf("%s", cmds->action[1]);
+	if (!flag)
+		printf("\n");
+}
+
+bool	process_echo_flags(t_cmd_list *cmds)
 {
 	int		i;
 	int		j;
 	bool	flag;
 
 	i = 0;
+	j = 0;
 	flag = false;
 	while (cmds->action[i])
 	{
@@ -37,12 +45,14 @@ bool	builtin_run_echo(t_exec *execute, t_cmd_list *cmds)
 		else
 			break ;
 	}
-	while (cmds->action[i])
-	{
-		printf("%s\n", cmds->action[i]);
-		i++;
-	}
-	if (flag = true)
-		printf("\n");
+	return (flag);
+}
+
+bool	builtin_run_echo(t_exec *execute, t_cmd_list *cmds)
+{
+	bool	flag;
+
+	flag = process_echo_flags(cmds);
+	print_echo_output(cmds, flag);
 	return (true);
 }

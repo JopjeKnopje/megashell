@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/17 12:05:02 by jboeve            #+#    #+#              #
-#    Updated: 2023/08/14 16:33:22 by ivan-mel         ###   ########.fr        #
+#    Updated: 2023/08/15 17:34:55 by ivan-mel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SRCS = main.c \
 		builtins/builtin_export.c \
 		builtins/builtin_pwd.c \
 		builtins/builtin_unset.c \
+		utils.c \
 		access.c
 
 HEADER_DIR = include
