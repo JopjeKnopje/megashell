@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 17:15:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 23:52:37 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/15 23:56:32 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ bool	lx_is_valid_var_name(char *s);
 void			lx_lstadd_back(t_tok_list **lst, t_tok_list *new);
 t_tok_list	*lx_lstnew(t_token content);
 t_tok_list	*lx_lstlast(t_tok_list *lst);
+void lx_lst_free(t_tok_list *lst);
 
 // tokenize.c
 t_token	lx_token_set(t_token_kind k, char *s, uint32_t len);

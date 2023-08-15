@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 17:14:59 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/15 23:56:44 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,38 +67,14 @@ static void runner(char *s)
 	}
 }
 
-static void lst_free(t_token_list *lst)
-{
-
-	t_token_list *tmp = lst;
-	while (lst)
-	{
-		tmp = lst;
-		lst = lst->next;
-		free(tmp);
-	}
-
-}
-
-static void print_tokens(t_token_list *l)
-{
-	while (l)
-	{
-		t_token *t = &l->token;
-		printf("\x1b[36;49m");
-		printf("token_kind %s | token_content [%.*s] | token_content_len [%d]\n", TOKEN_NAMES[t->kind], t->content_len, t->content, t->content_len);
-		printf("\x1b[0m");
-		l = l->next;
-	}
-}
 
 #pragma endregion test
 
 int megashell(int argc, char *argv[], char *envp[])
 {
-	char *line;
 	t_meta meta;
-	t_token_list *tokens;
+	t_tok_list *tokens;
+	char *line;
 
 	(void) argc;
 	(void) argv;
@@ -118,7 +94,7 @@ int megashell(int argc, char *argv[], char *envp[])
 		tokens = lx_main(line);
 		pr_main(tokens);
 		runner(line);
-		lst_free(tokens);
+		lx_lst_free(tokens);
 		free(line);
 	}
 
