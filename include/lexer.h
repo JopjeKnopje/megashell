@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 17:15:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 16:20:22 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/15 16:50:30 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct e_token {
 }	t_token;
 
 typedef struct e_token_list {
-	t_token				content;
+	t_token				token;
 	struct e_token_list	*next;
 	struct e_token_list	*prev;
 }	t_token_list;

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/13 18:59:15 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 16:21:16 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/15 16:50:30 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_token_list	*lx_lstnew(t_token content)
 	node = (t_token_list *) malloc(sizeof(t_token_list));
 	if (!node)
 		return (NULL);
-	node->content = content;
+	node->token = content;
 	node->next = NULL;
 	node->prev = NULL;
 	return (node);

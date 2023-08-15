@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 12:52:36 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/15 16:50:30 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static void print_tokens(t_token_list *l)
 {
 	while (l)
 	{
-		t_token *t = &l->content;
+		t_token *t = &l->token;
 		printf("\x1b[36;49m");
 		printf("token_kind %s | token_content [%.*s] | token_content_len [%d]\n", TOKEN_NAMES[t->kind], t->content_len, t->content, t->content_len);
 		printf("\x1b[0m");

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/12 23:18:28 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 16:42:52 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/15 16:55:45 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void print_tokens(t_token_list *lst)
 {
 	while (lst)
 	{
-		t_token t = lst->content;
+		t_token t = lst->token;
 		printf("\x1b[36;49m");
 		printf("token_kind \t\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%d]\n", TOKEN_NAMES[t.kind], t.content_len, t.content, t.content_len);
 		if (lst->next)
@@ -57,6 +57,24 @@ static void print_tokens(t_token_list *lst)
 		lst = lst->next;
 	}
 }
+
+static void cf_init_argv(t_command_frame *frame)
+{
+	
+
+}
+
+static uint32_t pr_count_argv(t_token_list *tok_list)
+{
+	uint32_t count = 0;
+	while (tok_list && tok_list->token.kind == TOKEN_TEXT)
+	{
+		tok_list = tok_list->next;
+		count++;
+	}
+	return count;
+}
+
 
 void pr_main(t_token_list *tok_list)
 {
@@ -67,7 +85,17 @@ void pr_main(t_token_list *tok_list)
 
 	while (tmp)
 	{
+		if (tmp->token.kind == TOKEN_TEXT)
+		{
+			uint32_t count = pr_count_argv(tok_list);
+			printf("argv count %d\n", count);
+			while (count--)
+				tmp = tmp->next;	
+			continue;
+		}
 		
+		
+
 		tmp = tmp->next;
 	}
 }
