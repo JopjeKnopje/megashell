@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/12 23:18:28 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 19:22:57 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/15 19:23:15 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,16 +118,6 @@ static uint32_t pr_count_argv(t_token_list *tok_list)
 static void cf_list_free_node(t_cf_list *node)
 {
 	str_free_2d(node->content.argv);
-}
-
-static void check_null_term(char *s)
-{
-	int i = 0;
-	while (s[i])
-	{
-		printf("i: %d\n", i);
-		i++;
-	}
 }
 
 void pr_main(t_token_list *tok_list)
