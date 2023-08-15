@@ -17,6 +17,8 @@
 #include "libft.h"
 #include "parser.h"
 
+#define HISTORY_FILE_NAME "sh_history"
+
 typedef struct s_meta {
 	bool stop;
 } t_meta;
@@ -33,6 +35,10 @@ int megashell(int argc, char *argv[], char *envp[]);
 // prompt.c
 void	prompt_env_setup();
 char	*prompt_get_line();
+
+// history_file.c
+void hs_read_history_file(char *s);
+void hs_add_history_file(char *s, char *line);
 
 // lexer.c
 t_token_list *lx_main(char *s);

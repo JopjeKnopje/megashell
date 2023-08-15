@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 16:50:30 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/15 17:14:59 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int megashell(int argc, char *argv[], char *envp[])
 
 	ft_bzero(&meta, sizeof(t_meta));
 	prompt_env_setup();
+	hs_read_history_file(HISTORY_FILE_NAME);
 	while (!meta.stop)
 	{
 		line = prompt_get_line();

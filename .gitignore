@@ -5,3 +5,4 @@ compile_commands.json
 .cache/
 libft/build/libft.a
 Session.vim
+sh_history

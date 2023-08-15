@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:01 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/12 23:53:01 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/15 17:11:24 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char *prompt_get_line()
 			continue;
 		}
 		add_history(line);
+		hs_add_history_file(HISTORY_FILE_NAME, line);
 		return (line);
 	}
 }

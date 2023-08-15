@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/08/14 18:07:36 by joppe         ########   odam.nl          #
+#    Updated: 2023/08/15 17:09:03 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ LFLAGS = -lreadline $(L_RL)
 SRC_DIR = src
 SRCS =	input/prompt.c \
 	  	input/signals.c \
+	  	input/history_file.c \
 	  	lexer/lexer.c \
 	  	lexer/lexer_utils.c \
 	  	lexer/lexer_list.c \
