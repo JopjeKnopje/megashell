@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/14 17:56:23 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/15 13:03:05 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ void		run_builtin(t_builtin builtin, t_exec *execute, t_cmd_list *cmds);
 // access:
 bool		find_access(t_exec *execute, t_cmd_list *list);
 char		*access_possible(t_exec *execute, char *list);
+
+// utils:
+int	largest_input(const char *s1, const char *s2);
 
 // free:
 void		free_2d(char **str);

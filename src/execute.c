@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/14 17:56:13 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/15 12:27:14 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,21 +77,29 @@ void	start_pipe(t_exec *execute, t_cmd_list *cmds)
 	}
 }
 
-// void	single_child()
-// {
-	
-// }
+void run_single_builtin(t_exec *execute, t_cmd_list *cmds)
+{
+	t_builtin	is_builtin;
 
-void	execution(t_exec *execute, t_cmd_list *list)
+	is_builtin = get_builtin(cmds->action[0]);
+	printf("%s\n", BUILTINS_NAME[is_builtin]);
+	if (is_builtin != BUILTIN_INVALID)
+	{
+		run_builtin(is_builtin, execute, cmds);
+		return ;
+	}
+}
+
+void	execution(t_exec *execute, t_cmd_list *cmds)
 {
 	int			prev_pipe;
 	int			status;
 	t_cmd_list	*cmd_list;
 
-	cmd_list = list;
+	cmd_list = cmds;
 	// heredoc?	
-//	if (cmds->next == 0) /* && is_it_builtin(cmds->action[i]) == true) */
-//		single_child(); /*  afhankelijk van builtin */
+	if ((cmds->next == 0 && get_builtin(cmds->action[0]) != BUILTIN_INVALID))
+		run_single_builtin(execute, cmds);
 	if (cmd_list->next)
 		start_pipe(execute, cmd_list);
 }

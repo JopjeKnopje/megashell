@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 15:00:42 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/14 17:57:32 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/15 13:00:23 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 typedef struct s_exec t_exec;
 typedef struct s_cmd_list t_cmd_list;
-
 
 typedef enum e_builtin {
 	BUILTIN_INVALID,

@@ -1,26 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                        :+:    :+:             */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/15 15:26:58 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/15 17:13:18 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "execute.h"
-
-static int	largest_input(const char *s1, const char *s2)
-{
-	const int	s1_len = ft_strlen(s1);
-	const int	s2_len = ft_strlen(s2);
-	const int	comp = s1_len < s2_len;
-
-	return ((comp) * s2_len + (!comp) * s1_len);
-}
 
 t_builtin	get_builtin(char *cmd)
 {

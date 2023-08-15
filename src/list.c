@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:29:05 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/14 17:59:28 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/15 12:50:20 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ void	add_to_end(t_cmd_list **list, t_cmd_list *new)
 t_cmd_list	*mock_input(void)
 {
 	int			i;
-	char		*action[3][4] = {{"cd", "/Users/ivan-mel/Documents/Projects", " "}, {"wc", "-l"}, };
+	char		*action[3][4] = {{"echo", "hoi", " "}, {"wc", "-l"}, };
+	// char		*action[3][4] = {{"cd", "../", " "}};
 	t_cmd_list	*head = 0;
 
 	i = 0;
