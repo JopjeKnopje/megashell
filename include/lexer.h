@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 17:15:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 16:50:30 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/15 23:52:37 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct e_token_list {
 	t_token				token;
 	struct e_token_list	*next;
 	struct e_token_list	*prev;
-}	t_token_list;
+}	t_tok_list;
 
 
 
@@ -69,9 +69,9 @@ bool	lx_is_varchar(char c);
 bool	lx_is_valid_var_name(char *s);
 
 // lexer_list.c
-void			lx_lstadd_back(t_token_list **lst, t_token_list *new);
-t_token_list	*lx_lstnew(t_token content);
-t_token_list	*lx_lstlast(t_token_list *lst);
+void			lx_lstadd_back(t_tok_list **lst, t_tok_list *new);
+t_tok_list	*lx_lstnew(t_token content);
+t_tok_list	*lx_lstlast(t_tok_list *lst);
 
 // tokenize.c
 t_token	lx_token_set(t_token_kind k, char *s, uint32_t len);

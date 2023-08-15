@@ -25,7 +25,7 @@ typedef struct s_meta {
 
 
 // forward decl for token_list
-typedef struct e_token_list t_token_list;
+typedef struct e_token_list t_tok_list;
 typedef struct e_cf_list t_cf_list;
 
 
@@ -41,9 +41,9 @@ void hs_read_history_file(char *s);
 void hs_add_history_file(char *s, char *line);
 
 // lexer.c
-t_token_list *lx_main(char *s);
+t_tok_list *lx_main(char *s);
 
 // parser.c
-void	pr_main(t_token_list *tok_list);
+void	pr_main(t_tok_list *tok_list);
 
 #endif // !MEGASHELL_H

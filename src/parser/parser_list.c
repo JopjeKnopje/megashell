@@ -6,11 +6,11 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/13 18:59:15 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 18:48:44 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/15 23:52:09 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "libft.h"
 #include "parser.h"
 
 t_cf_list	*pr_lstlast(t_cf_list *lst)
@@ -71,3 +71,24 @@ t_cf_list	*pr_lstnew(t_command_frame content)
 	node->prev = NULL;
 	return (node);
 }
+
+t_cf_list *pr_list_add_token(t_cf_list **cf_list, t_command_frame frame)
+{
+	t_cf_list	*node;
+
+	if (!cf_list)
+	{
+		*cf_list = pr_lstnew(frame);
+		if (!cf_list)
+			return (NULL);
+	}
+	else
+	{
+		node = pr_lstnew(frame);
+		if (!node)
+			return (NULL);
+		pr_lstadd_back(cf_list, node);
+	}
+	return (*cf_list);
+}
+
