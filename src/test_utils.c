@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:05:42 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/14 18:08:07 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/15 18:49:54 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,3 +28,5 @@ void print_bits(size_t const size, void const * const ptr)
     }
     puts("");
 }
+
+

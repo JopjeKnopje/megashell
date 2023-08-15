@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/12 23:18:28 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 18:48:57 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/15 19:19:24 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,62 @@
 #include <stdint.h>
 #include <stdio.h>
 
+static void print_2d_arr(char **s, char *name)
+{
+	size_t i = 0;
+	while (s[i])
+	{
+		printf("%s[%ld] -> [%s]\n", name, i, s[i]);
+		i++;
+	}
+
+}
+
+static void print_cf_list(t_cf_list *list)
+{
+	char **argv;
+	char *infile;
+	char *outfile;
+	uint8_t io_flags;
+
+	printf("\n");
+	printf("\x1b[35;49m");
+	while (list)
+	{
+		argv = list->content.argv;
+		infile = list->content.infile;
+		outfile = list->content.outfile;
+		io_flags = list->content.io_flags;
+
+		if (argv)
+			print_2d_arr(argv, "argv");
+		if (infile)
+			printf("infile -> [%s]\n", infile);
+		if (outfile)
+			printf("outfile -> [%s]\n", outfile);
+		if (io_flags)
+			printf("io_flags -> [%x]\n", io_flags);
+		list = list->next;
+	}
+	printf("\x1b[0m");
+}
+
+
+static void print_tokens(t_token_list *lst)
+{
+	while (lst)
+	{
+		t_token t = lst->token;
+		printf("\x1b[36;49m");
+		printf("token_kind \t\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%d]\n", TOKEN_NAMES[t.kind], t.content_len, t.content, t.content_len);
+		if (lst->next)
+			printf("\n");
+		printf("\x1b[0m");
+		lst = lst->next;
+	}
+}
+
+
 static t_cf_list *pr_list_add_token(t_cf_list **cf_list, t_command_frame frame)
 {
 	t_cf_list	*node;
@@ -48,26 +104,6 @@ static t_cf_list *pr_list_add_token(t_cf_list **cf_list, t_command_frame frame)
 	return (*cf_list);
 }
 
-static void print_tokens(t_token_list *lst)
-{
-	while (lst)
-	{
-		t_token t = lst->token;
-		printf("\x1b[36;49m");
-		printf("token_kind \t\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%d]\n", TOKEN_NAMES[t.kind], t.content_len, t.content, t.content_len);
-		if (lst->next)
-			printf("\n");
-		printf("\x1b[0m");
-		lst = lst->next;
-	}
-}
-
-static void cf_init_argv(t_command_frame *frame)
-{
-	
-
-}
-
 static uint32_t pr_count_argv(t_token_list *tok_list)
 {
 	uint32_t count = 0;
@@ -77,16 +113,6 @@ static uint32_t pr_count_argv(t_token_list *tok_list)
 		count++;
 	}
 	return count;
-}
-
-char	*sized_strdup(const char *s, size_t len)
-{
-	char	*s_d;
-
-	s_d = ft_calloc(sizeof(char), len + 1);
-	if (!s_d)
-		return (NULL);
-	return (ft_memcpy(s_d, s, len + 1));
 }
 
 static void cf_list_free_node(t_cf_list *node)
@@ -100,6 +126,8 @@ void pr_main(t_token_list *tok_list)
 	t_cf_list *cf_list = NULL;
 	t_command_frame frame;
 
+	ft_bzero(&frame, sizeof(t_command_frame));
+
 	print_tokens(tok_list);
 
 	while (it)
@@ -112,6 +140,8 @@ void pr_main(t_token_list *tok_list)
 			for (size_t i = 0; i < count; i++)
 			{
 				frame.argv[i] = sized_strdup(it->token.content, it->token.content_len);
+				printf("pls dont break [%*.s]\n", 5, frame.argv[i]);
+
 				if (!frame.argv[i])
 				{
 					assert(0 && "MALLOC FAILURE");
@@ -123,5 +153,6 @@ void pr_main(t_token_list *tok_list)
 		}
 		it = it->next;
 	}
+	// print_cf_list(cf_list);
 	pr_lst_free(cf_list, cf_list_free_node);
 }
