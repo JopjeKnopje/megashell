@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/12 23:18:28 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 17:59:59 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/15 18:48:57 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,14 @@
   *
   */
 
+#include "test_utils.h"
+
+
 #include "libft.h"
 #include "lexer.h"
-#include "test_utils.h"
+#include "utils.h"
 #include "parser.h"
+#include <assert.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -85,10 +89,15 @@ char	*sized_strdup(const char *s, size_t len)
 	return (ft_memcpy(s_d, s, len + 1));
 }
 
+static void cf_list_free_node(t_cf_list *node)
+{
+	str_free_2d(node->content.argv);
+}
 
 void pr_main(t_token_list *tok_list)
 {
 	t_token_list *it = tok_list;
+	t_cf_list *cf_list = NULL;
 	t_command_frame frame;
 
 	print_tokens(tok_list);
@@ -103,13 +112,16 @@ void pr_main(t_token_list *tok_list)
 			for (size_t i = 0; i < count; i++)
 			{
 				frame.argv[i] = sized_strdup(it->token.content, it->token.content_len);
+				if (!frame.argv[i])
+				{
+					assert(0 && "MALLOC FAILURE");
+				}
 				it = it->next;
 			}
+			pr_list_add_token(&cf_list, frame);
 			continue;
 		}
-		
-		
-
 		it = it->next;
 	}
+	pr_lst_free(cf_list, cf_list_free_node);
 }

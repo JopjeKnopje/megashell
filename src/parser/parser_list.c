@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/13 18:59:15 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 16:37:12 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/15 18:48:44 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	pr_lstadd_back(t_cf_list **lst, t_cf_list *new)
 	}
 }
 
-void pr_lst_free(t_cf_list *lst)
+void pr_lst_free(t_cf_list *lst, void (*func)(t_cf_list *node))
 {
 
 	t_cf_list *tmp = lst;
@@ -53,6 +53,8 @@ void pr_lst_free(t_cf_list *lst)
 	{
 		tmp = lst;
 		lst = lst->next;
+		if (func)
+			(*func)(tmp);
 		free(tmp);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 16:40:07 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/15 16:40:14 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/15 18:47:27 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ typedef struct e_cf_list {
 void		pr_lstadd_back(t_cf_list **lst, t_cf_list *new);
 t_cf_list	*pr_lstnew(t_command_frame content);
 t_cf_list	*pr_lstlast(t_cf_list *lst);
-void pr_lst_free(t_cf_list *lst);
+void pr_lst_free(t_cf_list *lst, void (*func)(t_cf_list *node));
 
 #endif // !PARSER_H
