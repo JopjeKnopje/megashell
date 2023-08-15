@@ -17,7 +17,7 @@
 #include "libft.h"
 #include "parser.h"
 
-#define HISTORY_FILE_NAME "sh_history"
+#define HISTORY_FILE_NAME ".ms_history"
 
 typedef struct s_meta {
 	bool stop;
