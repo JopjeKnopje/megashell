@@ -6,13 +6,13 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:08:55 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/14 16:22:26 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/14 17:58:16 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-bool	builtin_run_echo(t_exec *execute)
+bool	builtin_run_echo(t_exec *execute, t_cmd_list *cmds)
 {
 	(void) execute;
 	printf("UNIMPLEMENTED: %s\n", __FILE__);

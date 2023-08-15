@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 15:00:42 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/14 16:23:04 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/14 17:57:32 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <stdbool.h>
 
 typedef struct s_exec t_exec;
+typedef struct s_cmd_list t_cmd_list;
+
 
 typedef enum e_builtin {
 	BUILTIN_INVALID,
@@ -39,12 +41,12 @@ static const char *BUILTINS_NAME[BUILTIN_COUNT] = {
 	"unset",
 	"exit"};
 
-bool	builtin_run_unset(t_exec *execute);
-bool	builtin_run_pwd(t_exec *execute);
-bool	builtin_run_env(t_exec *execute);
-bool	builtin_run_echo(t_exec *execute);
-bool	builtin_run_cd(t_exec *execute);
-bool	builtin_run_export(t_exec *execute);
-bool	builtin_run_exit(t_exec *execute);
+bool	builtin_run_unset(t_exec *execute, t_cmd_list *cmds);
+bool	builtin_run_pwd(t_exec *execute, t_cmd_list *cmds);
+bool	builtin_run_env(t_exec *execute, t_cmd_list *cmds);
+bool	builtin_run_echo(t_exec *execute, t_cmd_list *cmds);
+bool	builtin_run_cd(t_exec *execute, t_cmd_list *cmdsd);
+bool	builtin_run_export(t_exec *execute, t_cmd_list *cmdsd);
+bool	builtin_run_exit(t_exec *execute, t_cmd_list *cmds);
 
 #endif
