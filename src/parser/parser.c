@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/12 23:18:28 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 16:55:45 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/15 17:59:59 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,27 +75,41 @@ static uint32_t pr_count_argv(t_token_list *tok_list)
 	return count;
 }
 
+char	*sized_strdup(const char *s, size_t len)
+{
+	char	*s_d;
+
+	s_d = ft_calloc(sizeof(char), len + 1);
+	if (!s_d)
+		return (NULL);
+	return (ft_memcpy(s_d, s, len + 1));
+}
+
 
 void pr_main(t_token_list *tok_list)
 {
-	t_token_list *tmp = tok_list;
+	t_token_list *it = tok_list;
 	t_command_frame frame;
 
 	print_tokens(tok_list);
 
-	while (tmp)
+	while (it)
 	{
-		if (tmp->token.kind == TOKEN_TEXT)
+		if (it->token.kind == TOKEN_TEXT)
 		{
-			uint32_t count = pr_count_argv(tok_list);
-			printf("argv count %d\n", count);
-			while (count--)
-				tmp = tmp->next;	
+			uint32_t count = pr_count_argv(it);
+			frame.argv = ft_calloc(sizeof(char *), count + 1);
+			
+			for (size_t i = 0; i < count; i++)
+			{
+				frame.argv[i] = sized_strdup(it->token.content, it->token.content_len);
+				it = it->next;
+			}
 			continue;
 		}
 		
 		
 
-		tmp = tmp->next;
+		it = it->next;
 	}
 }
