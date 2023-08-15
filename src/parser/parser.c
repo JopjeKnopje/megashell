@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/12 23:18:28 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 19:19:24 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/15 19:22:57 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,16 @@ static void cf_list_free_node(t_cf_list *node)
 	str_free_2d(node->content.argv);
 }
 
+static void check_null_term(char *s)
+{
+	int i = 0;
+	while (s[i])
+	{
+		printf("i: %d\n", i);
+		i++;
+	}
+}
+
 void pr_main(t_token_list *tok_list)
 {
 	t_token_list *it = tok_list;
@@ -140,7 +150,6 @@ void pr_main(t_token_list *tok_list)
 			for (size_t i = 0; i < count; i++)
 			{
 				frame.argv[i] = sized_strdup(it->token.content, it->token.content_len);
-				printf("pls dont break [%*.s]\n", 5, frame.argv[i]);
 
 				if (!frame.argv[i])
 				{
@@ -153,6 +162,6 @@ void pr_main(t_token_list *tok_list)
 		}
 		it = it->next;
 	}
-	// print_cf_list(cf_list);
+	print_cf_list(cf_list);
 	pr_lst_free(cf_list, cf_list_free_node);
 }
