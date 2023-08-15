@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/13 20:18:58 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/15 12:52:36 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ int megashell(int argc, char *argv[], char *envp[])
 	(void) argc;
 	(void) argv;
 	(void) envp;
-
 
 	ft_bzero(&meta, sizeof(t_meta));
 	prompt_env_setup();

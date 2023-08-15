@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/13 18:59:15 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/14 10:08:27 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/15 16:37:12 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,19 @@ void	pr_lstadd_back(t_cf_list **lst, t_cf_list *new)
 	{
 		last = pr_lstlast(*lst);
 		last->next = new;
+		new->prev = last;
+	}
+}
+
+void pr_lst_free(t_cf_list *lst)
+{
+
+	t_cf_list *tmp = lst;
+	while (lst)
+	{
+		tmp = lst;
+		lst = lst->next;
+		free(tmp);
 	}
 }
 
@@ -53,5 +66,6 @@ t_cf_list	*pr_lstnew(t_command_frame content)
 		return (NULL);
 	node->content = content;
 	node->next = NULL;
+	node->prev = NULL;
 	return (node);
 }

@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 16:40:07 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/14 21:08:21 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/15 16:40:14 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,23 @@ typedef enum e_io_flags {
 // if infile and outfile are set read from them otherwise just stdin/stdout
 // if `is_piped` is set it overrules the outfile.
 typedef struct s_command_frame {
-	char **argv;
-	char *infile;
-	char *outfile;
-	uint8_t io;
+	char	**argv;
+	char	*infile;
+	char	*outfile;
+	uint8_t io_flags;
 
 } t_command_frame;
 
 typedef struct e_cf_list {
 	t_command_frame		content;
 	struct e_cf_list	*next;
+	struct e_cf_list	*prev;
 }	t_cf_list;
-
 
 // parser_list.c
 void		pr_lstadd_back(t_cf_list **lst, t_cf_list *new);
 t_cf_list	*pr_lstnew(t_command_frame content);
 t_cf_list	*pr_lstlast(t_cf_list *lst);
+void pr_lst_free(t_cf_list *lst);
 
 #endif // !PARSER_H
