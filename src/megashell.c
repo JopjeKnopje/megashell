@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 23:56:44 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/16 12:35:16 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 // NOTE: All this stuff is for testing only should eventually be replaced with Iris's part.
 #pragma region test
 
-#include "lexer.h"
 
 static void builtin_exit()
 {
@@ -73,7 +72,6 @@ static void runner(char *s)
 int megashell(int argc, char *argv[], char *envp[])
 {
 	t_meta meta;
-	t_tok_list *tokens;
 	char *line;
 
 	(void) argc;
@@ -91,10 +89,8 @@ int megashell(int argc, char *argv[], char *envp[])
 			printf("line is empty, exiting...\n");
 			return (0);
 		}
-		tokens = lx_main(line);
-		pr_main(tokens);
+		plarser_main(line);
 		runner(line);
-		lx_lst_free(tokens);
 		free(line);
 	}
 

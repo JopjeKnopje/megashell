@@ -6,12 +6,12 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/13 18:59:15 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 23:52:09 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/16 13:07:52 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "parser.h"
+#include "plarser.h"
 
 t_cf_list	*pr_lstlast(t_cf_list *lst)
 {

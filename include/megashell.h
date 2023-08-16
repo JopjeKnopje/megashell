@@ -13,9 +13,7 @@
 
 #include <fcntl.h>
 #include <stdbool.h>
-#include "lexer.h"
 #include "libft.h"
-#include "parser.h"
 
 #define HISTORY_FILE_NAME ".ms_history"
 
@@ -32,6 +30,9 @@ typedef struct e_cf_list t_cf_list;
 // megashell.c
 int megashell(int argc, char *argv[], char *envp[]);
 
+// plarser.c
+void	plarser_main(char *line);
+
 // prompt.c
 void	prompt_env_setup();
 char	*prompt_get_line();
@@ -39,11 +40,5 @@ char	*prompt_get_line();
 // history_file.c
 void hs_read_history_file(char *s);
 void hs_add_history_file(char *s, char *line);
-
-// lexer.c
-t_tok_list *lx_main(char *s);
-
-// parser.c
-void	pr_main(t_tok_list *tok_list);
 
 #endif // !MEGASHELL_H

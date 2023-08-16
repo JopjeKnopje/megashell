@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/08/16 10:48:31 by joppe         ########   odam.nl          #
+#    Updated: 2023/08/16 13:12:52 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,13 +40,13 @@ SRC_DIR = src
 SRCS =	input/prompt.c \
 	  	input/signals.c \
 	  	input/history_file.c \
-	  	lexer/lexer.c \
-	  	lexer/lexer_utils.c \
-	  	lexer/lexer_list.c \
-	  	lexer/tokenize.c \
-	  	parser/parser.c \
-	  	parser/parser_list.c \
-	  	parser/parser_jmp.c \
+	  	plarser/lexer.c \
+	  	plarser/lexer_utils.c \
+	  	plarser/lexer_list.c \
+	  	plarser/tokenize.c \
+	  	plarser/plarser.c \
+	  	plarser/parser.c \
+	  	plarser/parser_list.c \
 	  	utils/utils_string.c \
 	  	main.c \
 	  	megashell.c \
@@ -55,8 +55,7 @@ SRCS =	input/prompt.c \
 
 HEADER_DIR = include
 HEADERS = input.h \
-		  lexer.h \
-		  parser.h \
+		  plarser.h \
 		  megashell.h
 OBJ_DIR = obj
 
