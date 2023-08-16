@@ -24,7 +24,7 @@ typedef struct s_meta {
 
 // forward decl for token_list
 typedef struct e_token_list t_tok_list;
-typedef struct e_cf_list t_cf_list;
+typedef struct e_cmd_frame_list t_cf_list;
 
 
 // megashell.c
