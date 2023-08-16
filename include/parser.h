@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 16:40:07 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/15 23:52:09 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/16 10:57:48 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #define PARSER_H
 
 #include <stdint.h>
+#include "lexer.h"
 
 typedef enum e_io_flags {
 	IO_STDOUT 	= 1 << 0,
@@ -40,7 +41,18 @@ typedef struct e_cf_list {
 	struct e_cf_list	*prev;
 }	t_cf_list;
 
+typedef struct e_parser {
+	t_command_frame		frame;
+	t_cf_list			*command_frames;
 
+}	t_parser;
+
+// parser.c
+uint32_t pr_count_argv(t_tok_list *tok_list, t_token_kind k);
+
+
+// parser_jmp.c
+t_tok_list *pr_parse_token(t_parser *p, t_tok_list *current_token);
 
 // parser_list.c
 void		pr_lstadd_back(t_cf_list **lst, t_cf_list *new);
