@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/18 21:20:04 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/18 23:32:22 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/19 00:15:41 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,26 +45,17 @@ t_syntax_error sy_main(t_tok_list *tokens)
 		[TOKEN_PIPE] = sy_token_pipe,
 		[TOKEN_LESS_THAN] = sy_token_redir,
 		[TOKEN_GREATER_THAN] = sy_token_redir,
-		[TOKEN_TEXT] = NULL,
+		[TOKEN_TEXT] = sy_token_pass,
 		NULL,
 	};
 
 	uint32_t skip = 1;
 	while (tokens)
 	{
-		t_syntax_func f = funcs[tokens->token.kind];
-		if (!*f)
+		if ((*funcs[tokens->token.kind])(tokens))
 		{
-			printf("syntax check not implemented yet\n");
-		}
-		else
-		{
-			bool ret_val = (*f)(tokens);
-			if (ret_val)
-			{
-				printf("syntax error\n");
-				print_token(tokens->token);
-			}
+			printf("syntax error\n");
+			print_token(tokens->token);
 		}
 		tokens = sy_foward_list(tokens, skip);
 	}

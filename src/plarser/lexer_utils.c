@@ -6,15 +6,17 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/04 15:11:36 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/13 18:44:56 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/19 00:37:39 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
+#include <readline/history.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include "libft.h"
+#include "plarser.h"
 
 static const char METACHARS[] = {
 	'|',
@@ -58,4 +60,20 @@ bool lx_is_valid_var_name(char *s)
 		i++;
 	}
 	return (true);
+}
+
+bool lx_is_redir_heredoc(char *s, t_token_kind k)
+{
+	int32_t i = 0;
+	char c;
+	if (k == TOKEN_APPEND)
+		c = '>';
+	else if (k == TOKEN_HEREDOC)
+		c = '<';
+	while (s[i] && s[i] == c)
+	{
+		i++;
+	}
+	printf("i: %d\n", i);
+	return (i == 2);
 }

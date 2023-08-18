@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/16 12:33:14 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/19 00:41:28 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void lx_trim_space(char **cursor)
 		(*cursor)++;
 	}
 }
+
 static t_token lx_next(char *s)
 {
 	t_token	t;
@@ -30,6 +31,12 @@ static t_token lx_next(char *s)
 		t = lx_tokenize_dollar(s);
 	else if (*s == '|')
 		t = lx_token_set(TOKEN_PIPE, s, 1);
+
+	else if (lx_is_redir_heredoc(s, TOKEN_HEREDOC))
+		t = lx_token_set(TOKEN_HEREDOC, s, 2);
+	else if (lx_is_redir_heredoc(s, TOKEN_APPEND))
+		t = lx_token_set(TOKEN_APPEND, s, 2);
+
 	else if (*s == '>')
 		t = lx_token_set(TOKEN_GREATER_THAN, s, 1);
 	else if (*s == '<')

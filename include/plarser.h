@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 16:40:07 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/18 23:30:05 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/19 00:40:53 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef enum e_token_kind {
 	TOKEN_PIPE,
 	TOKEN_LESS_THAN,
 	TOKEN_GREATER_THAN,
+	TOKEN_APPEND,
+	TOKEN_HEREDOC,
 	TOKEN_TEXT,
 	TOKEN_ERROR,
 	TOKEN_COUNT,
@@ -82,6 +84,7 @@ bool sy_token_redir(t_tok_list *token);
 bool sy_token_quote(t_tok_list *token);
 bool sy_token_variable(t_tok_list *token);
 bool sy_token_pipe(t_tok_list *token);
+bool sy_token_pass(t_tok_list *node);
 
 // lexer.c
 t_tok_list *lx_main(char *s);
@@ -90,6 +93,7 @@ t_tok_list *lx_main(char *s);
 bool		lx_is_metachar(char c);
 bool		lx_is_varchar(char c);
 bool		lx_is_valid_var_name(char *s);
+bool		lx_is_redir_heredoc(char *s, t_token_kind k);
 
 // lexer_list.c
 void		lx_lstadd_back(t_tok_list **lst, t_tok_list *new);
