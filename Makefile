@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/08/18 21:21:38 by joppe         ########   odam.nl          #
+#    Updated: 2023/08/18 23:25:59 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ SRCS =	input/prompt.c \
 	  	plarser/lexer_utils.c \
 	  	plarser/plarser.c \
 	  	plarser/syntax.c \
+	  	plarser/syntax_func.c \
 	  	plarser/tokenize.c \
 	  	utils/utils_string.c \
 	  	megashell.c \

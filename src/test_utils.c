@@ -6,13 +6,27 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:05:42 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 23:52:37 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/18 23:25:14 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "test_utils.h"
 #include <stdio.h>
+
+static const char *TOKEN_NAMES[] = {
+	"TOKEN_UNKNOWN",
+	"TOKEN_QUOTE_SINGLE",
+	"TOKEN_QUOTE_DOUBLE",
+	"TOKEN_DOLLAR",
+	"TOKEN_PIPE",
+	"TOKEN_LESS_THAN",
+	"TOKEN_GREATER_THAN",
+	"TOKEN_TEXT",
+	"TOKEN_ERROR",
+	"TOKEN_COUNT",
+};
+
 
 void print_bits(size_t const size, void const * const ptr)
 {
@@ -72,16 +86,20 @@ void print_cf_list(t_cf_list *list)
 	printf("\x1b[0m");
 }
 
+void print_token(t_token t)
+{
+	printf("\x1b[36;49m");
+	printf("token_kind \t\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%d]\n", TOKEN_NAMES[t.kind], t.content_len, t.content, t.content_len);
+	printf("\x1b[0m");
+}
+
 void print_tokens(t_tok_list *lst)
 {
 	while (lst)
 	{
-		t_token t = lst->token;
-		printf("\x1b[36;49m");
-		printf("token_kind \t\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%d]\n", TOKEN_NAMES[t.kind], t.content_len, t.content, t.content_len);
+		print_token(lst->token);
 		if (lst->next)
 			printf("\n");
-		printf("\x1b[0m");
 		lst = lst->next;
 	}
 }

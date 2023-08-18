@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 16:40:07 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/18 22:03:33 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/18 23:30:05 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,6 @@ typedef enum e_token_kind {
 	TOKEN_ERROR,
 	TOKEN_COUNT,
 }	t_token_kind;
-
-static const char *TOKEN_NAMES[] = {
-	"TOKEN_UNKNOWN",
-	"TOKEN_QUOTE_SINGLE",
-	"TOKEN_QUOTE_DOUBLE",
-	"TOKEN_DOLLAR",
-	"TOKEN_PIPE",
-	"TOKEN_LESS_THAN",
-	"TOKEN_GREATER_THAN",
-	"TOKEN_TEXT",
-	"TOKEN_ERROR",
-	"TOKEN_COUNT",
-};
 
 typedef enum e_io_flags {
 	IO_STDOUT 	= 1 << 0,
@@ -89,6 +76,12 @@ typedef t_token t_syntax_error;
 
 // syntax.c
 t_syntax_error	sy_main(t_tok_list *tokens);
+
+// syntax_func.c
+bool sy_token_redir(t_tok_list *token);
+bool sy_token_quote(t_tok_list *token);
+bool sy_token_variable(t_tok_list *token);
+bool sy_token_pipe(t_tok_list *token);
 
 // lexer.c
 t_tok_list *lx_main(char *s);
