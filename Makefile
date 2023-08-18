@@ -6,7 +6,7 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/08/16 15:14:50 by jboeve        ########   odam.nl          #
+#    Updated: 2023/08/18 21:21:38 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,17 +41,15 @@ SRCS =	input/prompt.c \
 	  	input/signals.c \
 	  	input/history_file.c \
 	  	plarser/lexer.c \
-	  	plarser/lexer_utils.c \
 	  	plarser/lexer_list.c \
-	  	plarser/tokenize.c \
+	  	plarser/lexer_utils.c \
 	  	plarser/plarser.c \
-	  	plarser/parser.c \
-	  	plarser/parser_list.c \
-	  	plarser/parser_funcs.c \
+	  	plarser/syntax.c \
+	  	plarser/tokenize.c \
 	  	utils/utils_string.c \
-	  	main.c \
 	  	megashell.c \
-		test_utils.c
+		test_utils.c \
+	  	main.c
 
 
 HEADER_DIR = include

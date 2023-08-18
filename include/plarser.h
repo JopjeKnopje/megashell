@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 16:40:07 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/16 16:10:00 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/18 22:03:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,6 @@ typedef struct e_token {
 	char			*content;
 }	t_token;
 
-typedef struct e_token_list {
-	t_token				token;
-	struct e_token_list	*next;
-	struct e_token_list	*prev;
-}	t_tok_list;
-
-
 typedef struct s_cmd_frame {
 	char	**argv;
 	char	*infile;
@@ -74,19 +67,31 @@ typedef struct s_cmd_frame {
 	uint8_t io_flags;
 } t_cmd_frame;
 
+
+typedef struct e_token_list {
+	t_token				token;
+	struct e_token_list	*next;
+	struct e_token_list	*prev;
+}	t_tok_list;
+
+
 typedef struct e_cmd_frame_list {
 	t_cmd_frame				content;
 	struct e_cmd_frame_list	*next;
 	struct e_cmd_frame_list	*prev;
 }	t_cf_list;
 
-typedef struct e_parser {
-	t_cmd_frame		frame;
-	t_cf_list		*command_frames;
 
-}	t_parser;
+typedef t_token t_syntax_error;
 
 
+
+
+// syntax.c
+t_syntax_error	sy_main(t_tok_list *tokens);
+
+// lexer.c
+t_tok_list *lx_main(char *s);
 
 // lexer_utils.c
 bool		lx_is_metachar(char c);
@@ -104,16 +109,5 @@ t_token		lx_token_set(t_token_kind k, char *s, uint32_t len);
 t_token		lx_tokenize_quote(char *s, char c);
 t_token		lx_tokenize_dollar(char *s);
 t_token		lx_tokenize_text(char *s);
-
-// parser.c
-void		pr_main(t_tok_list *tokens);
-uint32_t	pr_run_parse(t_parser *p, t_tok_list *tokens);
-
-// parser_list.c
-void		pr_lstadd_back(t_cf_list **lst, t_cf_list *new);
-t_cf_list	*pr_lstnew(t_cmd_frame content);
-t_cf_list	*pr_lstlast(t_cf_list *lst);
-t_cf_list	*pr_list_add_frame(t_cf_list **cf_list, t_cmd_frame frame);
-void		pr_lst_free(t_cf_list *lst, void (*func)(t_cf_list *node));
 
 #endif
