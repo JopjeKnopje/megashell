@@ -6,12 +6,13 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/18 23:19:49 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/19 23:17:58 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/19 23:41:03 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "plarser.h"
 #include <stdbool.h>
+
 
 
 // '>' <WORD>
@@ -49,10 +50,18 @@ bool sy_token_pipe(t_tok_list *node)
 
 bool sy_token_variable(t_tok_list *node)
 {
+	(void) node;
 	return (true);
 }
 
 bool sy_token_pass(t_tok_list *node)
 {
+	(void) node;
 	return (true);
+}
+
+bool sy_token_err(t_tok_list *node)
+{
+	(void) node;
+	return (false);
 }

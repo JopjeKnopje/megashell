@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 16:40:07 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/19 00:40:53 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/20 00:13:43 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,40 +71,45 @@ typedef struct e_cmd_frame_list {
 }	t_cf_list;
 
 
-typedef t_token t_syntax_error;
+// parser.c
+t_cf_list *pr_main(t_tok_list *tokens);
 
-
-
+// parser_list.c
+t_cf_list	*pr_lstnew(t_cmd_frame content);
+t_cf_list	*pr_lstlast(t_cf_list *lst);
+void		pr_lst_free(t_cf_list *lst);
+void		pr_lstadd_back(t_cf_list **lst, t_cf_list *new);
 
 // syntax.c
-t_syntax_error	sy_main(t_tok_list *tokens);
+t_tok_list		*sy_main(t_tok_list *tokens);
 
 // syntax_func.c
-bool sy_token_redir(t_tok_list *token);
-bool sy_token_quote(t_tok_list *token);
-bool sy_token_variable(t_tok_list *token);
-bool sy_token_pipe(t_tok_list *token);
-bool sy_token_pass(t_tok_list *node);
+bool			sy_token_redir(t_tok_list *token);
+bool			sy_token_quote(t_tok_list *token);
+bool			sy_token_variable(t_tok_list *token);
+bool			sy_token_pipe(t_tok_list *token);
+bool			sy_token_pass(t_tok_list *node);
+bool			sy_token_err(t_tok_list *node);
 
 // lexer.c
-t_tok_list *lx_main(char *s);
+t_tok_list		*lx_main(char *s);
 
 // lexer_utils.c
-bool		lx_is_metachar(char c);
-bool		lx_is_varchar(char c);
-bool		lx_is_valid_var_name(char *s);
-bool		lx_is_redir_heredoc(char *s, t_token_kind k);
+bool			lx_is_metachar(char c);
+bool			lx_is_varchar(char c);
+bool			lx_is_valid_var_name(char *s);
+bool			lx_is_redir_heredoc(char *s, t_token_kind k);
 
 // lexer_list.c
-void		lx_lstadd_back(t_tok_list **lst, t_tok_list *new);
-t_tok_list	*lx_lstnew(t_token content);
-t_tok_list	*lx_lstlast(t_tok_list *lst);
-void		lx_lst_free(t_tok_list *lst);
+void			lx_lstadd_back(t_tok_list **lst, t_tok_list *new);
+t_tok_list		*lx_lstnew(t_token content);
+t_tok_list		*lx_lstlast(t_tok_list *lst);
+void			lx_lst_free(t_tok_list *lst);
 
 // tokenize.c
-t_token		lx_token_set(t_token_kind k, char *s, uint32_t len);
-t_token		lx_tokenize_quote(char *s, char c);
-t_token		lx_tokenize_dollar(char *s);
-t_token		lx_tokenize_text(char *s);
+t_token			lx_token_set(t_token_kind k, char *s, uint32_t len);
+t_token			lx_tokenize_quote(char *s, char c);
+t_token			lx_tokenize_dollar(char *s);
+t_token			lx_tokenize_text(char *s);
 
 #endif

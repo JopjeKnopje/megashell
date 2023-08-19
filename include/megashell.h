@@ -31,7 +31,7 @@ typedef struct e_cmd_frame_list t_cf_list;
 int megashell(int argc, char *argv[], char *envp[]);
 
 // plarser.c
-void	plarser_main(char *line);
+t_cf_list *plarser_main(char *line);
 
 // prompt.c
 void	prompt_env_setup();

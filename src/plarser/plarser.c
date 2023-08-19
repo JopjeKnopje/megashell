@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/16 12:26:52 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/19 22:54:12 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/20 00:22:01 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void plarser_main(char *line)
+t_cf_list *plarser_main(char *line)
 {
 	t_tok_list *tokens;
 
@@ -23,10 +23,17 @@ void plarser_main(char *line)
 	if (!tokens)
 	{
 		printf("lexer malloc failure\n");
-		return;
+		return (NULL);
 	}
-	// print_tokens(tokens);
 	// TODO expansion before syntax check.
-	sy_main(tokens);
+	t_tok_list *err = sy_main(tokens);
+	if (err)
+	{
+		printf("syntax error at token '%.*s'\n", err->token.content_len, err->token.content);
+		lx_lst_free(tokens);
+		return (NULL);
+	}
+	t_cf_list *cmds = pr_main(tokens);
 	lx_lst_free(tokens);
+	return (cmds);
 }
