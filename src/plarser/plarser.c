@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/16 12:26:52 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/18 23:33:30 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/19 22:54:12 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void plarser_main(char *line)
 		printf("lexer malloc failure\n");
 		return;
 	}
-	print_tokens(tokens);
+	// print_tokens(tokens);
 	// TODO expansion before syntax check.
 	sy_main(tokens);
 	lx_lst_free(tokens);

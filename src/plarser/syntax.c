@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/18 21:20:04 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/19 00:15:41 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/19 22:54:36 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 
 
 
+typedef bool	(*t_syntax_func) (t_tok_list *t_cur);
+
 static t_tok_list *sy_foward_list(t_tok_list *tokens, uint32_t skip)
 {
 	while (tokens && skip)
@@ -28,36 +30,33 @@ static t_tok_list *sy_foward_list(t_tok_list *tokens, uint32_t skip)
 		skip--;
 		tokens = tokens->next;
 	}
-	return tokens;
+	return (tokens);
 }
-
-
-typedef bool	(*t_syntax_func) (t_tok_list *t_cur);
 
 t_syntax_error sy_main(t_tok_list *tokens)
 {
-	
 	const t_syntax_func	funcs[TOKEN_COUNT] = {
-		NULL,
-		[TOKEN_QUOTE_SINGLE] = sy_token_quote,
-		[TOKEN_QUOTE_DOUBLE] = sy_token_quote,
-		[TOKEN_DOLLAR] = sy_token_variable,
-		[TOKEN_PIPE] = sy_token_pipe,
-		[TOKEN_LESS_THAN] = sy_token_redir,
-		[TOKEN_GREATER_THAN] = sy_token_redir,
-		[TOKEN_TEXT] = sy_token_pass,
-		NULL,
+		[TOKEN_UNKNOWN] 		=	NULL,
+		[TOKEN_QUOTE_SINGLE]	=	sy_token_pass,
+		[TOKEN_QUOTE_DOUBLE]	=	sy_token_pass,
+		[TOKEN_TEXT]			=	sy_token_pass,
+		[TOKEN_PIPE] 			=	sy_token_pipe,
+		[TOKEN_LESS_THAN] 		=	sy_token_redir,
+		[TOKEN_GREATER_THAN]	=	sy_token_redir,
+		[TOKEN_APPEND] 			=	sy_token_redir,
+		[TOKEN_HEREDOC]			=	sy_token_redir,
+		[TOKEN_DOLLAR] 			=	sy_token_variable,
+		[TOKEN_ERROR]			=	NULL,
 	};
 
-	uint32_t skip = 1;
 	while (tokens)
 	{
-		if ((*funcs[tokens->token.kind])(tokens))
+		if (!(*funcs[tokens->token.kind])(tokens))
 		{
 			printf("syntax error\n");
 			print_token(tokens->token);
 		}
-		tokens = sy_foward_list(tokens, skip);
+		tokens = tokens->next;
 	}
 
 	return (lx_token_set(TOKEN_UNKNOWN, NULL, 0));

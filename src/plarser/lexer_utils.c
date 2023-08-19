@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/04 15:11:36 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/19 00:37:39 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/19 22:12:45 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ bool lx_is_redir_heredoc(char *s, t_token_kind k)
 	{
 		i++;
 	}
-	printf("i: %d\n", i);
+	// printf("i: %d\n", i);
 	return (i == 2);
 }

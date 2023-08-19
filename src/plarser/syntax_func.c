@@ -6,43 +6,53 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/18 23:19:49 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/19 00:21:09 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/19 23:17:58 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "plarser.h"
 #include <stdbool.h>
 
+
+// '>' <WORD>
+// '<' <WORD>
+// '>>' <WORD>
+// '<<' <WORD>
+// TODO Not sure about these.
+// <NUMBER> '>' <WORD> 
+// <NUMBER> '<' <WORD>
+// <NUMBER> '>>' <WORD>
+// <NUMBER> '<<' <WORD>
+
 bool sy_token_redir(t_tok_list *node)
 {
 	t_token_kind k;
 
 	if (!node->next)
-		return (true);
+		return (false);
 
 	k = node->next->token.kind;
 	if (k == TOKEN_TEXT || k == TOKEN_QUOTE_DOUBLE || k == TOKEN_QUOTE_SINGLE)
-		return (false);
+		return (true);
 
-	return (true);
-}
-
-bool sy_token_quote(t_tok_list *node)
-{
 	return (false);
 }
 
 bool sy_token_pipe(t_tok_list *node)
 {
-	return (false);
+	if (!node->next || !node->prev)
+		return (false);
+	if (node->next->token.kind == TOKEN_PIPE)
+		return (false);
+	return (true);
 }
 
 bool sy_token_variable(t_tok_list *node)
 {
-	return (false);
+	return (true);
 }
 
 bool sy_token_pass(t_tok_list *node)
 {
-	return (false);
+	return (true);
 }
