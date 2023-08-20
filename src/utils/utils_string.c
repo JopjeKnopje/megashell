@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/15 18:30:43 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 19:22:41 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/20 23:16:51 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,3 +35,29 @@ char	*sized_strdup(const char *s, size_t len)
 	return (ft_memcpy(s_d, s, len));
 }
 
+
+char	**str_arr_append(char **arr, char *s)
+{
+	char		**tmp;
+	size_t		len;
+	size_t		i;
+
+	if (!s)
+		return (NULL);
+	len = ft_strlen_2d(arr);
+	tmp = ft_calloc(len + ft_strlen(s) + 1, sizeof(char *));
+	if (!tmp)
+	{
+		str_free_2d(arr);
+		return (NULL);
+	}
+	i = 0;
+	while (arr[i])
+	{
+		tmp[i] = arr[i];
+		i++;
+	}
+	tmp[i] = s;
+	free(arr);
+	return (tmp);
+}

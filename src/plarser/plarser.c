@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/16 12:26:52 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/20 00:22:01 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/20 21:32:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-t_cf_list *plarser_main(char *line)
+t_cmd_list *plarser_main(char *line)
 {
 	t_tok_list *tokens;
 
@@ -33,7 +33,10 @@ t_cf_list *plarser_main(char *line)
 		lx_lst_free(tokens);
 		return (NULL);
 	}
-	t_cf_list *cmds = pr_main(tokens);
+	t_cmd_list *cmds = pr_main(tokens);
 	lx_lst_free(tokens);
+
+	print_cmds(cmds);
+
 	return (cmds);
 }

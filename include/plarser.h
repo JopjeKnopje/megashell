@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 16:40:07 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/20 00:13:43 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/20 18:40:59 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,21 +64,21 @@ typedef struct e_token_list {
 }	t_tok_list;
 
 
-typedef struct e_cmd_frame_list {
-	t_cmd_frame				content;
-	struct e_cmd_frame_list	*next;
-	struct e_cmd_frame_list	*prev;
-}	t_cf_list;
+typedef struct e_cmd_list {
+	t_cmd_frame			content;
+	struct e_cmd_list	*next;
+	struct e_cmd_list	*prev;
+}	t_cmd_list;
 
 
 // parser.c
-t_cf_list *pr_main(t_tok_list *tokens);
+t_cmd_list *pr_main(t_tok_list *tokens);
 
 // parser_list.c
-t_cf_list	*pr_lstnew(t_cmd_frame content);
-t_cf_list	*pr_lstlast(t_cf_list *lst);
-void		pr_lst_free(t_cf_list *lst);
-void		pr_lstadd_back(t_cf_list **lst, t_cf_list *new);
+t_cmd_list	*pr_lstnew(t_cmd_frame content);
+t_cmd_list	*pr_lstlast(t_cmd_list *lst);
+void		pr_lst_free(t_cmd_list *lst);
+void		pr_lstadd_back(t_cmd_list **lst, t_cmd_list *new);
 
 // syntax.c
 t_tok_list		*sy_main(t_tok_list *tokens);

@@ -6,12 +6,14 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:05:42 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/19 00:32:20 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/20 21:59:41 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "test_utils.h"
+#include "plarser.h"
+#include <stdint.h>
 #include <stdio.h>
 
 static const char *TOKEN_NAMES[] = {
@@ -42,9 +44,26 @@ void print_bits(size_t const size, void const * const ptr)
             printf("%u", byte);
         }
     }
-    puts("");
+	printf("\n");
 }
 
+void print_token(t_token t)
+{
+	printf("\x1b[36;49m");
+	printf("token_kind \t\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%d]\n", TOKEN_NAMES[t.kind], t.content_len, t.content, t.content_len);
+	printf("\x1b[0m");
+}
+
+void print_tokens(t_tok_list *lst)
+{
+	while (lst)
+	{
+		print_token(lst->token);
+		if (lst->next)
+			printf("\n");
+		lst = lst->next;
+	}
+}
 
 void print_2d_arr(char **s, char *name)
 {
@@ -54,10 +73,9 @@ void print_2d_arr(char **s, char *name)
 		printf("%s[%ld] -> [%s]\n", name, i, s[i]);
 		i++;
 	}
-
 }
 
-void print_cf_list(t_cf_list *list)
+void print_cmds(t_cmd_list *list)
 {
 	char **argv;
 	char *infile;
@@ -87,22 +105,3 @@ void print_cf_list(t_cf_list *list)
 	}
 	printf("\x1b[0m");
 }
-
-void print_token(t_token t)
-{
-	printf("\x1b[36;49m");
-	printf("token_kind \t\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%d]\n", TOKEN_NAMES[t.kind], t.content_len, t.content, t.content_len);
-	printf("\x1b[0m");
-}
-
-void print_tokens(t_tok_list *lst)
-{
-	while (lst)
-	{
-		print_token(lst->token);
-		if (lst->next)
-			printf("\n");
-		lst = lst->next;
-	}
-}
-
