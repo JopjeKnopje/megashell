@@ -14,6 +14,7 @@
 #include <fcntl.h>
 #include <stdbool.h>
 #include "libft.h"
+#include "plarser.h"
 
 #define HISTORY_FILE_NAME ".ms_history"
 
@@ -22,16 +23,12 @@ typedef struct s_meta {
 } t_meta;
 
 
-// forward decl for token_list
-typedef struct e_token_list t_tok_list;
-typedef struct e_cmd_frame_list t_cf_list;
-
 
 // megashell.c
 int megashell(int argc, char *argv[], char *envp[]);
 
 // plarser.c
-t_cf_list *plarser_main(char *line);
+t_cmd_list *plarser_main(char *line);
 
 // prompt.c
 void	prompt_env_setup();

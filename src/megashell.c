@@ -6,11 +6,13 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/16 12:35:16 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/20 23:36:55 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "megashell.h"
+#include "plarser.h"
+#include "utils.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -66,13 +68,21 @@ static void runner(char *s)
 	}
 }
 
+void cmd_free(t_cmd_list *cmd)
+{
+	str_free_2d(cmd->content.argv);
+	free(cmd);
+}
 
 #pragma endregion test
 
+
+
 int megashell(int argc, char *argv[], char *envp[])
 {
-	t_meta meta;
-	char *line;
+	t_meta		meta;
+	char		*line;
+	t_cmd_list	*cmds;
 
 	(void) argc;
 	(void) argv;
@@ -89,8 +99,11 @@ int megashell(int argc, char *argv[], char *envp[])
 			printf("line is empty, exiting...\n");
 			return (0);
 		}
-		plarser_main(line);
+		cmds = plarser_main(line);
 		runner(line);
+
+
+		pr_lstiter(cmds, cmd_free);
 		free(line);
 	}
 

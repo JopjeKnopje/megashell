@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 16:40:07 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/20 18:40:59 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/20 23:39:39 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,27 @@
 #include <stdint.h>
 
 typedef enum e_token_kind {
-	TOKEN_UNKNOWN,
-	TOKEN_QUOTE_SINGLE,
-	TOKEN_QUOTE_DOUBLE,
-	TOKEN_DOLLAR,
-	TOKEN_PIPE,
-	TOKEN_LESS_THAN,
-	TOKEN_GREATER_THAN,
-	TOKEN_APPEND,
-	TOKEN_HEREDOC,
-	TOKEN_TEXT,
-	TOKEN_ERROR,
-	TOKEN_COUNT,
+	TOKEN_UNKNOWN 		= 0,
+	TOKEN_QUOTE_SINGLE 	= 1,
+	TOKEN_QUOTE_DOUBLE 	= 2,
+	TOKEN_DOLLAR 		= 3,
+	TOKEN_PIPE 			= 4,
+	TOKEN_LESS_THAN 	= 5,
+	TOKEN_GREATER_THAN 	= 6,
+	TOKEN_APPEND 		= 7,
+	TOKEN_HEREDOC 		= 8,
+	TOKEN_TEXT 			= 9,
+	TOKEN_ERROR 		= 10,
+	TOKEN_COUNT 		= 11,
 }	t_token_kind;
 
 typedef enum e_io_flags {
-	IO_STDOUT 	= 1 << 0,
-	IO_STDIN  	= 1 << 1,
-	IO_INFILE 	= 1 << 2,
-	IO_OUTFILE	= 1 << 3,
-	IO_APPEND 	= 1 << 4,
-	IO_PIPE 	= 1 << 5,
+	IO_STDOUT	=	1 << 0,
+	IO_STDIN	=	1 << 1,
+	IO_INFILE	=	1 << 2,
+	IO_OUTFILE	=	1 << 3,
+	IO_APPEND	=	1 << 4,
+	IO_PIPE		=	1 << 5,
 } t_io_flags;
 
 typedef struct e_token {
@@ -53,7 +53,7 @@ typedef struct s_cmd_frame {
 	char	**argv;
 	char	*infile;
 	char	*outfile;
-	uint8_t io_flags;
+	uint8_t	io_flags;
 } t_cmd_frame;
 
 
@@ -72,13 +72,14 @@ typedef struct e_cmd_list {
 
 
 // parser.c
-t_cmd_list *pr_main(t_tok_list *tokens);
+t_cmd_list		*pr_main(t_tok_list *tokens);
 
 // parser_list.c
-t_cmd_list	*pr_lstnew(t_cmd_frame content);
-t_cmd_list	*pr_lstlast(t_cmd_list *lst);
-void		pr_lst_free(t_cmd_list *lst);
-void		pr_lstadd_back(t_cmd_list **lst, t_cmd_list *new);
+t_cmd_list		*pr_lstnew(t_cmd_frame content);
+t_cmd_list		*pr_lstlast(t_cmd_list *lst);
+void			pr_lst_free(t_cmd_list *lst);
+void			pr_lstadd_back(t_cmd_list **lst, t_cmd_list *new);
+void			pr_lstiter(t_cmd_list *lst, void (*f)(t_cmd_list *));
 
 // syntax.c
 t_tok_list		*sy_main(t_tok_list *tokens);
