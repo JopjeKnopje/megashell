@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:29:05 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/21 12:16:51 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:18:00 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_cmd_list	*create_mock_node(char *action[4])
 {
 	char		**new_array;
 	t_cmd_list	*node;
-	int		i = 3;
+	int		i = 2;
 
 	node = malloc(sizeof(t_cmd_list));
 	if (!node)
@@ -59,12 +59,12 @@ t_cmd_list	*mock_input(void)
 {
 	int			i;
 	// char		*action[3][4] = {{"echo", "hoi hoi hoi hoi", " "}, {"wc", "-l"}, };
-	char		*action[3][4] = {{"unset","TERM", ""}};;
+	char		*action[2][3] = {{"exit", "9"}};
 	// char		*action[3][4] = {{"cd"}};;
 	t_cmd_list	*head = 0;
 
 	i = 0;
-	while (i < 2)
+	while (i < 1)
 	{
 		add_to_end(&(head), create_mock_node(action[i]));
 		i++;

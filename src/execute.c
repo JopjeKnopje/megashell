@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/15 12:27:14 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:12:25 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,16 @@ void	execution(t_exec *execute, t_cmd_list *cmds)
 	int			status;
 	t_cmd_list	*cmd_list;
 
-	cmd_list = cmds;
 	// heredoc?	
-	if ((cmds->next == 0 && get_builtin(cmds->action[0]) != BUILTIN_INVALID))
+	cmd_list = cmds;
+	if ((cmds->next == NULL && get_builtin(cmds->action[0]) != BUILTIN_INVALID))
+	{
+		printf("single builtin\n");	
 		run_single_builtin(execute, cmds);
+	}
 	if (cmd_list->next)
+	{
+		printf("starting pipe\n");	
 		start_pipe(execute, cmd_list);
+	}
 }
