@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:33 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/21 13:24:40 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/21 13:25:18 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,42 +23,6 @@ void	print_envp(char **envp)
 		i++;
 	}
 }
-
-// bool	builtin_run_unset(t_exec *execute, t_cmd_list *cmds)
-// {
-// 	int		i;
-// 	int		len_var;
-// 	char	*variable;
-
-// 	i = 0;
-// 	variable - cmds->action[1];
-// 	len_var = ft_strlen(variable);
-// 	if (!cmds->action[1])
-// 	{
-// 		printf("Not Enough Arguments\n");
-// 		return (false);
-// 	}
-// 	printf("Before unset:\n");
-// 	print_envp(execute->envp);
-// 	while (execute->envp[i])
-// 	{
-// 		if (ft_strncmp(execute->envp[i], variable, len_var) == 0
-// 			&& (execute->envp[i][len_var] == '='))
-// 		{
-// 			printf("Comparing '%s' with '%s'\n", execute->envp[i], variable]);
-// 			while (execute->envp[i] != NULL)
-// 			{
-// 				execute->envp[i] = execute->envp[i + 1];
-// 				i++;
-// 			}
-// 			printf("After unset:\n");
-// 			print_envp(execute->envp);
-// 			return (true);
-// 		}
-// 		i++;
-// 	}
-// 	return (false);
-// }
 
 bool	remove_env_variable(char **envp, const char *variable)
 {
