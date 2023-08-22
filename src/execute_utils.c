@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:26:21 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/14 12:54:11 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/22 16:09:24 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,21 @@ bool	dup_stdout(int file)
 	}
 	close(file);
 	return (true);
+}
+
+// @param execute: struct that contains execution info
+// @param cmds: struct with linked list of commands
+
+// dup_cmd: duplicates the read side of pipe to stdin
+// and the write side of the pipe to stdout as long
+// as it has a previous or next command.
+
+void	dup_io(t_exec *execute, t_cmd_list *cmds)
+{
+	if (cmds->prev && dup_stdin(execute->io_file[IN_READ]) == false)
+		print_error(get_error_name(ERROR_DUP2));
+	else if (cmds->next && dup_stdout(execute->io_file[OUT_WRITE]) == false)
+		print_error(get_error_name(ERROR_DUP2));
+	else if (!cmds->next && dup_stdout(execute->io_file[OUT_WRITE]) == false)
+		print_error(get_error_name(ERROR_DUP2));
 }

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/08/22 14:57:03 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/22 15:39:03 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ int megashell(int argc, char *argv[], char *envp[])
 			printf("error searc path\n");
 		}
 		execution(&execute, cmds);
-
-
 		pr_lstiter(cmds, cmd_free);
 		free(line);
 	}
