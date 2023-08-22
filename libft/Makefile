@@ -6,14 +6,14 @@
 #    By: jboeve <jboeve@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/07/24 12:41:07 by jboeve        ########   odam.nl          #
+#    Updated: 2023/08/20 23:17:31 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 
-# CFLAGS = -Wall -Wextra -Werror -g
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
+# CFLAGS = -Wall -Wextra -Werror
 INC_FLAGS = -Iinclude
 
 SRC_DIR = src
@@ -54,7 +54,7 @@ DIR_STRING = 	ft_split.c \
 				ft_strtrim.c \
 				ft_substr.c \
 				ft_strdup.c \
-				ft_str_arr_len.c \
+				ft_strlen_2d.c \
 				ft_strisempty.c
 
 DIR_MEM = 		ft_bzero.c \
@@ -63,7 +63,8 @@ DIR_MEM = 		ft_bzero.c \
 				ft_memcmp.c \
 				ft_memcpy.c \
 				ft_memmove.c \
-				ft_memset.c
+				ft_memset.c \
+				ft_realloc.c
 
 DIR_PUT = 		ft_putchar_fd.c \
 				ft_putendl_fd.c \
