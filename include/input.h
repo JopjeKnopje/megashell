@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   main.c                                            :+:    :+:             */
+/*   input.h                                           :+:    :+:             */
 /*                                                    +:+                     */
-/*   By: jboeve <marvin@42.fr>                       +#+                      */
+/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
-/*   Created: 2023/07/24 12:00:23 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/20 22:26:14 by joppe         ########   odam.nl         */
+/*   Created: 2023/07/31 16:03:58 by joppe         #+#    #+#                 */
+/*   Updated: 2023/08/15 17:08:35 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef INPUT_H
+#define INPUT_H
+
 #include "megashell.h"
 
-int main(int argc, char *argv[], char *envp[])
-{
-	return megashell(argc, argv, envp);
-}
+// signals.c
+void	sigals_setup();
+
+#endif // !INPUT_H

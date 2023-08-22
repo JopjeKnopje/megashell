@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   main.c                                            :+:    :+:             */
+/*   ft_realloc.c                                      :+:    :+:             */
 /*                                                    +:+                     */
-/*   By: jboeve <marvin@42.fr>                       +#+                      */
+/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
-/*   Created: 2023/07/24 12:00:23 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/20 22:26:14 by joppe         ########   odam.nl         */
+/*   Created: 2023/08/20 17:20:59 by joppe         #+#    #+#                 */
+/*   Updated: 2023/08/20 23:15:38 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "megashell.h"
+#include "libft.h"
+#include <stdio.h>
 
-int main(int argc, char *argv[], char *envp[])
-{
-	return megashell(argc, argv, envp);
-}
+

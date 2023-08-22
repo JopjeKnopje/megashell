@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   main.c                                            :+:    :+:             */
+/*   utils.h                                           :+:    :+:             */
 /*                                                    +:+                     */
-/*   By: jboeve <marvin@42.fr>                       +#+                      */
+/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
-/*   Created: 2023/07/24 12:00:23 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/20 22:26:14 by joppe         ########   odam.nl         */
+/*   Created: 2023/08/15 18:32:52 by joppe         #+#    #+#                 */
+/*   Updated: 2023/08/20 23:18:19 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "megashell.h"
+#ifndef UTILS_H
+#define UTILS_H
 
-int main(int argc, char *argv[], char *envp[])
-{
-	return megashell(argc, argv, envp);
-}
+#include <unistd.h>
+
+// utils_string.c
+void	str_free_2d(char **s);
+char	**str_arr_append(char **arr, char *s);
+char	*sized_strdup(const char *s, size_t len);
+
+#endif
