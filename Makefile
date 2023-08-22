@@ -6,7 +6,7 @@
 #    By: jboeve <marvin@42.fr>                       +#+                       #
 #                                                   +#+                        #
 #    Created: 2023/08/22 13:32:22 by jboeve        #+#    #+#                  #
-#    Updated: 2023/08/22 13:32:49 by jboeve        ########   odam.nl          #
+#    Updated: 2023/08/22 13:36:59 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,7 +71,6 @@ SRCS = main.c \
 	  	utils/utils_string.c \
 	  	megashell.c \
 		test_utils.c \
-	  	main.c
 
 HEADER_DIR = include
 HEADERS = input.h \

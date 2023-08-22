@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*   builtin_export.c                                  :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:03 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/22 13:22:46 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/22 13:35:52 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ bool	builtin_run_export(t_exec *execute, t_cmd_list *cmds)
 			printf("Comparing '%s' with '%s'\n", execute->envp[i], variable);
 			while (execute->envp[i] != NULL)
 				i++;
-			ft_strjoin();
+			// ft_strjoin();
 		}
 	}
+	return true;
 }
