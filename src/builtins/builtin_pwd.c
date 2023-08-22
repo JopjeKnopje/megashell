@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/10 19:15:59 by joppe             #+#    #+#             */
-/*   Updated: 2023/07/31 18:13:46 by ivan-mel         ###   ########.fr       */
+/*   Created: 2023/08/11 15:43:52 by ivan-mel          #+#    #+#             */
+/*   Updated: 2023/08/14 17:58:38 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "execute.h"
 
-void	*ft_calloc(size_t nmemb, size_t size)
+bool	builtin_run_pwd(t_exec *execute, t_cmd_list *cmds)
 {
-	size_t	buf_size;
-	void	*buffer;
-
-	buf_size = nmemb * size;
-	buffer = malloc(buf_size);
-	if (buffer)
-		ft_bzero(buffer, buf_size);
+	(void) execute;
+	(void)	cmds;
+	char	cwd[PATH_MAX];/* PATH_MAX: limit for the lenght of file name */
+	ft_bzero(&cwd, PATH_MAX);
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+		printf("%s\n", cwd);
 	else
-		return (NULL);
-	return (buffer);
+	{
+		perror("getcwd() error");
+		return (false);
+	}
+	return (true);
 }

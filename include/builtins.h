@@ -1,0 +1,51 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/14 15:00:42 by ivan-mel          #+#    #+#             */
+/*   Updated: 2023/08/15 13:00:23 by ivan-mel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef BUILTINS_H
+# define BUILTINS_H
+
+# include <stdbool.h>
+
+typedef struct s_exec t_exec;
+typedef struct s_cmd_list t_cmd_list;
+
+typedef enum e_builtin {
+	BUILTIN_INVALID,
+	BUILTIN_PWD,
+	BUILTIN_ENV,
+	BUILTIN_ECHO,
+	BUILTIN_CD,
+	BUILTIN_EXPORT,
+	BUILTIN_UNSET,
+	BUILTIN_EXIT,
+	BUILTIN_COUNT,
+}	t_builtin;
+
+static const char *BUILTINS_NAME[BUILTIN_COUNT] = {
+	"INVALID",
+	"pwd",
+	"env",
+	"echo",
+	"cd",
+	"export",
+	"unset",
+	"exit"};
+
+bool	builtin_run_unset(t_exec *execute, t_cmd_list *cmds);
+bool	builtin_run_pwd(t_exec *execute, t_cmd_list *cmds);
+bool	builtin_run_env(t_exec *execute, t_cmd_list *cmds);
+bool	builtin_run_echo(t_exec *execute, t_cmd_list *cmds);
+bool	builtin_run_cd(t_exec *execute, t_cmd_list *cmdsd);
+bool	builtin_run_export(t_exec *execute, t_cmd_list *cmdsd);
+bool	builtin_run_exit(t_exec *execute, t_cmd_list *cmds);
+
+#endif

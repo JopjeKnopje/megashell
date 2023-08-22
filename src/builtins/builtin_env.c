@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/10 19:15:59 by joppe             #+#    #+#             */
-/*   Updated: 2023/07/31 18:13:46 by ivan-mel         ###   ########.fr       */
+/*   Created: 2023/08/14 16:08:36 by ivan-mel          #+#    #+#             */
+/*   Updated: 2023/08/14 17:58:19 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "execute.h"
 
-void	*ft_calloc(size_t nmemb, size_t size)
+bool	builtin_run_env(t_exec *execute, t_cmd_list *cmds)
 {
-	size_t	buf_size;
-	void	*buffer;
+	int	i;
 
-	buf_size = nmemb * size;
-	buffer = malloc(buf_size);
-	if (buffer)
-		ft_bzero(buffer, buf_size);
-	else
-		return (NULL);
-	return (buffer);
+	i = 0;
+	while (execute->envp[i])
+	{
+		printf("%s\n", execute->envp[i]);
+		i++;
+	}
+	return (true);
 }

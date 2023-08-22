@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         ::::::::             #
+#                                                        ::::::::              #
 #    Makefile                                          :+:    :+:              #
-#                                                      +:+                     #
-#    By: jboeve <jboeve@student.codam.nl>             +#+                      #
-#                                                    +#+                       #
-#    Created: 2022/10/17 12:05:02 by jboeve        #+#    #+#                  #
-#    Updated: 2023/08/20 00:12:59 by joppe         ########   odam.nl          #
+#                                                     +:+                      #
+#    By: jboeve <marvin@42.fr>                       +#+                       #
+#                                                   +#+                        #
+#    Created: 2023/08/22 13:32:22 by jboeve        #+#    #+#                  #
+#    Updated: 2023/08/22 13:32:49 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,26 @@ INC = -Ilibft/include -Iinclude $(I_RL)
 LFLAGS = -lreadline $(L_RL)
 
 SRC_DIR = src
-SRCS =	input/prompt.c \
+
+SRCS = main.c \
+		error.c \
+		path.c \
+		free.c \
+		list.c \
+		environment.c \
+		execute.c \
+		execute_utils.c \
+		builtins/builtins.c \
+		builtins/builtin_cd.c \
+		builtins/builtin_echo.c \
+		builtins/builtin_env.c \
+		builtins/builtin_exit.c \
+		builtins/builtin_export.c \
+		builtins/builtin_pwd.c \
+		builtins/builtin_unset.c \
+		utils.c \
+		access.c \
+		input/prompt.c \
 	  	input/signals.c \
 	  	input/history_file.c \
 	  	plarser/lexer.c \
@@ -53,7 +72,6 @@ SRCS =	input/prompt.c \
 	  	megashell.c \
 		test_utils.c \
 	  	main.c
-
 
 HEADER_DIR = include
 HEADERS = input.h \
