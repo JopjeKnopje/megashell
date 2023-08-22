@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/14 13:49:01 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/22 14:42:32 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ bool	find_access(t_exec *execute, t_cmd_list *cmds)
 {
 	char	*cmd_in_path;
 
-	cmd_in_path = access_possible(execute, cmds->action[0]);
+	cmd_in_path = access_possible(execute, cmds->content.argv[0]);
 	if (!cmd_in_path)
 		return (false);
-	if (execve (cmd_in_path, cmds->action, execute->envp) == -1)
+	if (execve (cmd_in_path, cmds->content.argv, execute->envp) == -1)
 		return (false);
 	return (true);
 }

@@ -1,16 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                  :+:    :+:             */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:03 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/22 13:35:52 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/22 14:41:56 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
+
+void	print_env(t_exec *execute)
+{
+	int	i;
+
+	i = 0;
+	printf("test\n");
+	while (execute->envp[i])
+	{
+		ft_putstr_fd("declare -x", STDOUT_FILENO);
+		printf("%s\n", execute->envp[i]);
+		i++;
+	}
+}
 
 bool	builtin_run_export(t_exec *execute, t_cmd_list *cmds)
 {
@@ -19,10 +33,10 @@ bool	builtin_run_export(t_exec *execute, t_cmd_list *cmds)
 	char	*variable;
 
 	i = 0;
+	if (!cmds->content.argv[1])
+		print_env(execute);
+	variable = cmds->content.argv[1];
 	len_var = ft_strlen(variable);
-	if (!cmds->action[1])
-		return (false);
-	variable = cmds->action[1];
 	while (execute->envp[i])
 	{
 		if (ft_strncmp(execute->envp[i], variable, len_var) == 0

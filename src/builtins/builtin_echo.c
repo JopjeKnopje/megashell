@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:08:55 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/15 18:38:03 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/22 14:41:21 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_echo_output(t_cmd_list *cmds, bool flag)
 {
-	printf("%s", cmds->action[1]);
+	printf("%s", cmds->content.argv[1]);
 	if (!flag)
 		printf("\n");
 }
@@ -28,17 +28,17 @@ bool	process_echo_flags(t_cmd_list *cmds)
 	i = 0;
 	j = 0;
 	flag = false;
-	while (cmds->action[i])
+	while (cmds->content.argv[i])
 	{
 		j = 0;
-		if (cmds->action[i][0] == '-')
+		if (cmds->content.argv[i][0] == '-')
 		{
-			while (cmds->action[i][j] && cmds->action[i][j] == 'n')
+			while (cmds->content.argv[i][j] && cmds->content.argv[i][j] == 'n')
 			{
 				flag = true;
 				j++;
 			}
-			if (cmds->action[i][j] != '\0')
+			if (cmds->content.argv[i][j] != '\0')
 				break ;
 			i++;
 		}

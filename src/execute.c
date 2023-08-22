@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/21 16:12:25 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/22 14:59:29 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	children_spawn(t_exec *execute, t_cmd_list *cmds)
 	t_builtin	is_builtin;
 
 	// redirects();
-	is_builtin = get_builtin(cmds->action[0]);
+	is_builtin = get_builtin(cmds->content.argv[0]);
 	printf("%s\n", BUILTINS_NAME[is_builtin]);
 	if (is_builtin != BUILTIN_INVALID)
 	{
@@ -81,7 +81,7 @@ void run_single_builtin(t_exec *execute, t_cmd_list *cmds)
 {
 	t_builtin	is_builtin;
 
-	is_builtin = get_builtin(cmds->action[0]);
+	is_builtin = get_builtin(cmds->content.argv[0]);
 	printf("%s\n", BUILTINS_NAME[is_builtin]);
 	if (is_builtin != BUILTIN_INVALID)
 	{
@@ -98,7 +98,7 @@ void	execution(t_exec *execute, t_cmd_list *cmds)
 
 	// heredoc?	
 	cmd_list = cmds;
-	if ((cmds->next == NULL && get_builtin(cmds->action[0]) != BUILTIN_INVALID))
+	if ((cmds->next == NULL && get_builtin(cmds->content.argv[0]) != BUILTIN_INVALID))
 	{
 		printf("single builtin\n");	
 		run_single_builtin(execute, cmds);

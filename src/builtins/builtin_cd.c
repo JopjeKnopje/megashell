@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:09:31 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/15 18:14:54 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/22 14:40:51 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ bool	builtin_run_cd(t_exec *execute, t_cmd_list *cmds)
 	char		**tmp_home;
 	int			path_len;
 
-	if (!cmds->action[1])
+	if (!cmds->content.argv[1])
 	{
 		tmp_home = print_home_env(execute);
 		if (!tmp_home)
@@ -55,9 +55,9 @@ bool	builtin_run_cd(t_exec *execute, t_cmd_list *cmds)
 		getcwd(cwd, sizeof(cwd));
 		printf("Current working dir: %s\n", cwd);
 	}
-	path_len = ft_strlen(cmds->action[1]);
-	if (strncmp(cmds->action[1], "..", path_len) == 0
-		|| strncmp(cmds->action[1], "../", path_len) == 0)
+	path_len = ft_strlen(cmds->content.argv[1]);
+	if (strncmp(cmds->content.argv[1], "..", path_len) == 0
+		|| strncmp(cmds->content.argv[1], "../", path_len) == 0)
 		chdir("../");
 	getcwd(cwd, sizeof(cwd));
 	printf("Current working dir: %s\n", cwd);

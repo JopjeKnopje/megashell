@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   signals.c                                         :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/07/31 16:28:16 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/02 13:10:52 by jboeve        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/31 16:28:16 by joppe             #+#    #+#             */
+/*   Updated: 2023/08/22 14:53:25 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
 #include <stdio.h>
-#include <string.h>
 #include <unistd.h>
 #include <readline/readline.h>
+#include <signal.h>
 
 static void	signal_handler(int sig)
 {

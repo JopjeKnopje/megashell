@@ -4,7 +4,7 @@ int	check_input(t_exec *execute, int pipes_fd[2], int prev_pipe, t_cmds *cmds)
 	int		fd_in;
 	t_cmds	*content;
 
-	content = cmds->action;
+	content = cmds->argv;
 	if (cmds->prev == 0) /* first child */
 	{
 		close(pipes_fd[READ]);

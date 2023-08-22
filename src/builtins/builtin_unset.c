@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:33 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/21 13:25:37 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/22 14:42:13 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ bool	builtin_run_unset(t_exec *execute, t_cmd_list *cmds)
 {
 	char	*variable;
 
-	variable = cmds->action[1];
-	if (!cmds->action[1])
+	variable = cmds->content.argv[1];
+	if (!cmds->content.argv[1])
 	{
 		printf("Not Enough Arguments\n");
 		return (false);

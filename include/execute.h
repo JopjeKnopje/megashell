@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/21 16:03:48 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/22 14:35:48 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,6 @@ typedef enum e_error {
 	ERROR_DUP2,
 	ERROR_ACCESS,
 }	t_error;
-
-typedef struct s_redir{
-	int	type;
-}	t_redir;
-
-typedef struct s_cmd_list {
-	char				**action;
-	struct s_cmd_list	*next;
-	struct s_cmd_list	*prev;
-	t_redir				redirect;
-}	t_cmd_list;
 
 typedef struct s_exec {
 	int			args;
@@ -98,7 +87,7 @@ int			largest_input(const char *s1, const char *s2);
 void		free_2d(char **str);
 
 // list:
-t_cmd_list	*create_mock_node(char *action[4]);
+t_cmd_list	*create_mock_node(char *argv[4]);
 void		add_to_end(t_cmd_list **list, t_cmd_list *new);
 t_cmd_list	*mock_input(void);
 
