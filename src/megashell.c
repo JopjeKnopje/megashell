@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   megashell.c                                        :+:      :+:    :+:   */
+/*   megashell.c                                       :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/08/22 14:57:03 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:46:31 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "plarser.h"
 #include "utils.h"
 #include "execute.h"
+#include "test_utils.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -29,7 +30,7 @@ int megashell(int argc, char *argv[], char *envp[])
 	t_meta		meta;
 	char		*line;
 	t_cmd_list	*cmds;
-	t_exec		execute;
+	// t_exec		execute;
 
 	(void) argc;
 	(void) argv;
@@ -47,11 +48,12 @@ int megashell(int argc, char *argv[], char *envp[])
 		}
 		cmds = plarser_main(line);
 		print_cmds(cmds);
-		if (search_path(&execute, envp) == EXIT_FAILURE)
-		{
-			printf("error searc path\n");
-		}
-		execution(&execute, cmds);
+		// if (search_path(&execute, envp) == EXIT_FAILURE)
+
+		// {
+		// 	printf("error searc path\n");
+		// }
+		// execution(&execute, cmds);
 
 
 		pr_lstiter(cmds, cmd_free);
