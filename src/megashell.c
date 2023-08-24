@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   megashell.c                                        :+:      :+:    :+:   */
+/*   megashell.c                                       :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/08/22 14:57:03 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/24 12:17:56 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "plarser.h"
 #include "utils.h"
 #include "execute.h"
+#include "test_utils.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -21,6 +22,8 @@
 void cmd_free(t_cmd_list *cmd)
 {
 	str_free_2d(cmd->content.argv);
+	free(cmd->content.infile);
+	free(cmd->content.outfile);
 	free(cmd);
 }
 
