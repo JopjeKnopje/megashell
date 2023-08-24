@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 16:40:07 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/20 23:39:39 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/24 10:43:38 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,18 @@
 
 typedef enum e_token_kind {
 	TOKEN_UNKNOWN 		= 0,
-	TOKEN_QUOTE_SINGLE 	= 1,
-	TOKEN_QUOTE_DOUBLE 	= 2,
-	TOKEN_DOLLAR 		= 3,
-	TOKEN_PIPE 			= 4,
-	TOKEN_LESS_THAN 	= 5,
-	TOKEN_GREATER_THAN 	= 6,
-	TOKEN_APPEND 		= 7,
-	TOKEN_HEREDOC 		= 8,
+	TOKEN_QUOTE_SINGLE 	= 1, // '[content]'
+	TOKEN_QUOTE_DOUBLE 	= 2, // "[content]"
+	TOKEN_DOLLAR 		= 3, // $
+	TOKEN_PIPE 			= 4, // |
+	TOKEN_LESS_THAN 	= 5, // <
+	TOKEN_GREATER_THAN 	= 6, // >
+	TOKEN_APPEND 		= 7, // >>
+	TOKEN_HEREDOC 		= 8, // <<
 	TOKEN_TEXT 			= 9,
 	TOKEN_ERROR 		= 10,
 	TOKEN_COUNT 		= 11,
 }	t_token_kind;
-
-typedef enum e_io_flags {
-	IO_STDOUT	=	1 << 0,
-	IO_STDIN	=	1 << 1,
-	IO_INFILE	=	1 << 2,
-	IO_OUTFILE	=	1 << 3,
-	IO_APPEND	=	1 << 4,
-	IO_PIPE		=	1 << 5,
-} t_io_flags;
 
 typedef struct e_token {
 	t_token_kind	kind;
@@ -49,11 +40,26 @@ typedef struct e_token {
 	char			*content;
 }	t_token;
 
+
+/*
+   there should be a field for redirections.
+infile: 
+	stdin | default
+
+	inflie_name
+	heredoc
+
+outfile:
+	stdout | default
+
+	outfile_name
+	outfile_name append
+*/
 typedef struct s_cmd_frame {
 	char	**argv;
 	char	*infile;
 	char	*outfile;
-	uint8_t	io_flags;
+	bool	out_append;
 } t_cmd_frame;
 
 

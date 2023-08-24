@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:05:42 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/20 21:59:41 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/24 10:31:14 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void print_cmds(t_cmd_list *list)
 		argv = list->content.argv;
 		infile = list->content.infile;
 		outfile = list->content.outfile;
-		io_flags = list->content.io_flags;
+		// io_flags = list->content.io_flags;
 
 		if (argv)
 			print_2d_arr(argv, "argv");
@@ -97,8 +97,8 @@ void print_cmds(t_cmd_list *list)
 			printf("infile -> [%s]\n", infile);
 		if (outfile)
 			printf("outfile -> [%s]\n", outfile);
-		if (io_flags)
-			printf("io_flags -> [%x]\n", io_flags);
+		// if (io_flags)
+		// 	printf("io_flags -> [%x]\n", io_flags);
 		if (list->next)
 			printf("\n");
 		list = list->next;

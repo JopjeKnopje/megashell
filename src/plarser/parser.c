@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/20 23:57:13 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/24 10:45:27 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,44 @@ t_cmd_frame pr_parse_text(t_cmd_frame frame, t_tok_list *tokens)
 	return (frame);
 }
 
+t_cmd_frame pr_parse_redirect(t_cmd_frame frame, t_tok_list *tokens)
+{
+	const t_token_kind k = tokens->token.kind;
+
+	frame.out_append = (k == TOKEN_APPEND);
+	if (k == TOKEN_APPEND || k  == TOKEN_GREATER_THAN)
+	{
+		frame.outfile = sized_strdup(tokens->next->token.content, tokens->next->token.content_len);
+		if (!frame.outfile)
+			printf("sized_strdup failure\n");
+	}
+	else if (k == TOKEN_LESS_THAN)
+	{
+		frame.infile = sized_strdup(tokens->next->token.content, tokens->next->token.content_len);
+		if (!frame.infile)
+			printf("sized_strdup failure\n");
+	}
+	return (frame);
+}
+
+static bool pr_is_redirect(t_token_kind k)
+{
+	const bool is_redir[TOKEN_COUNT] = {
+		[TOKEN_UNKNOWN] 		=	NULL,
+		[TOKEN_QUOTE_SINGLE]	=	false,
+		[TOKEN_QUOTE_DOUBLE]	=	false,
+		[TOKEN_TEXT]			=	false,
+		[TOKEN_PIPE] 			=	false,
+		[TOKEN_LESS_THAN] 		=	true,
+		[TOKEN_GREATER_THAN]	=	true,
+		[TOKEN_APPEND] 			=	true,
+		[TOKEN_HEREDOC]			=	true,
+		[TOKEN_DOLLAR] 			=	false,
+		[TOKEN_ERROR]			=	NULL,
+	};
+
+	return is_redir[k];
+}
 
 static t_cmd_list *pr_list_add_cmd(t_cmd_list **cmd_list, t_cmd_frame t)
 {
@@ -84,12 +122,19 @@ t_cmd_list *pr_main(t_tok_list *tokens)
 		{
 			frame = pr_parse_text(frame, tokens);
 		}
+		else if (pr_is_redirect(tokens->token.kind))
+		{
+			frame = pr_parse_redirect(frame, tokens);
+
+			// TODO Have a token_next function.
+			tokens = tokens->next;
+		}
+
+
 
 		if (!tokens->next)
 			pr_list_add_cmd(&cmds, frame);
-
 		tokens = tokens->next;
 	}
-
 	return (cmds);
 }

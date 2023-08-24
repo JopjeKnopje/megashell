@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/08/23 14:46:31 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/08/24 10:46:43 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 void cmd_free(t_cmd_list *cmd)
 {
 	str_free_2d(cmd->content.argv);
+	free(cmd->content.infile);
+	free(cmd->content.outfile);
 	free(cmd);
 }
 
