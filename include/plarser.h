@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 16:40:07 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/24 10:43:38 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/24 10:52:21 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,19 @@ infile:
 	stdin | default
 
 	inflie_name
-	heredoc
+	heredoc | NOT SUPPORTED YET
 
 outfile:
 	stdout | default
 
 	outfile_name
-	outfile_name append
+	outfile_name out_append
+
+
+using it:
+	check in infile/outfile is set, and whether out_append is set.
+	if not there are no redirections.
+
 */
 typedef struct s_cmd_frame {
 	char	**argv;
