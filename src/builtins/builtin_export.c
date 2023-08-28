@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:03 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/28 16:46:04 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/28 17:20:06 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,13 @@ bool	builtin_run_export(t_exec *execute, t_cmd_list *cmds)
 	len_var = ft_strlen(variable);
 	if (exists_in_env(execute, cmds, variable, len_var) == false)
 	{
-		(add_to_env(execute, cmds, cmd_start));
 		if (!correct_input(cmd_start)) 
 		{
 			printf("Invalid input\n");
 			free(cmd_start);
 			return (false);
 		}
+		add_to_env(execute, cmds, cmd_start);
 		while (execute->envp[i])
 		{
 			printf("envp: %s\n", execute->envp[i]);
