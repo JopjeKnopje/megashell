@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/28 18:10:22 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/28 22:16:07 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/28 22:23:51 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,14 @@ void aliases_init(t_meta *meta)
 	{
 		ft_bzero(&read_data, size);
 		int err = read(from_child[PIPE_READ], &read_data, size - 1);
-		printf("%s", read_data);
+
+		const char *needle = "exit";
+		if (ft_strnstr(read_data, needle, ft_strlen(read_data)))
+		{
+			fprintf(stderr, "YUPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP\n");
+			break;
+		}
+		// printf("%s", read_data);
 		if (err < size - 1)
 		{
 			break;
