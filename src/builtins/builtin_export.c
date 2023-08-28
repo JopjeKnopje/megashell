@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:03 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/28 17:20:06 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/28 17:48:31 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ bool	correct_input(char *content)
 	return (true);
 }
 
-bool	prepare_variable (char *cmd_start)
+bool	prepare_variable(char *cmd_start)
 {
 	int	i;
 
@@ -61,7 +61,8 @@ bool	prepare_variable (char *cmd_start)
 	return (false);
 }
 
-bool	exists_in_env(t_exec *execute, t_cmd_list *cmds, char *variable, int len_var)
+bool	exists_in_env(t_exec *execute, t_cmd_list *cmds, \
+			char *variable, int len_var)
 {
 	int	i;
 
@@ -88,48 +89,26 @@ bool	exists_in_env(t_exec *execute, t_cmd_list *cmds, char *variable, int len_va
 
 bool	builtin_run_export(t_exec *execute, t_cmd_list *cmds)
 {
-	int		i;
-	int		len_var;
-	char	*variable;
 	char	*cmd_start;
+	char	*variable;
+	int		len_var;
 
-	i = 0;
 	if (!cmds->content.argv[1])
-		return (print_env(execute), false);
+	{
+		print_env(execute);
+		return (false);
+	}
 	cmd_start = ft_strdup(cmds->content.argv[1]);
 	if (!cmd_start)
 		return (false);
-	if (prepare_variable(cmd_start) == false)
+	if (!prepare_variable(cmd_start))
 		return (false);
 	variable = cmd_start;
 	len_var = ft_strlen(variable);
 	if (exists_in_env(execute, cmds, variable, len_var) == false)
-	{
-		if (!correct_input(cmd_start)) 
-		{
-			printf("Invalid input\n");
-			free(cmd_start);
-			return (false);
-		}
-		add_to_env(execute, cmds, cmd_start);
-		while (execute->envp[i])
-		{
-			printf("envp: %s\n", execute->envp[i]);
-			i++;
-		}
-		return (true);
-	}
-	if (!correct_input(cmd_start)) 
-	{
-		printf("Invalid input\n");
-		free(cmd_start);
-		return (false);
-	}
-	while (execute->envp[i])
-	{
-		printf("envp: %s\n", execute->envp[i]);
-		i++;
-	}
-	free(cmd_start);
+		return (handle_export_new_variable(execute, cmds, cmd_start));
+	if (!correct_input(cmd_start))
+		return (handle_export_input_errors(cmd_start));
+	handle_export_existing_variable(execute, cmd_start);
 	return (true);
 }
