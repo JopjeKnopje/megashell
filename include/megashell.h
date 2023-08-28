@@ -20,6 +20,7 @@
 
 typedef struct s_meta {
 	bool stop;
+	char **envp;
 } t_meta;
 
 
@@ -37,5 +38,8 @@ char	*prompt_get_line();
 // history_file.c
 void hs_read_history_file(char *s);
 void hs_add_history_file(char *s, char *line);
+
+// aliases.c
+void aliases_init(t_meta *meta);
 
 #endif // !MEGASHELL_H

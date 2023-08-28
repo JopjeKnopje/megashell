@@ -6,11 +6,12 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/08/24 12:17:56 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/28 18:57:09 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "megashell.h"
+#include "libft.h"
 #include "plarser.h"
 #include "utils.h"
 #include "execute.h"
@@ -33,13 +34,15 @@ int megashell(int argc, char *argv[], char *envp[])
 	char		*line;
 	t_cmd_list	*cmds;
 	t_exec		execute;
+	ft_bzero(&meta, sizeof(t_meta));
 
+	meta.envp = envp;
 	(void) argc;
 	(void) argv;
 
-	ft_bzero(&meta, sizeof(t_meta));
 	prompt_env_setup();
 	hs_read_history_file(HISTORY_FILE_NAME);
+
 	while (!meta.stop)
 	{
 		line = prompt_get_line();
@@ -48,16 +51,20 @@ int megashell(int argc, char *argv[], char *envp[])
 			printf("line is empty, exiting...\n");
 			return (0);
 		}
-		cmds = plarser_main(line);
-		print_cmds(cmds);
-		if (search_path(&execute, envp) == EXIT_FAILURE)
+		else if (!ft_strncmp(line, "test", ft_strlen("test")))
 		{
-			printf("error searc path\n");
+			aliases_init(&meta);
 		}
-		execution(&execute, cmds);
+		// cmds = plarser_main(line);
+		// print_cmds(cmds);
+		// if (search_path(&execute, envp) == EXIT_FAILURE)
+		// {
+		// 	printf("error searc path\n");
+		// }
+		// execution(&execute, cmds);
 
 
-		pr_lstiter(cmds, cmd_free);
+		// pr_lstiter(cmds, cmd_free);
 		free(line);
 	}
 

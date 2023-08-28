@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/08/24 10:30:41 by joppe         ########   odam.nl          #
+#    Updated: 2023/08/28 18:29:54 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ SRCS = main.c \
 		input/prompt.c \
 	  	input/signals.c \
 	  	input/history_file.c \
+	  	input/aliases.c \
 	  	plarser/lexer.c \
 	  	plarser/lexer_list.c \
 	  	plarser/lexer_utils.c \
