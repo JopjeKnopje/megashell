@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/08/22 14:36:28 by ivan-mel         ###   ########.fr        #
+#    Updated: 2023/08/28 13:58:59 by ivan-mel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ SRCS = main.c \
 		builtins/builtin_env.c \
 		builtins/builtin_exit.c \
 		builtins/builtin_export.c \
+		builtins/builtin_export_utils.c \
 		builtins/builtin_pwd.c \
 		builtins/builtin_unset.c \
 		utils.c \

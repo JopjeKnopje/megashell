@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 15:00:42 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/22 14:34:27 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/28 16:30:06 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,10 @@ bool	builtin_run_echo(t_exec *execute, t_cmd_list *cmds);
 bool	builtin_run_cd(t_exec *execute, t_cmd_list *cmdsd);
 bool	builtin_run_export(t_exec *execute, t_cmd_list *cmdsd);
 bool	builtin_run_exit(t_exec *execute, t_cmd_list *cmds);
+bool	add_to_env(t_exec *execute, t_cmd_list *cmds, char *cmd_start);
+void	print_environment(char **envp);
+char 	**allocate_and_copy_envp(char **envp, int count, t_cmd_list *cmds, char *cmd_start);
+bool	builtin_run_export(t_exec *execute, t_cmd_list *cmds);
+bool	update_existing_variable(t_exec *execute, t_cmd_list *cmds, char *cmd_start);
 
 #endif
