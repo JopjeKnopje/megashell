@@ -6,11 +6,12 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/28 18:10:22 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/28 19:08:49 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/28 19:14:39 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 
+#include "get_next_line.h"
 #include "libft.h"
 #include "megashell.h"
 #include "execute.h"
@@ -30,24 +31,26 @@
 
 void aliases_init(t_meta *meta)
 {
-	// int file_fd = open("test_file.txt", O_RDONLY);
-	// if (file_fd == -1)
-	// {
-	// 	printf("failed opening file\n");
-	// }
-
-	int fd[2];
-	pipe(fd);
+	int to_child[2];
+	int from_child[2];
+	pipe(to_child);
+	pipe(from_child);
 
 	int pid = fork();
 	if (pid == 0)
 	{
-		if (dup2(fd[PIPE_READ], STDIN_FILENO) == -1)
+		if (dup2(to_child[PIPE_READ], STDIN_FILENO) == -1)
 		{
 			perror(strerror(errno));
 			printf("dup failed\n");
 		}
-		close(fd[PIPE_WRITE]);
+		if (dup2(from_child[PIPE_WRITE], STDOUT_FILENO) == -1)
+		{
+			perror(strerror(errno));
+			printf("dup failed\n");
+		}
+		close(to_child[PIPE_WRITE]);
+		close(from_child[PIPE_READ]);
 
 
 		char *argv[] = {
@@ -57,20 +60,28 @@ void aliases_init(t_meta *meta)
 		};
 		execve("/usr/bin/bash", argv, meta->envp);
 	}
-
-	char *buf = "ls\n";
-	write(fd[PIPE_WRITE], buf, ft_strlen(buf));
-
-	buf = ft_strdup("alias\n");
-	write(fd[PIPE_WRITE], buf, ft_strlen(buf));
-
-	free(buf);
+	close(to_child[PIPE_READ]);
+	close(from_child[PIPE_WRITE]);
 
 
 
-	close(fd[PIPE_READ]);
-	close(fd[PIPE_WRITE]);
+	char *buf = "alias\n";
+	write(to_child[PIPE_WRITE], buf, ft_strlen(buf));
+
+
+	char *line = get_next_line(from_child[PIPE_READ]);
+	while (line)
+	{
+		printf("from pipe [%s]\n", line);
+		free(line);
+	line = get_next_line(from_child[PIPE_READ]);
+	}
+
+
+
+	close(to_child[PIPE_WRITE]);
+
+	close(from_child[PIPE_READ]);
 
 	waitpid(pid, NULL, NULL);
-	printf("done waiting\n");
 }
