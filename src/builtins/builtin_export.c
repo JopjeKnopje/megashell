@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:03 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/28 13:06:08 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/28 16:46:04 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,13 @@ bool	correct_input(char *content)
 
 	i= 0;
 	if (!ft_isalpha(content[i]) && content[i] != '_')
-	{
-		printf("test1\n");
 		return (false);
-	}
 	while (content[i] && content[i] != '=')
 	{
 		if (!ft_isalpha(content[i]) || !ft_isalnum(content[i]))
 		{
 			if (content[i] != '_' && content[i] != '=')
-			{
-				printf("test2\n");
 				return (false);
-			}
 		}
 		i++;
 	}
@@ -53,6 +47,7 @@ bool	correct_input(char *content)
 bool	prepare_variable (char *cmd_start)
 {
 	int	i;
+
 	i = 0;
 	while (cmd_start[i])
 	{
@@ -83,29 +78,12 @@ bool	exists_in_env(t_exec *execute, t_cmd_list *cmds, char *variable, int len_va
 				printf("Memory allocation error\n");
 				return (false);
 			}
+			return (true);
 			break ;
 		}
 		i++;
 	}
-	return (true);
-}
-
-bool	add_to_env(t_exec *execute, t_cmd_list *cmds, char *cmd_start)
-{
-	int	i;
-
-	i = 0;
-	if (!execute->envp[i]) // Variable not found, add it to the environment
-	{
-		execute->envp[i] = ft_strdup(cmds->content.argv[1]);
-		if (!execute->envp[i]) 
-		{
-			printf("Memory allocation error\n");
-			free(cmd_start);
-			return (false);
-		}
-		return (true);
-	}
+	return (false);
 }
 
 bool	builtin_run_export(t_exec *execute, t_cmd_list *cmds)
@@ -123,18 +101,30 @@ bool	builtin_run_export(t_exec *execute, t_cmd_list *cmds)
 		return (false);
 	if (prepare_variable(cmd_start) == false)
 		return (false);
+	variable = cmd_start;
+	len_var = ft_strlen(variable);
+	if (exists_in_env(execute, cmds, variable, len_var) == false)
+	{
+		(add_to_env(execute, cmds, cmd_start));
+		if (!correct_input(cmd_start)) 
+		{
+			printf("Invalid input\n");
+			free(cmd_start);
+			return (false);
+		}
+		while (execute->envp[i])
+		{
+			printf("envp: %s\n", execute->envp[i]);
+			i++;
+		}
+		return (true);
+	}
 	if (!correct_input(cmd_start)) 
 	{
 		printf("Invalid input\n");
 		free(cmd_start);
 		return (false);
 	}
-	variable = cmd_start;
-	len_var = ft_strlen(variable);
-	if (exists_in_env(execute, cmds, variable, len_var) == false)
-		return (false);
-	if (add_to_env(execute, cmds, cmd_start) == false)
-		return (false);
 	while (execute->envp[i])
 	{
 		printf("envp: %s\n", execute->envp[i]);
