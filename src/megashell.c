@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/08/28 18:57:09 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/28 21:40:19 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void cmd_free(t_cmd_list *cmd)
 
 int megashell(int argc, char *argv[], char *envp[])
 {
-	t_meta		meta;
 	char		*line;
 	t_cmd_list	*cmds;
 	t_exec		execute;
+	t_meta		meta;
 	ft_bzero(&meta, sizeof(t_meta));
 
 	meta.envp = envp;

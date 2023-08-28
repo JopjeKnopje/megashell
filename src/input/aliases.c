@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/28 18:10:22 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/28 19:14:39 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/28 22:16:07 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <fcntl.h>
 #include <readline/readline.h>
 #include <signal.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/wait.h>
@@ -68,20 +69,26 @@ void aliases_init(t_meta *meta)
 	char *buf = "alias\n";
 	write(to_child[PIPE_WRITE], buf, ft_strlen(buf));
 
+	
+	uint32_t size = 256;
+	char read_data[size];
 
-	char *line = get_next_line(from_child[PIPE_READ]);
-	while (line)
+	
+	while (true)
 	{
-		printf("from pipe [%s]\n", line);
-		free(line);
-	line = get_next_line(from_child[PIPE_READ]);
+		ft_bzero(&read_data, size);
+		int err = read(from_child[PIPE_READ], &read_data, size - 1);
+		printf("%s", read_data);
+		if (err < size - 1)
+		{
+			break;
+		}
 	}
 
 
 
 	close(to_child[PIPE_WRITE]);
-
 	close(from_child[PIPE_READ]);
 
-	waitpid(pid, NULL, NULL);
+	waitpid(pid, NULL, 0);
 }
