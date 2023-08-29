@@ -6,22 +6,25 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/08/28 17:08:38 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/29 14:20:22 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "megashell.h"
+#include "libft.h"
 #include "plarser.h"
 #include "utils.h"
 #include "execute.h"
 #include "test_utils.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 
 void cmd_free(t_cmd_list *cmd)
 {
-	str_free_2d(cmd->content.argv);
+	if (cmd->content.argv)
+		str_free_2d(cmd->content.argv);
 	free(cmd->content.infile);
 	free(cmd->content.outfile);
 	free(cmd);
@@ -50,9 +53,15 @@ int megashell(int argc, char *argv[], char *envp[])
 			printf("line is empty, exiting...\n");
 			return (0);
 		}
+
+		if (!strncmp(line, "x", ft_strlen(line)))
+		{
+			exit(0);
+		}
+
 		cmds = plarser_main(line);
 		print_cmds(cmds);
-		execution(&execute, cmds);
+		// execution(&execute, cmds);
 		pr_lstiter(cmds, cmd_free);
 		free(line);
 	}

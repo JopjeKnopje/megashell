@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 16:40:07 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/24 10:52:21 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/29 17:51:54 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ infile:
 	stdin | default
 
 	inflie_name
-	heredoc | NOT SUPPORTED YET
+	heredoc
 
 outfile:
 	stdout | default
@@ -57,15 +57,16 @@ outfile:
 
 
 using it:
-	check in infile/outfile is set, and whether out_append is set.
-	if not there are no redirections.
+	if infile/outfile is not set, then there is not redirection.
+	if is_heredoc isset then the outfile will be the deliminter.
 
 */
 typedef struct s_cmd_frame {
 	char	**argv;
 	char	*infile;
 	char	*outfile;
-	bool	out_append;
+	bool	is_append;
+	bool	is_heredoc;
 } t_cmd_frame;
 
 

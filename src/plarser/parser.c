@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/24 10:45:27 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/29 17:45:19 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_cmd_frame pr_parse_redirect(t_cmd_frame frame, t_tok_list *tokens)
 {
 	const t_token_kind k = tokens->token.kind;
 
-	frame.out_append = (k == TOKEN_APPEND);
+	frame.is_append = (k == TOKEN_APPEND);
 	if (k == TOKEN_APPEND || k  == TOKEN_GREATER_THAN)
 	{
 		frame.outfile = sized_strdup(tokens->next->token.content, tokens->next->token.content_len);
@@ -61,6 +61,12 @@ t_cmd_frame pr_parse_redirect(t_cmd_frame frame, t_tok_list *tokens)
 		frame.infile = sized_strdup(tokens->next->token.content, tokens->next->token.content_len);
 		if (!frame.infile)
 			printf("sized_strdup failure\n");
+	}
+	else if (k == TOKEN_HEREDOC)
+	{
+		frame.is_heredoc = true;
+		frame.outfile = sized_strdup(tokens->next->token.content, tokens->next->token.content_len);
+
 	}
 	return (frame);
 }

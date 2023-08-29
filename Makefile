@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/08/29 13:45:35 by ivan-mel         ###   ########.fr        #
+#    Updated: 2023/08/29 17:52:30 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,13 +38,14 @@ LFLAGS = -lreadline $(L_RL)
 
 SRC_DIR = src
 
-SRCS = main.c \
-		execute/error.c \
+SRCS =  execute/error.c \
 		execute/path.c \
 		execute/free.c \
 		execute/environment.c \
 		execute/execute.c \
 		execute/execute_utils.c \
+		execute/access.c \
+
 		builtins/builtins.c \
 		builtins/builtin_cd.c \
 		builtins/builtin_echo.c \
@@ -54,10 +55,11 @@ SRCS = main.c \
 		builtins/builtin_export_utils.c \
 		builtins/builtin_pwd.c \
 		builtins/builtin_unset.c \
-		execute/access.c \
+
 		input/prompt.c \
 	  	input/signals.c \
 	  	input/history_file.c \
+
 	  	plarser/lexer.c \
 	  	plarser/lexer_list.c \
 	  	plarser/lexer_utils.c \
@@ -67,9 +69,11 @@ SRCS = main.c \
 	  	plarser/tokenize.c \
 	  	plarser/parser.c \
 	  	plarser/parser_list.c \
+
 	  	utils/utils_string.c \
-	  	megashell.c \
 		test_utils.c \
+	  	megashell.c \
+		main.c \
 
 HEADER_DIR = include
 HEADERS = input.h \
