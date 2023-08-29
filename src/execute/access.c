@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/29 15:40:04 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/29 18:12:55 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,53 +35,72 @@ bool	is_a_directory(char *cmd)
 	return (false);
 }
 
-char	*access_possible(t_exec *execute, char *cmd)
+void	exit_errors(char *cmd, int status)
+{
+	if (status == CHECK_DIR)
+	{
+		if (is_a_directory(cmd) == true)
+		{
+			printf("bash: ./: is a directory\n");
+			exit (126);
+		}
+	}
+	else if (status == CHECK_ACCESS)
+	{
+		if (access(cmd, F_OK | X_OK) != 0)
+		{
+			printf("bash: %s: No such file or directory\n", cmd);
+			exit (127);
+		}
+		if (!cmd)
+		{
+			printf("bash: %s: command not found", cmd);
+			exit (127);
+		}
+	}
+	return ;
+}
+
+char	*check_relative_path(char *cmd)
 {
 	int		i;
-	char	*tmp;
 	char	*cmd_copy;
 
 	i = 0;
-
-	// error handling
-	// X_OK
-	if (!cmd)
-		return (NULL);
-	if (cmd[0] == '.' && cmd[1] == '\0')
-	{
-		print_error(get_error_name(ERROR_DOT));
-		exit (2);
-	}
-	if (is_a_directory(cmd) == true)
-		printf("bash: ./: is a directory\n");
 	while (cmd[i])
 	{
 		if (cmd[i] == '/')
 		{
 			cmd_copy = ft_strdup(cmd);
-			if (!cmd_copy)
-			{
-				print_error(get_error_name(ERROR_ALLOC));
-				exit (EXIT_FAILURE);
-			}
-			if (access(cmd_copy, F_OK) == 0)
-				return (cmd_copy);
+			exit_errors(cmd_copy, CHECK_ACCESS);
+			return (cmd_copy);
 		}
-		i++;
-	}
-	i = 0;
-	while (execute->split_path[i])
-	{
-		tmp = ft_strjoin(execute->split_path[i], cmd);
-		if (!tmp)
-			return (NULL);
-		if (access(tmp, F_OK) == 0)
-		{
-			printf("access?\n");
-			return (tmp);
-		}
-		free(tmp);
 		i++;
 	}
 	return (NULL);
+}
+
+char	*access_possible(t_exec *execute, char *cmd)
+{
+	char	*cmd_copy;
+	char	*executable_path;
+
+	if (!cmd)
+		return (NULL);
+	if (cmd[0] == '.' && cmd[1] == '\0')
+	{
+		print_error(get_error_name(ERROR_DOT));
+		exit(2);
+	}
+	exit_errors(cmd, CHECK_DIR);
+	cmd_copy = check_relative_path(cmd);
+	if (cmd_copy)
+		return (cmd_copy);
+	executable_path = find_executable_in_path(execute, cmd);
+	if (!executable_path)
+	{
+		printf("bash: %s: command not found\n", cmd);
+		exit(127);
+	}
+	return (executable_path);
 }

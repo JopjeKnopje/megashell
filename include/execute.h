@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/29 15:30:19 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/29 18:12:45 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ typedef enum e_files {
 	IN_READ,
 	OUT_WRITE,
 }	t_files;
+
+typedef	enum e_access {
+	CHECK_DIR,
+	CHECK_ACCESS,
+}	t_access;
 
 typedef enum e_error {
 	ERROR_ARGUMENTS,
@@ -84,8 +89,10 @@ void		run_builtin(t_builtin builtin, t_exec *execute, t_cmd_list *cmds);
 
 // access:
 bool		find_access(t_exec *execute, t_cmd_list *list);
-char		*access_possible(t_exec *execute, char *list);
 bool		is_a_directory(char *cmd);
+char		*check_relative_path(char *cmd);
+char		*find_executable_in_path(t_exec *execute, char *cmd);
+char		*access_possible(t_exec *execute, char *list);
 
 // free:
 void		free_2d(char **str);
