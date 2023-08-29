@@ -18,8 +18,21 @@
 
 #define HISTORY_FILE_NAME ".ms_history"
 
+
+typedef struct s_alias {
+	char *key;
+	char *value;
+}	t_alias;
+
+typedef struct e_alias_list {
+	t_alias				alias;
+	struct e_alias_list	*next;
+}	t_alias_list;
+
+
 typedef struct s_meta {
 	bool stop;
+	t_alias_list *aliases;
 	char **envp;
 } t_meta;
 
@@ -40,6 +53,6 @@ void hs_read_history_file(char *s);
 void hs_add_history_file(char *s, char *line);
 
 // aliases.c
-void aliases_init(t_meta *meta);
+void aliases_init(t_meta *meta, char *file);
 
 #endif // !MEGASHELL_H

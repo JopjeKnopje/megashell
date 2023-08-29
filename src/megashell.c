@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/08/29 10:33:09 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/29 10:59:14 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,8 @@ int megashell(int argc, char *argv[], char *envp[])
 		}
 		else if (!ft_strncmp(line, "test", ft_strlen("test")))
 		{
-			aliases_init(&meta);
-		}
-		else if (!ft_strncmp(line, "print", ft_strlen("print")))
-		{
-			printf("printing data bla bla\n");
-			printf("printing data bla bla\n");
-		}
-		else if (!ft_strncmp(line, "exit", ft_strlen("exit")))
-		{
-			printf("exiting megashell\n");
-			exit(0);
+			// TODO Expand home or if we wanna be lazy run minishell with the rc file it should load.
+			aliases_init(&meta, "/home/joppe/.bashrc");
 		}
 		// cmds = plarser_main(line);
 		// print_cmds(cmds);
