@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/08/29 17:52:30 by jboeve        ########   odam.nl          #
+#    Updated: 2023/08/29 17:55:34 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,6 @@ SRCS =  execute/error.c \
 		execute/execute.c \
 		execute/execute_utils.c \
 		execute/access.c \
-
 		builtins/builtins.c \
 		builtins/builtin_cd.c \
 		builtins/builtin_echo.c \
@@ -55,11 +54,9 @@ SRCS =  execute/error.c \
 		builtins/builtin_export_utils.c \
 		builtins/builtin_pwd.c \
 		builtins/builtin_unset.c \
-
 		input/prompt.c \
 	  	input/signals.c \
 	  	input/history_file.c \
-
 	  	plarser/lexer.c \
 	  	plarser/lexer_list.c \
 	  	plarser/lexer_utils.c \
@@ -69,7 +66,6 @@ SRCS =  execute/error.c \
 	  	plarser/tokenize.c \
 	  	plarser/parser.c \
 	  	plarser/parser_list.c \
-
 	  	utils/utils_string.c \
 		test_utils.c \
 	  	megashell.c \
