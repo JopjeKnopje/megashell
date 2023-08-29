@@ -6,12 +6,13 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/21 15:50:25 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/29 13:35:59 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "execute.h"
+#include "utils.h"
 
 t_builtin	get_builtin(char *cmd)
 {
@@ -21,7 +22,7 @@ t_builtin	get_builtin(char *cmd)
 	while (i < BUILTIN_COUNT)
 	{
 		if (ft_strncmp(cmd, BUILTINS_NAME[i],
-				largest_input(BUILTINS_NAME[i], cmd)) == 0)
+				strlen_largest(BUILTINS_NAME[i], cmd)) == 0)
 			return (i);
 		i++;
 	}

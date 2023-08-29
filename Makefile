@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/08/28 13:58:59 by ivan-mel         ###   ########.fr        #
+#    Updated: 2023/08/29 13:45:35 by ivan-mel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,12 +39,12 @@ LFLAGS = -lreadline $(L_RL)
 SRC_DIR = src
 
 SRCS = main.c \
-		error.c \
-		path.c \
-		free.c \
-		environment.c \
-		execute.c \
-		execute_utils.c \
+		execute/error.c \
+		execute/path.c \
+		execute/free.c \
+		execute/environment.c \
+		execute/execute.c \
+		execute/execute_utils.c \
 		builtins/builtins.c \
 		builtins/builtin_cd.c \
 		builtins/builtin_echo.c \
@@ -54,8 +54,7 @@ SRCS = main.c \
 		builtins/builtin_export_utils.c \
 		builtins/builtin_pwd.c \
 		builtins/builtin_unset.c \
-		utils.c \
-		access.c \
+		execute/access.c \
 		input/prompt.c \
 	  	input/signals.c \
 	  	input/history_file.c \

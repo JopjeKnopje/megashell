@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   utils_string.c                                    :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/08/15 18:30:43 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/20 23:23:13 by joppe         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   utils_string.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/15 18:30:43 by joppe             #+#    #+#             */
+/*   Updated: 2023/08/29 13:35:32 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,13 @@ char	**str_arr_append(char **arr, char *s)
 	tmp[i] = s;
 	free(arr);
 	return (tmp);
+}
+
+int	strlen_largest(const char *s1, const char *s2)
+{
+	const int	s1_len = ft_strlen(s1);
+	const int	s2_len = ft_strlen(s2);
+	const int	comp = s1_len < s2_len;
+
+	return ((comp) * s2_len + (!comp) * s1_len);
 }
