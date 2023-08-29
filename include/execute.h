@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/22 14:35:48 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/29 13:35:09 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,13 @@ char		**get_environment(char **envp);
 // execute:
 void		children_spawn(t_exec *execute, t_cmd_list *cmds);
 void		start_pipe(t_exec *execute, t_cmd_list *cmds);
+void 		run_single_builtin(t_exec *execute, t_cmd_list *cmds);
 void		execution(t_exec *execute, t_cmd_list *list);
 
 // execute_utils:
 bool		dup_stdin(int file);
 bool		dup_stdout(int file);
+void		dup_io(t_exec *execute, t_cmd_list *cmds);
 
 // builtins:
 t_builtin	get_builtin(char *cmd);
@@ -79,9 +81,6 @@ void		run_builtin(t_builtin builtin, t_exec *execute, t_cmd_list *cmds);
 // access:
 bool		find_access(t_exec *execute, t_cmd_list *list);
 char		*access_possible(t_exec *execute, char *list);
-
-// utils:
-int			largest_input(const char *s1, const char *s2);
 
 // free:
 void		free_2d(char **str);

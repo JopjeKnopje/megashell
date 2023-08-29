@@ -6,26 +6,11 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/22 14:59:29 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/29 13:45:02 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
-
-// @param execute: struct that contains execution info
-// @param cmds: struct with linked list of commands
-
-// dup_cmd: duplicates the read side of pipe to stdin
-// and the write side of the pipe to stdout as long
-// as it has a previous or next command.
-
-void	dup_io(t_exec *execute, t_cmd_list *cmds)
-{
-	if (cmds->prev && dup_stdin(execute->io_file[IN_READ]) == false)
-		print_error(get_error_name(ERROR_DUP2));
-	if (cmds->next && dup_stdout(execute->io_file[OUT_WRITE]) == false)
-		print_error(get_error_name(ERROR_DUP2));
-}
 
 // children_spawn: checks whether command has access
 // if so it executes it and changes the stdin and stdout
@@ -36,7 +21,7 @@ void	children_spawn(t_exec *execute, t_cmd_list *cmds)
 
 	// redirects();
 	is_builtin = get_builtin(cmds->content.argv[0]);
-	printf("%s\n", BUILTINS_NAME[is_builtin]);
+	// printf("%s\n", BUILTINS_NAME[is_builtin]);
 	if (is_builtin != BUILTIN_INVALID)
 	{
 		run_builtin(is_builtin, execute, cmds);
@@ -53,7 +38,9 @@ void	children_spawn(t_exec *execute, t_cmd_list *cmds)
 
 void	start_pipe(t_exec *execute, t_cmd_list *cmds)
 {
-	while (cmds->next)
+	int	status;
+
+	while (cmds)
 	{
 		if (pipe(execute->io_file) == -1)
 		{
@@ -70,11 +57,14 @@ void	start_pipe(t_exec *execute, t_cmd_list *cmds)
 			children_spawn(execute, cmds);
 		else
 		{
-			close(execute->io_file[IN_READ]);/* close fds in main process */
+			close(execute->io_file[IN_READ]); /* close fds in main process */
 			close(execute->io_file[OUT_WRITE]);
 		}
 		cmds = cmds->next;
 	}
+	waitpid(execute->pid, &status, 0);
+	while (wait(NULL) != -1)
+		continue ;
 }
 
 void run_single_builtin(t_exec *execute, t_cmd_list *cmds)
@@ -90,6 +80,22 @@ void run_single_builtin(t_exec *execute, t_cmd_list *cmds)
 	}
 }
 
+void	run_single_command(t_exec *execute, t_cmd_list *cmds)
+{
+	execute->pid = fork();
+	if (execute->pid == -1)
+	{
+		print_error(get_error_name(ERROR_FORK));
+		return ;
+	}
+	if (execute->pid == 0)
+	{
+		if (find_access(execute, cmds) == false)
+			print_error(get_error_name(ERROR_ACCESS));	
+	}
+	wait(NULL);
+}
+
 void	execution(t_exec *execute, t_cmd_list *cmds)
 {
 	int			prev_pipe;
@@ -98,12 +104,19 @@ void	execution(t_exec *execute, t_cmd_list *cmds)
 
 	// heredoc?	
 	cmd_list = cmds;
-	if ((cmds->next == NULL && get_builtin(cmds->content.argv[0]) != BUILTIN_INVALID))
+	if ((cmds->next == NULL && get_builtin(cmds->content.argv[0])
+			!= BUILTIN_INVALID))
 	{
 		printf("single builtin\n");	
 		run_single_builtin(execute, cmds);
 	}
-	if (cmd_list->next)
+	if ((cmds->next == NULL && get_builtin(cmds->content.argv[0])
+			== BUILTIN_INVALID))
+	{
+		printf("single command\n");
+		run_single_command(execute, cmd_list);
+	}
+	if (cmds->next)
 	{
 		printf("starting pipe\n");	
 		start_pipe(execute, cmd_list);
