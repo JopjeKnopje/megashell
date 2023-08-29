@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   megashell.c                                        :+:      :+:    :+:   */
+/*   megashell.c                                       :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,6 +14,7 @@
 #include "plarser.h"
 #include "utils.h"
 #include "execute.h"
+#include "test_utils.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -21,6 +22,8 @@
 void cmd_free(t_cmd_list *cmd)
 {
 	str_free_2d(cmd->content.argv);
+	free(cmd->content.infile);
+	free(cmd->content.outfile);
 	free(cmd);
 }
 

@@ -1,7 +1,7 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile                                          :+:    :+:              #
 #                                                     +:+ +:+         +:+      #
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
@@ -74,7 +74,12 @@ SRCS = main.c \
 HEADER_DIR = include
 HEADERS = input.h \
 		  plarser.h \
-		  megashell.h
+		  megashell.h \
+		  builtins.h \
+		  execute.h \
+		  test_utils.h \
+		  utils.h
+
 OBJ_DIR = obj
 
 
