@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/08/28 21:40:19 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/29 10:33:09 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "execute.h"
 #include "test_utils.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 
@@ -54,6 +55,16 @@ int megashell(int argc, char *argv[], char *envp[])
 		else if (!ft_strncmp(line, "test", ft_strlen("test")))
 		{
 			aliases_init(&meta);
+		}
+		else if (!ft_strncmp(line, "print", ft_strlen("print")))
+		{
+			printf("printing data bla bla\n");
+			printf("printing data bla bla\n");
+		}
+		else if (!ft_strncmp(line, "exit", ft_strlen("exit")))
+		{
+			printf("exiting megashell\n");
+			exit(0);
 		}
 		// cmds = plarser_main(line);
 		// print_cmds(cmds);

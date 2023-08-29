@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/28 18:10:22 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/29 00:32:45 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/29 10:34:52 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void aliases_init(t_meta *meta)
 		printf("failed opening file\n");
 	}
 	
-	uint32_t size = 256;
+	int32_t size = 256;
 	char read_data[size];
 	while (true)
 	{
