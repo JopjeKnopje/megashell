@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/29 13:35:09 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:30:19 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <string.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 
 typedef enum e_files {
 	IN_READ,
@@ -39,6 +41,8 @@ typedef enum e_error {
 	ERROR_FORK,
 	ERROR_DUP2,
 	ERROR_ACCESS,
+	ERROR_ALLOC,
+	ERROR_DOT,
 }	t_error;
 
 typedef struct s_exec {
@@ -81,6 +85,7 @@ void		run_builtin(t_builtin builtin, t_exec *execute, t_cmd_list *cmds);
 // access:
 bool		find_access(t_exec *execute, t_cmd_list *list);
 char		*access_possible(t_exec *execute, char *list);
+bool		is_a_directory(char *cmd);
 
 // free:
 void		free_2d(char **str);
