@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   builtin_echo.c                                    :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:08:55 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/22 14:41:21 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:26:56 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
+#include "megashell.h"
 
 void	print_echo_output(t_cmd_list *cmds, bool flag)
 {
@@ -48,9 +49,10 @@ bool	process_echo_flags(t_cmd_list *cmds)
 	return (flag);
 }
 
-bool	builtin_run_echo(t_exec *execute, t_cmd_list *cmds)
+bool	builtin_run_echo(t_meta *meta, t_cmd_list *cmds)
 {
 	bool	flag;
+	(void)	meta;
 
 	flag = process_echo_flags(cmds);
 	print_echo_output(cmds, flag);

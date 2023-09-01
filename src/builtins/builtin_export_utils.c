@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export_utils.c                             :+:      :+:    :+:   */
+/*   builtin_export_utils.c                            :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 13:58:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/28 18:10:13 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:32:52 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "builtins.h"
 
-bool	fill_environment(t_exec *execute, char **new_envp, \
+bool	fill_environment(char **envp, char **new_envp, \
 			char *cmd_start, int i)
 {
 	int	j;
@@ -21,7 +21,7 @@ bool	fill_environment(t_exec *execute, char **new_envp, \
 	j = 0;
 	while (j < i)
 	{
-		new_envp[j] = ft_strdup(execute->envp[j]);
+		new_envp[j] = ft_strdup(envp[j]);
 		if (!new_envp[j])
 		{
 			free(cmd_start);
@@ -38,7 +38,7 @@ bool	fill_environment(t_exec *execute, char **new_envp, \
 	return (true);
 }
 
-bool	add_to_env(t_exec *execute, t_cmd_list *cmds, char *cmd_start)
+bool	add_to_env(char **envp, t_cmd_list *cmds, char *cmd_start)
 {
 	int		i;
 	int		j;
@@ -46,7 +46,7 @@ bool	add_to_env(t_exec *execute, t_cmd_list *cmds, char *cmd_start)
 
 	i = 0;
 	j = 0;
-	while (execute->envp[i])
+	while (envp[i])
 		i++;
 	new_envp = ft_calloc(sizeof(char *), i + 2);
 	if (!new_envp)
@@ -54,7 +54,7 @@ bool	add_to_env(t_exec *execute, t_cmd_list *cmds, char *cmd_start)
 		free(cmd_start);
 		return (printf("Memory allocation error\n"), false);
 	}
-	fill_environment(execute, new_envp, cmd_start, i);
+	fill_environment(envp, new_envp, cmd_start, i);
 	new_envp[i] = ft_strdup(cmds->content.argv[1]);
 	if (!new_envp[i])
 	{
@@ -62,8 +62,8 @@ bool	add_to_env(t_exec *execute, t_cmd_list *cmds, char *cmd_start)
 		free_2d(new_envp);
 		return (printf("Memory allocation error\n"), false);
 	}
-	free_2d(execute->envp);
-	execute->envp = new_envp;
+	free_2d(envp);
+	envp = new_envp;
 	return (true);
 }
 
@@ -74,21 +74,21 @@ bool	handle_export_input_errors(char *cmd_start)
 	return (false);
 }
 
-bool	handle_export_existing_variable(t_exec *execute, char *cmd_start)
+bool	handle_export_existing_variable(char **envp, char *cmd_start)
 {
 	int	i;
 
 	i = 0;
-	while (execute->envp[i])
+	while (envp[i])
 	{
-		printf("envp: %s\n", execute->envp[i]);
+		printf("envp: %s\n",envp[i]);
 		i++;
 	}
 	free(cmd_start);
 	return (true);
 }
 
-bool	handle_export_new_variable(t_exec *execute, \
+bool	handle_export_new_variable(char **envp, \
 			t_cmd_list *cmds, char *cmd_start)
 {
 	int	i;
@@ -99,10 +99,10 @@ bool	handle_export_new_variable(t_exec *execute, \
 		handle_export_input_errors(cmd_start);
 		return (true);
 	}
-	add_to_env(execute, cmds, cmd_start);
-	while (execute->envp[i])
+	add_to_env(envp, cmds, cmd_start);
+	while (envp[i])
 	{
-		printf("envp: %s\n", execute->envp[i]);
+		printf("envp: %s\n", envp[i]);
 		i++;
 	}
 	return (true);

@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   access.c                                           :+:      :+:    :+:   */
+/*   access.c                                          :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/29 18:12:55 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:47:46 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
+#include "megashell.h"
 
-bool	find_access(t_exec *execute, t_cmd_list *cmds)
+bool	find_access(t_meta *meta, t_cmd_list *cmds)
 {
 	char	*cmd_in_path;
 
-	cmd_in_path = access_possible(execute, cmds->content.argv[0]);
+	cmd_in_path = access_possible(meta, cmds->content.argv[0]);
 	if (!cmd_in_path)
 		return (false);
-	if (execve (cmd_in_path, cmds->content.argv, execute->envp) == -1)
+	if (execve (cmd_in_path, cmds->content.argv, meta->envp) == -1)
 		return (false);
 	return (true);
 }
@@ -80,7 +81,7 @@ char	*check_relative_path(char *cmd)
 	return (NULL);
 }
 
-char	*access_possible(t_exec *execute, char *cmd)
+char	*access_possible(t_meta *meta, char *cmd)
 {
 	char	*cmd_copy;
 	char	*executable_path;
@@ -96,7 +97,7 @@ char	*access_possible(t_exec *execute, char *cmd)
 	cmd_copy = check_relative_path(cmd);
 	if (cmd_copy)
 		return (cmd_copy);
-	executable_path = find_executable_in_path(execute, cmd);
+	executable_path = find_executable_in_path(meta->execute.split_path, cmd);
 	if (!executable_path)
 	{
 		printf("bash: %s: command not found\n", cmd);

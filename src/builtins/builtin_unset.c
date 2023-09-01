@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*   builtin_unset.c                                   :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:33 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/22 14:42:13 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:36:34 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
+#include "megashell.h"
 
 void	print_envp(char **envp)
 {
@@ -49,7 +50,7 @@ bool	remove_env_variable(char **envp, const char *variable)
 	return (false);
 }
 
-bool	builtin_run_unset(t_exec *execute, t_cmd_list *cmds)
+bool	builtin_run_unset(t_meta *meta, t_cmd_list *cmds)
 {
 	char	*variable;
 
@@ -60,10 +61,10 @@ bool	builtin_run_unset(t_exec *execute, t_cmd_list *cmds)
 		return (false);
 	}
 	printf("Before unset:\n");
-	print_envp(execute->envp);
-	if (remove_env_variable(execute->envp, variable) == false)
+	print_envp(meta->envp);
+	if (remove_env_variable(meta->envp, variable) == false)
 		return (false);
 	printf("After unset:\n");
-	print_envp(execute->envp);
+	print_envp(meta->envp);
 	return (true);
 }
