@@ -38,13 +38,13 @@ LFLAGS = -lreadline $(L_RL)
 
 SRC_DIR = src
 
-SRCS = main.c \
-		execute/error.c \
+SRCS =  execute/error.c \
 		execute/path.c \
 		execute/free.c \
 		execute/environment.c \
 		execute/execute.c \
 		execute/execute_utils.c \
+		execute/access.c \
 		builtins/builtins.c \
 		builtins/builtin_cd.c \
 		builtins/builtin_echo.c \
@@ -69,8 +69,9 @@ SRCS = main.c \
 	  	plarser/parser.c \
 	  	plarser/parser_list.c \
 	  	utils/utils_string.c \
-	  	megashell.c \
 		test_utils.c \
+	  	megashell.c \
+		main.c \
 
 HEADER_DIR = include
 HEADERS = input.h \

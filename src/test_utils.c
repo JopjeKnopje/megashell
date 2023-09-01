@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:05:42 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/24 10:31:14 by joppe         ########   odam.nl         */
+/*   Updated: 2023/08/29 17:47:18 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void print_cmds(t_cmd_list *list)
 	char **argv;
 	char *infile;
 	char *outfile;
-	uint8_t io_flags;
+	bool is_heredoc;
 
 	printf("\n");
 	printf("\x1b[35;49m");
@@ -89,16 +89,16 @@ void print_cmds(t_cmd_list *list)
 		argv = list->content.argv;
 		infile = list->content.infile;
 		outfile = list->content.outfile;
-		// io_flags = list->content.io_flags;
+		is_heredoc = list->content.is_heredoc;
 
 		if (argv)
 			print_2d_arr(argv, "argv");
 		if (infile)
 			printf("infile -> [%s]\n", infile);
+		if (is_heredoc)
+			printf("is_heredoc -> [%s]\n", is_heredoc ? "true" : "false");
 		if (outfile)
 			printf("outfile -> [%s]\n", outfile);
-		// if (io_flags)
-		// 	printf("io_flags -> [%x]\n", io_flags);
 		if (list->next)
 			printf("\n");
 		list = list->next;
