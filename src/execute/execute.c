@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/01 20:52:30 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/09/01 22:10:56 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,9 @@ void	start_pipe(t_meta *meta, t_cmd_list *cmds)
 			return ;
 		}
 		if (execute->pid == 0) /* fork returns 0 for child process */
+		{
 			children_spawn(meta, cmds);
+		}
 		else
 		{
 			close(execute->io_file[IN_READ]); /* close fds in main process */
