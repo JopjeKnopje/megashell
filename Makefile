@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/08/29 18:13:15 by ivan-mel         ###   ########.fr        #
+#    Updated: 2023/09/01 20:16:15 by ivan-mel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,6 @@ SRCS =  execute/error.c \
 		execute/environment.c \
 		execute/execute.c \
 		execute/execute_utils.c \
-		execute/access.c \
 		builtins/builtins.c \
 		builtins/builtin_cd.c \
 		builtins/builtin_echo.c \
