@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/01 20:47:46 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/09/02 00:11:12 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ bool	find_access(t_meta *meta, t_cmd_list *cmds)
 
 	cmd_in_path = access_possible(meta, cmds->content.argv[0]);
 	if (!cmd_in_path)
-		return (false);
-	if (execve (cmd_in_path, cmds->content.argv, meta->envp) == -1)
 		return (false);
 	return (true);
 }
