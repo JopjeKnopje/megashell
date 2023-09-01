@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   builtins.h                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 15:00:42 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/29 13:34:59 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:35:49 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define BUILTINS_H
 
 # include <stdbool.h>
+#include "megashell.h"
 # include "plarser.h"
 
 typedef struct s_exec t_exec;
@@ -40,20 +41,19 @@ static const char *BUILTINS_NAME[BUILTIN_COUNT] = {
 	"unset",
 	"exit"};
 
-bool	builtin_run_unset(t_exec *execute, t_cmd_list *cmds);
-bool	builtin_run_pwd(t_exec *execute, t_cmd_list *cmds);
-bool	builtin_run_env(t_exec *execute, t_cmd_list *cmds);
-bool	builtin_run_echo(t_exec *execute, t_cmd_list *cmds);
-bool	builtin_run_cd(t_exec *execute, t_cmd_list *cmdsd);
-bool	builtin_run_export(t_exec *execute, t_cmd_list *cmdsd);
-bool	builtin_run_exit(t_exec *execute, t_cmd_list *cmds);
+bool	builtin_run_unset(t_meta *execute, t_cmd_list *cmds);
+bool	builtin_run_pwd(t_meta *execute, t_cmd_list *cmds);
+bool	builtin_run_env(t_meta *execute, t_cmd_list *cmds);
+bool	builtin_run_echo(t_meta *execute, t_cmd_list *cmds);
+bool	builtin_run_cd(t_meta *execute, t_cmd_list *cmdsd);
+bool	builtin_run_exit(t_meta *meta, t_cmd_list *cmds);
+bool	builtin_run_export(t_meta *execute, t_cmd_list *cmds);
+
 bool	correct_input(char *content);
-bool	add_to_env(t_exec *execute, t_cmd_list *cmds, char *cmd_start);
+bool	add_to_env(char **envp, t_cmd_list *cmds, char *cmd_start);
 void	print_environment(char **envp);
-bool	builtin_run_export(t_exec *execute, t_cmd_list *cmds);
 bool	handle_export_input_errors(char *cmd_start);
-bool	handle_export_existing_variable(t_exec *execute, char *cmd_start);
-bool	handle_export_new_variable(t_exec *execute,
-			t_cmd_list *cmds, char *cmd_start);
+bool	handle_export_existing_variable(char **execute, char *cmd_start);
+bool	handle_export_new_variable(char **meta, t_cmd_list *cmds, char *cmd_start);
 
 #endif

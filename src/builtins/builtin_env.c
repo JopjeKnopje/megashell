@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*   builtin_env.c                                     :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:08:36 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/14 17:58:19 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:26:31 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-bool	builtin_run_env(t_exec *execute, t_cmd_list *cmds)
+bool	builtin_run_env(t_meta *meta, t_cmd_list *cmds)
 {
 	int	i;
 
 	i = 0;
-	while (execute->envp[i])
+	while (meta->envp[i])
 	{
-		printf("%s\n", execute->envp[i]);
+		printf("%s\n", meta->envp[i]);
 		i++;
 	}
 	return (true);

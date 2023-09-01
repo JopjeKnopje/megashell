@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*   builtin_exit.c                                    :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:11 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/28 18:20:34 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:36:02 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
+#include "megashell.h"
 
 bool	is_a_nb(char *str)
 {
@@ -26,9 +27,11 @@ bool	is_a_nb(char *str)
 	return (true);
 }
 
-bool	builtin_run_exit(t_exec *execute, t_cmd_list *cmds)
+bool	builtin_run_exit(t_meta *meta, t_cmd_list *cmds)
 {
 	int	nb;
+
+	(void) meta;
 
 	if (!cmds->content.argv[1])
 		exit(EXIT_SUCCESS);

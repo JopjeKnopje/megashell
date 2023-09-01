@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path.c                                             :+:      :+:    :+:   */
+/*   path.c                                            :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:34:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/14 13:29:46 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:41:11 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
+#include "megashell.h"
 
-char	*find_path(t_exec *execute)
+char	*find_path(char **envp)
 {
 	int		index;
 
 	index = 0;
-	while (execute->envp[index])
+	while (envp[index])
 	{
-		if (ft_strncmp(execute->envp[index], "PATH=", 5) == 0)
-			return (execute->envp[index] + 5);
+		if (ft_strncmp(envp[index], "PATH=", 5) == 0)
+			return (envp[index] + 5);
 		index++;
 	}
 	return (NULL);
@@ -62,20 +63,20 @@ char	**put_slash(char **path)
 	return (path);
 }
 
-int	search_path(t_exec *execute, char **environment)
+int	search_path(t_meta *meta, char **environment)
 {
 	char	*path;
 	char	**path_after_split;
 
-	execute->envp = get_environment(environment);
-	path = find_path(execute);
+	meta->envp = get_environment(environment);
+	path = find_path(meta->envp);
 	if (!path)
 		return (print_error(get_error_name(ERROR_FIND_PATH)));
 	path_after_split = split_path(path);
 	if (!path_after_split)
 		return (print_error(get_error_name(ERROR_PATH)));
-	execute->split_path = put_slash(path_after_split);
-	if (!execute->split_path)
+	meta->execute.split_path = put_slash(path_after_split);
+	if (!meta->execute.split_path)
 		return (print_error(get_error_name(ERROR_PATH)));
 	return (EXIT_SUCCESS);
 }

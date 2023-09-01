@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   builtin_cd.c                                      :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:09:31 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/29 17:01:15 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:27:36 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
+#include "megashell.h"
 
 // If no directory operand is given and the HOME environment variable is set
 // to a non-empty value, the cd utility shall behave as if the directory named
 // in the HOME environment variable was specified as the directory operand.
 
-char	**print_home_env(t_exec *execute)
+char	**print_home_env(char **envp)
 {
 	int		i;
 	int		dup_home_index;
@@ -25,13 +26,13 @@ char	**print_home_env(t_exec *execute)
 
 	i = 0;
 	dup_home_index = 0;
-	envp_len = ft_strlen(execute->envp[i]);
+	envp_len = ft_strlen(envp[i]);
 	dup_home = (char **)malloc(sizeof(char *) * (envp_len + 1));
-	while (execute->envp[i])
+	while (envp[i])
 	{
-		if ((ft_strncmp(execute->envp[i], "HOME=", 5) == 0))
+		if ((ft_strncmp(envp[i], "HOME=", 5) == 0))
 		{
-			dup_home[dup_home_index] = ft_strdup(execute->envp[i] + 5);
+			dup_home[dup_home_index] = ft_strdup(envp[i] + 5);
 			dup_home_index++;
 		}
 		i++;
@@ -40,7 +41,7 @@ char	**print_home_env(t_exec *execute)
 	return (dup_home);
 }
 
-bool	builtin_run_cd(t_exec *execute, t_cmd_list *cmds)
+bool	builtin_run_cd(t_meta *meta, t_cmd_list *cmds)
 {
 	char		cwd[PATH_MAX];
 	char		**tmp_home;
@@ -48,7 +49,7 @@ bool	builtin_run_cd(t_exec *execute, t_cmd_list *cmds)
 
 	if (!cmds->content.argv[1])
 	{
-		tmp_home = print_home_env(execute);
+		tmp_home = print_home_env(meta->envp);
 		if (!tmp_home)
 			return (false);
 		chdir(tmp_home[0]);

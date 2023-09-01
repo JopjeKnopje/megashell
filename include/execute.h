@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.h                                          :+:      :+:    :+:   */
+/*   execute.h                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/29 18:12:45 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:52:13 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTE_H
 # define EXECUTE_H
 
+#include "megashell.h"
 # include "libft.h"
 # include "builtins.h"
 # include <stdio.h>
@@ -50,33 +51,23 @@ typedef enum e_error {
 	ERROR_DOT,
 }	t_error;
 
-typedef struct s_exec {
-	int			args;
-	int			pid;
-	int			io_file[2];
-	char		**argv;
-	char		**envp;
-	char		**split_path;
-}	t_exec;
-
 // error:
 char		*get_error_name(t_error er);
 int			print_error(char *str);
 
 // path:
-char		*find_path(t_exec *execute);
+char	*find_path(char **envp);
 char		**split_path(char *path);
 char		**put_slash(char **path);
-int			search_path(t_exec *execute, char **environment);
+int	search_path(t_meta *meta, char **environment);
 
 // environment:
 char		**get_environment(char **envp);
 
 // execute:
-void		children_spawn(t_exec *execute, t_cmd_list *cmds);
-void		start_pipe(t_exec *execute, t_cmd_list *cmds);
-void 		run_single_builtin(t_exec *execute, t_cmd_list *cmds);
-void		execution(t_exec *execute, t_cmd_list *list);
+void	children_spawn(t_meta *meta, t_cmd_list *cmds);
+void	start_pipe(t_meta *meta, t_cmd_list *cmds);
+void		execution(t_meta *meta, t_cmd_list *list);
 
 // execute_utils:
 bool		dup_stdin(int file);
@@ -85,14 +76,14 @@ void		dup_io(t_exec *execute, t_cmd_list *cmds);
 
 // builtins:
 t_builtin	get_builtin(char *cmd);
-void		run_builtin(t_builtin builtin, t_exec *execute, t_cmd_list *cmds);
+void		run_builtin(t_builtin builtin, t_meta *execute, t_cmd_list *cmds);
 
 // access:
-bool		find_access(t_exec *execute, t_cmd_list *list);
+bool	find_access(t_meta *meta, t_cmd_list *cmds);
 bool		is_a_directory(char *cmd);
 char		*check_relative_path(char *cmd);
-char		*find_executable_in_path(t_exec *execute, char *cmd);
-char		*access_possible(t_exec *execute, char *list);
+char	*find_executable_in_path(char **split_path, char *cmd);
+char	*access_possible(t_meta *meta, char *cmd);
 
 // free:
 void		free_2d(char **str);

@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*   builtin_export.c                                  :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:03 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/28 17:48:31 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:33:36 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-void	print_env(t_exec *execute)
+void	print_env(char **envp)
 {
 	int	i;
 
 	i = 0;
-	while (execute->envp[i])
+	while (envp[i])
 	{
 		ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		printf("%s\n", execute->envp[i]);
+		printf("%s\n",envp[i]);
 		i++;
 	}
 }
@@ -61,20 +61,20 @@ bool	prepare_variable(char *cmd_start)
 	return (false);
 }
 
-bool	exists_in_env(t_exec *execute, t_cmd_list *cmds, \
+bool	exists_in_env(char **envp, t_cmd_list *cmds, \
 			char *variable, int len_var)
 {
 	int	i;
 
 	i = 0;
-	while (execute->envp[i])
+	while (envp[i])
 	{
-		if (ft_strncmp(execute->envp[i], variable, len_var) == 0
-			&& (execute->envp[i][len_var] == '='))
+		if (ft_strncmp(envp[i], variable, len_var) == 0
+			&& (envp[i][len_var] == '='))
 		{
-			free(execute->envp[i]);
-			execute->envp[i] = ft_strdup(cmds->content.argv[1]);
-			if (!execute->envp[i]) 
+			free(envp[i]);
+			envp[i] = ft_strdup(cmds->content.argv[1]);
+			if (!envp[i]) 
 			{
 				printf("Memory allocation error\n");
 				return (false);
@@ -87,7 +87,7 @@ bool	exists_in_env(t_exec *execute, t_cmd_list *cmds, \
 	return (false);
 }
 
-bool	builtin_run_export(t_exec *execute, t_cmd_list *cmds)
+bool	builtin_run_export(t_meta *meta, t_cmd_list *cmds)
 {
 	char	*cmd_start;
 	char	*variable;
@@ -95,7 +95,7 @@ bool	builtin_run_export(t_exec *execute, t_cmd_list *cmds)
 
 	if (!cmds->content.argv[1])
 	{
-		print_env(execute);
+		print_env(meta->envp);
 		return (false);
 	}
 	cmd_start = ft_strdup(cmds->content.argv[1]);
@@ -105,10 +105,10 @@ bool	builtin_run_export(t_exec *execute, t_cmd_list *cmds)
 		return (false);
 	variable = cmd_start;
 	len_var = ft_strlen(variable);
-	if (exists_in_env(execute, cmds, variable, len_var) == false)
-		return (handle_export_new_variable(execute, cmds, cmd_start));
+	if (exists_in_env(meta->envp, cmds, variable, len_var) == false)
+		return (handle_export_new_variable(meta->envp, cmds, cmd_start));
 	if (!correct_input(cmd_start))
 		return (handle_export_input_errors(cmd_start));
-	handle_export_existing_variable(execute, cmd_start);
+	handle_export_existing_variable(meta->envp, cmd_start);
 	return (true);
 }

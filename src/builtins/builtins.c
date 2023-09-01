@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   builtins.c                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/29 13:35:59 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:25:11 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "execute.h"
+#include "megashell.h"
 #include "utils.h"
 
 t_builtin	get_builtin(char *cmd)
@@ -29,9 +30,9 @@ t_builtin	get_builtin(char *cmd)
 	return (BUILTIN_INVALID);
 }
 
-void	run_builtin(t_builtin builtin, t_exec *execute, t_cmd_list *cmds)
+void	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_list *cmds)
 {
-	bool	(*BUILTINS_FUNCTS[BUILTIN_COUNT]) (t_exec *a, t_cmd_list *cmds) = {
+	bool	(*BUILTINS_FUNCTS[BUILTIN_COUNT]) (t_meta *a, t_cmd_list *cmds) = {
 	builtin_run_pwd,
 	builtin_run_env,
 	builtin_run_echo,
@@ -40,5 +41,5 @@ void	run_builtin(t_builtin builtin, t_exec *execute, t_cmd_list *cmds)
 	builtin_run_unset,
 	builtin_run_exit,};
 
-	(*BUILTINS_FUNCTS[builtin - 1])(execute, cmds);
+	(*BUILTINS_FUNCTS[builtin - 1])(meta, cmds);
 }

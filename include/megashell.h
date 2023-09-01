@@ -18,8 +18,18 @@
 
 #define HISTORY_FILE_NAME ".ms_history"
 
+typedef struct s_exec {
+	int			args;
+	int			pid;
+	int			io_file[2];
+	char		**argv;
+	char		**split_path;
+}	t_exec;
+
+
 typedef struct s_meta {
-	bool stop;
+	char	**envp;
+	t_exec	execute;
 } t_meta;
 
 
