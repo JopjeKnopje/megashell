@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/29 13:45:02 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/29 14:58:03 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	children_spawn(t_exec *execute, t_cmd_list *cmds)
 		return ;
 	}
 	else if (find_access(execute, cmds) == false)
+	{
 		print_error(get_error_name(ERROR_ACCESS));
+		return ;
+	}
 	dup_io(execute, cmds);
 }
 
@@ -91,7 +94,10 @@ void	run_single_command(t_exec *execute, t_cmd_list *cmds)
 	if (execute->pid == 0)
 	{
 		if (find_access(execute, cmds) == false)
-			print_error(get_error_name(ERROR_ACCESS));	
+		{
+			print_error(get_error_name(ERROR_ACCESS));
+			exit (EXIT_FAILURE);
+		}
 	}
 	wait(NULL);
 }
