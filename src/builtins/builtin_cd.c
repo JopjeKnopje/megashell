@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:09:31 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/22 14:40:51 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/29 17:01:15 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,17 @@ bool	builtin_run_cd(t_exec *execute, t_cmd_list *cmds)
 			return (false);
 		chdir(tmp_home[0]);
 		getcwd(cwd, sizeof(cwd));
-		printf("Current working dir: %s\n", cwd);
+		// printf("Current working dir: %s\n", cwd);
+		return (true);
 	}
 	path_len = ft_strlen(cmds->content.argv[1]);
 	if (strncmp(cmds->content.argv[1], "..", path_len) == 0
 		|| strncmp(cmds->content.argv[1], "../", path_len) == 0)
 		chdir("../");
+	if (chdir(cmds->content.argv[1]) != 0)
+		printf("bash: cd: %s: No such file or directory\n", \
+			cmds->content.argv[1]);
 	getcwd(cwd, sizeof(cwd));
-	printf("Current working dir: %s\n", cwd);
+	// printf("Current working dir: %s\n", cwd);
 	return (true);
 }
