@@ -6,13 +6,13 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 18:11:57 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/29 18:12:57 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:39:07 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-char *find_executable_in_path(t_exec *execute, char *cmd)
+char	*find_executable_in_path(t_exec *execute, char *cmd)
 {
 	int		i;
 	char	*tmp;
