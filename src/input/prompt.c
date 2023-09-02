@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:01 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 17:11:24 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/09/02 21:48:40 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char *prompt_get_line()
 	
 	while (1)
 	{
+		printf("\x1b[0m");
 		line = readline("megashell> ");
 		if (line == NULL)
 			return (NULL);
