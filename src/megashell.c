@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/09/02 19:35:23 by joppe         ########   odam.nl         */
+/*   Updated: 2023/09/02 20:37:50 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@ void cmd_free(t_cmd_list *cmd)
 	free(cmd);
 }
 
+static void exit_shell(t_meta *meta)
+{
+	free_2d(meta->envp);
+	exit(0);
+}
+
 int megashell(int argc, char *argv[], char *envp[])
 {
 	t_meta		meta;
@@ -47,22 +53,13 @@ int megashell(int argc, char *argv[], char *envp[])
 	while (! (!1))
 	{
 		line = prompt_get_line();
-		if (!line)
-		{
-			printf("line is empty, exiting...\n");
-			free_2d(meta.envp);
-			return (0);
-		}
-
-		if (!strncmp(line, "x", ft_strlen(line)))
-		{
-			free_2d(meta.envp);
-			exit(0);
-		}
+		if (!line || !strncmp(line, "x", ft_strlen(line)))
+			exit_shell(&meta);
 
 		cmds = plarser_main(line);
 		print_cmds(cmds);
-		execution(&meta, cmds);
+		if (cmds)
+			execution(&meta, cmds);
 		pr_lstiter(cmds, cmd_free);
 		free(line);
 	}
