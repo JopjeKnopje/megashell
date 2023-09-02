@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/09/01 20:53:50 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/09/02 19:35:23 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,13 @@ int megashell(int argc, char *argv[], char *envp[])
 		if (!line)
 		{
 			printf("line is empty, exiting...\n");
+			free_2d(meta.envp);
 			return (0);
 		}
 
 		if (!strncmp(line, "x", ft_strlen(line)))
 		{
+			free_2d(meta.envp);
 			exit(0);
 		}
 
@@ -64,6 +66,5 @@ int megashell(int argc, char *argv[], char *envp[])
 		pr_lstiter(cmds, cmd_free);
 		free(line);
 	}
-
 	return (0);
 }

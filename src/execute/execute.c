@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/02 00:30:54 by joppe         ########   odam.nl         */
+/*   Updated: 2023/09/02 19:13:17 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,11 +147,17 @@ void	run_single_command(t_meta *meta, t_cmd_list *cmds)
 	}
 	if (execute->pid == 0)
 	{
-		if (find_access(meta, cmds) == false)
+		char *path = access_possible(meta, cmds->content.argv[0]);
+		if (!path)
 		{
-			print_error(get_error_name(ERROR_ACCESS));
-			exit (EXIT_FAILURE);
+			printf("[%s] is not runnable\n", path);
+			return;
 		}
+		printf("running [%s]\n", path);
+
+		if (execve (path, cmds->content.argv, meta->envp) == -1)
+			perror(strerror(errno));
+		assert(0 && "UNREACHABLE CODE!!\n");
 	}
 	wait(NULL);
 }
