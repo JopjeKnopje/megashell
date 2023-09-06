@@ -1,15 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                         :+:    :+:             */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/01 20:52:30 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/09/06 17:09:51 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "redirections.h"
 #include "execute.h"
 #include "megashell.h"
 
@@ -20,7 +21,7 @@ void	children_spawn(t_meta *meta, t_cmd_list *cmds)
 {
 	t_builtin	is_builtin;
 
-	// redirects();
+	redirects(cmds);
 	is_builtin = get_builtin(cmds->content.argv[0]);
 	// printf("%s\n", BUILTINS_NAME[is_builtin]);
 	if (is_builtin != BUILTIN_INVALID)
@@ -96,6 +97,7 @@ void	run_single_command(t_meta *meta, t_cmd_list *cmds)
 	}
 	if (execute->pid == 0)
 	{
+		redirects(cmds);
 		if (find_access(meta, cmds) == false)
 		{
 			print_error(get_error_name(ERROR_ACCESS));
