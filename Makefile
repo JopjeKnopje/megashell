@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/09/06 16:25:06 by ivan-mel         ###   ########.fr        #
+#    Updated: 2023/09/15 19:57:26 by ivan-mel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,6 +69,7 @@ SRCS =  execute/error.c \
 	  	plarser/parser_list.c \
 	  	utils/utils_string.c \
 		redirections/redirections.c \
+		redirections/heredoc.c \
 		test_utils.c \
 	  	megashell.c \
 		main.c \

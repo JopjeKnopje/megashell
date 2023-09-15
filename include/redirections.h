@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:31:17 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/06 15:32:47 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:57:04 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+
+t_cmd_frame	*handle_redir_input(t_cmd_list *cmd_list);
+void		handle_redir_output(t_cmd_frame *cmd_frame);
+void		redirects(t_cmd_list *cmd_list);
+void		child_heredoc(char *close_line, int pipe_fd);
+void		handle_heredoc(t_cmd_frame *cmd_frame);
 
 #endif

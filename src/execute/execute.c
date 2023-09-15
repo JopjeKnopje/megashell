@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/06 17:09:51 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:57:38 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ void	execution(t_meta *meta, t_cmd_list *cmds)
 {
 	t_cmd_list	*cmd_list;
 
-	// heredoc?	
 	cmd_list = cmds;
 	if ((cmds->next == NULL && get_builtin(cmds->content.argv[0])
 			!= BUILTIN_INVALID))

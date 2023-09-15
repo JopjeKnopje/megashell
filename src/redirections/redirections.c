@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/06 18:03:59 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:56:45 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,13 @@ t_cmd_frame	*handle_redir_input(t_cmd_list *cmd_list)
 	int			fd;
 
 	current_cmd = cmd_list;
-	printf("test1\n");
 	while (current_cmd != NULL)
 	{
+		if (cmd_frame->is_heredoc)
+		{
+			printf("is a heredoc\n");
+			handle_heredoc(cmd_frame);
+		}
 		cmd_frame = &current_cmd->content;
 		if (cmd_frame->infile != NULL)
 		{
@@ -36,8 +40,6 @@ t_cmd_frame	*handle_redir_input(t_cmd_list *cmd_list)
 			else
 				dup_stdin(fd);
 		}
-		// else if (cmd_frame->is_heredoc)
-		// 	handle_heredoc()
 		current_cmd = current_cmd->next;
 	}
 	return (cmd_frame);
@@ -48,7 +50,6 @@ void	handle_redir_output(t_cmd_frame *cmd_frame)
 	int	fd;
 	int	flags;
 
-	printf("test2\n");
 	flags = O_WRONLY | O_CREAT;
 	if (cmd_frame->outfile != NULL)
 	{
@@ -71,7 +72,6 @@ void	redirects(t_cmd_list *cmd_list)
 {
 	t_cmd_frame	*cmd_frame;
 
-	printf("check\n");
 	cmd_frame = handle_redir_input(cmd_list);
 	handle_redir_output(cmd_frame);
 }
