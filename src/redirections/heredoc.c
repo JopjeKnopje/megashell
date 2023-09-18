@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/15 19:44:13 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:45:59 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	*without_env(char *line1, char *line2, int i)
 	char	*joined_line;
 	char	*new_line;
 
+	joined_line = NULL;
 	while (line1[i])
 		i++;
 	new_line = malloc(sizeof(char ) * i);
@@ -42,9 +43,11 @@ void *expand_line(char *line)
 {
 	int		i;
 	char	*new_line;
+	char	*result;
 
 	i = 0;
 	new_line = NULL;
+	result = NULL;
 	while (line[i])
 	{
 		// if (line[i] == '$')
@@ -53,33 +56,40 @@ void *expand_line(char *line)
 		// }
 		// else
 		// {
-			without_env(line, new_line, i);
+			result = without_env(line, new_line, i);
 		// }
 		i++;
 	}
+	return (result);
 }
 
 void	child_heredoc(char *close_line, int pipe_fd)
 {
-	char	*line_read;
-	char	*expanded_line;
+	char	*line;
+	// char	*expanded_line;
 
-	printf("hey\n");
 	while (1)
 	{
-		line_read = readline("> ");
-		if (!line_read)
-			break ;
-		if (ft_strncmp(close_line, line_read, ft_strlen(line_read)) == 1)
+		int i = 0;
+		while (close_line[i])
 		{
-			free(line_read);
+			printf("close_line: %c\n", close_line[i]);
+			i++;
+		}	
+		printf("in heredoc function\n");
+		line = readline("> ");
+		if (!line)
+			break ;
+		printf("line_read: %s", line);
+		line = expand_line(line);
+		if (!ft_strncmp(line, close_line, ft_strlen(close_line) + 1))
+		{
+			free(line);
 			break ;
 		}
-		expanded_line = expand_line(line_read);
-		write(pipe_fd, expanded_line, strlen(expanded_line) + 1);
+		write(pipe_fd, line, strlen(line) + 1);
 		write(pipe_fd, "\n", 1);
-		free (expanded_line);
-		free (line_read);
+		free (line);
 	}
 	exit(0);
 }
