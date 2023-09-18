@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/18 16:52:43 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/18 19:12:48 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	children_spawn(t_meta *meta, t_cmd_list *cmds)
 {
 	t_builtin	is_builtin;
 
+	if (cmds->prev)
+		close(cmds->prev->pipe_next[OUT_WRITE]);
 	redirects(cmds);
 	is_builtin = get_builtin(cmds->content.argv[0]);
 	// printf("%s\n", BUILTINS_NAME[is_builtin]);
@@ -43,12 +45,13 @@ void	children_spawn(t_meta *meta, t_cmd_list *cmds)
 
 void	start_pipe(t_meta *meta, t_cmd_list *cmds)
 {
-	t_exec *execute = &meta->execute;
-	int	status;
+	t_exec	*execute;
+	int		status;
 
+	execute = &meta->execute;
 	while (cmds)
 	{
-		if (pipe(execute->io_file) == -1)
+		if (pipe(cmds->pipe_next) == -1)
 		{
 			print_error(get_error_name(ERROR_PIPE));
 			return ;
@@ -59,13 +62,11 @@ void	start_pipe(t_meta *meta, t_cmd_list *cmds)
 			print_error(get_error_name(ERROR_FORK));
 			return ;
 		}
+		close(cmds->pipe_next[IN_READ]);
 		if (execute->pid == 0) /* fork returns 0 for child process */
 			children_spawn(meta, cmds);
-		else
-		{
-			close(execute->io_file[IN_READ]); /* close fds in main process */
-			close(execute->io_file[OUT_WRITE]);
-		}
+		if (cmds->prev)
+			close(cmds->prev->pipe_next[OUT_WRITE]);
 		cmds = cmds->next;
 	}
 	waitpid(execute->pid, &status, 0);
@@ -118,7 +119,7 @@ void	execution(t_meta *meta, t_cmd_list *cmds)
 		printf("single builtin\n");	
 		run_single_builtin(meta, cmds);
 	}
-	if ((cmds->next == NULL && get_builtin(cmds->content.argv[0])
+	else if ((cmds->next == NULL && get_builtin(cmds->content.argv[0])
 			== BUILTIN_INVALID))
 	{
 		printf("single command\n");
