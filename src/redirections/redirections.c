@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/18 14:53:17 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:52:29 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ t_cmd_frame	*handle_redir_input(t_cmd_list *cmd_list)
 	current_cmd = cmd_list;
 	while (current_cmd != NULL)
 	{
-		printf("is_heredoc: %d", cmd_frame->is_heredoc);
+		cmd_frame = &current_cmd->content;
 		if (cmd_frame->is_heredoc)
 		{
 			printf("is a heredoc\n");
 			handle_heredoc(cmd_frame);
+			return (cmd_frame);
 		}
-		cmd_frame = &current_cmd->content;
 		if (cmd_frame->infile != NULL)
 		{
 			fd = open(cmd_frame->infile, O_RDONLY);
@@ -74,5 +74,7 @@ void	redirects(t_cmd_list *cmd_list)
 	t_cmd_frame	*cmd_frame;
 
 	cmd_frame = handle_redir_input(cmd_list);
+	if (cmd_frame->is_heredoc)
+		return ;
 	handle_redir_output(cmd_frame);
 }

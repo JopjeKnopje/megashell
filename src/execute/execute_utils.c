@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:26:21 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/22 16:21:20 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:21:35 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ bool	dup_stdout(int file)
 		close (file);
 		return (false);
 	}
+	printf("check\n");
 	close(file);
 	return (true);
 }
