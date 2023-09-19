@@ -1,10 +1,12 @@
+/* ************************************************************************** */
+/*                                                                            */
 /*                                                       ::::::::             */
 /*   megashell.h                                       :+:    :+:             */
 /*                                                    +:+                     */
-/*   By: jboeve <marvin@42.fr>                       +#+                      */
+/*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
-/*   Created: 2023/07/24 12:09:29 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/07/31 16:46:03 by joppe         ########   odam.nl         */
+/*   Created: 2023/09/19 11:40:37 by jboeve        #+#    #+#                 */
+/*   Updated: 2023/09/19 11:40:56 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +19,7 @@
 #include "plarser.h"
 
 #define HISTORY_FILE_NAME ".ms_history"
+#define READLINE_PROMPT	"\033[mmegashell> "
 
 typedef struct s_exec {
 	int			args;
