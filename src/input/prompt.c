@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 15:45:01 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/15 17:11:24 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/09/19 11:40:06 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <termios.h>
 #include "libft.h"
 #include "input.h"
+#include "megashell.h"
 
 static void	disable_echoctl(void)
 {
@@ -39,7 +40,7 @@ char *prompt_get_line()
 	
 	while (1)
 	{
-		line = readline("megashell> ");
+		line = readline(READLINE_PROMPT);
 		if (line == NULL)
 			return (NULL);
 		if (ft_strisempty(line))
