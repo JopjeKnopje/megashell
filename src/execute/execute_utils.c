@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:26:21 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/18 16:21:35 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/22 17:23:13 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,24 @@ bool	dup_stdout(int file)
 // and the write side of the pipe to stdout as long
 // as it has a previous or next command.
 
+// void	dup_io(t_exec *execute, t_cmd_list *cmds)
+// {
+// 	if (cmds->prev && dup_stdin(execute->io_file[IN_READ]) == false)
+// 		print_error(get_error_name(ERROR_DUP2));
+// 	else if (cmds->next && dup_stdout(execute->io_file[OUT_WRITE]) == false)
+// 		print_error(get_error_name(ERROR_DUP2));
+// 	else if (cmds->next == NULL &&
+// 		dup_stdout(execute->io_file[OUT_WRITE]) == false)
+// 		print_error(get_error_name(ERROR_DUP2));
+// }
+
 void	dup_io(t_exec *execute, t_cmd_list *cmds)
 {
-	if (cmds->prev && dup_stdin(execute->io_file[IN_READ]) == false)
+	if (cmds->prev && dup_stdout(cmds->prev->pipe_next[OUT_WRITE]) == false)
 		print_error(get_error_name(ERROR_DUP2));
-	else if (cmds->next && dup_stdout(execute->io_file[OUT_WRITE]) == false)
+	if (cmds->next && dup_stdin(cmds->pipe_next[IN_READ]) == false)
 		print_error(get_error_name(ERROR_DUP2));
-	else if (cmds->next == NULL &&
-		dup_stdout(execute->io_file[OUT_WRITE]) == false)
+	if (cmds->next == NULL &&
+		dup_stdout(cmds->pipe_next[OUT_WRITE]) == false)
 		print_error(get_error_name(ERROR_DUP2));
 }

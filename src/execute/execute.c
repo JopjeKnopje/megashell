@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/18 19:12:48 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/22 17:25:45 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,16 @@ void	start_pipe(t_meta *meta, t_cmd_list *cmds)
 			print_error(get_error_name(ERROR_FORK));
 			return ;
 		}
-		close(cmds->pipe_next[IN_READ]);
 		if (execute->pid == 0) /* fork returns 0 for child process */
 			children_spawn(meta, cmds);
+		close(cmds->pipe_next[IN_READ]);
 		if (cmds->prev)
 			close(cmds->prev->pipe_next[OUT_WRITE]);
 		cmds = cmds->next;
 	}
 	waitpid(execute->pid, &status, 0);
-	while (wait(NULL) != -1)
-		continue ;
+	// while (wait(NULL) != -1)
+	// 	continue ;
 }
 
 void run_single_builtin(t_meta *meta, t_cmd_list *cmds)
