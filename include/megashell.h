@@ -38,7 +38,7 @@ typedef struct s_meta {
 int megashell(int argc, char *argv[], char *envp[]);
 
 // plarser.c
-t_cmd_list *plarser_main(char *line);
+t_cmd_list *plarser_main(t_meta *meta, char *line);
 
 // prompt.c
 void	prompt_env_setup();

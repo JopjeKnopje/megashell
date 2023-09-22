@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/09/02 20:37:50 by joppe         ########   odam.nl         */
+/*   Updated: 2023/09/22 22:31:52 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ int megashell(int argc, char *argv[], char *envp[])
 	prompt_env_setup();
 	hs_read_history_file(HISTORY_FILE_NAME);
 	if (search_path(&meta, envp) == EXIT_FAILURE)
-			printf("error search path\n");
+		printf("error search path\n");
 	while (! (!1))
 	{
 		line = prompt_get_line();
 		if (!line || !strncmp(line, "x", ft_strlen(line)))
 			exit_shell(&meta);
 
-		cmds = plarser_main(line);
+		cmds = plarser_main(&meta, line);
 		print_cmds(cmds);
 		if (cmds)
 			execution(&meta, cmds);

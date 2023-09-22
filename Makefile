@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile                                          :+:    :+:              #
 #                                                     +:+ +:+         +:+      #
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/09/01 20:16:15 by ivan-mel         ###   ########.fr        #
+#    Updated: 2023/09/22 22:30:30 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ endif
 RUN_CMD = ./$(NAME)
 
 # CFLAGS += -Wall -Wextra -Werror
-CFLAGS += -Wall -Wextra
+# CFLAGS += -Wall -Wextra
 CFLAGS += -g -fsanitize=address
 
 LIBFT = libft/build/libft.a
@@ -67,6 +67,7 @@ SRCS =  execute/error.c \
 	  	plarser/tokenize.c \
 	  	plarser/parser.c \
 	  	plarser/parser_list.c \
+	  	plarser/expander.c \
 	  	utils/utils_string.c \
 		test_utils.c \
 	  	megashell.c \

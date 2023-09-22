@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 16:40:07 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/29 17:51:54 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/09/22 22:24:36 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,9 @@ typedef struct e_cmd_list {
 	struct e_cmd_list	*prev;
 }	t_cmd_list;
 
+
+// expander.c
+t_tok_list		*ex_main(char **envp, t_tok_list *tokens);
 
 // parser.c
 t_cmd_list		*pr_main(t_tok_list *tokens);
