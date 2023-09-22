@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/22 18:28:08 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/22 18:36:25 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ void	children_spawn(t_meta *meta, t_cmd_list *cmds)
 {
 	t_builtin	is_builtin;
 
+	close(cmds->pipe_next[IN_READ]);
 	if (cmds->prev)
-		close(cmds->pipe_next[OUT_WRITE]);
+		close(cmds->prev->pipe_next[OUT_WRITE]);
 	redirects(cmds);
 	is_builtin = get_builtin(cmds->content.argv[0]);
 	// printf("%s\n", BUILTINS_NAME[is_builtin]);
@@ -64,7 +65,7 @@ void	start_pipe(t_meta *meta, t_cmd_list *cmds)
 		}
 		if (execute->pid == 0) /* fork returns 0 for child process */
 			children_spawn(meta, cmds);
-		close(cmds->pipe_next[IN_READ]);
+		close(cmds->pipe_next[OUT_WRITE]);
 		if (cmds->prev)
 			close(cmds->prev->pipe_next[OUT_WRITE]);
 		cmds = cmds->next;
