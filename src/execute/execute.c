@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/22 18:52:23 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/22 22:25:46 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ void	children_spawn(t_meta *meta, t_cmd_list *cmds)
 {
 	t_builtin	is_builtin;
 
-	close(cmds->pipe_next[IN_READ]);
 	redirects(cmds);
+	if (cmds->prev)
+		close(cmds->pipe_next[IN_READ]);
 	is_builtin = get_builtin(cmds->content.argv[0]);
 	// printf("%s\n", BUILTINS_NAME[is_builtin]);
 	if (is_builtin != BUILTIN_INVALID)
@@ -41,6 +42,7 @@ void	children_spawn(t_meta *meta, t_cmd_list *cmds)
 // checks whether there is a next command, if so then
 // the function will first pipe and then fork
 // it enters the child processs if pid = 0
+
 
 void	start_pipe(t_meta *meta, t_cmd_list *cmds)
 {
@@ -63,7 +65,7 @@ void	start_pipe(t_meta *meta, t_cmd_list *cmds)
 		}
 		if (execute->pid == 0) /* fork returns 0 for child process */
 			children_spawn(meta, cmds);
-		close(cmds->pipe_next[OUT_WRITE]);
+		close(cmds->pipe_next[IN_READ]);
 		if (cmds->prev)
 			close(cmds->prev->pipe_next[OUT_WRITE]);
 		cmds = cmds->next;

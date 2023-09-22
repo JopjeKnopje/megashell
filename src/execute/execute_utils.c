@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:26:21 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/22 19:11:21 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/22 22:23:49 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ bool	dup_stdout(int file)
 		close (file);
 		return (false);
 	}
-	printf("check\n");
 	close(file);
 	return (true);
 }
@@ -63,11 +62,11 @@ bool	dup_stdout(int file)
 
 void	dup_io(t_exec *execute, t_cmd_list *cmds)
 {
-	if (cmds->prev && dup_stdin(cmds->pipe_next[IN_READ]) == false)
+	if (cmds->prev && dup_stdin(cmds->prev->pipe_next[IN_READ]) == false)
 		print_error(get_error_name(ERROR_DUP2));
 	if (cmds->next && dup_stdout(cmds->pipe_next[OUT_WRITE]) == false)
 		print_error(get_error_name(ERROR_DUP2));
 	if (cmds->next == NULL &&
-		dup_stdout(cmds->pipe_next[IN_READ]) == false)
+		dup_stdin(cmds->prev->pipe_next[IN_READ]) == false)
 		print_error(get_error_name(ERROR_DUP2));
 }
