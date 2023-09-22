@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                    :+:    :+:             */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:11 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/01 20:36:02 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/09/15 19:58:58 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@ bool	is_a_nb(char *str)
 	int	i;
 
 	i = 0;
+	if (str[0] == '-')
+	{
+		if (str[1] != '-' && (str[1] < '0' || str[1] > '9'))
+		{
+			printf("exit %c: numeric argument required\n", str[0]);
+			return (false);
+		}
+	}
 	while (str[i])
 	{
 		if (str[i] != '-' && (str[i] < '0' || str[i] > '9'))
@@ -51,6 +59,6 @@ bool	builtin_run_exit(t_meta *meta, t_cmd_list *cmds)
 		}
 	}
 	else if (!is_a_nb(cmds->content.argv[1]))
-		printf("Argument isn't a Number\n");
+		printf("exit %s: a numeric argument required\n", cmds->content.argv[1]);
 	exit(nb);
 }
