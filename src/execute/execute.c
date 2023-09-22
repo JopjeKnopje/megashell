@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/22 23:17:08 by joppe         ########   odam.nl         */
+/*   Updated: 2023/09/23 00:20:34 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,10 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 // children_spawn: checks whether command has access
 // if so it executes it and changes the stdin and stdout
-
-bool	find_access1(t_meta *meta, t_cmd_list *cmds)
-{
-	char	*cmd_in_path;
-
-	cmd_in_path = access_possible(meta, cmds->content.argv[0]);
-	if (!cmd_in_path)
-		return (false);
-	if (execve (cmd_in_path, cmds->content.argv, meta->envp) == -1)
-		return (false);
-	return (true);
-}
 
 void	children_spawn(t_meta *meta, t_cmd_list *cmds)
 {
@@ -80,9 +69,25 @@ void	start_pipe(t_meta *meta, t_cmd_list *cmds)
 		}
 		if (execute->pid == 0) /* fork returns 0 for child process */
 		{
+			// if this is not the first command in our list,
+			// attach the prev->pipe to the STDIN, so we can read from the previous process.
+			if (cmds->prev)
+				dup2(cmds->prev->pipe[PIPE_READ], STDIN_FILENO);
+
+			// if this is not the last command attach the STDOUT,
+			// so the next command can attach it to its STDIN.
+			// just like we are doing above.
+			if (cmds->next)
+				dup2(cmds->pipe[PIPE_WRITE], STDOUT_FILENO);
+
 			children_spawn(meta, cmds);
 			exit(69);
 		}
+
+		// always close the pipe in the main proc, since they will only be used between the procs them selves.
+		close(cmds->pipe[PIPE_READ]);
+		close(cmds->pipe[PIPE_WRITE]);
+
 		cmds = cmds->next;
 	}
 	waitpid(execute->pid, &status, 0);

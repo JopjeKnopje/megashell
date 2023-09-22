@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   heredoc.c                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/18 16:09:26 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/22 23:47:39 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,12 @@ void	handle_heredoc(t_cmd_frame *cmd_frame)
 	}
 	if (pid == 0)
 	{
-		close (pipe_fd[IN_READ]);
-		child_heredoc(cmd_frame->outfile, pipe_fd[OUT_WRITE]);
+		close (pipe_fd[PIPE_READ]);
+		child_heredoc(cmd_frame->outfile, pipe_fd[PIPE_WRITE]);
 	}
 	else
 	{
-		close(pipe_fd[OUT_WRITE]);
+		close(pipe_fd[PIPE_WRITE]);
 		waitpid(pid, &status, 0);
 	}
 }
