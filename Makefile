@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile                                          :+:    :+:              #
 #                                                     +:+ +:+         +:+      #
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/09/15 19:57:26 by ivan-mel         ###   ########.fr        #
+#    Updated: 2023/09/23 01:03:59 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,8 @@ SRCS =  execute/error.c \
 	  	utils/utils_string.c \
 		redirections/redirections.c \
 		redirections/heredoc.c \
+		pipes_test.c \
+		pipes_list.c \
 		test_utils.c \
 	  	megashell.c \
 		main.c \
@@ -81,6 +83,7 @@ HEADERS = input.h \
 		  builtins.h \
 		  execute.h \
 		  test_utils.h \
+		  pipes_test.h \
 		  utils.h
 
 OBJ_DIR = obj
