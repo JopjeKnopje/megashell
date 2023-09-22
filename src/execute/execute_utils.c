@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:26:21 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/22 22:23:49 by iris             ###   ########.fr       */
+/*   Updated: 2023/09/22 23:32:14 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,20 @@ bool	dup_stdout(int file)
 
 void	dup_io(t_exec *execute, t_cmd_list *cmds)
 {
-	if (cmds->prev && dup_stdin(cmds->prev->pipe_next[IN_READ]) == false)
+	if (cmds->prev && dup_stdin(cmds->prev->pipe_next[OUT_WRITE]) == false)
+	{
+		printf("1\n");
 		print_error(get_error_name(ERROR_DUP2));
-	if (cmds->next && dup_stdout(cmds->pipe_next[OUT_WRITE]) == false)
+	}
+	else if (cmds->next && dup_stdout(cmds->pipe_next[OUT_WRITE]) == false)
+	{
+		printf("2\n");
 		print_error(get_error_name(ERROR_DUP2));
-	if (cmds->next == NULL &&
+	}
+	else if (cmds->next == NULL &&
 		dup_stdin(cmds->prev->pipe_next[IN_READ]) == false)
-		print_error(get_error_name(ERROR_DUP2));
+		{
+			printf("3\n");
+			print_error(get_error_name(ERROR_DUP2));
+		}
 }

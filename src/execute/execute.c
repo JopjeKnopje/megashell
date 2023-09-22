@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/22 22:25:46 by iris             ###   ########.fr       */
+/*   Updated: 2023/09/23 00:06:26 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	children_spawn(t_meta *meta, t_cmd_list *cmds)
 {
 	t_builtin	is_builtin;
 
+	dup_io(&meta->execute, cmds);
 	redirects(cmds);
 	if (cmds->prev)
 		close(cmds->pipe_next[IN_READ]);
@@ -36,7 +37,6 @@ void	children_spawn(t_meta *meta, t_cmd_list *cmds)
 		print_error(get_error_name(ERROR_ACCESS));
 		return ;
 	}
-	dup_io(&meta->execute, cmds);
 }
 
 // checks whether there is a next command, if so then
