@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/22 17:25:45 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/22 18:28:08 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	children_spawn(t_meta *meta, t_cmd_list *cmds)
 	t_builtin	is_builtin;
 
 	if (cmds->prev)
-		close(cmds->prev->pipe_next[OUT_WRITE]);
+		close(cmds->pipe_next[OUT_WRITE]);
 	redirects(cmds);
 	is_builtin = get_builtin(cmds->content.argv[0]);
 	// printf("%s\n", BUILTINS_NAME[is_builtin]);
