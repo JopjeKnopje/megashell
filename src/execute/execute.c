@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/23 02:20:37 by joppe         ########   odam.nl         */
+/*   Updated: 2023/09/23 02:28:56 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	start_pipe(t_meta *meta, t_cmd_list *cmds)
 		}
 		if (execute->pid == 0) /* fork returns 0 for child process */
 		{
-
 			if (cmds->prev)
 			{
 				dup2(cmds->prev->pipe[PIPE_READ], STDIN_FILENO);
