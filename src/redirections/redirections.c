@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/23 14:58:36 by joppe         ########   odam.nl         */
+/*   Updated: 2023/09/23 15:02:22 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	handle_redir_output(t_cmd_frame *cmd_frame)
 	int	flags;
 
 
-	fprintf(stderr, "test cmd: [%s]\n", cmd_frame->argv[0]);
+	fprintf(stderr, "handle_redir_output cmd: [%s]\n", cmd_frame->argv[0]);
 	flags = O_WRONLY | O_CREAT;
 	if (cmd_frame->outfile != NULL)
 	{
