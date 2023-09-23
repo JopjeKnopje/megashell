@@ -1,5 +1,0 @@
-
-ls | pwd | pwd > log.txt OUTPUT = ls
-pwd | ls | pwd > log.txt OUTPUT = ls
-
-ls | ls -a | ls -lsa > log.txt OUTPUT = ls -lsa
