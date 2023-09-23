@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/01 20:52:13 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/09/22 23:26:16 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 # include <sys/types.h>
 
 typedef enum e_files {
-	IN_READ,
-	OUT_WRITE,
+	PIPE_READ,
+	PIPE_WRITE,
 }	t_files;
 
 typedef	enum e_access {
