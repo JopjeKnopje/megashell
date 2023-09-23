@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                          :+:      :+:    :+:   */
+/*   execute.c                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/23 00:06:26 by iris             ###   ########.fr       */
+/*   Updated: 2023/09/23 14:56:01 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redirections.h"
 #include "execute.h"
 #include "megashell.h"
+#include <stdio.h>
+#include <assert.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 // children_spawn: checks whether command has access
 // if so it executes it and changes the stdin and stdout
@@ -23,17 +27,18 @@ void	children_spawn(t_meta *meta, t_cmd_list *cmds)
 
 	dup_io(&meta->execute, cmds);
 	redirects(cmds);
-	if (cmds->prev)
-		close(cmds->pipe_next[IN_READ]);
+
 	is_builtin = get_builtin(cmds->content.argv[0]);
-	// printf("%s\n", BUILTINS_NAME[is_builtin]);
 	if (is_builtin != BUILTIN_INVALID)
 	{
 		run_builtin(is_builtin, meta, cmds);
 		return ;
 	}
-	else if (find_access(meta, cmds) == false)
+
+	char *cmd_in_path = access_possible(meta, cmds->content.argv[0]);
+	if (cmd_in_path)
 	{
+		execve(cmd_in_path, cmds->content.argv, meta->envp);
 		print_error(get_error_name(ERROR_ACCESS));
 		return ;
 	}
@@ -52,7 +57,7 @@ void	start_pipe(t_meta *meta, t_cmd_list *cmds)
 	execute = &meta->execute;
 	while (cmds)
 	{
-		if (pipe(cmds->pipe_next) == -1)
+		if (cmds->next && pipe(cmds->pipe) == -1)
 		{
 			print_error(get_error_name(ERROR_PIPE));
 			return ;
@@ -64,13 +69,36 @@ void	start_pipe(t_meta *meta, t_cmd_list *cmds)
 			return ;
 		}
 		if (execute->pid == 0) /* fork returns 0 for child process */
+		{
+			if (cmds->prev)
+			{
+				dup2(cmds->prev->pipe[PIPE_READ], STDIN_FILENO);
+				close(cmds->prev->pipe[PIPE_READ]);
+				close(cmds->prev->pipe[PIPE_WRITE]);
+			}
+			if (cmds->next)
+			{
+				close(cmds->pipe[PIPE_READ]);
+				dup2(cmds->pipe[PIPE_WRITE], STDOUT_FILENO);
+				close(cmds->pipe[PIPE_WRITE]);
+			}
 			children_spawn(meta, cmds);
-		close(cmds->pipe_next[IN_READ]);
+			exit(69);
+		}
 		if (cmds->prev)
-			close(cmds->prev->pipe_next[OUT_WRITE]);
+		{
+			close(cmds->prev->pipe[PIPE_READ]);
+			close(cmds->prev->pipe[PIPE_WRITE]);
+		}
+		if (!cmds->next)
+		{
+			close(cmds->pipe[PIPE_READ]);
+			close(cmds->pipe[PIPE_WRITE]);
+		}
 		cmds = cmds->next;
 	}
 	waitpid(execute->pid, &status, 0);
+	printf("last exitcode: %d\n", WEXITSTATUS(status));
 	// while (wait(NULL) != -1)
 	// 	continue ;
 }

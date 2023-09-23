@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   plarser.h                                          :+:      :+:    :+:   */
+/*   plarser.h                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/09/18 18:35:56 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/22 22:59:24 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct e_token_list {
 
 typedef struct e_cmd_list {
 	t_cmd_frame			content;
-	int					pipe_next[2];
+	int					pipe[2];
 	struct e_cmd_list	*next;
 	struct e_cmd_list	*prev;
 }	t_cmd_list;

@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   redirections.c                                    :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/18 16:52:29 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/23 02:40:30 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "redirections.h"
 #include "execute.h"
 #include "plarser.h"
+#include <stdio.h>
 
 t_cmd_frame	*handle_redir_input(t_cmd_list *cmd_list)
 {
@@ -20,28 +21,25 @@ t_cmd_frame	*handle_redir_input(t_cmd_list *cmd_list)
 	t_cmd_frame	*cmd_frame;
 	int			fd;
 
+
 	current_cmd = cmd_list;
-	while (current_cmd != NULL)
+	cmd_frame = &current_cmd->content;
+	if (cmd_frame->is_heredoc)
 	{
-		cmd_frame = &current_cmd->content;
-		if (cmd_frame->is_heredoc)
+		printf("is a heredoc\n");
+		handle_heredoc(cmd_frame);
+		return (cmd_frame);
+	}
+	if (cmd_frame->infile != NULL)
+	{
+		fd = open(cmd_frame->infile, O_RDONLY);
+		if (fd == -1)
 		{
-			printf("is a heredoc\n");
-			handle_heredoc(cmd_frame);
-			return (cmd_frame);
+			print_error(strerror(errno));
+			exit(errno);
 		}
-		if (cmd_frame->infile != NULL)
-		{
-			fd = open(cmd_frame->infile, O_RDONLY);
-			if (fd == -1)
-			{
-				print_error(strerror(errno));
-				exit(errno);
-			}
-			else
-				dup_stdin(fd);
-		}
-		current_cmd = current_cmd->next;
+		else
+			dup_stdin(fd);
 	}
 	return (cmd_frame);
 }
@@ -51,6 +49,8 @@ void	handle_redir_output(t_cmd_frame *cmd_frame)
 	int	fd;
 	int	flags;
 
+
+	fprintf(stderr, "poepsex cmd: [%s]\n", cmd_frame->argv[0]);
 	flags = O_WRONLY | O_CREAT;
 	if (cmd_frame->outfile != NULL)
 	{

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_utils.c                                    :+:      :+:    :+:   */
+/*   execute_utils.c                                   :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:26:21 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/22 23:32:14 by iris             ###   ########.fr       */
+/*   Updated: 2023/09/23 14:56:29 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,12 @@ bool	dup_stdout(int file)
 
 void	dup_io(t_exec *execute, t_cmd_list *cmds)
 {
-	if (cmds->prev && dup_stdin(cmds->prev->pipe_next[OUT_WRITE]) == false)
-	{
-		printf("1\n");
+	if (cmds->prev && dup_stdin(cmds->prev->pipe[PIPE_READ]) == false)
 		print_error(get_error_name(ERROR_DUP2));
-	}
-	else if (cmds->next && dup_stdout(cmds->pipe_next[OUT_WRITE]) == false)
-	{
-		printf("2\n");
+
+	if (cmds->next && dup_stdout(cmds->pipe[PIPE_WRITE]) == false)
 		print_error(get_error_name(ERROR_DUP2));
-	}
-	else if (cmds->next == NULL &&
-		dup_stdin(cmds->prev->pipe_next[IN_READ]) == false)
-		{
-			printf("3\n");
-			print_error(get_error_name(ERROR_DUP2));
-		}
+	
+	if (cmds->next == NULL && dup_stdin(cmds->prev->pipe[PIPE_READ]) == false)
+		print_error(get_error_name(ERROR_DUP2));
 }
