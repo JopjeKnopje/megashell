@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/23 02:28:56 by joppe         ########   odam.nl         */
+/*   Updated: 2023/09/24 00:04:48 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,16 @@ void	start_pipe(t_meta *meta, t_cmd_list *cmds)
 		{
 			if (cmds->prev)
 			{
-				dup2(cmds->prev->pipe[PIPE_READ], STDIN_FILENO);
+				if (dup2(cmds->prev->pipe[PIPE_READ], STDIN_FILENO) == -1)
+					perror(strerror(errno));
 				close(cmds->prev->pipe[PIPE_READ]);
 				close(cmds->prev->pipe[PIPE_WRITE]);
 			}
 			if (cmds->next)
 			{
 				close(cmds->pipe[PIPE_READ]);
-				dup2(cmds->pipe[PIPE_WRITE], STDOUT_FILENO);
+				if (dup2(cmds->pipe[PIPE_WRITE], STDOUT_FILENO) == -1)
+					perror(strerror(errno));
 				close(cmds->pipe[PIPE_WRITE]);
 			}
 			children_spawn(meta, cmds);
