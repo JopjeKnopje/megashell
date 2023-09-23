@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/23 02:39:05 by joppe         ########   odam.nl         */
+/*   Updated: 2023/09/23 02:40:30 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_cmd_frame	*handle_redir_input(t_cmd_list *cmd_list)
 	t_cmd_list	*current_cmd;
 	t_cmd_frame	*cmd_frame;
 	int			fd;
+
 
 	current_cmd = cmd_list;
 	cmd_frame = &current_cmd->content;
