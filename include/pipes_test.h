@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/23 00:46:40 by joppe         #+#    #+#                 */
-/*   Updated: 2023/09/23 01:12:13 by joppe         ########   odam.nl         */
+/*   Updated: 2023/09/23 01:47:24 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 typedef struct s_command {
 	int		pipe[2];
 	int 	id;
-	char	*data;
+	char	*content;
 } t_command;
 
 typedef struct e_test_list {

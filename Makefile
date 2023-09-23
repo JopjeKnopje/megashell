@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/09/23 01:03:59 by joppe         ########   odam.nl          #
+#    Updated: 2023/09/23 01:51:42 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ RUN_CMD = ./$(NAME)
 
 # CFLAGS += -Wall -Wextra -Werror
 CFLAGS += -Wall -Wextra
-CFLAGS += -g -fsanitize=address
+# CFLAGS += -g -fsanitize=address
 
 LIBFT = libft/build/libft.a
 
@@ -135,3 +135,8 @@ dre: re
 
 argv_test: tests/argv_test.c
 	gcc tests/argv_test.c -o argv_test
+
+pt: 
+	pipes_tester
+pipes_tester: src/pipes_tester.c
+	gcc src/pipes_tester.c -o pipes_tester
