@@ -6,11 +6,12 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:34:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/01 20:41:11 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/09/29 13:14:52 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
+#include "utils.h"
 #include "megashell.h"
 
 char	*find_path(char **envp)
