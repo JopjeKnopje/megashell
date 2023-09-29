@@ -6,12 +6,13 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:17:38 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/29 13:25:57 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/09/29 14:25:25 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "libft.h"
+#include <stdint.h>
 
 char	**get_environment(char **envp)
 {
@@ -38,7 +39,7 @@ char	**get_environment(char **envp)
 	return (environment);
 }
 
-char *envp_find_var(char **envp, char *s, int len)
+char *envp_find_var(char **envp, char *s, uint32_t len)
 {
 	while (*envp) 
 	{

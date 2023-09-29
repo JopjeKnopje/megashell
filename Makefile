@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/09/29 13:12:38 by jboeve        ########   odam.nl          #
+#    Updated: 2023/09/29 20:04:41 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ RUN_CMD = ./$(NAME)
 # CFLAGS += -Wall -Wextra -Werror
 # CFLAGS += -Wall -Wextra
 CFLAGS += -g -fsanitize=address
+# CFLAGS += -g
 
 LIBFT = libft/build/libft.a
 

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:05:42 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/29 17:47:18 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/09/29 19:56:26 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void print_tokens(t_tok_list *lst)
 void print_2d_arr(char **s, char *name)
 {
 	size_t i = 0;
+	char **tmp = s;
 	while (s[i])
 	{
 		printf("%s[%ld] -> [%s]\n", name, i, s[i]);
