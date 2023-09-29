@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                    :+:    :+:             */
+/*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/23 15:02:22 by joppe         ########   odam.nl         */
+/*   Updated: 2023/09/29 18:10:45 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,10 @@
 
 t_cmd_frame	*handle_redir_input(t_cmd_list *cmd_list)
 {
-	t_cmd_list	*current_cmd;
 	t_cmd_frame	*cmd_frame;
 	int			fd;
 
-
-	current_cmd = cmd_list;
-	cmd_frame = &current_cmd->content;
+	cmd_frame = &cmd_list->content;
 	if (cmd_frame->is_heredoc)
 	{
 		printf("is a heredoc\n");
@@ -38,8 +35,7 @@ t_cmd_frame	*handle_redir_input(t_cmd_list *cmd_list)
 			print_error(strerror(errno));
 			exit(errno);
 		}
-		else
-			dup_stdin(fd);
+		dup_stdin(fd);
 	}
 	return (cmd_frame);
 }

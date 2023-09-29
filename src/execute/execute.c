@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                         :+:    :+:             */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/24 00:04:48 by joppe         ########   odam.nl         */
+/*   Updated: 2023/09/29 18:14:39 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,14 +107,17 @@ void	start_pipe(t_meta *meta, t_cmd_list *cmds)
 void run_single_builtin(t_meta *meta, t_cmd_list *cmds)
 {
 	t_builtin	is_builtin;
+	int			std_in;
+	int			std_out;
 
+	std_in = dup(STDIN_FILENO);
+	std_out = dup(STDOUT_FILENO);
 	is_builtin = get_builtin(cmds->content.argv[0]);
 	printf("%s\n", BUILTINS_NAME[is_builtin]);
-	if (is_builtin != BUILTIN_INVALID)
-	{
-		run_builtin(is_builtin, meta, cmds);
-		return ;
-	}
+	redirects(cmds);
+	run_builtin(is_builtin, meta, cmds);
+	dup2(std_in, STDIN_FILENO);
+	dup2(std_out, STDOUT_FILENO);
 }
 
 void	run_single_command(t_meta *meta, t_cmd_list *cmds)
