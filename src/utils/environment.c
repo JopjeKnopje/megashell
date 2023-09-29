@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment.c                                      :+:      :+:    :+:   */
+/*   environment.c                                     :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:17:38 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/11 16:18:59 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/29 13:25:57 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
+#include "libft.h"
 
 char	**get_environment(char **envp)
 {
@@ -35,4 +36,15 @@ char	**get_environment(char **envp)
 		i++;
 	}
 	return (environment);
+}
+
+char *envp_find_var(char **envp, char *s, int len)
+{
+	while (*envp) 
+	{
+		if (!ft_strncmp(*envp, s, len))
+			return (*envp);
+		envp++;
+	}
+	return (NULL);
 }
