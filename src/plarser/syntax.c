@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/18 21:20:04 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/19 23:40:51 by joppe         ########   odam.nl         */
+/*   Updated: 2023/09/29 12:44:31 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_tok_list *sy_main(t_tok_list *tokens)
 		[TOKEN_GREATER_THAN]	=	sy_token_redir,
 		[TOKEN_APPEND] 			=	sy_token_redir,
 		[TOKEN_HEREDOC]			=	sy_token_redir,
-		[TOKEN_DOLLAR] 			=	sy_token_variable,
+		[TOKEN_VARIABLE] 			=	sy_token_variable,
 		[TOKEN_ERROR]			=	sy_token_err,
 	};
 

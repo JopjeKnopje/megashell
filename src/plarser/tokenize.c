@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/07 17:43:17 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/18 22:34:57 by joppe         ########   odam.nl         */
+/*   Updated: 2023/09/29 12:43:42 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ t_token lx_tokenize_dollar(char *s)
 		i++;
 	}
 	if (i == 2)
-		return (lx_token_set(TOKEN_DOLLAR, s, i));
+		return (lx_token_set(TOKEN_VARIABLE, s, i));
 	i = 1;
-	k = TOKEN_DOLLAR;
+	k = TOKEN_VARIABLE;
 	if ((!lx_is_varchar(s[i]) || ft_isdigit(s[i])))
 		k = TOKEN_ERROR;
 	while (s[i] && !lx_is_metachar(s[i]))

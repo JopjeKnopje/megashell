@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 16:40:07 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/09/22 22:24:36 by joppe         ########   odam.nl         */
+/*   Updated: 2023/09/29 12:43:42 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef enum e_token_kind {
 	TOKEN_UNKNOWN 		= 0,
 	TOKEN_QUOTE_SINGLE 	= 1, // '[content]'
 	TOKEN_QUOTE_DOUBLE 	= 2, // "[content]"
-	TOKEN_DOLLAR 		= 3, // $
+	TOKEN_VARIABLE 		= 3, // $
 	TOKEN_PIPE 			= 4, // |
 	TOKEN_LESS_THAN 	= 5, // <
 	TOKEN_GREATER_THAN 	= 6, // >

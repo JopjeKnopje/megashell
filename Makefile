@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/09/22 22:30:30 by joppe         ########   odam.nl          #
+#    Updated: 2023/09/29 13:12:38 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,6 @@ SRC_DIR = src
 SRCS =  execute/error.c \
 		execute/path.c \
 		execute/free.c \
-		execute/environment.c \
 		execute/execute.c \
 		execute/execute_utils.c \
 		builtins/builtins.c \
@@ -69,6 +68,7 @@ SRCS =  execute/error.c \
 	  	plarser/parser_list.c \
 	  	plarser/expander.c \
 	  	utils/utils_string.c \
+		utils/environment.c \
 		test_utils.c \
 	  	megashell.c \
 		main.c \

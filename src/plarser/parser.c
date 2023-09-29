@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/29 17:45:19 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/09/29 12:44:54 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static bool pr_is_redirect(t_token_kind k)
 		[TOKEN_GREATER_THAN]	=	true,
 		[TOKEN_APPEND] 			=	true,
 		[TOKEN_HEREDOC]			=	true,
-		[TOKEN_DOLLAR] 			=	false,
+		[TOKEN_VARIABLE] 		=	false,
 		[TOKEN_ERROR]			=	NULL,
 	};
 
