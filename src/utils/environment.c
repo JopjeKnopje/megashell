@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:17:38 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/29 14:25:25 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/09/29 21:38:16 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,18 @@ char	**get_environment(char **envp)
 	return (environment);
 }
 
-char *envp_find_var(char **envp, char *s, uint32_t len)
+char	*envp_find_var(char **envp, char *key)
 {
-	while (*envp) 
+	int		index;
+	int 	len;
+
+	index = 0;
+	len = ft_strlen(key);
+	while (envp[index])
 	{
-		if (!ft_strncmp(*envp, s, len))
-			return (*envp);
-		envp++;
+		if (ft_strncmp(envp[index], key, len) == 0)
+			return (envp[index] + len);
+		index++;
 	}
 	return (NULL);
 }

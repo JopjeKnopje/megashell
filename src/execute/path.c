@@ -6,27 +6,13 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:34:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/29 13:14:52 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/09/29 21:39:43 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "utils.h"
 #include "megashell.h"
-
-char	*find_path(char **envp)
-{
-	int		index;
-
-	index = 0;
-	while (envp[index])
-	{
-		if (ft_strncmp(envp[index], "PATH=", 5) == 0)
-			return (envp[index] + 5);
-		index++;
-	}
-	return (NULL);
-}
 
 char	**split_path(char *path)
 {
@@ -70,7 +56,7 @@ int	search_path(t_meta *meta, char **environment)
 	char	**path_after_split;
 
 	meta->envp = get_environment(environment);
-	path = find_path(meta->envp);
+	path = envp_find_var(meta->envp, "PATH=", 5);
 	if (!path)
 		return (print_error(get_error_name(ERROR_FIND_PATH)));
 	path_after_split = split_path(path);

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/22 22:22:44 by joppe         #+#    #+#                 */
-/*   Updated: 2023/09/29 20:05:19 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/09/29 21:48:14 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,25 @@
 #include "plarser.h"
 #include "utils.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 static t_token ex_expand_token(char **envp, t_token t)
 {
-	char *key = envp_find_var(envp, t.content, t.content_len);
+	char *key;
 
-
+	key = envp_find_var(envp, t.content + 1, t.content_len - 1);
 	if (!key)
 	{
 		t.content = "";
 		t.content_len = 0;
+		return (t);
 	}
-	else
-	{
-		t.content = key;
-		t.content_len = ft_strlen(key);
-	}
-	t.kind = TOKEN_TEXT;
+	if (*key == '=')
+		key++;
 
+	t.content = key;
+	t.content_len = ft_strlen(key);
+	t.kind = TOKEN_TEXT;
 	return (t);
 }
 
@@ -52,7 +53,5 @@ t_tok_list *ex_main(char **envp, t_tok_list *tokens)
 		}
 		tokens = tokens->next;
 	}
-
-
 	return (head);
 }

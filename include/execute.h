@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/29 13:13:23 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/09/29 21:39:36 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ char		*get_error_name(t_error er);
 int			print_error(char *str);
 
 // path:
-char	*find_path(char **envp);
 char	**split_path(char *path);
 char	**put_slash(char **path);
 int		search_path(t_meta *meta, char **environment);
