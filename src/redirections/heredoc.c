@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                         :+:    :+:             */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/22 23:47:39 by joppe         ########   odam.nl         */
+/*   Updated: 2023/09/29 21:43:27 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,15 @@ void	child_heredoc(char *close_line, int pipe_fd)
 		if (!ft_strncmp(line, close_line, ft_strlen(close_line) + 1))
 		{
 			free(line);
-			break ;
+			printf("same\n");
+			exit(0);
 		}
+		printf("diff\n");
 		write(pipe_fd, line, strlen(line) + 1);
 		write(pipe_fd, "\n", 1);
 		free (line);
 	}
+	// close (pipe_fd);
 	exit(0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/29 18:40:34 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/29 21:47:01 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,21 +137,22 @@ void	run_single_command(t_meta *meta, t_cmd_list *cmds)
 	if (execute->pid == 0)
 	{
 		redirects(cmds);
-		dup2(std_in, STDIN_FILENO);
-		dup2(std_out, STDOUT_FILENO);
 		if (find_access(meta, cmds) == false)
 		{
 			print_error(get_error_name(ERROR_ACCESS));
 			exit (EXIT_FAILURE);
 		}
 	}
+	fprintf(stderr, "2\n");
 	wait(NULL);
+	dup2(std_in, STDIN_FILENO);
+	dup2(std_out, STDOUT_FILENO);
 }
 
 void	execution(t_meta *meta, t_cmd_list *cmds)
 {
 	t_cmd_list	*cmd_list;
-
+	printf("cmds->content.argv: %s\n", cmds->content.argv[0]);
 	cmd_list = cmds;
 	if ((cmds->next == NULL && get_builtin(cmds->content.argv[0])
 			!= BUILTIN_INVALID))
