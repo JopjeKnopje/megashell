@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/29 21:43:27 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/29 22:21:16 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ void	child_heredoc(char *close_line, int pipe_fd)
 		line = readline("> ");
 		if (!line)
 			break ;
-		// line = expand_line(line);
 		if (!ft_strncmp(line, close_line, ft_strlen(close_line) + 1))
 		{
 			free(line);
 			printf("same\n");
+			close (pipe_fd);
 			exit(0);
 		}
 		printf("diff\n");
@@ -65,7 +65,7 @@ void	child_heredoc(char *close_line, int pipe_fd)
 		write(pipe_fd, "\n", 1);
 		free (line);
 	}
-	// close (pipe_fd);
+	close (pipe_fd);
 	exit(0);
 }
 
