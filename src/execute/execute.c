@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/29 18:14:39 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/29 18:40:34 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,12 @@ void run_single_builtin(t_meta *meta, t_cmd_list *cmds)
 void	run_single_command(t_meta *meta, t_cmd_list *cmds)
 {
 	const t_exec *execute = &meta->execute;
+	int			std_in;
+	int			std_out;
+
 	meta->execute.pid = fork();
+	std_in = dup(STDIN_FILENO);
+	std_out = dup(STDOUT_FILENO);
 	if (execute->pid == -1)
 	{
 		print_error(get_error_name(ERROR_FORK));
@@ -132,6 +137,8 @@ void	run_single_command(t_meta *meta, t_cmd_list *cmds)
 	if (execute->pid == 0)
 	{
 		redirects(cmds);
+		dup2(std_in, STDIN_FILENO);
+		dup2(std_out, STDOUT_FILENO);
 		if (find_access(meta, cmds) == false)
 		{
 			print_error(get_error_name(ERROR_ACCESS));
