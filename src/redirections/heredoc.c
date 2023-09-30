@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/30 17:17:04 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/30 17:42:48 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,27 +55,12 @@ void	read_from_heredoc(char *close_line, int pipe_fd)
 		{
 			free(line);
 			printf("same\n");
-			write(pipe_fd, "exit", 5);
+			// write(pipe_fd, "exit", 5);
 			break ;
 		}
 		write(pipe_fd, line, strlen(line) + 1);
 		write(pipe_fd, "\n", 1);
 		free (line);
-	}
-}
-
-void test_read_pipe(int fd)
-{
-	const int SIZE = 64;
-	char line[SIZE];
-	ft_bzero(&line, SIZE);
-	while (1)
-	{
-		read(fd, &line, SIZE - 1);
-		printf("read from line [%s]\n", line);
-		if (!ft_strncmp(line, "exit", 4))
-				break;
-		ft_bzero(&line, SIZE);
 	}
 }
 

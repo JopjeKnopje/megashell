@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/30 17:21:58 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/30 17:36:19 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,19 @@ void	handle_redir_output(t_cmd_frame *cmd_frame)
 	}
 }
 
-void	redirects(t_cmd_list *cmd_list)
+// TODO Refactor: gebruikt cmd_frame ipv t_cmd_list
+void	redirects(t_cmd_list *cmd_list, int pipe_fd[2])
 {
-	t_cmd_frame	*cmd_frame;
+	if (pipe_fd)
+	{
+		close (pipe_fd[PIPE_WRITE]);
+		dup_stdin(pipe_fd[PIPE_READ]);
+	}
+	else
+		handle_redir_input(cmd_list);
 
-	cmd_frame = handle_redir_input(cmd_list);
+
 	// if (!cmd_frame->is_heredoc)
 	// 	return ;
-	handle_redir_output(cmd_frame);
+	handle_redir_output(&cmd_list->content);
 }

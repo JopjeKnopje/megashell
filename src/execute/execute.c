@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/30 17:22:51 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/30 17:47:18 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	children_spawn(t_meta *meta, t_cmd_list *cmds)
 {
 	t_builtin	is_builtin;
 
-	redirects(cmds);
+	redirects(cmds, NULL);
 	if (!cmds->content.argv)
 		exit (0);
 	is_builtin = get_builtin(cmds->content.argv[0]);
@@ -114,7 +114,7 @@ void run_single_builtin(t_meta *meta, t_cmd_list *cmds)
 	std_out = dup(STDOUT_FILENO);
 	is_builtin = get_builtin(cmds->content.argv[0]);
 	printf("%s\n", BUILTINS_NAME[is_builtin]);
-	redirects(cmds);
+	redirects(cmds, NULL);
 	run_builtin(is_builtin, meta, cmds);
 	dup2(std_in, STDIN_FILENO);
 	dup2(std_out, STDOUT_FILENO);
@@ -123,19 +123,28 @@ void run_single_builtin(t_meta *meta, t_cmd_list *cmds)
 void	run_single_command(t_meta *meta, t_cmd_list *cmds)
 {
 	const t_exec *execute = &meta->execute;
+	int heredoc_pipe[2];
 
+	int pid;
 
-	fprintf(stderr, "stdout fd: %d\nstdin fd: %d\n", fileno(stdout), fileno(stdin));
 	if (cmds->content.is_heredoc)
 	{
-		// pipe
-		// fork
-		// run read_heredoc
-		// write output to pipe
-		// exit this child
+		pipe(heredoc_pipe);
+		pid = fork();
+		if (pid == 0)
+		{
+			close (heredoc_pipe[PIPE_READ]);
+			read_from_heredoc("eof", heredoc_pipe[PIPE_WRITE]);
+			close (heredoc_pipe[PIPE_WRITE]);
+			exit(123);
+		}
+		redirects(cmds, heredoc_pipe);
 	}
-	// redirects(cmds, pipefd);
+	else
+		redirects(cmds, NULL);
+
 	// redirects(cmds);
+	
 	fprintf(stderr, "yup\n");
 	meta->execute.pid = fork();
 	if (execute->pid == -1)
@@ -146,7 +155,7 @@ void	run_single_command(t_meta *meta, t_cmd_list *cmds)
 	if (execute->pid == 0)
 	{
 		if (!cmds->content.argv)
-			exit (0);
+			exit (12);
 		if (find_access(meta, cmds) == false)
 		{
 			print_error(get_error_name(ERROR_ACCESS));
@@ -154,10 +163,9 @@ void	run_single_command(t_meta *meta, t_cmd_list *cmds)
 		}
 		assert(0 && "UNREACHABLE CODE!");
 	}
+	close(heredoc_pipe[PIPE_WRITE]);		
+	close(heredoc_pipe[PIPE_READ]);
 	wait(NULL);
-	fprintf(stderr, "stdout fd: %d\nstdin fd: %d\n", fileno(stdout), fileno(stdin));
-	fprintf(stderr, "stdout fd: %d\nstdin fd: %d\n", fileno(stdout), fileno(stdin));
-
 }
 
 void	execution(t_meta *meta, t_cmd_list *cmds)
