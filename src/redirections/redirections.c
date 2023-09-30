@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/29 22:04:47 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/30 17:21:58 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ t_cmd_frame	*handle_redir_input(t_cmd_list *cmd_list)
 	int			fd;
 
 	cmd_frame = &cmd_list->content;
-	if (cmd_frame->is_heredoc)
-	{
-		printf("is a heredoc\n");
-		handle_heredoc(cmd_frame);
-		return (cmd_frame);
-	}
+	// if (cmd_frame->is_heredoc)
+	// {
+	// 	printf("is a heredoc\n");
+	// 	handle_heredoc(cmd_frame);
+	// 	return (cmd_frame);
+	// }
 	if (cmd_frame->infile != NULL)
 	{
 		fd = open(cmd_frame->infile, O_RDONLY);
@@ -71,7 +71,7 @@ void	redirects(t_cmd_list *cmd_list)
 	t_cmd_frame	*cmd_frame;
 
 	cmd_frame = handle_redir_input(cmd_list);
-	if (cmd_frame->is_heredoc)
-		return ;
+	// if (!cmd_frame->is_heredoc)
+	// 	return ;
 	handle_redir_output(cmd_frame);
 }

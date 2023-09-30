@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/29 22:21:16 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/30 17:17:04 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,29 +44,39 @@
 // 	return (result);
 // }
 
-void	child_heredoc(char *close_line, int pipe_fd)
+void	read_from_heredoc(char *close_line, int pipe_fd)
 {
 	char	*line;
 
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
-			break ;
 		if (!ft_strncmp(line, close_line, ft_strlen(close_line) + 1))
 		{
 			free(line);
 			printf("same\n");
-			close (pipe_fd);
-			exit(0);
+			write(pipe_fd, "exit", 5);
+			break ;
 		}
-		printf("diff\n");
 		write(pipe_fd, line, strlen(line) + 1);
 		write(pipe_fd, "\n", 1);
 		free (line);
 	}
-	close (pipe_fd);
-	exit(0);
+}
+
+void test_read_pipe(int fd)
+{
+	const int SIZE = 64;
+	char line[SIZE];
+	ft_bzero(&line, SIZE);
+	while (1)
+	{
+		read(fd, &line, SIZE - 1);
+		printf("read from line [%s]\n", line);
+		if (!ft_strncmp(line, "exit", 4))
+				break;
+		ft_bzero(&line, SIZE);
+	}
 }
 
 void	handle_heredoc(t_cmd_frame *cmd_frame)
@@ -89,11 +99,18 @@ void	handle_heredoc(t_cmd_frame *cmd_frame)
 	if (pid == 0)
 	{
 		close (pipe_fd[PIPE_READ]);
-		child_heredoc(cmd_frame->outfile, pipe_fd[PIPE_WRITE]);
+		read_from_heredoc(cmd_frame->outfile, pipe_fd[PIPE_WRITE]);
+		close (pipe_fd[PIPE_WRITE]);
+		exit(123);
 	}
 	else
 	{
 		close(pipe_fd[PIPE_WRITE]);
+
+		// test_read_pipe(pipe_fd[PIPE_READ]);
+		
+		close(pipe_fd[PIPE_READ]);
+
 		waitpid(pid, &status, 0);
 	}
 }

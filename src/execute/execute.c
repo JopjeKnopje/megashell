@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/29 22:18:05 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/09/30 17:22:51 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,12 +123,21 @@ void run_single_builtin(t_meta *meta, t_cmd_list *cmds)
 void	run_single_command(t_meta *meta, t_cmd_list *cmds)
 {
 	const t_exec *execute = &meta->execute;
-	int			std_in;
-	int			std_out;
 
+
+	fprintf(stderr, "stdout fd: %d\nstdin fd: %d\n", fileno(stdout), fileno(stdin));
+	if (cmds->content.is_heredoc)
+	{
+		// pipe
+		// fork
+		// run read_heredoc
+		// write output to pipe
+		// exit this child
+	}
+	// redirects(cmds, pipefd);
+	// redirects(cmds);
+	fprintf(stderr, "yup\n");
 	meta->execute.pid = fork();
-	std_in = dup(STDIN_FILENO);
-	std_out = dup(STDOUT_FILENO);
 	if (execute->pid == -1)
 	{
 		print_error(get_error_name(ERROR_FORK));
@@ -136,7 +145,6 @@ void	run_single_command(t_meta *meta, t_cmd_list *cmds)
 	}
 	if (execute->pid == 0)
 	{
-		redirects(cmds);
 		if (!cmds->content.argv)
 			exit (0);
 		if (find_access(meta, cmds) == false)
@@ -144,10 +152,12 @@ void	run_single_command(t_meta *meta, t_cmd_list *cmds)
 			print_error(get_error_name(ERROR_ACCESS));
 			exit (EXIT_FAILURE);
 		}
+		assert(0 && "UNREACHABLE CODE!");
 	}
 	wait(NULL);
-	dup2(std_in, STDIN_FILENO);
-	dup2(std_out, STDOUT_FILENO);
+	fprintf(stderr, "stdout fd: %d\nstdin fd: %d\n", fileno(stdout), fileno(stdin));
+	fprintf(stderr, "stdout fd: %d\nstdin fd: %d\n", fileno(stdout), fileno(stdin));
+
 }
 
 void	execution(t_meta *meta, t_cmd_list *cmds)
