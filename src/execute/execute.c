@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/30 17:47:18 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/03 14:12:56 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,18 +134,18 @@ void	run_single_command(t_meta *meta, t_cmd_list *cmds)
 		if (pid == 0)
 		{
 			close (heredoc_pipe[PIPE_READ]);
-			read_from_heredoc("eof", heredoc_pipe[PIPE_WRITE]);
+			read_from_heredoc(cmds->content.outfile, heredoc_pipe[PIPE_WRITE]);
 			close (heredoc_pipe[PIPE_WRITE]);
 			exit(123);
 		}
-		redirects(cmds, heredoc_pipe);
+		// NOTE: Maybe wachten?
+		// redirects(cmds, heredoc_pipe);
+		close (heredoc_pipe[PIPE_WRITE]);
+		dup_stdin(heredoc_pipe[PIPE_READ]);
+
 	}
 	else
 		redirects(cmds, NULL);
-
-	// redirects(cmds);
-	
-	fprintf(stderr, "yup\n");
 	meta->execute.pid = fork();
 	if (execute->pid == -1)
 	{

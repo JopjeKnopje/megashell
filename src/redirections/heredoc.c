@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/30 17:42:48 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/03 14:34:38 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,13 @@
 void	read_from_heredoc(char *close_line, int pipe_fd)
 {
 	char	*line;
-
 	while (1)
 	{
 		line = readline("> ");
 		if (!ft_strncmp(line, close_line, ft_strlen(close_line) + 1))
 		{
 			free(line);
-			printf("same\n");
-			// write(pipe_fd, "exit", 5);
+			printf("same\n");;
 			break ;
 		}
 		write(pipe_fd, line, strlen(line) + 1);
@@ -64,6 +62,8 @@ void	read_from_heredoc(char *close_line, int pipe_fd)
 	}
 }
 
+
+// DEPRACATED
 void	handle_heredoc(t_cmd_frame *cmd_frame)
 {
 	int	pipe_fd[2];
@@ -86,16 +86,13 @@ void	handle_heredoc(t_cmd_frame *cmd_frame)
 		close (pipe_fd[PIPE_READ]);
 		read_from_heredoc(cmd_frame->outfile, pipe_fd[PIPE_WRITE]);
 		close (pipe_fd[PIPE_WRITE]);
-		exit(123);
+		// exit(123);
 	}
 	else
 	{
 		close(pipe_fd[PIPE_WRITE]);
-
-		// test_read_pipe(pipe_fd[PIPE_READ]);
-		
+		dup_stdin(pipe_fd[PIPE_READ]); // dit wordt nu geduped in childprocess, moet wss in parent
 		close(pipe_fd[PIPE_READ]);
-
 		waitpid(pid, &status, 0);
 	}
 }
