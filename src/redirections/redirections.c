@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/03 14:08:32 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/03 17:44:56 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,70 +15,58 @@
 #include "plarser.h"
 #include <stdio.h>
 
-t_cmd_frame	*handle_redir_input(t_cmd_list *cmd_list)
+bool handle_redir_input(t_cmd_frame *f)
 {
-	t_cmd_frame	*cmd_frame;
-	int			fd;
+	int fd;
 
-	cmd_frame = &cmd_list->content;
-	// if (cmd_frame->is_heredoc)
-	// {
-	// 	printf("is a heredoc\n");
-	// 	handle_heredoc(cmd_frame);
-	// 	return (cmd_frame);
-	// }
-	if (cmd_frame->infile != NULL)
+	if (f->infile != NULL)
 	{
-		fd = open(cmd_frame->infile, O_RDONLY);
+		fd = open(f->infile, O_RDONLY);
 		if (fd == -1)
 		{
 			print_error(strerror(errno));
 			exit(errno);
 		}
 		dup_stdin(fd);
-
 	}
-	return (cmd_frame);
+	return (true);
 }
 
-void	handle_redir_output(t_cmd_frame *cmd_frame)
+bool handle_redir_output(t_cmd_frame *f)
 {
-	int	fd;
-	int	flags;
+	int fd;
+	int flags;
 
 	flags = O_WRONLY | O_CREAT;
-	if (cmd_frame->outfile != NULL)
+	if (f->outfile != NULL)
 	{
-		if (cmd_frame->is_append)
+		if (f->is_append)
 			flags |= O_APPEND; /* add O_APPEND: all write actions happen at EOF */
 		else
 			flags |= O_TRUNC; /* add O_TRUNC: write to EOF instead of overwrite start */
-		fd = open(cmd_frame->outfile, flags, 0644);
+		fd = open(f->outfile, flags, 0644);
 		if (fd == -1)
 		{
 			print_error(strerror(errno));
 			exit(errno);
 		}
-		else
-		{
-			dup_stdout(fd);
-		}
+		dup_stdout(fd);
 	}
+	return true;
 }
 
-// TODO Refactor: gebruikt cmd_frame ipv t_cmd_list
-void	redirects(t_cmd_list *cmd_list, int pipe_fd[2])
+bool redirections(t_cmd_frame *f)
 {
-	// if (pipe_fd)
-	// {
-	// 	close (pipe_fd[PIPE_WRITE]);
-	// 	dup_stdin(pipe_fd[PIPE_READ]);
-	// }
-	// else
-	handle_redir_input(cmd_list);
+	if (f->is_heredoc)
+	{
+		return (handle_heredoc(f));
+	}
+	else
+	{
+		if (!handle_redir_input(f) || !handle_redir_output(f))
+			return (false);
+	}
 
-
-	// if (!cmd_frame->is_heredoc)
-	// 	return ;
-	handle_redir_output(&cmd_list->content);
+	// maybe run this before hererdoc?
+	return (true);
 }

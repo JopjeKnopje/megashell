@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/03 14:34:38 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/03 17:36:49 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 // 	return (result);
 // }
 
-void	read_from_heredoc(char *close_line, int pipe_fd)
+uint8_t	read_from_heredoc(char *close_line, int pipe_fd)
 {
 	char	*line;
 	while (1)
@@ -60,39 +60,37 @@ void	read_from_heredoc(char *close_line, int pipe_fd)
 		write(pipe_fd, "\n", 1);
 		free (line);
 	}
+	return (EXIT_SUCCESS);
 }
 
-
-// DEPRACATED
-void	handle_heredoc(t_cmd_frame *cmd_frame)
+bool	handle_heredoc(t_cmd_frame *f)
 {
 	int	pipe_fd[2];
 	int	pid;
 	int	status;
+	uint8_t	child_exit_code;
 
 	if (pipe(pipe_fd) == -1)
-	{
-		print_error(get_error_name(ERROR_PIPE));
-		return ;
-	}
+		return (false);
 	pid = fork();
 	if (pid == -1)
-	{
-		print_error(get_error_name(ERROR_FORK));
-		return ;
-	}
+		return (false);
 	if (pid == 0)
 	{
 		close (pipe_fd[PIPE_READ]);
-		read_from_heredoc(cmd_frame->outfile, pipe_fd[PIPE_WRITE]);
+		child_exit_code = read_from_heredoc(f->outfile, pipe_fd[PIPE_WRITE]);
 		close (pipe_fd[PIPE_WRITE]);
-		// exit(123);
+		exit(child_exit_code);
 	}
-	else
-	{
-		close(pipe_fd[PIPE_WRITE]);
-		dup_stdin(pipe_fd[PIPE_READ]); // dit wordt nu geduped in childprocess, moet wss in parent
-		close(pipe_fd[PIPE_READ]);
-		waitpid(pid, &status, 0);
-	}
+	close(pipe_fd[PIPE_WRITE]);
+	dup_stdin(pipe_fd[PIPE_READ]); // dit wordt nu geduped in childprocess, moet wss in parent
+	close(pipe_fd[PIPE_READ]);
+	
+	// run_builtin(builtin, meta, cmds);
+
+	waitpid(pid, &status, 0);
+	
+	child_exit_code = WEXITSTATUS(status);
+	dprintf(STDERR_FILENO, "child_exit %d\n", child_exit_code);
+	return (child_exit_code == 0);
 }
