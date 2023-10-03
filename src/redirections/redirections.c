@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/03 17:44:56 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/03 18:04:11 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,17 @@ bool handle_redir_output(t_cmd_frame *f)
 	return true;
 }
 
-bool redirections(t_cmd_frame *f)
+bool redirections(t_cmd_frame *f, int *pipeline)
 {
 	if (f->is_heredoc)
 	{
-		return (handle_heredoc(f));
+		if (!handle_heredoc(f, pipeline) || !handle_redir_output(f))
+			return (false);
 	}
 	else
 	{
 		if (!handle_redir_input(f) || !handle_redir_output(f))
 			return (false);
 	}
-
-	// maybe run this before hererdoc?
 	return (true);
 }
