@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/09/01 20:53:50 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/04 02:59:23 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <unistd.h>
 
 
 void cmd_free(t_cmd_list *cmd)
@@ -44,23 +46,30 @@ int megashell(int argc, char *argv[], char *envp[])
 	hs_read_history_file(HISTORY_FILE_NAME);
 	if (search_path(&meta, envp) == EXIT_FAILURE)
 			printf("error search path\n");
-	while (! (!1))
+	while (1)
 	{
 		line = prompt_get_line();
 		if (!line)
 		{
 			printf("line is empty, exiting...\n");
+			// while (1) {}
+			// sleep(5);
 			return (0);
 		}
-
-		if (!strncmp(line, "x", ft_strlen(line)))
+		if (!ft_strncmp("test", line, ft_strlen(line)))
 		{
-			exit(0);
+			printf("closing STDIN_FILENO lol\n");
+			close(STDIN_FILENO);
+			free(line);
+			continue;
 		}
 
 		cmds = plarser_main(line);
-		print_cmds(cmds);
-		execution(&meta, cmds);
+		if (cmds)
+		{
+			print_cmds(cmds);
+			execution(&meta, cmds);
+		}
 		pr_lstiter(cmds, cmd_free);
 		free(line);
 	}

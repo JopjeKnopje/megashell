@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   heredoc.c                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/03 18:03:17 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/04 02:23:22 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ uint8_t	read_from_heredoc(char *close_line, int pipe_fd)
 	return (EXIT_SUCCESS);
 }
 
-bool	handle_heredoc(t_cmd_frame *f, int *pipeline)
+bool	handle_heredoc(t_cmd_frame *f)
 {
 	int	pipe_fd[2];
 	int	pid;
@@ -87,7 +87,6 @@ bool	handle_heredoc(t_cmd_frame *f, int *pipeline)
 	// dup_stdin(pipe_fd[PIPE_READ]); // dit wordt nu geduped in childprocess, moet wss in parent
 	// close(pipe_fd[PIPE_READ]);
 	
-	*pipeline = pipe_fd[PIPE_READ];
 	// run_builtin(builtin, meta, cmds);
 
 	waitpid(pid, &status, 0);

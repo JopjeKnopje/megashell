@@ -6,13 +6,16 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 02:05:30 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/04 02:57:54 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtins.h"
 #include "redirections.h"
 #include "execute.h"
 #include "megashell.h"
+#include <fcntl.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
@@ -25,24 +28,24 @@ bool	run_command(t_meta *meta, t_cmd_list *cmds)
 {
 	t_builtin	is_builtin;
 
-	// redirects(cmds, NULL);
-	// TODO Redrictions here.
 	if (!cmds->content.argv)
-		exit (0);
+		return (false);
 	is_builtin = get_builtin(cmds->content.argv[0]);
-	if (is_builtin != BUILTIN_INVALID)
+	if (is_builtin)
 	{
-		run_builtin(is_builtin, meta, cmds);
-		return true;
+		return (run_builtin(is_builtin, meta, cmds));
 	}
 	char *cmd_in_path = access_possible(meta, cmds->content.argv[0]);
 	if (cmd_in_path)
 	{
-		execve(cmd_in_path, cmds->content.argv, meta->envp);
-		print_error(get_error_name(ERROR_ACCESS));
-		return true;
+		if (execve(cmd_in_path, cmds->content.argv, meta->envp) == -1)
+		{
+			print_error(get_error_name(ERROR_ACCESS));
+			return (false);
+		}
+		return (true);
 	}
-	return false;
+	return (false);
 }
 
 // checks whether there is a next command, if so then
@@ -50,26 +53,25 @@ bool	run_command(t_meta *meta, t_cmd_list *cmds)
 // it enters the child processs if pid = 0
 
 
-void	start_pipe(t_meta *meta, t_cmd_list *cmds)
+bool	start_pipe(t_meta *meta, t_cmd_list *cmds)
 {
-	t_exec	*execute;
+	pid_t 	pid;
 	int		status;
 
-	execute = &meta->execute;
 	while (cmds)
 	{
 		if (cmds->next && pipe(cmds->pipe) == -1)
 		{
 			print_error(get_error_name(ERROR_PIPE));
-			return ;
+			return (false);
 		}
-		execute->pid = fork();
-		if (execute->pid == -1) /* fork returns -1 in case of error */
+		pid = fork();
+		if (pid == -1) /* fork returns -1 in case of error */
 		{
 			print_error(get_error_name(ERROR_FORK));
-			return ;
+			return (false);
 		}
-		if (execute->pid == 0) /* fork returns 0 for child process */
+		if (pid == 0) /* fork returns 0 for child process */
 		{
 			if (cmds->prev)
 			{
@@ -85,9 +87,10 @@ void	start_pipe(t_meta *meta, t_cmd_list *cmds)
 					perror(strerror(errno));
 				close(cmds->pipe[PIPE_WRITE]);
 			}
-			// TODO: exit code.
-			run_command(meta, cmds);
-			exit(69);
+			// redirections(&cmds->content);
+			if (!run_command(meta, cmds))
+				exit(123);
+			exit(EXIT_SUCCESS);
 		}
 		if (cmds->prev)
 		{
@@ -101,14 +104,16 @@ void	start_pipe(t_meta *meta, t_cmd_list *cmds)
 		}
 		cmds = cmds->next;
 	}
-	waitpid(execute->pid, &status, 0);
+	waitpid(pid, &status, 0);
+	if (!WIFEXITED(status))
+		fprintf(stderr, "Error child exited weirdly\n");
 	printf("last exitcode: %d\n", WEXITSTATUS(status));
-	// while (wait(NULL) != -1)
-	// 	continue ;
+	return true;
 }
 
 
-void	execution(t_meta *meta, t_cmd_list *cmds)
+bool	execution(t_meta *meta, t_cmd_list *cmds)
 {
-	start_pipe(meta, cmds);
+	// TODO: Only run single builtin by itself (can't really pipe `cd` effectively).
+	return start_pipe(meta, cmds);
 }
