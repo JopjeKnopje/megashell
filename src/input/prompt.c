@@ -17,6 +17,7 @@
 #include <termios.h>
 #include "libft.h"
 #include "input.h"
+#include "megashell.h"
 
 static void	disable_echoctl(void)
 {
@@ -39,7 +40,7 @@ char *prompt_get_line()
 	
 	while (1)
 	{
-		line = readline("megashell> ");
+		line = readline(READLINE_PROMPT);
 		if (line == NULL)
 			return (NULL);
 		if (ft_strisempty(line))
