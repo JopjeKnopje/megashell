@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 17:55:25 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/04 18:17:57 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,8 @@ bool	start_pipe(t_meta *meta, t_cmd_list *cmds)
 					perror(strerror(errno));
 				close(cmds->pipe[PIPE_WRITE]);
 			}
-			// redirections(&cmds->content);
+			printf("check\n");
+			redirections(&cmds->content);
 			if (!run_command(meta, cmds))
 				exit(123);
 			exit(EXIT_SUCCESS);
@@ -97,11 +98,6 @@ bool	start_pipe(t_meta *meta, t_cmd_list *cmds)
 			close(cmds->prev->pipe[PIPE_READ]);
 			close(cmds->prev->pipe[PIPE_WRITE]);
 		}
-		// if (!cmds->next)
-		// {
-		// 	close(cmds->pipe[PIPE_READ]);
-		// 	close(cmds->pipe[PIPE_WRITE]);
-		// }
 		cmds = cmds->next;
 	}
 	waitpid(pid, &status, 0);

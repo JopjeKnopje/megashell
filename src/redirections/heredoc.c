@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                         :+:    :+:             */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 02:23:22 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/04 18:21:14 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,10 @@ bool	handle_heredoc(t_cmd_frame *f)
 		exit(child_exit_code);
 	}
 	close(pipe_fd[PIPE_WRITE]);
-	// dup_stdin(pipe_fd[PIPE_READ]); // dit wordt nu geduped in childprocess, moet wss in parent
-	// close(pipe_fd[PIPE_READ]);
-	
-	// run_builtin(builtin, meta, cmds);
-
+	dup_stdin(pipe_fd[PIPE_READ]);
+	close(pipe_fd[PIPE_READ]);
 	waitpid(pid, &status, 0);
-	
 	child_exit_code = WEXITSTATUS(status);
 	dprintf(STDERR_FILENO, "child_exit %d\n", child_exit_code);
-	return (child_exit_code == 0);
+	return (child_exit_code);
 }
