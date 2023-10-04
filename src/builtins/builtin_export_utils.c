@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export_utils.c                            :+:    :+:             */
+/*   builtin_export_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 13:58:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 15:19:48 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/04 23:54:57 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "builtins.h"
 
-bool	fill_environment(char **envp, char **new_envp, \
+char	**fill_environment(char **envp, char **new_envp, \
 			char *cmd_start, int i)
 {
 	int	j;
@@ -31,14 +31,14 @@ bool	fill_environment(char **envp, char **new_envp, \
 				free(new_envp[j]);
 			}
 			free(new_envp);
-			return (false);
+			return (new_envp);
 		}
 		j++;
 	}
-	return (true);
+	return (new_envp);
 }
 
-bool	add_to_env(char **envp, char *arg, char *cmd_start)
+char	**add_to_env(char **envp, char *arg, char *cmd_start)
 {
 	int		i;
 	int		j;
@@ -52,19 +52,21 @@ bool	add_to_env(char **envp, char *arg, char *cmd_start)
 	if (!new_envp)
 	{
 		free(cmd_start);
-		return (printf("Memory allocation error\n"), false);
+		printf("Memory allocation error\n");
+		return (NULL);
 	}
-	fill_environment(envp, new_envp, cmd_start, i);
+	new_envp = fill_environment(envp, new_envp, cmd_start, i);
 	new_envp[i] = ft_strdup(arg);
 	if (!new_envp[i])
 	{
 		free(cmd_start);
 		free_2d(new_envp);
-		return (printf("Memory allocation error\n"), false);
+		printf("Memory allocation error\n");
+		return (NULL);
 	}
 	free_2d(envp);
 	envp = new_envp;
-	return (true);
+	return (envp);
 }
 
 bool	handle_export_input_errors(char *cmd_start)
@@ -81,14 +83,14 @@ bool	handle_export_existing_variable(char **envp, char *cmd_start)
 	i = 0;
 	while (envp[i])
 	{
-		printf("envp: %s\n",envp[i]);
+		printf("%s\n",envp[i]);
 		i++;
 	}
 	free(cmd_start);
 	return (true);
 }
 
-bool	handle_export_new_variable(char **envp, char *arg, char *cmd_start)
+bool	handle_export_new_variable(t_meta *meta, char *arg, char *cmd_start)
 {
 	int	i;
 
@@ -98,11 +100,11 @@ bool	handle_export_new_variable(char **envp, char *arg, char *cmd_start)
 		handle_export_input_errors(cmd_start);
 		return (true);
 	}
-	add_to_env(envp, arg, cmd_start);
-	while (envp[i])
-	{
-		printf("envp: %s\n", envp[i]);
-		i++;
-	}
+	meta->envp = add_to_env(meta->envp, arg, cmd_start);
+	// while (meta->envp[i])
+	// {
+	// 	printf("%s\n", meta->envp[i]);
+	// 	i++;
+	// }
 	return (true);
 }

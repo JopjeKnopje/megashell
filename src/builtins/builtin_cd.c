@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                      :+:    :+:             */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:09:31 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 15:16:52 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/04 22:50:52 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ bool	builtin_run_cd(t_meta *meta, t_cmd_frame *cmd)
 		getcwd(cwd, sizeof(cwd));
 		// printf("Current working dir: %s\n", cwd);
 		return (true);
+	}
+	if (strncmp(cmd->argv[1], "-", 1) == 0)
+	{
+		chdir("../");
+		getcwd(cwd, sizeof(cwd));
 	}
 	path_len = ft_strlen(cmd->argv[1]);
 	if (strncmp(cmd->argv[1], "..", path_len) == 0 || strncmp(cmd->argv[1], "../", path_len) == 0)

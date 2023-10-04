@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                  :+:    :+:             */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:03 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 15:20:42 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/04 23:48:32 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ bool	builtin_run_export(t_meta *meta, t_cmd_frame *cmd)
 	variable = cmd_start;
 	len_var = ft_strlen(variable);
 	if (exists_in_env(meta->envp, cmd->argv[1], variable, len_var) == false)
-		return (handle_export_new_variable(meta->envp, cmd->argv[1], cmd_start));
+		return (handle_export_new_variable(meta, cmd->argv[1], cmd_start));
 	if (!correct_input(cmd_start))
 		return (handle_export_input_errors(cmd_start));
 	handle_export_existing_variable(meta->envp, cmd_start);

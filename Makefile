@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                          :+:    :+:              #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
+#    By: iris <iris@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/10/04 19:30:33 by jboeve        ########   odam.nl          #
+#    Updated: 2023/10/04 23:25:47 by iris             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ RUN_CMD = ./$(NAME)
 
 # CFLAGS += -Wall -Wextra -Werror
 CFLAGS += -Wall -Wextra
-# CFLAGS += -g -fsanitize=address
+# CFLAGS += -g
 
 LIBFT = libft/build/libft.a
 

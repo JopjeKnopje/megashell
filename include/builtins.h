@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                        :+:    :+:             */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 15:00:42 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 15:21:19 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/04 23:51:53 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ bool	builtin_run_exit(t_meta *meta, t_cmd_frame *cmd);
 bool	builtin_run_export(t_meta *execute, t_cmd_frame *cmd);
 
 bool	correct_input(char *content);
-bool	add_to_env(char **envp, char *arg, char *cmd_start);
+char	**add_to_env(char **envp, char *arg, char *cmd_start);
 void	print_environment(char **envp);
 bool	handle_export_input_errors(char *cmd_start);
 bool	handle_export_existing_variable(char **execute, char *cmd_start);
-bool	handle_export_new_variable(char **envp, char *arg, char *cmd_start);
+bool	handle_export_new_variable(t_meta *meta, char *arg, char *cmd_start);
 
 #endif
