@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.h                                          :+:      :+:    :+:   */
+/*   execute.h                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/03 17:08:31 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/04 02:03:14 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	search_path(t_meta *meta, char **environment);
 char		**get_environment(char **envp);
 
 // execute:
-void	children_spawn(t_meta *meta, t_cmd_list *cmds);
+bool	run_command(t_meta *meta, t_cmd_list *cmds);
 void	start_pipe(t_meta *meta, t_cmd_list *cmds);
 void		execution(t_meta *meta, t_cmd_list *list);
 
