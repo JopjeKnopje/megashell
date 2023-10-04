@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 14:30:30 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/04 15:14:42 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void		dup_io(t_exec *execute, t_cmd_list *cmds);
 
 // builtins:
 t_builtin	get_builtin(char *cmd);
-bool	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_list *cmds);
+bool		run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd);
 
 // access:
 bool	find_access(t_meta *meta, t_cmd_list *cmds);

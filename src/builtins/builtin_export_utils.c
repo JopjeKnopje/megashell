@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 13:58:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/01 20:32:52 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/04 15:19:48 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ bool	fill_environment(char **envp, char **new_envp, \
 	return (true);
 }
 
-bool	add_to_env(char **envp, t_cmd_list *cmds, char *cmd_start)
+bool	add_to_env(char **envp, char *arg, char *cmd_start)
 {
 	int		i;
 	int		j;
@@ -55,7 +55,7 @@ bool	add_to_env(char **envp, t_cmd_list *cmds, char *cmd_start)
 		return (printf("Memory allocation error\n"), false);
 	}
 	fill_environment(envp, new_envp, cmd_start, i);
-	new_envp[i] = ft_strdup(cmds->content.argv[1]);
+	new_envp[i] = ft_strdup(arg);
 	if (!new_envp[i])
 	{
 		free(cmd_start);
@@ -88,8 +88,7 @@ bool	handle_export_existing_variable(char **envp, char *cmd_start)
 	return (true);
 }
 
-bool	handle_export_new_variable(char **envp, \
-			t_cmd_list *cmds, char *cmd_start)
+bool	handle_export_new_variable(char **envp, char *arg, char *cmd_start)
 {
 	int	i;
 
@@ -99,7 +98,7 @@ bool	handle_export_new_variable(char **envp, \
 		handle_export_input_errors(cmd_start);
 		return (true);
 	}
-	add_to_env(envp, cmds, cmd_start);
+	add_to_env(envp, arg, cmd_start);
 	while (envp[i])
 	{
 		printf("envp: %s\n", envp[i]);

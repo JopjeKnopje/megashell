@@ -6,12 +6,13 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:33 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/01 20:36:34 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/04 15:21:16 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "megashell.h"
+#include "plarser.h"
 
 void	print_envp(char **envp)
 {
@@ -50,12 +51,12 @@ bool	remove_env_variable(char **envp, const char *variable)
 	return (false);
 }
 
-bool	builtin_run_unset(t_meta *meta, t_cmd_list *cmds)
+bool	builtin_run_unset(t_meta *meta, t_cmd_frame *cmd)
 {
 	char	*variable;
 
-	variable = cmds->content.argv[1];
-	if (!cmds->content.argv[1])
+	variable = cmd->argv[1];
+	if (!cmd->argv[1])
 	{
 		printf("Not Enough Arguments\n");
 		return (false);

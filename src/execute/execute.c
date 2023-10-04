@@ -6,11 +6,12 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 15:07:53 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/04 15:23:30 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+#include "plarser.h"
 #include "redirections.h"
 #include "execute.h"
 #include "megashell.h"
@@ -20,21 +21,29 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-bool	run_command(t_meta *meta, t_cmd_list *cmds)
+bool try_builtin(t_cmd_frame *cmd, t_meta *meta)
 {
 	t_builtin	is_builtin;
-
-	if (!cmds->content.argv)
-		return false;
-	is_builtin = get_builtin(cmds->content.argv[0]);
+	is_builtin = get_builtin(cmd->argv[0]);
 	if (is_builtin)
 	{
-		return run_builtin(is_builtin, meta, cmds);
+		return run_builtin(is_builtin, meta, cmd);
 	}
-	char *cmd_in_path = access_possible(meta, cmds->content.argv[0]);
+	return (false);
+}
+
+bool	run_command(t_meta *meta, t_cmd_frame *cmd)
+{
+
+	if (!cmd->argv)
+		return false;
+
+	try_builtin(cmd, meta);
+
+	char *cmd_in_path = access_possible(meta, cmd->argv[0]);
 	if (cmd_in_path)
 	{
-		execve(cmd_in_path, cmds->content.argv, meta->envp);
+		execve(cmd_in_path, cmd->argv, meta->envp);
 		print_error(get_error_name(ERROR_ACCESS));
 		return false;
 	}
@@ -77,7 +86,7 @@ bool	start_pipeline(t_meta *meta, t_cmd_list *cmds)
 				close(cmds->pipe[PIPE_WRITE]);
 			}
 			// setup_io(cmds);
-			if (run_command(meta, cmds))
+			if (run_command(meta, &cmds->content))
 				exit(EXIT_SUCCESS);
 			else
 				exit(EXIT_FAILURE);
