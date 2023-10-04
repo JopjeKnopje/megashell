@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   megashell.c                                        :+:      :+:    :+:   */
+/*   megashell.c                                       :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/10/04 17:47:32 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/04 19:28:32 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
-#include <unistd.h>
 
 
 void cmd_free(t_cmd_list *cmd)
@@ -31,6 +29,13 @@ void cmd_free(t_cmd_list *cmd)
 	free(cmd->content.outfile);
 	free(cmd);
 }
+
+void megashell_cleanup(t_meta *meta)
+{
+	free_2d(meta->execute.split_path);
+	free_2d(meta->envp);
+}
+
 
 int megashell(int argc, char *argv[], char *envp[])
 {
@@ -45,32 +50,25 @@ int megashell(int argc, char *argv[], char *envp[])
 	prompt_env_setup();
 	hs_read_history_file(HISTORY_FILE_NAME);
 	if (search_path(&meta, envp) == EXIT_FAILURE)
-			printf("error search path\n");
+		printf("error search path\n");
 	while (1)
 	{
 		line = prompt_get_line();
 		if (!line)
 		{
 			printf("line is empty, exiting...\n");
+			megashell_cleanup(&meta);
 			return (0);
-		}
-		if (!ft_strncmp("test", line, ft_strlen(line)))
-		{
-			printf("closing STDIN_FILENO lol\n");
-			close(STDIN_FILENO);
-			free(line);
-			continue;
 		}
 
 		cmds = plarser_main(line);
 		if (cmds)
 		{
 			print_cmds(cmds);
-			execution(&meta, cmds);
+			execute(&meta, cmds);
 		}
 		pr_lstiter(cmds, cmd_free);
 		free(line);
 	}
-
 	return (0);
 }

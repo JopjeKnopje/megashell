@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   heredoc.c                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 18:21:14 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/04 19:02:47 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,6 @@
 #include "execute.h"
 #include "plarser.h"
 #include "libft.h"
-
-// char	*with_env()
-// {
-	
-// }
-
-// void *expand_line(char *line)
-// {
-// 	int		i;
-// 	char	*new_line;
-// 	char	*result;
-
-// 	i = 0;
-// 	new_line = NULL;
-// 	result = NULL;
-// 	while (line[i])
-// 	{
-// 		// if (line[i] == '$')
-// 		// {
-// 		// 	with_env();
-// 		// }
-// 		// else
-// 		// {
-// 			result = without_env(line, new_line, i);
-// 		// }
-// 		i++;
-// 	}
-// 	return (result);
-// }
 
 uint8_t	read_from_heredoc(char *close_line, int pipe_fd)
 {

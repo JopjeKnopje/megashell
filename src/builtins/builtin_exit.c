@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*   builtin_exit.c                                    :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:11 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/15 19:58:58 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/04 15:22:01 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "megashell.h"
+#include "plarser.h"
 
 bool	is_a_nb(char *str)
 {
@@ -35,30 +36,30 @@ bool	is_a_nb(char *str)
 	return (true);
 }
 
-bool	builtin_run_exit(t_meta *meta, t_cmd_list *cmds)
+bool	builtin_run_exit(t_meta *meta, t_cmd_frame *cmd)
 {
 	int	nb;
 
 	(void) meta;
 
-	if (!cmds->content.argv[1])
+	if (!cmd->argv[1])
 		exit(EXIT_SUCCESS);
-	nb = ft_atoi(cmds->content.argv[1]);
-	if (cmds->content.argv[2])
+	nb = ft_atoi(cmd->argv[1]);
+	if (cmd->argv[2])
 	{
-		if ((is_a_nb(cmds->content.argv[1]) && is_a_nb(cmds->content.argv[2]))
-			|| (!is_a_nb(cmds->content.argv[2])))
+		if ((is_a_nb(cmd->argv[1]) && is_a_nb(cmd->argv[2]))
+			|| (!is_a_nb(cmd->argv[2])))
 		{
 			printf("exit: too many arguments\n");
 			exit(EXIT_FAILURE);
 		}
-		if (!is_a_nb(cmds->content.argv[1]) && is_a_nb(cmds->content.argv[2]))
+		if (!is_a_nb(cmd->argv[1]) && is_a_nb(cmd->argv[2]))
 		{
 			printf("exit: a numeric argument required\n");
 			exit(EXIT_FAILURE);
 		}
 	}
-	else if (!is_a_nb(cmds->content.argv[1]))
-		printf("exit %s: a numeric argument required\n", cmds->content.argv[1]);
+	else if (!is_a_nb(cmd->argv[1]))
+		printf("exit %s: a numeric argument required\n", cmd->argv[1]);
 	exit(nb);
 }

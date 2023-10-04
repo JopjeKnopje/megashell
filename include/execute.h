@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 02:36:09 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/04 19:27:08 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <errno.h>
 # include <string.h>
 # include <stdbool.h>
-# include <limits.h>
+# include <linux/limits.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 
@@ -65,9 +65,8 @@ int	search_path(t_meta *meta, char **environment);
 char		**get_environment(char **envp);
 
 // execute:
-bool	run_command(t_meta *meta, t_cmd_list *cmds);
 bool	start_pipe(t_meta *meta, t_cmd_list *cmds);
-bool	execution(t_meta *meta, t_cmd_list *cmds);
+bool	execute(t_meta *meta, t_cmd_list *cmds);
 
 // execute_utils:
 bool		dup_stdin(int file);
@@ -76,7 +75,7 @@ void		dup_io(t_exec *execute, t_cmd_list *cmds);
 
 // builtins:
 t_builtin	get_builtin(char *cmd);
-bool	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_list *cmds);
+bool	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd);
 
 // access:
 bool	find_access(t_meta *meta, t_cmd_list *cmds);
