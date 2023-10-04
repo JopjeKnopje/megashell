@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   redirections.c                                    :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/29 22:04:47 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:25:32 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	handle_redir_output(t_cmd_frame *cmd_frame)
 	}
 }
 
-void	redirects(t_cmd_list *cmd_list)
+void	setup_io(t_cmd_list *cmd_list)
 {
 	t_cmd_frame	*cmd_frame;
 

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:05:42 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/29 17:47:18 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/04 15:06:43 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,5 @@ void print_cmds(t_cmd_list *list)
 			printf("\n");
 		list = list->next;
 	}
-	printf("\x1b[0m");
+	printf("\x1b[0m\n");
 }

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/09/01 20:53:50 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/04 15:06:57 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,13 @@ void cmd_free(t_cmd_list *cmd)
 	free(cmd);
 }
 
+void megashell_cleanup(t_meta *meta)
+{
+	free_2d(meta->execute.split_path);
+	free_2d(meta->envp);
+}
+
+
 int megashell(int argc, char *argv[], char *envp[])
 {
 	t_meta		meta;
@@ -43,24 +50,23 @@ int megashell(int argc, char *argv[], char *envp[])
 	prompt_env_setup();
 	hs_read_history_file(HISTORY_FILE_NAME);
 	if (search_path(&meta, envp) == EXIT_FAILURE)
-			printf("error search path\n");
+		printf("error search path\n");
 	while (! (!1))
 	{
 		line = prompt_get_line();
 		if (!line)
 		{
 			printf("line is empty, exiting...\n");
+			megashell_cleanup(&meta);
 			return (0);
 		}
 
-		if (!strncmp(line, "x", ft_strlen(line)))
-		{
-			exit(0);
-		}
-
 		cmds = plarser_main(line);
-		print_cmds(cmds);
-		execution(&meta, cmds);
+		if (cmds)
+		{
+			print_cmds(cmds);
+			execute(&meta, cmds);
+		}
 		pr_lstiter(cmds, cmd_free);
 		free(line);
 	}

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 15:00:42 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/01 20:35:49 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/04 14:51:08 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static const char *BUILTINS_NAME[BUILTIN_COUNT] = {
 	"cd",
 	"export",
 	"unset",
-	"exit"};
+	"exit",
+};
 
 bool	builtin_run_unset(t_meta *execute, t_cmd_list *cmds);
 bool	builtin_run_pwd(t_meta *execute, t_cmd_list *cmds);
