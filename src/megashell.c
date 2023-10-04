@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/10/04 15:06:57 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/04 16:11:59 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int megashell(int argc, char *argv[], char *envp[])
 	hs_read_history_file(HISTORY_FILE_NAME);
 	if (search_path(&meta, envp) == EXIT_FAILURE)
 		printf("error search path\n");
-	while (! (!1))
+	while (1)
 	{
 		line = prompt_get_line();
 		if (!line)
@@ -70,6 +70,5 @@ int megashell(int argc, char *argv[], char *envp[])
 		pr_lstiter(cmds, cmd_free);
 		free(line);
 	}
-
 	return (0);
 }

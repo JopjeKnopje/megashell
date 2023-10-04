@@ -6,19 +6,24 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 15:25:40 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/04 16:28:01 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+#include "libft.h"
 #include "plarser.h"
 #include "redirections.h"
 #include "execute.h"
 #include "megashell.h"
+#include <readline/history.h>
 #include <readline/readline.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <strings.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
 bool try_builtin(t_cmd_frame *cmd, t_meta *meta)
@@ -27,20 +32,24 @@ bool try_builtin(t_cmd_frame *cmd, t_meta *meta)
 	is_builtin = get_builtin(cmd->argv[0]);
 	if (is_builtin)
 	{
-		return run_builtin(is_builtin, meta, cmd);
+		fprintf(stderr, "runing buitlin\n");
+		run_builtin(is_builtin, meta, cmd);
+		return  true;
 	}
 	return (false);
 }
 
 bool	run_command(t_meta *meta, t_cmd_frame *cmd)
 {
+	char *cmd_in_path;
 
 	if (!cmd->argv)
 		return false;
 
-	try_builtin(cmd, meta);
+	if (try_builtin(cmd, meta))
+		return true;
 
-	char *cmd_in_path = access_possible(meta, cmd->argv[0]);
+	cmd_in_path = access_possible(meta, cmd->argv[0]);
 	if (cmd_in_path)
 	{
 		execve(cmd_in_path, cmd->argv, meta->envp);
@@ -50,12 +59,36 @@ bool	run_command(t_meta *meta, t_cmd_frame *cmd)
 	return true;
 }
 
+
+int fork_wrap()
+{
+	static int count = 0;
+	count++;
+	printf("forked %d times\n", count);
+	return fork();
+}
+
+
+int cmd_count(t_cmd_list *cmds)
+{
+	int count = 0;
+	while (cmds)
+	{
+		cmds = cmds->next;
+		count++;
+	}
+	return count;
+}
+
 bool	start_pipeline(t_meta *meta, t_cmd_list *cmds)
 {
-	t_exec	*execute;
 	int		status;
+	int 	count_cmds = cmd_count(cmds);
+	int		*pids = ft_calloc(sizeof(int), count_cmds);
+	int i = 0;
+	if (!pids)
+		return false;
 
-	execute = &meta->execute;
 	while (cmds)
 	{
 		if (cmds->next && pipe(cmds->pipe) == -1)
@@ -63,13 +96,13 @@ bool	start_pipeline(t_meta *meta, t_cmd_list *cmds)
 			print_error(get_error_name(ERROR_PIPE));
 			return (false);
 		}
-		execute->pid = fork();
-		if (execute->pid == -1) /* fork returns -1 in case of error */
+		pids[i] = fork_wrap();
+		if (pids[i] == -1) /* fork returns -1 in case of error */
 		{
 			print_error(get_error_name(ERROR_FORK));
 			return (false);
 		}
-		if (execute->pid == 0) /* fork returns 0 for child process */
+		if (pids[i] == 0) /* fork returns 0 for child process */
 		{
 			if (cmds->prev)
 			{
@@ -102,38 +135,31 @@ bool	start_pipeline(t_meta *meta, t_cmd_list *cmds)
 			close(cmds->pipe[PIPE_WRITE]);
 		}
 		cmds = cmds->next;
+		i++;
 	}
-	waitpid(execute->pid, &status, 0);
-	printf("last exitcode: %d\n", WEXITSTATUS(status));
+
+	i = 0;
+	while (i < count_cmds)
+	{
+		waitpid(pids[i], &status, 0);
+		printf("%d exitcode: %d\n", i, WEXITSTATUS(status));
+		i++;
+	}
 	return (true);
-}
-
-void run_single_builtin(t_meta *meta, t_cmd_list *cmds)
-{
-	t_builtin	is_builtin;
-	int			std_in;
-	int			std_out;
-
-	std_in = dup(STDIN_FILENO);
-	std_out = dup(STDOUT_FILENO);
-	is_builtin = get_builtin(cmds->content.argv[0]);
-	printf("%s\n", BUILTINS_NAME[is_builtin]);
-	setup_io(cmds);
-	run_builtin(is_builtin, meta, &cmds->content);
-	dup2(std_in, STDIN_FILENO);
-	dup2(std_out, STDOUT_FILENO);
 }
 
 bool	execute(t_meta *meta, t_cmd_list *cmds)
 {
-	t_builtin is_builtin;
+	t_builtin	is_builtin;
 
-	if (cmds->content.argv)
+	if (cmds->next)
+		return (start_pipeline(meta, cmds));
+
+	else if (cmds->content.argv)
 		is_builtin = get_builtin(cmds->content.argv[0]);
 	else 
 		is_builtin = BUILTIN_INVALID;
-
-	if (!cmds->next && is_builtin)
+	if (is_builtin)
 		return run_builtin(is_builtin, meta, &cmds->content);
-	return (start_pipeline(meta, cmds));
+	return false;
 }

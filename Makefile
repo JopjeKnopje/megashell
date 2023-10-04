@@ -1,4 +1,4 @@
-# **************************************************************************** #
+
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                          :+:    :+:              #
@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/10/04 15:38:09 by jboeve        ########   odam.nl          #
+#    Updated: 2023/10/04 16:16:29 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ RUN_CMD = ./$(NAME)
 
 # CFLAGS += -Wall -Wextra -Werror -Wno-unused-function
 # CFLAGS += -Wall -Wextra
-CFLAGS += -g -fsanitize=address
+# CFLAGS += -g -fsanitize=address
 
 LIBFT = libft/build/libft.a
 
