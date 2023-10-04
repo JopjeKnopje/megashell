@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 15:23:30 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/04 15:25:40 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void run_single_builtin(t_meta *meta, t_cmd_list *cmds)
 	is_builtin = get_builtin(cmds->content.argv[0]);
 	printf("%s\n", BUILTINS_NAME[is_builtin]);
 	setup_io(cmds);
-	run_builtin(is_builtin, meta, cmds);
+	run_builtin(is_builtin, meta, &cmds->content);
 	dup2(std_in, STDIN_FILENO);
 	dup2(std_out, STDOUT_FILENO);
 }
@@ -134,6 +134,6 @@ bool	execute(t_meta *meta, t_cmd_list *cmds)
 		is_builtin = BUILTIN_INVALID;
 
 	if (!cmds->next && is_builtin)
-		return run_builtin(is_builtin, meta, cmds);
+		return run_builtin(is_builtin, meta, &cmds->content);
 	return (start_pipeline(meta, cmds));
 }

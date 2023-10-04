@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 15:14:42 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/04 15:26:35 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ bool		execute(t_meta *meta, t_cmd_list *list);
 // execute_utils:
 bool		dup_stdin(int file);
 bool		dup_stdout(int file);
-void		dup_io(t_exec *execute, t_cmd_list *cmds);
+void		dup_io(t_cmd_list *cmds);
 
 // builtins:
 t_builtin	get_builtin(char *cmd);

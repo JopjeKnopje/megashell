@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:26:21 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/23 14:56:29 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/04 15:26:40 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ bool	dup_stdout(int file)
 // 		print_error(get_error_name(ERROR_DUP2));
 // }
 
-void	dup_io(t_exec *execute, t_cmd_list *cmds)
+void	dup_io(t_cmd_list *cmds)
 {
 	if (cmds->prev && dup_stdin(cmds->prev->pipe[PIPE_READ]) == false)
 		print_error(get_error_name(ERROR_DUP2));

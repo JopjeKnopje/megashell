@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile                                          :+:    :+:              #
 #                                                     +:+ +:+         +:+      #
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/09/15 19:57:26 by ivan-mel         ###   ########.fr        #
+#    Updated: 2023/10/04 15:28:07 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,9 +27,9 @@ endif
 
 RUN_CMD = ./$(NAME)
 
-# CFLAGS += -Wall -Wextra -Werror
-CFLAGS += -Wall -Wextra
-CFLAGS += -g -fsanitize=address
+CFLAGS += -Wall -Wextra -Werror -Wno-unused-function
+# CFLAGS += -Wall -Wextra
+# CFLAGS += -g -fsanitize=address
 
 LIBFT = libft/build/libft.a
 
