@@ -6,11 +6,12 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:03 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/01 20:33:36 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/04 15:20:42 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
+#include "plarser.h"
 
 void	print_env(char **envp)
 {
@@ -61,8 +62,7 @@ bool	prepare_variable(char *cmd_start)
 	return (false);
 }
 
-bool	exists_in_env(char **envp, t_cmd_list *cmds, \
-			char *variable, int len_var)
+bool	exists_in_env(char **envp, char *arg, char *variable, int len_var)
 {
 	int	i;
 
@@ -73,7 +73,7 @@ bool	exists_in_env(char **envp, t_cmd_list *cmds, \
 			&& (envp[i][len_var] == '='))
 		{
 			free(envp[i]);
-			envp[i] = ft_strdup(cmds->content.argv[1]);
+			envp[i] = ft_strdup(arg);
 			if (!envp[i]) 
 			{
 				printf("Memory allocation error\n");
@@ -87,26 +87,26 @@ bool	exists_in_env(char **envp, t_cmd_list *cmds, \
 	return (false);
 }
 
-bool	builtin_run_export(t_meta *meta, t_cmd_list *cmds)
+bool	builtin_run_export(t_meta *meta, t_cmd_frame *cmd)
 {
 	char	*cmd_start;
 	char	*variable;
 	int		len_var;
 
-	if (!cmds->content.argv[1])
+	if (!cmd->argv[1])
 	{
 		print_env(meta->envp);
 		return (false);
 	}
-	cmd_start = ft_strdup(cmds->content.argv[1]);
+	cmd_start = ft_strdup(cmd->argv[1]);
 	if (!cmd_start)
 		return (false);
 	if (!prepare_variable(cmd_start))
 		return (false);
 	variable = cmd_start;
 	len_var = ft_strlen(variable);
-	if (exists_in_env(meta->envp, cmds, variable, len_var) == false)
-		return (handle_export_new_variable(meta->envp, cmds, cmd_start));
+	if (exists_in_env(meta->envp, cmd->argv[1], variable, len_var) == false)
+		return (handle_export_new_variable(meta->envp, cmd->argv[1], cmd_start));
 	if (!correct_input(cmd_start))
 		return (handle_export_input_errors(cmd_start));
 	handle_export_existing_variable(meta->envp, cmd_start);

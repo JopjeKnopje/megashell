@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:09:31 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/01 20:27:36 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/04 15:16:52 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,29 +41,35 @@ char	**print_home_env(char **envp)
 	return (dup_home);
 }
 
-bool	builtin_run_cd(t_meta *meta, t_cmd_list *cmds)
+bool	builtin_run_cd(t_meta *meta, t_cmd_frame *cmd)
 {
 	char		cwd[PATH_MAX];
 	char		**tmp_home;
 	int			path_len;
 
-	if (!cmds->content.argv[1])
+	if (!cmd->argv[1])
 	{
 		tmp_home = print_home_env(meta->envp);
 		if (!tmp_home)
+		{
 			return (false);
+		}
 		chdir(tmp_home[0]);
+		free_2d(tmp_home);
 		getcwd(cwd, sizeof(cwd));
 		// printf("Current working dir: %s\n", cwd);
 		return (true);
 	}
-	path_len = ft_strlen(cmds->content.argv[1]);
-	if (strncmp(cmds->content.argv[1], "..", path_len) == 0
-		|| strncmp(cmds->content.argv[1], "../", path_len) == 0)
+	path_len = ft_strlen(cmd->argv[1]);
+	if (strncmp(cmd->argv[1], "..", path_len) == 0 || strncmp(cmd->argv[1], "../", path_len) == 0)
+	{
 		chdir("../");
-	if (chdir(cmds->content.argv[1]) != 0)
-		printf("bash: cd: %s: No such file or directory\n", \
-			cmds->content.argv[1]);
+	}
+	if (chdir(cmd->argv[1]) == -1)
+	{
+		printf("bash: cd: %s: No such file or directory\n", cmd->argv[1]);
+		return false;
+	}
 	getcwd(cwd, sizeof(cwd));
 	// printf("Current working dir: %s\n", cwd);
 	return (true);

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/09/24 00:30:16 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/04 19:28:32 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,13 @@ void cmd_free(t_cmd_list *cmd)
 	free(cmd);
 }
 
+void megashell_cleanup(t_meta *meta)
+{
+	free_2d(meta->execute.split_path);
+	free_2d(meta->envp);
+}
+
+
 int megashell(int argc, char *argv[], char *envp[])
 {
 	t_meta		meta;
@@ -45,20 +52,24 @@ int megashell(int argc, char *argv[], char *envp[])
 	hs_read_history_file(HISTORY_FILE_NAME);
 	if (search_path(&meta, envp) == EXIT_FAILURE)
 		printf("error search path\n");
-	while (! (!1))
+	while (1)
 	{
 		line = prompt_get_line();
 		if (!line)
 		{
-			free_2d(meta.envp);
+			printf("line is empty, exiting...\n");
+			megashell_cleanup(&meta);
 			return (0);
 		}
 
 		cmds = plarser_main(line);
-		print_cmds(cmds);
-		execution(&meta, cmds);
+		if (cmds)
+		{
+			print_cmds(cmds);
+			execute(&meta, cmds);
+		}
 		pr_lstiter(cmds, cmd_free);
 		free(line);
 	}
-	return (1);
+	return (0);
 }

@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile                                          :+:    :+:              #
 #                                                     +:+ +:+         +:+      #
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/09/15 19:57:26 by ivan-mel         ###   ########.fr        #
+#    Updated: 2023/10/04 19:30:33 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ RUN_CMD = ./$(NAME)
 
 # CFLAGS += -Wall -Wextra -Werror
 CFLAGS += -Wall -Wextra
-CFLAGS += -g -fsanitize=address
+# CFLAGS += -g -fsanitize=address
 
 LIBFT = libft/build/libft.a
 
@@ -129,6 +129,3 @@ norm:
 
 dre: re
 	$(MAKE) -C libft re
-
-argv_test: tests/argv_test.c
-	gcc tests/argv_test.c -o argv_test

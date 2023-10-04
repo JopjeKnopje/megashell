@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.h                                     :+:      :+:    :+:   */
+/*   redirections.h                                    :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:31:17 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/15 19:57:04 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/04 02:22:53 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "megashell.h"
 #include "plarser.h"
+#include "builtins.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -23,10 +24,8 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-t_cmd_frame	*handle_redir_input(t_cmd_list *cmd_list);
-void		handle_redir_output(t_cmd_frame *cmd_frame);
-void		redirects(t_cmd_list *cmd_list);
-void		child_heredoc(char *close_line, int pipe_fd);
-void		handle_heredoc(t_cmd_frame *cmd_frame);
+uint8_t	read_from_heredoc(char *close_line, int pipe_fd);
+bool	handle_heredoc(t_cmd_frame *f);
+bool	redirections(t_cmd_frame *f);
 
 #endif
