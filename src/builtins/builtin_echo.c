@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:08:55 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/05 12:42:28 by iris             ###   ########.fr       */
+/*   Updated: 2023/10/05 12:52:59 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,16 @@
 
 void	print_echo_output(t_cmd_frame *cmd, bool flag)
 {
-	if (!flag)
+	if (cmd->argv[1] == NULL || flag)
 	{
 		printf("\n");
-		return;
+		return ;
 	}
+	// if (flag)
+	// {
+	// 	printf("\n");
 	printf("%s", cmd->argv[1]);
+	printf("\n");
 }
 
 bool	process_echo_flags(t_cmd_frame *cmd)
