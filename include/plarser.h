@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   plarser.h                                          :+:      :+:    :+:   */
+/*   plarser.h                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/10/03 17:56:54 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/05 02:54:03 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_cmd_list		*pr_lstnew(t_cmd_frame content);
 t_cmd_list		*pr_lstlast(t_cmd_list *lst);
 void			pr_lst_free(t_cmd_list *lst);
 void			pr_lstadd_back(t_cmd_list **lst, t_cmd_list *new);
-void			pr_lstiter(t_cmd_list *lst, void (*f)(t_cmd_list *));
+size_t			pr_lst_count(t_cmd_list *lst);
 
 // syntax.c
 t_tok_list		*sy_main(t_tok_list *tokens);

@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/10/04 19:30:33 by jboeve        ########   odam.nl          #
+#    Updated: 2023/10/05 03:26:30 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ RUN_CMD = ./$(NAME)
 
 # CFLAGS += -Wall -Wextra -Werror
 CFLAGS += -Wall -Wextra
-# CFLAGS += -g -fsanitize=address
+CFLAGS += -g -fsanitize=address
 
 LIBFT = libft/build/libft.a
 
@@ -44,6 +44,7 @@ SRCS =  execute/error.c \
 		execute/environment.c \
 		execute/execute.c \
 		execute/execute_utils.c \
+		execute/pipeline.c \
 		builtins/builtins.c \
 		builtins/builtin_cd.c \
 		builtins/builtin_echo.c \

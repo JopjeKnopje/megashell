@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 19:27:08 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/05 03:39:22 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,33 +56,31 @@ char		*get_error_name(t_error er);
 int			print_error(char *str);
 
 // path:
-char	*find_path(char **envp);
+char		*find_path(char **envp);
 char		**split_path(char *path);
 char		**put_slash(char **path);
-int	search_path(t_meta *meta, char **environment);
+int			search_path(t_meta *meta, char **environment);
 
 // environment:
 char		**get_environment(char **envp);
 
+// pipeline.c
+bool		pipeline_start(t_meta *meta, t_cmd_list *cmds);
+
 // execute:
-bool	start_pipe(t_meta *meta, t_cmd_list *cmds);
-bool	execute(t_meta *meta, t_cmd_list *cmds);
+bool		execute(t_meta *meta, t_cmd_list *cmds);
 
 // execute_utils:
 bool		dup_stdin(int file);
 bool		dup_stdout(int file);
 void		dup_io(t_exec *execute, t_cmd_list *cmds);
 
-// builtins:
-t_builtin	get_builtin(char *cmd);
-bool	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd);
-
 // access:
-bool	find_access(t_meta *meta, t_cmd_list *cmds);
+bool		find_access(t_meta *meta, t_cmd_list *cmds);
 bool		is_a_directory(char *cmd);
 char		*check_relative_path(char *cmd);
-char	*find_executable_in_path(char **split_path, char *cmd);
-char	*access_possible(t_meta *meta, char *cmd);
+char		*find_executable_in_path(char **split_path, char *cmd);
+char		*access_possible(t_meta *meta, char *cmd);
 
 // free:
 void		free_2d(char **str);

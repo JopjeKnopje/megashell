@@ -6,109 +6,23 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 19:27:08 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/05 03:39:46 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
-#include "plarser.h"
-#include "redirections.h"
-#include "execute.h"
 #include "megashell.h"
-#include <fcntl.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <assert.h>
-#include <stdlib.h>
-#include <unistd.h>
-
-
-
-bool	run_command(t_meta *meta, t_cmd_frame *cmd)
-{
-	t_builtin	is_builtin;
-	char *cmd_in_path;
-
-	is_builtin = get_builtin(cmd->argv[0]);
-	if (is_builtin)
-		return (run_builtin(is_builtin, meta, cmd));
-
-	cmd_in_path = access_possible(meta, cmd->argv[0]);
-	if (cmd_in_path)
-	{
-		if (execve(cmd_in_path, cmd->argv, meta->envp) == -1)
-		{
-			print_error(get_error_name(ERROR_ACCESS));
-			return (false);
-		}
-		return (true);
-	}
-	return (false);
-}
-
-bool	start_pipeline(t_meta *meta, t_cmd_list *cmds)
-{
-	pid_t 	pid;
-	int		status;
-
-	while (cmds)
-	{
-		if (cmds->next && pipe(cmds->pipe) == -1)
-		{
-			print_error(get_error_name(ERROR_PIPE));
-			return (false);
-		}
-		pid = fork();
-		if (pid == -1)
-		{
-			print_error(get_error_name(ERROR_FORK));
-			return (false);
-		}
-		if (pid == 0)
-		{
-			if (cmds->prev)
-			{
-				if (dup2(cmds->prev->pipe[PIPE_READ], STDIN_FILENO) == -1)
-					perror(strerror(errno));
-				close(cmds->prev->pipe[PIPE_READ]);
-				close(cmds->prev->pipe[PIPE_WRITE]);
-			}
-			if (cmds->next)
-			{
-				close(cmds->pipe[PIPE_READ]);
-				if (dup2(cmds->pipe[PIPE_WRITE], STDOUT_FILENO) == -1)
-					perror(strerror(errno));
-				close(cmds->pipe[PIPE_WRITE]);
-			}
-			redirections(&cmds->content);
-			if (!run_command(meta, &cmds->content))
-				exit(EXIT_FAILURE);
-			exit(EXIT_SUCCESS);
-		}
-		if (cmds->prev)
-		{
-			close(cmds->prev->pipe[PIPE_READ]);
-			close(cmds->prev->pipe[PIPE_WRITE]);
-		}
-		cmds = cmds->next;
-	}
-	waitpid(pid, &status, 0);
-	if (!WIFEXITED(status))
-		assert(0 && "Handle segfaults etc.\n");
-	printf("last exitcode: %d\n", WEXITSTATUS(status));
-	return true;
-}
-
+#include "builtins.h"
+#include "execute.h"
 
 bool	execute(t_meta *meta, t_cmd_list *cmds)
 {
 	t_builtin	is_builtin;
 
 	is_builtin = get_builtin(cmds->content.argv[0]);
-	if (is_builtin)
+	if (is_builtin && !cmds->next)
 		return run_builtin(is_builtin, meta, &cmds->content);
 
 	else
-		return (start_pipeline(meta, cmds));
+		return (pipeline_start(meta, cmds));
 	return false;
 }
