@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 15:00:42 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 23:51:53 by iris             ###   ########.fr       */
+/*   Updated: 2023/10/05 11:06:05 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ bool	builtin_run_export(t_meta *execute, t_cmd_frame *cmd);
 bool	correct_input(char *content);
 char	**add_to_env(char **envp, char *arg, char *cmd_start);
 void	print_environment(char **envp);
+bool	prepare_variable(char *cmd_start);
+bool	exists_in_env(char **envp, char *arg, char *variable, int len_var);
 bool	handle_export_input_errors(char *cmd_start);
 bool	handle_export_existing_variable(char **execute, char *cmd_start);
 bool	handle_export_new_variable(t_meta *meta, char *arg, char *cmd_start);

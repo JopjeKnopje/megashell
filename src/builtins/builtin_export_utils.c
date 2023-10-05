@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 13:58:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 23:54:57 by iris             ###   ########.fr       */
+/*   Updated: 2023/10/05 10:15:53 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,5 @@ bool	handle_export_new_variable(t_meta *meta, char *arg, char *cmd_start)
 		return (true);
 	}
 	meta->envp = add_to_env(meta->envp, arg, cmd_start);
-	// while (meta->envp[i])
-	// {
-	// 	printf("%s\n", meta->envp[i]);
-	// 	i++;
-	// }
 	return (true);
 }

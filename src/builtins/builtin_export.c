@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:03 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 23:48:32 by iris             ###   ########.fr       */
+/*   Updated: 2023/10/05 02:18:14 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,16 @@ bool	builtin_run_export(t_meta *meta, t_cmd_frame *cmd)
 		return (false);
 	variable = cmd_start;
 	len_var = ft_strlen(variable);
+	printf("cmd->argv[1]: %s\n", cmd->argv[1]);
+	printf("variable: %s\n", variable);
+	printf("cmd_start: %s\n", cmd_start);
 	if (exists_in_env(meta->envp, cmd->argv[1], variable, len_var) == false)
 		return (handle_export_new_variable(meta, cmd->argv[1], cmd_start));
 	if (!correct_input(cmd_start))
 		return (handle_export_input_errors(cmd_start));
+	printf("cmd->argv[1]: %s\n", cmd->argv[1]);
+	printf("variable: %s\n", variable);
+	printf("cmd_start: %s\n", cmd_start);
 	handle_export_existing_variable(meta->envp, cmd_start);
 	return (true);
 }
