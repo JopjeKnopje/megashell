@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/10/05 03:26:30 by joppe         ########   odam.nl          #
+#    Updated: 2023/10/05 03:46:43 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ RUN_CMD = ./$(NAME)
 
 # CFLAGS += -Wall -Wextra -Werror
 CFLAGS += -Wall -Wextra
-CFLAGS += -g -fsanitize=address
+# CFLAGS += -g -fsanitize=address
 
 LIBFT = libft/build/libft.a
 
@@ -97,7 +97,7 @@ OBJ_DIRS := $(dir $(OBJS))
 
 .PHONY: make_libs
 
-all: make_libs argv_test $(NAME)
+all: make_libs $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT) 
 	$(CC) $(OBJS) $(LIBFT) $(CFLAGS) $(INC) $(LFLAGS) -o $(NAME)
