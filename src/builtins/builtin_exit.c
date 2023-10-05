@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                    :+:    :+:             */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:11 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 15:22:01 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/05 12:35:48 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ bool	is_a_nb(char *str)
 	if (str[0] == '-')
 	{
 		if (str[1] != '-' && (str[1] < '0' || str[1] > '9'))
-		{
-			printf("exit %c: numeric argument required\n", str[0]);
 			return (false);
-		}
 	}
 	while (str[i])
 	{
@@ -45,13 +42,15 @@ bool	builtin_run_exit(t_meta *meta, t_cmd_frame *cmd)
 	if (!cmd->argv[1])
 		exit(EXIT_SUCCESS);
 	nb = ft_atoi(cmd->argv[1]);
+	printf("exit\n");
 	if (cmd->argv[2])
 	{
+		printf("exit\n");
 		if ((is_a_nb(cmd->argv[1]) && is_a_nb(cmd->argv[2]))
 			|| (!is_a_nb(cmd->argv[2])))
 		{
 			printf("exit: too many arguments\n");
-			exit(EXIT_FAILURE);
+			return(false);
 		}
 		if (!is_a_nb(cmd->argv[1]) && is_a_nb(cmd->argv[2]))
 		{
