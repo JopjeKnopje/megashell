@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/29 17:45:19 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/05 04:14:01 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ t_cmd_list *pr_main(t_tok_list *tokens)
 	t_cmd_frame	frame;
 	ft_bzero(&frame, sizeof(t_cmd_frame));
 
+
+	// every frame can contain at max one of each redirection (in / out).
 	while (tokens)
 	{
 		if (!tokens->prev || tokens->token.kind == TOKEN_PIPE)

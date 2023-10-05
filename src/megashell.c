@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/10/05 02:54:09 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/05 04:14:40 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int megashell(int argc, char *argv[], char *envp[])
 		if (cmds)
 		{
 			print_cmds(cmds);
-			execute(&meta, cmds);
+			// execute(&meta, cmds);
 		}
 		pr_lst_free(cmds);
 		free(line);
