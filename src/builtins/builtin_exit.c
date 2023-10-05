@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:11 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/05 12:35:48 by iris             ###   ########.fr       */
+/*   Updated: 2023/10/05 12:44:40 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,11 @@ bool	builtin_run_exit(t_meta *meta, t_cmd_frame *cmd)
 	(void) meta;
 
 	if (!cmd->argv[1])
+	{
+		printf("exit\n");
 		exit(EXIT_SUCCESS);
+	}
 	nb = ft_atoi(cmd->argv[1]);
-	printf("exit\n");
 	if (cmd->argv[2])
 	{
 		printf("exit\n");
@@ -60,5 +62,6 @@ bool	builtin_run_exit(t_meta *meta, t_cmd_frame *cmd)
 	}
 	else if (!is_a_nb(cmd->argv[1]))
 		printf("exit %s: a numeric argument required\n", cmd->argv[1]);
+	printf("exit\n");
 	exit(nb);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                    :+:    :+:             */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:08:55 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 15:23:12 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/05 12:42:28 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@
 
 void	print_echo_output(t_cmd_frame *cmd, bool flag)
 {
-	printf("%s", cmd->argv[1]);
 	if (!flag)
+	{
 		printf("\n");
+		return;
+	}
+	printf("%s", cmd->argv[1]);
 }
 
 bool	process_echo_flags(t_cmd_frame *cmd)
