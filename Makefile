@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: iris <iris@student.42.fr>                  +#+  +:+       +#+         #
+#    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/10/04 23:25:47 by iris             ###   ########.fr        #
+#    Updated: 2023/10/06 13:15:56 by ivan-mel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRCS =  execute/error.c \
 		execute/execute_utils.c \
 		builtins/builtins.c \
 		builtins/builtin_cd.c \
+		builtins/builtin_cd_utils.c \
 		builtins/builtin_echo.c \
 		builtins/builtin_env.c \
 		builtins/builtin_exit.c \

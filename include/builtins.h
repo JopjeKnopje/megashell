@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 15:00:42 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/05 11:06:05 by iris             ###   ########.fr       */
+/*   Updated: 2023/10/06 15:29:27 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,9 @@ bool	exists_in_env(char **envp, char *arg, char *variable, int len_var);
 bool	handle_export_input_errors(char *cmd_start);
 bool	handle_export_existing_variable(char **execute, char *cmd_start);
 bool	handle_export_new_variable(t_meta *meta, char *arg, char *cmd_start);
+char	*change_oldpwd(char *dir, char *cur_pwd);
+char	*change_pwd(char *dir, char *cur_pw);
+bool	handle_export_oldpwd_variable(char **envp, char *cmd_start);
+bool	set_pwd(t_meta *meta, char *pwd_now);
 
 #endif
