@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:33 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/05 12:20:54 by iris             ###   ########.fr       */
+/*   Updated: 2023/10/06 19:44:31 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ bool	remove_env_variable(char **envp, const char *variable)
 		if (ft_strncmp(envp[i], variable, len_var) == 0
 			&& (envp[i][len_var] == '='))
 		{
-			// printf("Comparing '%s' with '%s'\n", envp[i], variable);
 			while (envp[i] != NULL)
 			{
 				envp[i] = envp[i + 1];
@@ -46,7 +45,6 @@ bool	builtin_run_unset(t_meta *meta, t_cmd_frame *cmd)
 	variable = cmd->argv[1];
 	if (!cmd->argv[1])
 	{
-		// printf("Not Enough Arguments\n");
 		return (false);
 	}
 	if (remove_env_variable(meta->envp, variable) == false)

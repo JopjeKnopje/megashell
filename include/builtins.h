@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 15:00:42 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/06 15:29:27 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/06 17:35:33 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static const char *BUILTINS_NAME[BUILTIN_COUNT] = {
 bool	builtin_run_unset(t_meta *meta, t_cmd_frame *cmd);
 bool	builtin_run_pwd(t_meta *meta, t_cmd_frame *cmd);
 bool	builtin_run_env(t_meta *meta, t_cmd_frame *cmd);
-bool	builtin_run_echo(t_meta *execute, t_cmd_frame *cmd);
+bool	builtin_run_echo(t_meta *meta, t_cmd_frame *cmd);
 bool	builtin_run_cd(t_meta *execute, t_cmd_frame *cmd);
 bool	builtin_run_exit(t_meta *meta, t_cmd_frame *cmd);
 bool	builtin_run_export(t_meta *execute, t_cmd_frame *cmd);

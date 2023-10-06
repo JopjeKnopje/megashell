@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:11 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/05 12:44:40 by iris             ###   ########.fr       */
+/*   Updated: 2023/10/06 19:42:37 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ bool	builtin_run_exit(t_meta *meta, t_cmd_frame *cmd)
 	int	nb;
 
 	(void) meta;
-
 	if (!cmd->argv[1])
 	{
 		printf("exit\n");
@@ -50,10 +49,7 @@ bool	builtin_run_exit(t_meta *meta, t_cmd_frame *cmd)
 		printf("exit\n");
 		if ((is_a_nb(cmd->argv[1]) && is_a_nb(cmd->argv[2]))
 			|| (!is_a_nb(cmd->argv[2])))
-		{
-			printf("exit: too many arguments\n");
-			return(false);
-		}
+			return (printf("exit: too many arguments\n"), false);
 		if (!is_a_nb(cmd->argv[1]) && is_a_nb(cmd->argv[2]))
 		{
 			printf("exit: a numeric argument required\n");

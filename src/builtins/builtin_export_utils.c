@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 13:58:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/05 10:15:53 by iris             ###   ########.fr       */
+/*   Updated: 2023/10/06 19:44:21 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ char	**add_to_env(char **envp, char *arg, char *cmd_start)
 	if (!new_envp)
 	{
 		free(cmd_start);
-		printf("Memory allocation error\n");
-		return (NULL);
+		return (printf("Memory allocation error\n"), NULL);
 	}
 	new_envp = fill_environment(envp, new_envp, cmd_start, i);
 	new_envp[i] = ft_strdup(arg);
@@ -61,8 +60,7 @@ char	**add_to_env(char **envp, char *arg, char *cmd_start)
 	{
 		free(cmd_start);
 		free_2d(new_envp);
-		printf("Memory allocation error\n");
-		return (NULL);
+		return (printf("Memory allocation error\n"), NULL);
 	}
 	free_2d(envp);
 	envp = new_envp;
@@ -83,7 +81,7 @@ bool	handle_export_existing_variable(char **envp, char *cmd_start)
 	i = 0;
 	while (envp[i])
 	{
-		printf("%s\n",envp[i]);
+		printf("%s\n", envp[i]);
 		i++;
 	}
 	free(cmd_start);
