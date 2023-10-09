@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   plarser.c                                          :+:      :+:    :+:   */
+/*   plarser.c                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 12:26:52 by jboeve            #+#    #+#             */
-/*   Updated: 2023/08/22 14:54:25 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/08/29 17:17:31 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_cmd_list *plarser_main(char *line)
 		printf("lexer malloc failure\n");
 		return (NULL);
 	}
+	print_tokens(tokens);
 	// TODO expansion before syntax check.
 	t_tok_list *err = sy_main(tokens);
 	if (err)

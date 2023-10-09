@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
+/*                                                        :::      ::::::::   */
 /*   plarser.h                                         :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: jboeve <marvin@42.fr>                       +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/08/14 16:40:07 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/24 10:52:21 by joppe         ########   odam.nl         */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
+/*   Updated: 2023/10/05 02:54:03 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ infile:
 	stdin | default
 
 	inflie_name
-	heredoc | NOT SUPPORTED YET
+	heredoc
 
 outfile:
 	stdout | default
@@ -57,15 +57,16 @@ outfile:
 
 
 using it:
-	check in infile/outfile is set, and whether out_append is set.
-	if not there are no redirections.
+	if infile/outfile is not set, then there is not redirection.
+	if is_heredoc isset then the outfile will be the deliminter.
 
 */
 typedef struct s_cmd_frame {
 	char	**argv;
 	char	*infile;
 	char	*outfile;
-	bool	out_append;
+	bool	is_append;
+	bool	is_heredoc;
 } t_cmd_frame;
 
 
@@ -78,6 +79,7 @@ typedef struct e_token_list {
 
 typedef struct e_cmd_list {
 	t_cmd_frame			content;
+	int					pipe[2];
 	struct e_cmd_list	*next;
 	struct e_cmd_list	*prev;
 }	t_cmd_list;
@@ -91,7 +93,7 @@ t_cmd_list		*pr_lstnew(t_cmd_frame content);
 t_cmd_list		*pr_lstlast(t_cmd_list *lst);
 void			pr_lst_free(t_cmd_list *lst);
 void			pr_lstadd_back(t_cmd_list **lst, t_cmd_list *new);
-void			pr_lstiter(t_cmd_list *lst, void (*f)(t_cmd_list *));
+size_t			pr_lst_count(t_cmd_list *lst);
 
 // syntax.c
 t_tok_list		*sy_main(t_tok_list *tokens);

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/08/28 18:57:09 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/10 00:23:15 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,56 +17,50 @@
 #include "execute.h"
 #include "test_utils.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <sys/wait.h>
 
 
-void cmd_free(t_cmd_list *cmd)
+void megashell_cleanup(t_meta *meta)
 {
-	str_free_2d(cmd->content.argv);
-	free(cmd->content.infile);
-	free(cmd->content.outfile);
-	free(cmd);
+	free_2d(meta->execute.split_path);
+	free_2d(meta->envp);
 }
+
 
 int megashell(int argc, char *argv[], char *envp[])
 {
 	t_meta		meta;
 	char		*line;
 	t_cmd_list	*cmds;
-	t_exec		execute;
-	ft_bzero(&meta, sizeof(t_meta));
 
-	meta.envp = envp;
 	(void) argc;
 	(void) argv;
 
+	ft_bzero(&meta, sizeof(t_meta));
 	prompt_env_setup();
 	hs_read_history_file(HISTORY_FILE_NAME);
-
-	while (!meta.stop)
+	if (search_path(&meta, envp) == EXIT_FAILURE)
+		printf("error search path\n");
+	while (1)
 	{
 		line = prompt_get_line();
 		if (!line)
 		{
 			printf("line is empty, exiting...\n");
+			megashell_cleanup(&meta);
 			return (0);
 		}
-		else if (!ft_strncmp(line, "test", ft_strlen("test")))
+
+		cmds = plarser_main(line);
+		if (cmds)
 		{
-			aliases_init(&meta);
+			print_cmds(cmds);
+			// execute(&meta, cmds);
 		}
-		// cmds = plarser_main(line);
-		// print_cmds(cmds);
-		// if (search_path(&execute, envp) == EXIT_FAILURE)
-		// {
-		// 	printf("error searc path\n");
-		// }
-		// execution(&execute, cmds);
-
-
-		// pr_lstiter(cmds, cmd_free);
+		pr_lst_free(cmds);
 		free(line);
 	}
-
 	return (0);
 }

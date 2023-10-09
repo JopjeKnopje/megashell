@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:19:02 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/11 16:19:05 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/03 16:49:31 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ char	*get_error_name(t_error er)
 		[ERROR_PIPE] = "Pipe Error", \
 		[ERROR_FORK] = "Fork Error", \
 		[ERROR_DUP2] = "Duplication Error", \
-		[ERROR_ACCESS] = "Access Failure"};
+		[ERROR_ACCESS] = "Access Failure", \
+		[ERROR_ALLOC] = "Allocation Error", \
+		[ERROR_DOT] = "bash .: filename argument required"};
 
 	return (str[er]);
 }

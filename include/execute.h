@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.h                                          :+:      :+:    :+:   */
+/*   execute.h                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/22 14:35:48 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/05 03:39:22 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTE_H
 # define EXECUTE_H
 
+#include "megashell.h"
 # include "libft.h"
 # include "builtins.h"
 # include <stdio.h>
@@ -24,12 +25,19 @@
 # include <errno.h>
 # include <string.h>
 # include <stdbool.h>
-# include <limits.h>
+# include <linux/limits.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 
 typedef enum e_files {
-	IN_READ,
-	OUT_WRITE,
+	PIPE_READ,
+	PIPE_WRITE,
 }	t_files;
+
+typedef	enum e_access {
+	CHECK_DIR,
+	CHECK_ACCESS,
+}	t_access;
 
 typedef enum e_error {
 	ERROR_ARGUMENTS,
@@ -39,49 +47,40 @@ typedef enum e_error {
 	ERROR_FORK,
 	ERROR_DUP2,
 	ERROR_ACCESS,
+	ERROR_ALLOC,
+	ERROR_DOT,
 }	t_error;
-
-typedef struct s_exec {
-	int			args;
-	int			pid;
-	int			io_file[2];
-	char		**argv;
-	char		**envp;
-	char		**split_path;
-}	t_exec;
 
 // error:
 char		*get_error_name(t_error er);
 int			print_error(char *str);
 
 // path:
-char		*find_path(t_exec *execute);
+char		*find_path(char **envp);
 char		**split_path(char *path);
 char		**put_slash(char **path);
-int			search_path(t_exec *execute, char **environment);
+int			search_path(t_meta *meta, char **environment);
 
 // environment:
 char		**get_environment(char **envp);
 
+// pipeline.c
+bool		pipeline_start(t_meta *meta, t_cmd_list *cmds);
+
 // execute:
-void		children_spawn(t_exec *execute, t_cmd_list *cmds);
-void		start_pipe(t_exec *execute, t_cmd_list *cmds);
-void		execution(t_exec *execute, t_cmd_list *list);
+bool		execute(t_meta *meta, t_cmd_list *cmds);
 
 // execute_utils:
 bool		dup_stdin(int file);
 bool		dup_stdout(int file);
-
-// builtins:
-t_builtin	get_builtin(char *cmd);
-void		run_builtin(t_builtin builtin, t_exec *execute, t_cmd_list *cmds);
+void		dup_io(t_exec *execute, t_cmd_list *cmds);
 
 // access:
-bool		find_access(t_exec *execute, t_cmd_list *list);
-char		*access_possible(t_exec *execute, char *list);
-
-// utils:
-int			largest_input(const char *s1, const char *s2);
+bool		find_access(t_meta *meta, t_cmd_list *cmds);
+bool		is_a_directory(char *cmd);
+char		*check_relative_path(char *cmd);
+char		*find_executable_in_path(char **split_path, char *cmd);
+char		*access_possible(t_meta *meta, char *cmd);
 
 // free:
 void		free_2d(char **str);

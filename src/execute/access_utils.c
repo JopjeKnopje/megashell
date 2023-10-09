@@ -1,45 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   access.c                                           :+:      :+:    :+:   */
+/*   access_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/22 14:42:32 by ivan-mel         ###   ########.fr       */
+/*   Created: 2023/08/29 18:11:57 by ivan-mel          #+#    #+#             */
+/*   Updated: 2023/09/18 17:19:35 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
-bool	find_access(t_exec *execute, t_cmd_list *cmds)
-{
-	char	*cmd_in_path;
-
-	cmd_in_path = access_possible(execute, cmds->content.argv[0]);
-	if (!cmd_in_path)
-		return (false);
-	if (execve (cmd_in_path, cmds->content.argv, execute->envp) == -1)
-		return (false);
-	return (true);
-}
-
-char	*access_possible(t_exec *execute, char *cmd)
+char	*find_executable_in_path(char **split_path, char *cmd)
 {
 	int		i;
 	char	*tmp;
 
 	i = 0;
-	while (execute->split_path[i])
+	while (split_path[i])
 	{
-		tmp = ft_strjoin(execute->split_path[i], cmd);
+		tmp = ft_strjoin(split_path[i], cmd);
 		if (!tmp)
 			return (NULL);
-		if (access(tmp, F_OK) == 0)
-		{
-			// printf("cmd: %s\n", tmp);
+		if (access(tmp, F_OK) == 0 && access(tmp, X_OK) == 0)
 			return (tmp);
-		}
 		free(tmp);
 		i++;
 	}

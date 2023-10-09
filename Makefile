@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/08/28 18:29:54 by joppe         ########   odam.nl          #
+#    Updated: 2023/10/10 00:21:15 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,23 +38,24 @@ LFLAGS = -lreadline $(L_RL)
 
 SRC_DIR = src
 
-SRCS = main.c \
-		error.c \
-		path.c \
-		free.c \
-		environment.c \
-		execute.c \
-		execute_utils.c \
+SRCS =  execute/error.c \
+		execute/path.c \
+		execute/free.c \
+		execute/environment.c \
+		execute/execute.c \
+		execute/execute_utils.c \
+		execute/pipeline.c \
 		builtins/builtins.c \
 		builtins/builtin_cd.c \
 		builtins/builtin_echo.c \
 		builtins/builtin_env.c \
 		builtins/builtin_exit.c \
 		builtins/builtin_export.c \
+		builtins/builtin_export_utils.c \
 		builtins/builtin_pwd.c \
 		builtins/builtin_unset.c \
-		utils.c \
-		access.c \
+		execute/access.c \
+		execute/access_utils.c \
 		input/prompt.c \
 	  	input/signals.c \
 	  	input/history_file.c \
@@ -69,8 +70,11 @@ SRCS = main.c \
 	  	plarser/parser.c \
 	  	plarser/parser_list.c \
 	  	utils/utils_string.c \
-	  	megashell.c \
+		redirections/redirections.c \
+		redirections/heredoc.c \
 		test_utils.c \
+	  	megashell.c \
+		main.c \
 
 HEADER_DIR = include
 HEADERS = input.h \
@@ -94,7 +98,7 @@ OBJ_DIRS := $(dir $(OBJS))
 
 .PHONY: make_libs
 
-all: make_libs argv_test $(NAME)
+all: make_libs $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT) 
 	$(CC) $(OBJS) $(LIBFT) $(CFLAGS) $(INC) $(LFLAGS) -o $(NAME)
@@ -127,6 +131,3 @@ norm:
 
 dre: re
 	$(MAKE) -C libft re
-
-argv_test: tests/argv_test.c
-	gcc tests/argv_test.c -o argv_test

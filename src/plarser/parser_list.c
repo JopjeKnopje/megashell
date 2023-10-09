@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
+/*                                                        :::      ::::::::   */
 /*   parser_list.c                                     :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/08/20 00:11:49 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/20 23:36:44 by joppe         ########   odam.nl         */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/20 00:11:49 by joppe             #+#    #+#             */
+/*   Updated: 2023/10/05 02:53:48 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "plarser.h"
+#include "utils.h"
 
 t_cmd_list	*pr_lstlast(t_cmd_list *lst)
 {
@@ -66,18 +67,21 @@ void pr_lst_free(t_cmd_list *lst)
 	{
 		tmp = lst;
 		lst = lst->next;
+		if (tmp->content.argv)
+			str_free_2d(tmp->content.argv);
+		free(tmp->content.infile);
+		free(tmp->content.outfile);
 		free(tmp);
 	}
 }
 
-void	pr_lstiter(t_cmd_list *lst, void (*f)(t_cmd_list *))
+size_t pr_lst_count(t_cmd_list *lst)
 {
-	t_cmd_list	*tmp;
-
+	size_t count = 0;
 	while (lst)
 	{
-		tmp = lst;
 		lst = lst->next;
-		f(tmp);
+		count++;
 	}
+	return (count);
 }

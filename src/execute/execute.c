@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   execute.c                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/15 13:01:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/15 17:13:38 by ivan-mel         ###   ########.fr       */
+/*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
+/*   Updated: 2023/10/05 03:39:46 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "megashell.h"
+#include "builtins.h"
 #include "execute.h"
 
-int	largest_input(const char *s1, const char *s2)
+bool	execute(t_meta *meta, t_cmd_list *cmds)
 {
-	const int	s1_len = ft_strlen(s1);
-	const int	s2_len = ft_strlen(s2);
-	const int	comp = s1_len < s2_len;
+	t_builtin	is_builtin;
 
-	return ((comp) * s2_len + (!comp) * s1_len);
+	is_builtin = get_builtin(cmds->content.argv[0]);
+	if (is_builtin && !cmds->next)
+		return run_builtin(is_builtin, meta, &cmds->content);
+
+	else
+		return (pipeline_start(meta, cmds));
+	return false;
 }
