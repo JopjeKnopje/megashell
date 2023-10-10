@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:02:40 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/10 17:03:10 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:49:04 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ char	**search_in_path(char **envp, char *cmd)
 	dup_cmd_index = 0;
 	envp_len = ft_strlen(envp[i]);
 	dup_cmd = (char **)malloc(sizeof(char *) * (envp_len + 1));
+	if (!dup_cmd)
+		return (NULL);
 	while (envp[i])
 	{
 		if ((ft_strncmp(envp[i], cmd, ft_strlen(cmd)) == 0))
@@ -34,6 +36,8 @@ char	**search_in_path(char **envp, char *cmd)
 		}
 		i++;
 	}
+	if (dup_cmd_index == 0)
+		return (NULL);
 	dup_cmd[dup_cmd_index] = NULL;
 	return (dup_cmd);
 }
