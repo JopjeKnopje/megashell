@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/10 16:04:58 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/10 16:24:26 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,45 +43,42 @@ bool	run_command(t_meta *meta, t_cmd_frame *cmd)
 	return (false);
 }
 
+int	start_childprocess(t_meta *meta, t_cmd_list *cmds)
+{
+	if (cmds->prev)
+	{
+		if (dup2(cmds->prev->pipe[PIPE_READ], STDIN_FILENO) == -1)
+			perror(strerror(errno));
+		close(cmds->prev->pipe[PIPE_READ]);
+		close(cmds->prev->pipe[PIPE_WRITE]);
+	}
+	if (cmds->next)
+	{
+		close(cmds->pipe[PIPE_READ]);
+		if (dup2(cmds->pipe[PIPE_WRITE], STDOUT_FILENO) == -1)
+			perror(strerror(errno));
+		close(cmds->pipe[PIPE_WRITE]);
+	}
+	redirections(&cmds->content);
+	if (!run_command(meta, &cmds->content))
+		exit(EXIT_FAILURE);
+	exit(EXIT_SUCCESS);
+}
+
 bool	start_pipeline(t_meta *meta, t_cmd_list *cmds)
 {
-	pid_t 	pid;
+	pid_t	pid;
 	int		status;
 
 	while (cmds)
 	{
 		if (cmds->next && pipe(cmds->pipe) == -1)
-		{
-			print_error(get_error_name(ERROR_PIPE));
-			return (false);
-		}
+			return (print_error(get_error_name(ERROR_PIPE)), false);
 		pid = fork();
 		if (pid == -1)
-		{
-			print_error(get_error_name(ERROR_FORK));
-			return (false);
-		}
+			return (print_error(get_error_name(ERROR_FORK)), false);
 		if (pid == 0)
-		{
-			if (cmds->prev)
-			{
-				if (dup2(cmds->prev->pipe[PIPE_READ], STDIN_FILENO) == -1)
-					perror(strerror(errno));
-				close(cmds->prev->pipe[PIPE_READ]);
-				close(cmds->prev->pipe[PIPE_WRITE]);
-			}
-			if (cmds->next)
-			{
-				close(cmds->pipe[PIPE_READ]);
-				if (dup2(cmds->pipe[PIPE_WRITE], STDOUT_FILENO) == -1)
-					perror(strerror(errno));
-				close(cmds->pipe[PIPE_WRITE]);
-			}
-			redirections(&cmds->content);
-			if (!run_command(meta, &cmds->content))
-				exit(EXIT_FAILURE);
-			exit(EXIT_SUCCESS);
-		}
+			start_childprocess(meta, cmds);
 		if (cmds->prev)
 		{
 			close(cmds->prev->pipe[PIPE_READ]);
@@ -92,10 +89,8 @@ bool	start_pipeline(t_meta *meta, t_cmd_list *cmds)
 	waitpid(pid, &status, 0);
 	if (!WIFEXITED(status))
 		assert(0 && "Handle segfaults etc.\n");
-	printf("last exitcode: %d\n", WEXITSTATUS(status));
 	return (true);
 }
-
 
 bool	execute(t_meta *meta, t_cmd_list *cmds)
 {
@@ -106,5 +101,5 @@ bool	execute(t_meta *meta, t_cmd_list *cmds)
 		return (run_builtin(is_builtin, meta, &cmds->content));
 	else
 		return (start_pipeline(meta, cmds));
-	return false;
+	return (false);
 }
