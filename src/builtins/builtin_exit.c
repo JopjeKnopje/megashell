@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:11 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/06 19:42:37 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/10 16:02:38 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ bool	builtin_run_exit(t_meta *meta, t_cmd_frame *cmd)
 			exit(EXIT_FAILURE);
 		}
 	}
-	else if (!is_a_nb(cmd->argv[1]))
-		printf("exit %s: a numeric argument required\n", cmd->argv[1]);
 	printf("exit\n");
+	if (!is_a_nb(cmd->argv[1]))
+		printf("exit %s: a numeric argument required\n", cmd->argv[1]);
 	exit(nb);
 }

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:09:31 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/06 15:39:28 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:15:56 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,20 +103,14 @@ bool	run_argument(t_meta *meta, t_cmd_frame *cmd)
 	pwd_now = NULL;
 	path_len = ft_strlen(cmd->argv[1]);
 	prev_pwd = search_for_pwd(meta->envp);
-	if (access(cmd->argv[1], F_OK) != 0)
-	{
-		if (ft_strncmp(cmd->argv[1], "-", 1) == 0 \
+	if (ft_strncmp(cmd->argv[1], "-", 1) == 0 \
 			&& path_len == 1)
-		{
-			if (set_oldpwd(meta, cmd->argv[1], prev_pwd) == false \
+	{
+		if (set_oldpwd(meta, cmd->argv[1], prev_pwd) == false \
 			|| set_pwd(meta, pwd_now) == false)
-				return (false);
-			return (true);
-		}
-		return (false);
-	}
-	if (strncmp (cmd->argv[1], ".", 1) == 0 && ft_strlen(cmd->argv[1]) == 1)
+			return (false);
 		return (true);
+	}
 	if (set_oldpwd(meta, cmd->argv[1], prev_pwd) == false \
 		|| set_pwd(meta, pwd_now) == false)
 		return (false);
@@ -132,9 +126,7 @@ bool	builtin_run_cd(t_meta *meta, t_cmd_frame *cmd)
 	{
 		tmp_home = print_home_env(meta->envp);
 		if (!tmp_home)
-		{
 			return (false);
-		}
 		chdir(tmp_home[0]);
 		free_2d(tmp_home);
 		getcwd(cwd, sizeof(cwd));
@@ -142,7 +134,7 @@ bool	builtin_run_cd(t_meta *meta, t_cmd_frame *cmd)
 	}
 	if (run_argument(meta, cmd) == false)
 	{
-		printf("bash: cd: %s: No such file or directory\n", cmd->argv[1]);
+		print_error(strerror(errno));
 		return (false);
 	}
 	getcwd(cwd, sizeof(cwd));

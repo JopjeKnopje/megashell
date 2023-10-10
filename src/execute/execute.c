@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                         :+:    :+:             */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 19:27:08 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/10 16:04:58 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-
-
 bool	run_command(t_meta *meta, t_cmd_frame *cmd)
 {
 	t_builtin	is_builtin;
-	char *cmd_in_path;
+	char		*cmd_in_path;
 
 	is_builtin = get_builtin(cmd->argv[0]);
 	if (is_builtin)
 		return (run_builtin(is_builtin, meta, cmd));
-
 	cmd_in_path = access_possible(meta, cmd->argv[0]);
 	if (cmd_in_path)
 	{
@@ -96,7 +93,7 @@ bool	start_pipeline(t_meta *meta, t_cmd_list *cmds)
 	if (!WIFEXITED(status))
 		assert(0 && "Handle segfaults etc.\n");
 	printf("last exitcode: %d\n", WEXITSTATUS(status));
-	return true;
+	return (true);
 }
 
 
@@ -106,8 +103,7 @@ bool	execute(t_meta *meta, t_cmd_list *cmds)
 
 	is_builtin = get_builtin(cmds->content.argv[0]);
 	if (is_builtin)
-		return run_builtin(is_builtin, meta, &cmds->content);
-
+		return (run_builtin(is_builtin, meta, &cmds->content));
 	else
 		return (start_pipeline(meta, cmds));
 	return false;

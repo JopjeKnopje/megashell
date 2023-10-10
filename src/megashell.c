@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   megashell.c                                       :+:    :+:             */
+/*   megashell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/10/04 19:28:32 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/10 15:44:37 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@
 #include <string.h>
 #include <sys/wait.h>
 
-
-void cmd_free(t_cmd_list *cmd)
+void	cmd_free(t_cmd_list *cmd)
 {
 	if (cmd->content.argv)
 		str_free_2d(cmd->content.argv);
@@ -37,8 +36,7 @@ void megashell_cleanup(t_meta *meta)
 	free_2d(meta->envp);
 }
 
-
-int megashell(int argc, char *argv[], char *envp[])
+int	megashell(int argc, char *argv[], char *envp[])
 {
 	t_meta		meta;
 	char		*line;
@@ -46,7 +44,6 @@ int megashell(int argc, char *argv[], char *envp[])
 
 	(void) argc;
 	(void) argv;
-
 	ft_bzero(&meta, sizeof(t_meta));
 	prompt_env_setup();
 	hs_read_history_file(HISTORY_FILE_NAME);
@@ -61,7 +58,6 @@ int megashell(int argc, char *argv[], char *envp[])
 			megashell_cleanup(&meta);
 			return (0);
 		}
-
 		cmds = plarser_main(line);
 		if (cmds)
 		{
