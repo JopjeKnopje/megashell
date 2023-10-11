@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/10 17:57:09 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:21:56 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,11 @@ bool	start_pipeline(t_meta *meta, t_cmd_list *cmds)
 
 	if (search_in_path(meta->envp, "PATH=") == 0)
 	{
-		printf("%s: No such file or directory\n", cmds->content.argv[0]);
-		return (false);
+		if (execve(cmds->content.argv[0], cmds->content.argv, meta->envp) == -1)
+		{
+			printf("%s: No such file or directory\n", cmds->content.argv[0]);
+			return (false);
+		}
 	}
 	while (cmds)
 	{
