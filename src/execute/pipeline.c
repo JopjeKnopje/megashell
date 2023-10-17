@@ -6,17 +6,16 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/05 02:54:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/10/05 03:37:57 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/17 15:09:11 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "plarser.h"
-#include "redirections.h"
+#include "heredoc.h"
 #include "execute.h"
-
 #include <assert.h>
-
+#include <unistd.h>
 
 
 static bool	run_command(t_meta *meta, t_cmd_frame *cmd)
@@ -109,11 +108,23 @@ bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 	pid_t 	*pids;
 	int		i;
 	int		last_exit;
+	t_hd_list *heredoc_pipes;
+
 
 	proc_count = pr_lst_count(cmds);
 	pids = ft_calloc(proc_count, sizeof(int));
 	if (!pids)
 		return (false);
+
+	// heredoc_pipes should be a linked list where we 'consume' the first element when redirecting the pipe[read] to our child proc.
+	heredoc_pipes = run_heredocs(cmds);
+
+
+
+	return true;
+
+
+
 	i = 0;
 	while (cmds)
 	{

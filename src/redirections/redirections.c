@@ -6,11 +6,11 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/17 10:58:46 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/17 14:42:43 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "redirections.h"
+#include "heredoc.h"
 #include "execute.h"
 #include "plarser.h"
 #include <stdio.h>

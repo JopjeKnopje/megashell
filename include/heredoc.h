@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.h                                    :+:    :+:             */
+/*   heredoc.h                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:31:17 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 02:22:53 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/17 14:56:22 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REDIRECTIONS_H
-#define REDIRECTIONS_H
+#ifndef HEREDOC_H
+#define HEREDOC_H
 
 #include "megashell.h"
 #include "plarser.h"
@@ -24,8 +24,22 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-uint8_t	read_from_heredoc(char *close_line, int pipe_fd);
-bool	handle_heredoc(t_cmd_frame *f);
-bool	redirections(t_cmd_frame *f);
+
+typedef struct e_heredoc_list {
+	int 					fd;
+	struct e_heredoc_list	*next;
+	struct e_heredoc_list	*prev;
+}	t_hd_list;
+
+
+
+// heredoc_list.c
+void 		hd_lst_free(t_hd_list *lst);
+void		hd_lstadd_back(t_hd_list **lst, t_hd_list *new);
+t_hd_list	*hd_lstlast(t_hd_list *lst);
+t_hd_list	*hd_lstnew(int fd);
+
+// heredoc.c
+t_hd_list	*run_heredocs(t_cmd_list *cmds);
 
 #endif
