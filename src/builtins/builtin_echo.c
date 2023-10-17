@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:08:55 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/10 15:18:43 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:40:17 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,15 @@
 #include "megashell.h"
 #include "plarser.h"
 
-void	print_echo_output(t_cmd_frame *cmd, bool flag)
+void	print_echo_output(t_cmd_frame *cmd, int i)
 {
-	if (cmd->argv[1] == NULL)
+	while (cmd->argv && cmd->argv[i])
 	{
-		write(1, "\n", 1);
-		return ;
+		write(1, cmd->argv[i], ft_strlen(cmd->argv[i]));
+		if (cmd->argv[i + 1])
+			write(1, " ", 1);
+		i++;
 	}
-	if (flag)
-		return ;
-	write(1, cmd->argv[1], ft_strlen(cmd->argv[1]));
-	write(1, "\n", 1);
 }
 
 bool	process_echo_flags(t_cmd_frame *cmd, bool flag)
@@ -32,26 +30,20 @@ bool	process_echo_flags(t_cmd_frame *cmd, bool flag)
 	int		i;
 	int		j;
 
-	i = 0;
+	i = 1;
 	j = 0;
-	while (cmd->argv[i])
+	while (cmd->argv[i] && cmd->argv[i][0] == '-')
 	{
-		j = 0;
-		if (cmd->argv[i][j] == '-')
-		{
+		j = 1;
+		while (cmd->argv[i][j] == 'n')
 			j++;
-			while (cmd->argv[i][j] && cmd->argv[i][j] == 'n')
-			{
-				if (cmd->argv[i][j + 1] == '\0')
-					flag = true;
-				j++;
-			}
-			if (cmd->argv[i][j] != '\0')
-				break ;
-			j++;
-		}
+		if (cmd->argv[i][j] == '\0')
+			flag = false;
+		else
+			break ;
 		i++;
 	}
+	print_echo_output(cmd, i);
 	return (flag);
 }
 
@@ -60,8 +52,14 @@ bool	builtin_run_echo(t_meta *meta, t_cmd_frame *cmd)
 	bool	flag;
 
 	(void) meta;
-	flag = false;
+	flag = true;
+	if (cmd->argv[1] == NULL)
+	{
+		write(1, "\n", 1);
+		return (true);
+	}
 	flag = process_echo_flags(cmd, flag);
-	print_echo_output(cmd, flag);
+	if (flag)
+		write(1, "\n", 1);
 	return (true);
 }
