@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/11 17:21:56 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/17 13:42:48 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,6 @@ bool	start_pipeline(t_meta *meta, t_cmd_list *cmds)
 	pid_t	pid;
 	int		status;
 
-	if (search_in_path(meta->envp, "PATH=") == 0)
-	{
-		if (execve(cmds->content.argv[0], cmds->content.argv, meta->envp) == -1)
-		{
-			printf("%s: No such file or directory\n", cmds->content.argv[0]);
-			return (false);
-		}
-	}
 	while (cmds)
 	{
 		if (cmds->next && pipe(cmds->pipe) == -1)
@@ -96,8 +88,6 @@ bool	start_pipeline(t_meta *meta, t_cmd_list *cmds)
 		cmds = cmds->next;
 	}
 	waitpid(pid, &status, 0);
-	if (!WIFEXITED(status))
-		assert(0 && "Handle segfaults etc.\n");
 	return (true);
 }
 

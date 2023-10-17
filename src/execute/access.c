@@ -6,12 +6,13 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/09/30 14:47:06 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/17 13:42:45 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "megashell.h"
+#include "utils.h"
 
 bool	find_access(t_meta *meta, t_cmd_list *cmds)
 {
@@ -62,23 +63,24 @@ void	exit_errors(char *cmd, int status)
 	return ;
 }
 
-char	*check_relative_path(char *cmd)
+char	*check_relative_path(char *cmd, char *buffer)
 {
 	int		i;
-	char	*cmd_copy;
 
 	i = 0;
 	while (cmd[i])
 	{
 		if (cmd[i] == '/')
 		{
-			cmd_copy = ft_strdup(cmd);
-			exit_errors(cmd_copy, CHECK_ACCESS);
-			return (cmd_copy);
+			buffer = ft_strdup(cmd);
+			if (!buffer)
+				return (NULL);
+			exit_errors(buffer, CHECK_ACCESS);
+			return (buffer);
 		}
 		i++;
 	}
-	return (NULL);
+	return (buffer);
 }
 
 char	*access_possible(t_meta *meta, char *cmd)
@@ -86,6 +88,7 @@ char	*access_possible(t_meta *meta, char *cmd)
 	char	*cmd_copy;
 	char	*executable_path;
 
+	cmd_copy = NULL;
 	if (!cmd)
 		return (NULL);
 	if (cmd[0] == '.' && cmd[1] == '\0')
@@ -94,9 +97,17 @@ char	*access_possible(t_meta *meta, char *cmd)
 		exit(2);
 	}
 	exit_errors(cmd, CHECK_DIR);
-	cmd_copy = check_relative_path(cmd);
+	cmd_copy = check_relative_path(cmd, cmd_copy);
 	if (cmd_copy)
 		return (cmd_copy);
+	if (search_in_path(meta->envp, "PATH=") == 0)
+	{
+		if (execve(meta->execute.argv[0], meta->execute.argv, meta->envp) == -1)
+		{
+			printf("%s: No such file or directory\n", meta->execute.argv[0]);
+			return (NULL);
+		}
+	}
 	executable_path = find_executable_in_path(meta->execute.split_path, cmd);
 	if (!executable_path)
 	{
