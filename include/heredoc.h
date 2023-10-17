@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:31:17 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/17 14:56:22 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/18 00:39:23 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 typedef struct e_heredoc_list {
 	int 					fd;
 	struct e_heredoc_list	*next;
-	struct e_heredoc_list	*prev;
 }	t_hd_list;
 
 

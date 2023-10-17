@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/17 14:43:47 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/10/17 14:50:05 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/18 00:40:55 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	hd_lstadd_back(t_hd_list **lst, t_hd_list *new)
 	{
 		last = hd_lstlast(*lst);
 		last->next = new;
-		new->prev = last;
 	}
 }
 
@@ -53,7 +52,6 @@ t_hd_list	*hd_lstnew(int fd)
 		return (NULL);
 	node->fd = fd;
 	node->next = NULL;
-	node->prev = NULL;
 	return (node);
 }
 
@@ -66,4 +64,5 @@ void hd_lst_free(t_hd_list *lst)
 		lst = lst->next;
 		free(tmp);
 	}
+	free(lst);
 }

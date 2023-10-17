@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/10/17 14:19:23 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/18 00:33:42 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ t_cmd_frame pr_parse_redirect(t_cmd_frame frame, t_tok_list *tokens)
 	}
 	else if (k == TOKEN_HEREDOC)
 	{
-		printf("test123\n");
 		frame.heredoc_delim = sized_strdup(tokens->next->token.content, tokens->next->token.content_len);
 		if (!frame.heredoc_delim)
 			printf("sized_strdup failure\n");

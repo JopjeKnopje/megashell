@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/17 15:10:19 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/18 00:40:14 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,18 @@ int	handle_heredoc(t_cmd_frame *f)
 
 t_hd_list *run_heredocs(t_cmd_list *cmds)
 {
-	t_hd_list *head;
+	t_hd_list *head = NULL;
 
 	while (cmds)
 	{
 		if (cmds->content.heredoc_delim)
 		{
-			int fd = handle_heredoc(&cmds->content);
-			if (fd == -1)
-			{
-				// TODO Handle error.
-			}
+			// int fd = handle_heredoc(&cmds->content);
+			// if (fd == -1)
+			// {
+			// 	// TODO Handle error.
+			// }
+			int fd = 1;
 			hd_lstadd_back(&head, hd_lstnew(fd));
 		}
 		cmds = cmds->next;
