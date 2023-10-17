@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/10/05 04:14:01 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/17 14:19:23 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ t_cmd_frame pr_parse_redirect(t_cmd_frame frame, t_tok_list *tokens)
 {
 	const t_token_kind k = tokens->token.kind;
 
-	frame.is_append = (k == TOKEN_APPEND);
 	if (k == TOKEN_APPEND || k  == TOKEN_GREATER_THAN)
 	{
+		frame.is_append = (k == TOKEN_APPEND);
 		frame.outfile = sized_strdup(tokens->next->token.content, tokens->next->token.content_len);
 		if (!frame.outfile)
 			printf("sized_strdup failure\n");
@@ -64,10 +64,12 @@ t_cmd_frame pr_parse_redirect(t_cmd_frame frame, t_tok_list *tokens)
 	}
 	else if (k == TOKEN_HEREDOC)
 	{
-		frame.is_heredoc = true;
-		frame.outfile = sized_strdup(tokens->next->token.content, tokens->next->token.content_len);
-
+		printf("test123\n");
+		frame.heredoc_delim = sized_strdup(tokens->next->token.content, tokens->next->token.content_len);
+		if (!frame.heredoc_delim)
+			printf("sized_strdup failure\n");
 	}
+
 	return (frame);
 }
 
@@ -133,12 +135,8 @@ t_cmd_list *pr_main(t_tok_list *tokens)
 		else if (pr_is_redirect(tokens->token.kind))
 		{
 			frame = pr_parse_redirect(frame, tokens);
-
-			// TODO Have a token_next function.
 			tokens = tokens->next;
 		}
-
-
 
 		if (!tokens->next)
 			pr_list_add_cmd(&cmds, frame);

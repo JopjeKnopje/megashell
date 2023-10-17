@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   redirections.c                                    :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 18:11:40 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/17 10:58:46 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,13 @@ bool handle_redir_output(t_cmd_frame *f)
 
 bool redirections(t_cmd_frame *f)
 {
-	if (f->is_heredoc)
-	{
-		if (!handle_heredoc(f) || !handle_redir_output(f))
-			return (false);
-	}
-	else
+	// TODO Redirect heredoc read pipe to stdin.
+	// if (f->is_heredoc)
+	// {
+	// 	if (!handle_heredoc(f) || !handle_redir_output(f))
+	// 		return (false);
+	// }
+	// else
 	{
 		if (!handle_redir_input(f) || !handle_redir_output(f))
 			return (false);

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/10/05 02:54:03 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/17 11:04:57 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,33 +40,12 @@ typedef struct e_token {
 	char			*content;
 }	t_token;
 
-
-/*
-   there should be a field for redirections.
-infile: 
-	stdin | default
-
-	inflie_name
-	heredoc
-
-outfile:
-	stdout | default
-
-	outfile_name
-	outfile_name out_append
-
-
-using it:
-	if infile/outfile is not set, then there is not redirection.
-	if is_heredoc isset then the outfile will be the deliminter.
-
-*/
 typedef struct s_cmd_frame {
 	char	**argv;
 	char	*infile;
 	char	*outfile;
+	char	*heredoc_delim;
 	bool	is_append;
-	bool	is_heredoc;
 } t_cmd_frame;
 
 
