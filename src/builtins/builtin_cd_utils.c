@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 13:09:14 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/10 16:45:14 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/18 16:25:57 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,11 @@ bool	set_pwd(t_meta *meta, char *pwd_now)
 	char	*cur_pwd;
 	char	*new_pwd;
 
-	cur_pwd = strdup(getcwd(cwd, sizeof(cwd)));
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+		return (false);
+	cur_pwd = ft_strdup(cwd);
+	if (!cur_pwd)
+		return (false);
 	new_pwd = cur_pwd;
 	pwd_now = getcwd(cwd, sizeof(cwd));
 	pwd = change_pwd(pwd_now, cur_pwd);
