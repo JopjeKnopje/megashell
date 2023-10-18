@@ -1,31 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                     :+:    :+:             */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:43:52 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/05 03:17:40 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/18 17:01:45 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "plarser.h"
+#include "utils.h"
 
 bool	builtin_run_pwd(t_meta *meta, t_cmd_frame *cmd)
 {
-	(void) meta;
-	(void)	cmd;
+	char	cwd[PATH_MAX];
+	char	**path;
+	int		i;
 
-	char	cwd[PATH_MAX];/* PATH_MAX: limit for the lenght of file name */
+	(void) meta;
+	(void) cmd;
+	i = 0;
 	ft_bzero(&cwd, PATH_MAX);
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 		printf("%s\n", cwd);
 	else
 	{
-		perror("getcwd() error");
-		return (false);
+		path = search_in_path(meta->envp, "PWD=");
+		while (path[i])
+		{
+			printf("%s\n", path[i]);
+			i++;
+		}
 	}
 	return (true);
 }

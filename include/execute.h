@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.h                                         :+:    :+:             */
+/*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/05 03:39:22 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/17 11:41:58 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <string.h>
 # include <stdbool.h>
 # include <linux/limits.h>
+// # include <limits.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 
@@ -75,10 +76,14 @@ bool		dup_stdin(int file);
 bool		dup_stdout(int file);
 void		dup_io(t_exec *execute, t_cmd_list *cmds);
 
+// builtins:
+t_builtin	get_builtin(char *cmd);
+bool		run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd);
+
 // access:
 bool		find_access(t_meta *meta, t_cmd_list *cmds);
 bool		is_a_directory(char *cmd);
-char		*check_relative_path(char *cmd);
+char		*check_relative_path(char *cmd, char *buffer);
 char		*find_executable_in_path(char **split_path, char *cmd);
 char		*access_possible(t_meta *meta, char *cmd);
 

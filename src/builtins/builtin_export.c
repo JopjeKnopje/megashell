@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                  :+:    :+:             */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:03 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 15:20:42 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/06 19:43:42 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	print_env(char **envp)
 	while (envp[i])
 	{
 		ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		printf("%s\n",envp[i]);
+		printf("%s\n", envp[i]);
 		i++;
 	}
 }
@@ -30,7 +30,7 @@ bool	correct_input(char *content)
 {
 	int	i;
 
-	i= 0;
+	i = 0;
 	if (!ft_isalpha(content[i]) && content[i] != '_')
 		return (false);
 	while (content[i] && content[i] != '=')
@@ -54,7 +54,7 @@ bool	prepare_variable(char *cmd_start)
 	{
 		if (cmd_start[i] == '=')
 		{
-			cmd_start[i] = '\0'; // Null-terminate at '='
+			cmd_start[i] = '\0';
 			return (true);
 		}
 		i++;
@@ -74,7 +74,7 @@ bool	exists_in_env(char **envp, char *arg, char *variable, int len_var)
 		{
 			free(envp[i]);
 			envp[i] = ft_strdup(arg);
-			if (!envp[i]) 
+			if (!envp[i])
 			{
 				printf("Memory allocation error\n");
 				return (false);
@@ -106,7 +106,7 @@ bool	builtin_run_export(t_meta *meta, t_cmd_frame *cmd)
 	variable = cmd_start;
 	len_var = ft_strlen(variable);
 	if (exists_in_env(meta->envp, cmd->argv[1], variable, len_var) == false)
-		return (handle_export_new_variable(meta->envp, cmd->argv[1], cmd_start));
+		return (handle_export_new_variable(meta, cmd->argv[1], cmd_start));
 	if (!correct_input(cmd_start))
 		return (handle_export_input_errors(cmd_start));
 	handle_export_existing_variable(meta->envp, cmd_start);

@@ -1,0 +1,4 @@
+schrijven in std err ipv std out
+bij unset path moeten alle niet-builtins niet meer werken
+wachten op alle child processen voordat je je executor exit
+exit 1 > test

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                         :+:    :+:             */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 19:02:47 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/10 15:58:48 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 uint8_t	read_from_heredoc(char *close_line, int pipe_fd)
 {
 	char	*line;
+
 	while (1)
 	{
 		line = readline("> ");
 		if (!ft_strncmp(line, close_line, ft_strlen(close_line) + 1))
 		{
 			free(line);
-			printf("same\n");;
 			break ;
 		}
 		write(pipe_fd, line, strlen(line) + 1);
@@ -36,9 +36,9 @@ uint8_t	read_from_heredoc(char *close_line, int pipe_fd)
 
 bool	handle_heredoc(t_cmd_frame *f)
 {
-	int	pipe_fd[2];
-	int	pid;
-	int	status;
+	int		pipe_fd[2];
+	int		pid;
+	int		status;
 	uint8_t	child_exit_code;
 
 	if (pipe(pipe_fd) == -1)

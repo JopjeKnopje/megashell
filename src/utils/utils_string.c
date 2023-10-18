@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:30:43 by joppe             #+#    #+#             */
-/*   Updated: 2023/08/29 13:35:32 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/10 17:02:09 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ char	*sized_strdup(const char *s, size_t len)
 		return (NULL);
 	return (ft_memcpy(s_d, s, len));
 }
-
 
 char	**str_arr_append(char **arr, char *s)
 {
