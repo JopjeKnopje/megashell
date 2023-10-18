@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/18 16:42:57 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/18 17:17:34 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ bool attach_heredoc(t_cmd_frame *f, t_hd_list **heredoc)
 
 	first = hd_lstpop_first(heredoc);
 	dup_stdin(first->fd);
+	// TODO Error
 	return true;
 }
 
@@ -71,7 +72,6 @@ bool redirections(t_cmd_frame *f, t_hd_list **heredocs)
 	// TODO Redirect heredoc read pipe to stdin.
 	if (f->heredoc_delim)
 	{
-		// if (!handle_heredoc(f) || !handle_redir_output(f))
 		if (!attach_heredoc(f, heredocs) || !handle_redir_output(f))
 			return (false);
 	}

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/05 02:54:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/10/18 17:00:46 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/18 17:16:30 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,24 +105,13 @@ static int pipeline_wait(int *pids, size_t proc_count)
 	return (WEXITSTATUS(status));
 }
 
-static void test_close_fds(pid_t *pids, size_t size)
-{
-	size_t i = 0;
-
-	while (i < size)
-	{
-		close(pids[i]);
-		i++;
-	}
-}
-
 bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 {
-	size_t 	proc_count;
-	pid_t 	*pids;
-	int		i;
-	int		last_exit;
-	t_hd_list *heredoc_pipes;
+	size_t 		proc_count;
+	pid_t 		*pids;
+	int			i;
+	int			last_exit;
+	t_hd_list	*heredoc_pipes;
 
 
 	proc_count = pr_lst_count(cmds);
@@ -146,7 +135,5 @@ bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 
 	free(pids);
 	hd_lst_free(heredoc_pipes);
-
-	// printf("last exitcode: %d\n",(last_exit));
 	return (true);
 }
