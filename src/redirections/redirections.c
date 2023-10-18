@@ -6,14 +6,16 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/17 14:42:43 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/18 16:42:57 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "heredoc.h"
 #include "execute.h"
 #include "plarser.h"
+#include <fcntl.h>
 #include <stdio.h>
+#include <unistd.h>
 
 bool handle_redir_input(t_cmd_frame *f)
 {
@@ -55,15 +57,25 @@ bool handle_redir_output(t_cmd_frame *f)
 	return true;
 }
 
-bool redirections(t_cmd_frame *f)
+bool attach_heredoc(t_cmd_frame *f, t_hd_list **heredoc)
+{
+	t_hd_list	*first;
+
+	first = hd_lstpop_first(heredoc);
+	dup_stdin(first->fd);
+	return true;
+}
+
+bool redirections(t_cmd_frame *f, t_hd_list **heredocs)
 {
 	// TODO Redirect heredoc read pipe to stdin.
-	// if (f->is_heredoc)
-	// {
-	// 	if (!handle_heredoc(f) || !handle_redir_output(f))
-	// 		return (false);
-	// }
-	// else
+	if (f->heredoc_delim)
+	{
+		// if (!handle_heredoc(f) || !handle_redir_output(f))
+		if (!attach_heredoc(f, heredocs) || !handle_redir_output(f))
+			return (false);
+	}
+	else
 	{
 		if (!handle_redir_input(f) || !handle_redir_output(f))
 			return (false);

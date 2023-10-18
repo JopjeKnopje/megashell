@@ -6,11 +6,12 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/17 14:43:47 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/10/18 00:40:55 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/18 16:37:34 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "heredoc.h"
+#include <unistd.h>
 
 t_hd_list	*hd_lstlast(t_hd_list *lst)
 {
@@ -41,6 +42,18 @@ void	hd_lstadd_back(t_hd_list **lst, t_hd_list *new)
 		last = hd_lstlast(*lst);
 		last->next = new;
 	}
+}
+
+t_hd_list *hd_lstpop_first(t_hd_list **lst)
+{
+	t_hd_list	*first;
+
+	if (!lst || !*lst)
+		return (NULL);
+	first = *lst;
+	*lst = (*lst)->next;
+	first->next = NULL;
+	return (first);
 }
 
 t_hd_list	*hd_lstnew(int fd)

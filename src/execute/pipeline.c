@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/05 02:54:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/10/18 00:42:53 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/18 17:00:46 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "heredoc.h"
 #include "execute.h"
 #include <assert.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -42,7 +43,7 @@ static bool	run_command(t_meta *meta, t_cmd_frame *cmd)
 	return (false);
 }
 
-static int child_proc(t_meta *meta, t_cmd_list *cmds)
+static int child_proc(t_meta *meta, t_cmd_list *cmds, t_hd_list **heredocs)
 {
 	if (cmds->prev)
 	{
@@ -58,11 +59,11 @@ static int child_proc(t_meta *meta, t_cmd_list *cmds)
 			perror(strerror(errno));
 		close(cmds->pipe[PIPE_WRITE]);
 	}
-	redirections(&cmds->content);
+	redirections(&cmds->content, heredocs);
 	return (!run_command(meta, &cmds->content));
 }
 
-static bool pipeline_node(t_meta *meta, t_cmd_list *cmds, int *pid)
+static bool pipeline_node(t_meta *meta, t_cmd_list *cmds, int *pid, t_hd_list **heredocs)
 {
 	if (cmds->next && pipe(cmds->pipe) == -1)
 	{
@@ -77,7 +78,7 @@ static bool pipeline_node(t_meta *meta, t_cmd_list *cmds, int *pid)
 	}
 	if (!*pid)
 	{
-		exit(child_proc(meta, cmds));
+		exit(child_proc(meta, cmds, heredocs));
 	}
 	if (cmds->prev)
 	{
@@ -104,6 +105,17 @@ static int pipeline_wait(int *pids, size_t proc_count)
 	return (WEXITSTATUS(status));
 }
 
+static void test_close_fds(pid_t *pids, size_t size)
+{
+	size_t i = 0;
+
+	while (i < size)
+	{
+		close(pids[i]);
+		i++;
+	}
+}
+
 bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 {
 	size_t 	proc_count;
@@ -118,24 +130,12 @@ bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 	if (!pids)
 		return (false);
 
-	// heredoc_pipes should be a linked list where we 'consume' the first element when redirecting the pipe[read] to our child proc.
 	heredoc_pipes = run_heredocs(cmds);
-
-	printf("pipe_fd \n");
-	hd_lst_free(heredoc_pipes);
-	free(pids);
-
-
-
-	// TODO Remove.
-	return true;
-
-
 
 	i = 0;
 	while (cmds)
 	{
-		if (!pipeline_node(meta, cmds, &pids[i]))
+		if (!pipeline_node(meta, cmds, &pids[i], &heredoc_pipes))
 		{
 			assert(1 && "pipeline_node failure\n");
 		}
@@ -143,7 +143,10 @@ bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 		i++;
 	}
 	last_exit = pipeline_wait(pids, proc_count);
+
 	free(pids);
-	printf("last exitcode: %d\n",(last_exit));
+	hd_lst_free(heredoc_pipes);
+
+	// printf("last exitcode: %d\n",(last_exit));
 	return (true);
 }
