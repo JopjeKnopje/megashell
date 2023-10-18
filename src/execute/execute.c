@@ -10,9 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "megashell.h"
 #include "builtins.h"
-#include "plarser.h"
-#include "redirections.h"
 #include "execute.h"
 #include "megashell.h"
 #include "utils.h"

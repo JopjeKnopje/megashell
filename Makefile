@@ -44,6 +44,7 @@ SRCS =  execute/error.c \
 		execute/environment.c \
 		execute/execute.c \
 		execute/execute_utils.c \
+		execute/pipeline.c \
 		builtins/builtins.c \
 		builtins/builtin_cd.c \
 		builtins/builtin_cd_utils.c \
@@ -98,7 +99,7 @@ OBJ_DIRS := $(dir $(OBJS))
 
 .PHONY: make_libs
 
-all: make_libs argv_test $(NAME)
+all: make_libs $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT) 
 	$(CC) $(OBJS) $(LIBFT) $(CFLAGS) $(INC) $(LFLAGS) -o $(NAME)

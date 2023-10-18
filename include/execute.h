@@ -57,17 +57,19 @@ char		*get_error_name(t_error er);
 int			print_error(char *str);
 
 // path:
-char	*find_path(char **envp);
+char		*find_path(char **envp);
 char		**split_path(char *path);
 char		**put_slash(char **path);
-int	search_path(t_meta *meta, char **environment);
+int			search_path(t_meta *meta, char **environment);
 
 // environment:
 char		**get_environment(char **envp);
 
+// pipeline.c
+bool		pipeline_start(t_meta *meta, t_cmd_list *cmds);
+
 // execute:
-bool	start_pipe(t_meta *meta, t_cmd_list *cmds);
-bool	execute(t_meta *meta, t_cmd_list *cmds);
+bool		execute(t_meta *meta, t_cmd_list *cmds);
 
 // execute_utils:
 bool		dup_stdin(int file);

@@ -63,4 +63,9 @@ char	*change_pwd(char *dir, char *cur_pw);
 bool	handle_export_oldpwd_variable(char **envp, char *cmd_start);
 bool	set_pwd(t_meta *meta, char *pwd_now);
 
+// builtins:
+t_builtin	get_builtin(char *cmd);
+bool		run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd);
+
+
 #endif

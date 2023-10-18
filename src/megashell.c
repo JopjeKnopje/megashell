@@ -21,6 +21,7 @@
 #include <string.h>
 #include <sys/wait.h>
 
+
 void	cmd_free(t_cmd_list *cmd)
 {
 	if (cmd->content.argv)
@@ -64,7 +65,7 @@ int	megashell(int argc, char *argv[], char *envp[])
 			print_cmds(cmds);
 			execute(&meta, cmds);
 		}
-		pr_lstiter(cmds, cmd_free);
+		pr_lst_free(cmds);
 		free(line);
 	}
 	return (0);
