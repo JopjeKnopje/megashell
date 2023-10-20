@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/05 02:54:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/10/18 17:16:30 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/20 14:56:51 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,12 @@ bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 		return (false);
 
 	heredoc_pipes = run_heredocs(cmds);
+	if (!heredoc_pipes)
+	{
+		// TODO Handle heredoc failure.
+		free(pids);
+		return (false);
+	}
 
 	i = 0;
 	while (cmds)
@@ -132,8 +138,10 @@ bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 		i++;
 	}
 	last_exit = pipeline_wait(pids, proc_count);
-
 	free(pids);
 	hd_lst_free(heredoc_pipes);
 	return (true);
+
+
+	(void) last_exit;
 }

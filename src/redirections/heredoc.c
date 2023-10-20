@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/18 17:00:19 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/20 14:55:09 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,22 +64,48 @@ int	handle_heredoc(t_cmd_frame *f)
 	return (pipe_fd[PIPE_READ]);
 }
 
+static t_hd_list *append_heredoc(t_hd_list *head, int heredoc_fd)
+{
+	t_hd_list *tmp;
+
+	tmp = hd_lstnew(heredoc_fd);
+	if (!tmp)
+		return (NULL);
+	hd_lstadd_back(&head, tmp);
+	return (head);
+}
+
+bool contains_heredoc(t_cmd_list *cmds)
+{
+	while (cmds)
+	{
+		if (cmds->content.heredoc_delim)
+			return (true);
+		cmds = cmds->next;
+	}
+	return (false);
+}
+
+// return states
+// failure
+// hd_list
+// no heredoc found
 t_hd_list *run_heredocs(t_cmd_list *cmds)
 {
-	t_hd_list *head = NULL;
-	size_t i = 0;
+	t_hd_list	*head;
+	int			fd;
 
+	head = NULL;
 	while (cmds)
 	{
 		if (cmds->content.heredoc_delim)
 		{
-			int fd = handle_heredoc(&cmds->content);
-			if (fd == -1)
+			fd = handle_heredoc(&cmds->content);
+			if (fd == -1 || !append_heredoc(head, fd))
 			{
-				// TODO Handle error.
+				hd_lst_free(head);
+				return (NULL);
 			}
-			i++;
-			hd_lstadd_back(&head, hd_lstnew(fd));
 		}
 		cmds = cmds->next;
 	}
