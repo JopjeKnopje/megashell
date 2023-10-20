@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/05 02:54:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/10/20 14:56:51 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/20 14:59:46 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,12 +119,15 @@ bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 	if (!pids)
 		return (false);
 
-	heredoc_pipes = run_heredocs(cmds);
-	if (!heredoc_pipes)
+	if (contains_heredoc(cmds))
 	{
-		// TODO Handle heredoc failure.
-		free(pids);
-		return (false);
+		heredoc_pipes = run_heredocs(cmds);
+		if (!heredoc_pipes)
+		{
+			// TODO Handle heredoc failure.
+			free(pids);
+			return (false);
+		}
 	}
 
 	i = 0;
