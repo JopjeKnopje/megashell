@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/10/17 14:38:41 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/21 22:17:45 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct e_token_list {
 
 typedef struct e_cmd_list {
 	t_cmd_frame			content;
+	int					pid;
 	int					pipe[2];
 	struct e_cmd_list	*next;
 	struct e_cmd_list	*prev;
