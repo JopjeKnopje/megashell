@@ -18,9 +18,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-bool handle_redir_input(t_cmd_frame *f)
+bool	handle_redir_input(t_cmd_frame *f)
 {
-	int fd;
+	int	fd;
 
 	if (f->infile != NULL)
 	{
@@ -35,18 +35,18 @@ bool handle_redir_input(t_cmd_frame *f)
 	return (true);
 }
 
-bool handle_redir_output(t_cmd_frame *f)
+bool	handle_redir_output(t_cmd_frame *f)
 {
-	int fd;
-	int flags;
+	int	fd;
+	int	flags;
 
 	flags = O_WRONLY | O_CREAT;
 	if (f->outfile != NULL)
 	{
 		if (f->is_append)
-			flags |= O_APPEND; /* add O_APPEND: all write actions happen at EOF */
+			flags |= O_APPEND;
 		else
-			flags |= O_TRUNC; /* add O_TRUNC: write to EOF instead of overwrite start */
+			flags |= O_TRUNC;
 		fd = open(f->outfile, flags, 0644);
 		if (fd == -1)
 		{
@@ -55,7 +55,7 @@ bool handle_redir_output(t_cmd_frame *f)
 		}
 		dup_stdout(fd);
 	}
-	return true;
+	return (true);
 }
 
 static bool attach_heredoc(t_hd_list **heredoc)

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                         :+:    :+:             */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -22,6 +22,7 @@
 uint8_t	read_from_heredoc(char *close_line, int pipe_fd)
 {
 	char	*line;
+
 	while (1)
 	{
 		line = readline("> ");
@@ -39,9 +40,9 @@ uint8_t	read_from_heredoc(char *close_line, int pipe_fd)
 
 int	handle_heredoc(t_cmd_frame *f)
 {
-	int	pipe_fd[2];
-	int	pid;
-	int	status;
+	int		pipe_fd[2];
+	int		pid;
+	int		status;
 	uint8_t	child_exit_code;
 
 	if (pipe(pipe_fd) == -1)

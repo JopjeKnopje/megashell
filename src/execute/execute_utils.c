@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_utils.c                                   :+:    :+:             */
+/*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:26:21 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/04 19:28:35 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/10 16:20:02 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,34 +40,4 @@ bool	dup_stdout(int file)
 	}
 	close(file);
 	return (true);
-}
-
-// @param execute: struct that contains execution info
-// @param cmds: struct with linked list of commands
-
-// dup_cmd: duplicates the read side of pipe to stdin
-// and the write side of the pipe to stdout as long
-// as it has a previous or next command.
-
-// void	dup_io(t_exec *execute, t_cmd_list *cmds)
-// {
-// 	if (cmds->prev && dup_stdin(execute->io_file[IN_READ]) == false)
-// 		print_error(get_error_name(ERROR_DUP2));
-// 	else if (cmds->next && dup_stdout(execute->io_file[OUT_WRITE]) == false)
-// 		print_error(get_error_name(ERROR_DUP2));
-// 	else if (cmds->next == NULL &&
-// 		dup_stdout(execute->io_file[OUT_WRITE]) == false)
-// 		print_error(get_error_name(ERROR_DUP2));
-// }
-
-void	dup_io(t_exec *execute, t_cmd_list *cmds)
-{
-	if (cmds->prev && dup_stdin(cmds->prev->pipe[PIPE_READ]) == false)
-		print_error(get_error_name(ERROR_DUP2));
-
-	if (cmds->next && dup_stdout(cmds->pipe[PIPE_WRITE]) == false)
-		print_error(get_error_name(ERROR_DUP2));
-	
-	if (cmds->next == NULL && dup_stdin(cmds->prev->pipe[PIPE_READ]) == false)
-		print_error(get_error_name(ERROR_DUP2));
 }
