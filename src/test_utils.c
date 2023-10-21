@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:05:42 by joppe         #+#    #+#                 */
-/*   Updated: 2023/10/04 19:03:46 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/17 10:58:08 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void print_cmds(t_cmd_list *list)
 	char **argv;
 	char *infile;
 	char *outfile;
-	bool is_heredoc;
+	char *heredoc_delim;
 
 	printf("\n");
 	printf("\x1b[35;49m");
@@ -89,14 +89,14 @@ void print_cmds(t_cmd_list *list)
 		argv = list->content.argv;
 		infile = list->content.infile;
 		outfile = list->content.outfile;
-		is_heredoc = list->content.is_heredoc;
+		heredoc_delim = list->content.heredoc_delim;
 
 		if (argv)
 			print_2d_arr(argv, "argv");
 		if (infile)
 			printf("infile -> [%s]\n", infile);
-		if (is_heredoc)
-			printf("is_heredoc -> [%s]\n", is_heredoc ? "true" : "false");
+		if (heredoc_delim)
+			printf("heredoc_delim -> [%s]\n", heredoc_delim);
 		if (outfile)
 			printf("outfile -> [%s]\n", outfile);
 		if (list->next)

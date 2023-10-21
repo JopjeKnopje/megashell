@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/19 11:40:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/09/19 11:40:56 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/10 00:21:29 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,8 @@ char	*prompt_get_line();
 // history_file.c
 void hs_read_history_file(char *s);
 void hs_add_history_file(char *s, char *line);
+
+// aliases.c
+void aliases_init(t_meta *meta);
 
 #endif // !MEGASHELL_H

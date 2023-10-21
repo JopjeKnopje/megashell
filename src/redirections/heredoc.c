@@ -6,14 +6,18 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/10 15:58:48 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/21 21:31:39 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "redirections.h"
+#include "heredoc.h"
 #include "execute.h"
 #include "plarser.h"
 #include "libft.h"
+#include <assert.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <string.h>
 
 uint8_t	read_from_heredoc(char *close_line, int pipe_fd)
 {
@@ -34,7 +38,7 @@ uint8_t	read_from_heredoc(char *close_line, int pipe_fd)
 	return (EXIT_SUCCESS);
 }
 
-bool	handle_heredoc(t_cmd_frame *f)
+int	handle_heredoc(t_cmd_frame *f)
 {
 	int		pipe_fd[2];
 	int		pid;
@@ -49,16 +53,57 @@ bool	handle_heredoc(t_cmd_frame *f)
 	if (pid == 0)
 	{
 		close (pipe_fd[PIPE_READ]);
-		// TODO: In parser add serpate field for heredoc_delim and use that here instead of outfile.
-		child_exit_code = read_from_heredoc(f->outfile, pipe_fd[PIPE_WRITE]);
+		child_exit_code = read_from_heredoc(f->heredoc_delim, pipe_fd[PIPE_WRITE]);
 		close (pipe_fd[PIPE_WRITE]);
 		exit(child_exit_code);
 	}
 	close(pipe_fd[PIPE_WRITE]);
-	dup_stdin(pipe_fd[PIPE_READ]);
-	close(pipe_fd[PIPE_READ]);
 	waitpid(pid, &status, 0);
-	child_exit_code = WEXITSTATUS(status);
-	dprintf(STDERR_FILENO, "child_exit %d\n", child_exit_code);
-	return (child_exit_code);
+	// child_exit_code = WEXITSTATUS(status);
+	// dprintf(STDERR_FILENO, "child_exit %d\n", child_exit_code);
+	return (pipe_fd[PIPE_READ]);
+}
+
+static t_hd_list *append_heredoc(t_hd_list **head, int heredoc_fd)
+{
+	t_hd_list *tmp;
+
+	tmp = hd_lstnew(heredoc_fd);
+	if (!tmp)
+		return (NULL);
+	hd_lstadd_back(head, tmp);
+	return (*head);
+}
+
+bool contains_heredoc(t_cmd_list *cmds)
+{
+	while (cmds)
+	{
+		if (cmds->content.heredoc_delim)
+			return (true);
+		cmds = cmds->next;
+	}
+	return (false);
+}
+
+t_hd_list *run_heredocs(t_cmd_list *cmds)
+{
+	t_hd_list	*head;
+	int			fd;
+
+	head = NULL;
+	while (cmds)
+	{
+		if (cmds->content.heredoc_delim)
+		{
+			fd = handle_heredoc(&cmds->content);
+			if (fd == -1 || !append_heredoc(&head, fd))
+			{
+				hd_lst_free(head);
+				return (NULL);
+			}
+		}
+		cmds = cmds->next;
+	}
+	return (head);
 }

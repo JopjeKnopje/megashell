@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/10/18 17:00:16 by ivan-mel         ###   ########.fr        #
+#    Updated: 2023/10/17 15:08:34 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,8 +28,8 @@ endif
 RUN_CMD = ./$(NAME)
 
 # CFLAGS += -Wall -Wextra -Werror
-CFLAGS += -Wall -Wextra -g
-# CFLAGS += -g
+CFLAGS += -Wall -Wextra
+CFLAGS += -g -fsanitize=address
 
 LIBFT = libft/build/libft.a
 
@@ -45,6 +45,9 @@ SRCS =  execute/error.c \
 		execute/execute.c \
 		execute/execute_utils.c \
 		execute/pipeline.c \
+		execute/access.c \
+		execute/access_utils.c \
+		execute/heredoc_list.c \
 		builtins/builtins.c \
 		builtins/builtin_cd.c \
 		builtins/builtin_cd_utils.c \
@@ -55,11 +58,10 @@ SRCS =  execute/error.c \
 		builtins/builtin_export_utils.c \
 		builtins/builtin_pwd.c \
 		builtins/builtin_unset.c \
-		execute/access.c \
-		execute/access_utils.c \
 		input/prompt.c \
 	  	input/signals.c \
 	  	input/history_file.c \
+	  	input/aliases.c \
 	  	plarser/lexer.c \
 	  	plarser/lexer_list.c \
 	  	plarser/lexer_utils.c \

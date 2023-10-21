@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   redirections.c                                    :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/10 16:00:12 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/21 20:31:59 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "redirections.h"
+#include "heredoc.h"
 #include "execute.h"
 #include "plarser.h"
+#include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 bool	handle_redir_input(t_cmd_frame *f)
 {
@@ -55,11 +58,28 @@ bool	handle_redir_output(t_cmd_frame *f)
 	return (true);
 }
 
-bool	redirections(t_cmd_frame *f)
+static bool attach_heredoc(t_hd_list **heredoc)
 {
-	if (f->is_heredoc)
+	t_hd_list	*first;
+	int 		fd;
+
+	first = hd_lstremove_first(heredoc);
+	fd = first->fd;
+	free(first);
+
+	if (!dup_stdin(fd))
 	{
-		if (!handle_heredoc(f) || !handle_redir_output(f))
+		// TODO Error
+	}
+	return true;
+}
+
+bool redirections(t_cmd_frame *f, t_hd_list **heredocs)
+{
+	// TODO Redirect heredoc read pipe to stdin.
+	if (f->heredoc_delim)
+	{
+		if (!attach_heredoc(heredocs) || !handle_redir_output(f))
 			return (false);
 	}
 	else

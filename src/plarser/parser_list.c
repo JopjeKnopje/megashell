@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 00:11:49 by joppe             #+#    #+#             */
-/*   Updated: 2023/10/05 02:53:48 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/17 14:17:41 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void pr_lst_free(t_cmd_list *lst)
 			str_free_2d(tmp->content.argv);
 		free(tmp->content.infile);
 		free(tmp->content.outfile);
+		free(tmp->content.heredoc_delim);
 		free(tmp);
 	}
 }

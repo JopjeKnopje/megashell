@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/17 13:42:48 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/21 22:35:17 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,6 @@ bool	execute(t_meta *meta, t_cmd_list *cmds)
 	if (is_builtin)
 		return (run_builtin(is_builtin, meta, &cmds->content));
 	else
-		return (start_pipeline(meta, cmds));
+		return (pipeline_start(meta, cmds));
 	return (false);
 }
