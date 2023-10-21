@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/05 02:54:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/10/20 14:59:46 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/21 21:34:39 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,28 +107,20 @@ static int pipeline_wait(int *pids, size_t proc_count)
 
 bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 {
-	size_t 		proc_count;
-	pid_t 		*pids;
-	int			i;
-	int			last_exit;
 	t_hd_list	*heredoc_pipes;
+	pid_t 		*pids;
+	size_t 		proc_count;
+	size_t		i;
+	int			last_exit;
 
+	heredoc_pipes = run_heredocs(cmds);
+	if (contains_heredoc(cmds) && !heredoc_pipes)
+		return (false);
 
 	proc_count = pr_lst_count(cmds);
 	pids = ft_calloc(proc_count, sizeof(int));
 	if (!pids)
 		return (false);
-
-	if (contains_heredoc(cmds))
-	{
-		heredoc_pipes = run_heredocs(cmds);
-		if (!heredoc_pipes)
-		{
-			// TODO Handle heredoc failure.
-			free(pids);
-			return (false);
-		}
-	}
 
 	i = 0;
 	while (cmds)
@@ -141,8 +133,11 @@ bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 		i++;
 	}
 	last_exit = pipeline_wait(pids, proc_count);
+
+	if (heredoc_pipes)
+		hd_lst_free(heredoc_pipes);
+
 	free(pids);
-	hd_lst_free(heredoc_pipes);
 	return (true);
 
 

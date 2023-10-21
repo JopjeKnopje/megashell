@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/17 14:43:47 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/10/20 14:51:39 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/21 21:33:06 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	hd_lstadd_back(t_hd_list **lst, t_hd_list *new)
 	}
 }
 
-t_hd_list *hd_lstpop_first(t_hd_list **lst)
+t_hd_list *hd_lstremove_first(t_hd_list **lst)
 {
 	t_hd_list	*first;
 
@@ -71,11 +71,14 @@ t_hd_list	*hd_lstnew(int fd)
 void hd_lst_free(t_hd_list *lst)
 {
 	t_hd_list *tmp = lst;
+
+	if (!lst)
+		return;
+
 	while (lst)
 	{
 		tmp = lst;
 		lst = lst->next;
 		free(tmp);
 	}
-	free(lst);
 }
