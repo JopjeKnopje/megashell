@@ -1,30 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   access.c                                           :+:      :+:    :+:   */
+/*   access.c                                          :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/17 13:42:45 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/22 01:23:38 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "megashell.h"
 #include "utils.h"
-
-bool	find_access(t_meta *meta, t_cmd_list *cmds)
-{
-	char	*cmd_in_path;
-
-	cmd_in_path = access_possible(meta, cmds->content.argv[0]);
-	if (!cmd_in_path)
-		return (false);
-	if (execve (cmd_in_path, cmds->content.argv, meta->envp) == -1)
-		return (false);
-	return (true);
-}
 
 bool	is_a_directory(char *cmd)
 {
@@ -100,7 +88,8 @@ char	*access_possible(t_meta *meta, char *cmd)
 	cmd_copy = check_relative_path(cmd, cmd_copy);
 	if (cmd_copy)
 		return (cmd_copy);
-	if (search_in_path(meta->envp, "PATH=") == 0)
+	char **s = search_in_path(meta->envp, "PATH=");
+	if (!s)
 	{
 		if (execve(meta->execute.argv[0], meta->execute.argv, meta->envp) == -1)
 		{
@@ -108,6 +97,7 @@ char	*access_possible(t_meta *meta, char *cmd)
 			return (NULL);
 		}
 	}
+	free_2d(s);
 	executable_path = find_executable_in_path(meta->execute.split_path, cmd);
 	if (!executable_path)
 	{
