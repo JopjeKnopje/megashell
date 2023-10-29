@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile                                          :+:    :+:              #
 #                                                     +:+ +:+         +:+      #
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/10/17 15:08:34 by jboeve        ########   odam.nl          #
+#    Updated: 2023/10/29 23:59:34 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,7 @@ SRCS =  execute/error.c \
 	  	plarser/tokenize.c \
 	  	plarser/parser.c \
 	  	plarser/parser_list.c \
+	  	plarser/expander.c \
 	  	utils/utils_string.c \
 		utils/utils_path.c \
 		redirections/redirections.c \

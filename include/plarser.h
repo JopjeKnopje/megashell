@@ -6,10 +6,9 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/10/21 22:17:45 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/29 23:58:16 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef PLARSER_H
 #define PLARSER_H
@@ -18,6 +17,22 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdint.h>
+
+
+
+#define UNUSED(x) (void)(x)
+#define UNIMPLEMENTED(message) \
+	do { \
+		fprintf(stderr, "\x1b[0m%s:%d: UNIMPLEMENTED: %s\n", __FILE__, __LINE__, message); \
+		exit(1); \
+	} while (0)
+#define UNREACHABLE(message) \
+	do { \
+		fprintf(stderr, "\x1b[0m%s:%d: UNREACHABLE: %s\n", __FILE__, __LINE__, message); \
+		exit(1); \
+	} while (0)
+
+
 
 typedef enum e_token_kind {
 	TOKEN_UNKNOWN 		= 0,
@@ -74,6 +89,9 @@ t_cmd_list		*pr_lstlast(t_cmd_list *lst);
 void			pr_lst_free(t_cmd_list *lst);
 void			pr_lstadd_back(t_cmd_list **lst, t_cmd_list *new);
 size_t			pr_lst_count(t_cmd_list *lst);
+
+// expander.c
+t_tok_list		*ex_main(t_tok_list *tokens);
 
 // syntax.c
 t_tok_list		*sy_main(t_tok_list *tokens);
