@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/10/29 23:58:16 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/30 19:31:55 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void			pr_lstadd_back(t_cmd_list **lst, t_cmd_list *new);
 size_t			pr_lst_count(t_cmd_list *lst);
 
 // expander.c
-t_tok_list		*ex_main(t_tok_list *tokens);
+bool ex_main(char **envp, t_tok_list *tokens);
 
 // syntax.c
 t_tok_list		*sy_main(t_tok_list *tokens);

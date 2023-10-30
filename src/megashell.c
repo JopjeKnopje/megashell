@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   megashell.c                                        :+:      :+:    :+:   */
+/*   megashell.c                                       :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/10/18 00:33:54 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/30 19:32:48 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	megashell(int argc, char *argv[], char *envp[])
 			megashell_cleanup(&meta);
 			return (0);
 		}
-		cmds = plarser_main(line);
+		cmds = plarser_main(meta.envp, line);
 		if (cmds)
 		{
 			print_cmds(cmds);

@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/19 11:40:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/10/10 00:21:29 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/30 19:32:14 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_meta {
 int megashell(int argc, char *argv[], char *envp[]);
 
 // plarser.c
-t_cmd_list *plarser_main(char *line);
+t_cmd_list *plarser_main(char **envp, char *line);
 
 // prompt.c
 void	prompt_env_setup();

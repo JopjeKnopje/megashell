@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 12:26:52 by jboeve            #+#    #+#             */
-/*   Updated: 2023/10/30 00:08:35 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/30 19:33:02 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ static bool contains_error(t_tok_list *tokens)
 	return (false);
 }
 
-
-t_cmd_list *plarser_main(char *line)
+t_cmd_list *plarser_main(char **envp, char *line)
 {
 	t_tok_list *tokens;
 	t_cmd_list *cmds;
@@ -43,15 +42,12 @@ t_cmd_list *plarser_main(char *line)
 	if (contains_error(tokens))
 		goto syntax_check;
 
-
 	print_tokens(tokens);
 
-	tokens = ex_main(tokens);
-	if (!tokens)
+	if (!ex_main(envp, tokens))
 	{
 		UNIMPLEMENTED("ex_main failed");
 	}
-
 
 
 syntax_check:
