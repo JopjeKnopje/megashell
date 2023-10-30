@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   builtins.h                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 15:00:42 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/06 17:35:33 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/31 00:33:22 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,6 @@ typedef enum e_builtin {
 	BUILTIN_EXIT,
 	BUILTIN_COUNT,
 }	t_builtin;
-
-static const char *BUILTINS_NAME[BUILTIN_COUNT] = {
-	"INVALID",
-	"pwd",
-	"env",
-	"echo",
-	"cd",
-	"export",
-	"unset",
-	"exit",
-};
 
 bool	builtin_run_unset(t_meta *meta, t_cmd_frame *cmd);
 bool	builtin_run_pwd(t_meta *meta, t_cmd_frame *cmd);
