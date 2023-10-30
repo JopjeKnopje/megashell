@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 12:26:52 by jboeve            #+#    #+#             */
-/*   Updated: 2023/08/29 17:17:31 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/10/30 23:16:41 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,22 @@
 #include "utils.h"
 
 
+static bool contains_error(t_tok_list *tokens)
+{
+	while (tokens)
+	{
+		if (tokens->token.kind == TOKEN_ERROR)
+			return (true);
+		tokens = tokens->next;
+	}
+	return (false);
+}
 
-t_cmd_list *plarser_main(char *line)
+t_cmd_list *plarser_main(char **envp, char *line)
 {
 	t_tok_list *tokens;
 	t_cmd_list *cmds;
+
 	tokens = lx_main(line);
 	if (!tokens)
 	{
@@ -29,7 +40,19 @@ t_cmd_list *plarser_main(char *line)
 		return (NULL);
 	}
 	print_tokens(tokens);
-	// TODO expansion before syntax check.
+	if (contains_error(tokens))
+		goto syntax_check;
+
+
+	if (!ex_main(envp, tokens))
+	{
+		UNIMPLEMENTED("ex_main failed");
+	}
+
+
+syntax_check:
+	printf("\n\n\n");
+	print_tokens(tokens);
 	t_tok_list *err = sy_main(tokens);
 	if (err)
 	{
