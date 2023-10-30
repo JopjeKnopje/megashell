@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/05 02:54:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/10/21 23:06:06 by joppe         ########   odam.nl         */
+/*   Updated: 2023/10/31 00:37:18 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@
 static bool	run_command(t_meta *meta, t_cmd_frame *cmd)
 {
 	t_builtin	is_builtin;
-	char *cmd_in_path;
+	char		*cmd_in_path;
+
+	if (!cmd->argv)
+		return (true);
 
 	is_builtin = get_builtin(cmd->argv[0]);
 	if (is_builtin)

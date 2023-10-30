@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   builtins.c                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/10 17:17:13 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/10/31 00:33:46 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,19 @@
 #include "plarser.h"
 #include "utils.h"
 #include <stdio.h>
+
+typedef bool	(*t_builtin_func)(t_meta *meta, t_cmd_frame *cmd);
+
+static const char *BUILTINS_NAME[BUILTIN_COUNT] = {
+	"INVALID",
+	"pwd",
+	"env",
+	"echo",
+	"cd",
+	"export",
+	"unset",
+	"exit",
+};
 
 t_builtin	get_builtin(char *cmd)
 {
@@ -33,8 +46,6 @@ t_builtin	get_builtin(char *cmd)
 	}
 	return (BUILTIN_INVALID);
 }
-
-typedef bool	(*t_builtin_func)(t_meta *meta, t_cmd_frame *cmd);
 
 bool	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 {
