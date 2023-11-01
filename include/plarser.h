@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/10/30 23:22:45 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/01 11:01:46 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ bool			sy_token_pass(t_tok_list *node);
 bool			sy_token_err(t_tok_list *node);
 
 // lexer.c
-t_tok_list		*lx_main(char *s);
+t_tok_list		*lx_main(char *s, size_t len);
 
 // lexer_utils.c
 bool			lx_is_metachar(char c);

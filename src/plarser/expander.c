@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/29 23:35:50 by joppe         #+#    #+#                 */
-/*   Updated: 2023/10/31 00:18:42 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/01 11:02:05 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,48 @@ static char *ex_skip_var(char *s)
 	return (s + i);
 }
 
-void ex_expand_var(char **envp, t_token *t)
+static void ex_quote_to_var(t_token *t)
+{
+	if (t->content[0] == '$')
+	{
+		t->content++;
+		// TODO strrchr to "
+		t->content_len -= 2;
+		t->kind = TOKEN_DOLLAR;
+	}
+}
+static void ex_step_into_quote(t_token *t)
+{
+	if (t->content[0] == '"')
+	{
+		t->content++;
+		t->content_len -= 2;
+		t->kind = TOKEN_UNKNOWN;
+	}
+
+}
+
+static void ex_expand_quote(t_token *t)
+{
+	// TODO	iterate over quote content, and insert anything thats
+	//		not a var into the tokens list as text.
+	// 		expand the variables
+
+	size_t i = 0;
+	t_tok_list *sub_list = NULL;
+
+
+	ex_step_into_quote(t);
+	sub_list = lx_main(t->content, t->content_len);
+
+	printf("expanding tokens in quote\n");
+	print_tokens(sub_list);
+	printf("done expanding\n");
+
+	// ex_quote_to_var(t);
+}
+
+static void ex_expand_var(char **envp, t_token *t)
 {
 	char	*exp;
 
@@ -71,26 +112,6 @@ void ex_expand_var(char **envp, t_token *t)
 	t->content = exp;
 	t->content_len = ft_strlen(exp);
 	t->kind = TOKEN_TEXT;
-}
-
-static void ex_quote_to_var(t_token *t)
-{
-	if (t->content[0] == '$')
-	{
-		t->content++;
-		// TODO strrchr to "
-		t->content_len -= 2;
-		t->kind = TOKEN_DOLLAR;
-	}
-}
-
-static void ex_expand_quote(t_token *t)
-{
-	// TODO	iterate over quote content, and insert anything thats
-	//		not a var into the tokens list as text.
-	// 		expand the variables
-
-	ex_quote_to_var(t);
 }
 
 bool ex_main(char **envp, t_tok_list *tokens)
