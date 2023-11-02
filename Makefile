@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/01 11:03:46 by jboeve        ########   odam.nl          #
+#    Updated: 2023/11/02 20:23:00 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -108,7 +108,7 @@ $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(OBJS) $(LIBFT) $(CFLAGS) $(INC) $(LFLAGS) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
-	mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIRS)
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $< 
 
 
