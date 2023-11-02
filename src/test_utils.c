@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:05:42 by joppe         #+#    #+#                 */
-/*   Updated: 2023/10/30 23:23:57 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/02 18:24:26 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static const char *TOKEN_NAMES[] = {
 	"TOKEN_APPEND",
 	"TOKEN_HEREDOC",
 	"TOKEN_TEXT",
+	"TOKEN_ALLOC",
 	"TOKEN_ERROR",
 	"TOKEN_COUNT",
 };

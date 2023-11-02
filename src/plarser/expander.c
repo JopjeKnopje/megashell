@@ -6,13 +6,14 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/29 23:35:50 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/01 11:02:05 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/02 19:17:11 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "plarser.h"
 #include "test_utils.h"
+#include "utils.h"
 #include <stdio.h>
 
 static char *ex_find_var(char **envp, char *name, size_t len)
@@ -74,25 +75,65 @@ static void ex_step_into_quote(t_token *t)
 		t->content_len -= 2;
 		t->kind = TOKEN_UNKNOWN;
 	}
-
 }
+
+static t_token ex_alloc_expansion(t_token *tok_main, t_token *tok_var)
+{
+	// Calculate size of new string
+	// calloc
+	// copy tok_main join tok_var
+	// set type to TOKEN_TEXT
+
+	size_t len = tok_main->content_len + tok_var->content_len;
+	char *s = ft_calloc(len + 1, sizeof(char));
+
+	ft_memcpy(s, tok_main->content, tok_main->content_len);
+	ft_memcpy(s + tok_main->content_len, tok_var->content, tok_var->content_len);
+
+	t_token t;
+
+	t.content = s;
+	t.content_len = ft_strlen(s);
+	t.kind = TOKEN_ALLOC;
+	return t;
+}
+
 
 static void ex_expand_quote(t_token *t)
 {
+	size_t i = 0;
+	t_tok_list *sub_list = NULL;
+	t_token var_token;
+	t_token tok_main = *t;
 	// TODO	iterate over quote content, and insert anything thats
 	//		not a var into the tokens list as text.
 	// 		expand the variables
 
-	size_t i = 0;
-	t_tok_list *sub_list = NULL;
+	ex_step_into_quote(&tok_main);
 
 
-	ex_step_into_quote(t);
-	sub_list = lx_main(t->content, t->content_len);
+	// echo "test$SHELL 21"
+	while (i < tok_main.content_len)
+	{
+		if (tok_main.content[i] == '$')
+		{
+			var_token = lx_tokenize_dollar(tok_main.content + i, tok_main.content_len);
+			if (var_token.kind == TOKEN_ERROR)
+				UNIMPLEMENTED("TODO Handle quote expansion error");
 
-	printf("expanding tokens in quote\n");
+			tok_main.content += var_token.content_len;
+			tok_main.content_len -= var_token.content_len;
+
+			// TODO Insert token into token_list instead of sublist.
+			lx_list_add_token(&sub_list, ex_alloc_expansion(&tok_main, &var_token));
+			i += var_token.content_len;
+			continue;
+		}
+		i++;
+	}
+
+	printf("sub lexer tokens...\n");
 	print_tokens(sub_list);
-	printf("done expanding\n");
 
 	// ex_quote_to_var(t);
 }

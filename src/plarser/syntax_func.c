@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   syntax_func.c                                      :+:      :+:    :+:   */
+/*   syntax_func.c                                     :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 23:19:49 by joppe             #+#    #+#             */
-/*   Updated: 2023/09/06 15:15:17 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/11/02 17:40:07 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "plarser.h"
+#include <stdio.h>
 #include <stdbool.h>
 
 
@@ -63,5 +64,11 @@ bool sy_token_pass(t_tok_list *node)
 bool sy_token_err(t_tok_list *node)
 {
 	(void) node;
+	return (false);
+}
+
+bool sy_token_unknown(t_tok_list *node)
+{
+	UNIMPLEMENTED("unknown token in syntax");
 	return (false);
 }

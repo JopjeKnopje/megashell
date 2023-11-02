@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/11/01 11:01:46 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/02 18:54:20 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,9 @@ typedef enum e_token_kind {
 	TOKEN_APPEND 		= 7, // >>
 	TOKEN_HEREDOC 		= 8, // <<
 	TOKEN_TEXT 			= 9,
-	TOKEN_ERROR 		= 10,
-	TOKEN_COUNT 		= 11,
+	TOKEN_ALLOC			= 10,
+	TOKEN_ERROR 		= 11,
+	TOKEN_COUNT 		= 12,
 }	t_token_kind;
 
 typedef struct e_token {
@@ -103,9 +104,11 @@ bool			sy_token_variable(t_tok_list *token);
 bool			sy_token_pipe(t_tok_list *token);
 bool			sy_token_pass(t_tok_list *node);
 bool			sy_token_err(t_tok_list *node);
+bool sy_token_unknown(t_tok_list *node);
 
 // lexer.c
-t_tok_list		*lx_main(char *s, size_t len);
+t_tok_list *lx_list_add_token(t_tok_list **token_lst, t_token t);
+t_tok_list *lx_main(char *s);
 
 // lexer_utils.c
 bool			lx_is_metachar(char c);
@@ -122,7 +125,7 @@ void			lx_lst_free(t_tok_list *lst);
 // tokenize.c
 t_token			lx_token_set(t_token_kind k, char *s, uint32_t len);
 t_token			lx_tokenize_quote(char *s, char c);
-t_token			lx_tokenize_dollar(char *s);
+t_token lx_tokenize_dollar(char *s, size_t len);
 t_token			lx_tokenize_text(char *s);
 
 #endif

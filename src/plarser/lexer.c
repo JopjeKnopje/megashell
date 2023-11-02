@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/01 10:51:25 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/02 18:44:33 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_token lx_next(char *s)
 	if (*s == '\'' || *s == '\"')
 		t = lx_tokenize_quote(s, *s);
 	else if (*s == '$')
-		t = lx_tokenize_dollar(s);
+		t = lx_tokenize_dollar(s, ft_strlen(s));
 	else if (*s == '|')
 		t = lx_token_set(TOKEN_PIPE, s, 1);
 
@@ -48,7 +48,7 @@ static t_token lx_next(char *s)
 }
 
 
-static t_tok_list *lx_list_add_token(t_tok_list **token_lst, t_token t)
+t_tok_list *lx_list_add_token(t_tok_list **token_lst, t_token t)
 {
 	t_tok_list	*node;
 
@@ -68,13 +68,13 @@ static t_tok_list *lx_list_add_token(t_tok_list **token_lst, t_token t)
 	return (*token_lst);
 }
 
-t_tok_list *lx_main(char *s, size_t len)
+t_tok_list *lx_main(char *s)
 {
 	t_token	t;
 	t_tok_list	*token_lst;
 
 	token_lst = NULL;
-	while (len >= 0 && *s)
+	while (*s)
 	{
 		lx_trim_space(&s);
 		if (!s[0])
@@ -84,7 +84,6 @@ t_tok_list *lx_main(char *s, size_t len)
 		// TODO Error handling
 		lx_list_add_token(&token_lst, t);
 		s += t.content_len;
-		len--;
 	}
 	return (token_lst);
 }
