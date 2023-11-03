@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/11/02 18:54:20 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/03 00:36:06 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void			lx_lst_free(t_tok_list *lst);
 // tokenize.c
 t_token			lx_token_set(t_token_kind k, char *s, uint32_t len);
 t_token			lx_tokenize_quote(char *s, char c);
-t_token lx_tokenize_dollar(char *s, size_t len);
+t_token lx_tokenize_dollar(char *s);
 t_token			lx_tokenize_text(char *s);
 
 #endif

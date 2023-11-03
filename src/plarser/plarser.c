@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 12:26:52 by jboeve            #+#    #+#             */
-/*   Updated: 2023/11/02 19:32:11 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/03 00:32:15 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ syntax_check:
 	t_tok_list *err = sy_main(tokens);
 	if (err)
 	{
-		printf("syntax error at token '%.*s'\n", err->token.content_len, err->token.content);
+		printf("syntax error at token '%.*s'\n", (int) err->token.content_len, err->token.content);
 		lx_lst_free(tokens);
 		return (NULL);
 	}
