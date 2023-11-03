@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/03 19:09:09 by joppe         ########   odam.nl          #
+#    Updated: 2023/11/03 19:45:59 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -149,7 +149,7 @@ norm:
 dre: re
 	$(MAKE) -C libft re
 
-$(TEST_BIN_DIR)/%: $(TEST_DIR)/%.c
+$(TEST_BIN_DIR)/%: $(TEST_DIR)/%.c:
 	@mkdir -p $(TEST_BIN_DIR)
 	$(CC) $(CFLAGS) $(INC) $(TEST_CFLAGS) $< $(OBJS) $(LIBFT) -o $@ 
 

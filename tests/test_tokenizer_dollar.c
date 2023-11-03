@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/03 16:05:40 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/03 19:40:25 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/03 19:45:16 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,30 @@
 #include <stdbool.h>
 #include "libft.h"
 #include "plarser.h"
+
+
+typedef enum e_token_kind {
+	TOKEN_UNKNOWN 		= 0,
+	TOKEN_QUOTE_SINGLE 	= 1, // '[content]'
+	TOKEN_QUOTE_DOUBLE 	= 2, // "[content]"
+	TOKEN_DOLLAR 		= 3, // $
+	TOKEN_PIPE 			= 4, // |
+	TOKEN_LESS_THAN 	= 5, // <
+	TOKEN_GREATER_THAN 	= 6, // >
+	TOKEN_APPEND 		= 7, // >>
+	TOKEN_HEREDOC 		= 8, // <<
+	TOKEN_TEXT 			= 9,
+	TOKEN_ALLOC			= 10,
+	TOKEN_ERROR 		= 11,
+	TOKEN_COUNT 		= 12,
+}	t_token_kind;
+
+typedef struct s_token {
+	t_token_kind	kind;
+	size_t			content_len;
+	char			*content;
+}	t_token;
+
 
 
 typedef struct s_testcase {
@@ -50,20 +74,20 @@ static const char *TOKEN_NAMES[] = {
 
 
 
-void log(t_token_compare_err err, t_testcase test)
+void test_log(t_token_compare_err err, t_testcase test)
 {
 	// TODO Print the error value
 	if (!err)
 	{
 		printf("[PASSED] ");
-		printf("\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%ld] == ", TOKEN_NAMES[test.input.kind], (int) test.input.content_len, test.input.content, test.input.content_len);
+		printf("\tINPUT: [%s] ", test.input);
 		printf("\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%ld]\n", TOKEN_NAMES[test.output.kind], (int) test.output.content_len, test.output.content, test.output.content_len);
 		printf("\n");
 	}
 	else
 	{
 		printf("[FAILED] ");
-		printf("\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%ld] != ", TOKEN_NAMES[test.input.kind], (int) test.input.content_len, test.input.content, test.input.content_len);
+		printf("\tINPUT: [%s] ", test.input);
 		printf("\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%ld]\n", TOKEN_NAMES[test.expected.kind], (int) test.expected.content_len, test.expected.content, test.expected.content_len);
 		printf("got\n");
 		printf("\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%ld]\n", TOKEN_NAMES[test.output.kind], (int) test.output.content_len, test.output.content, test.output.content_len);
@@ -93,29 +117,24 @@ void run_test(t_testcase test)
 {
 	test.output = lx_tokenize_dollar(test.input);
 	t_token_compare_err err = token_compare(test.input, test.output);
-	log(err, test);
+	test_log(err, test);
 }
 
 int main()
 {
-
 	t_testcase case1 = {
-		.input = {
-			TOKEN_DOLLAR,
-			1,
-			"$",
-		}
+		.input = "$",
 		.output = {
 			NULL,
 			NULL,
 			NULL,
-		}
+		},
 		.expected = {
 			TOKEN_TEXT,
 			1,
 			"$",
 		}
-	}
+	};
 
 	run_test(case1);
 
