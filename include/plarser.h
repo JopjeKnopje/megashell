@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/11/03 00:36:06 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/03 19:36:30 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef enum e_token_kind {
 	TOKEN_COUNT 		= 12,
 }	t_token_kind;
 
-typedef struct e_token {
+typedef struct s_token {
 	t_token_kind	kind;
 	size_t			content_len;
 	char			*content;

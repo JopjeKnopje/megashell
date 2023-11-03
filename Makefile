@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/03 16:27:38 by jboeve        ########   odam.nl          #
+#    Updated: 2023/11/03 19:09:09 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,7 +99,7 @@ TEST_DIR = tests
 TESTS = test_tokenizer_dollar.c
 
 TESTS := $(addprefix $(TEST_DIR)/, $(TESTS))
-TEST_INC = $(INC)
+TEST_CFLAGS = $(INC) $(LFLAGS)
 TEST_BIN_DIR = bin
 TEST_BIN_DIR := $(addprefix $(TEST_DIR)/, $(TEST_BIN_DIR))
 TEST_BINS = $(patsubst $(TEST_DIR)/%.c, $(TEST_DIR)/bin/%, $(TESTS))
@@ -149,16 +149,14 @@ norm:
 dre: re
 	$(MAKE) -C libft re
 
-
-
 $(TEST_BIN_DIR)/%: $(TEST_DIR)/%.c
 	@mkdir -p $(TEST_BIN_DIR)
-	$(CC) $(CFLAGS) $(INC) $(TEST_INC) $< $(OBJS) $(LIBFT) -o $@ -lcriterion 
+	$(CC) $(CFLAGS) $(INC) $(TEST_CFLAGS) $< $(OBJS) $(LIBFT) -o $@ 
 
-.PHONY: build_test
-build_test: $(LIBFT) $(OBJS) $(TEST_BINS)
+.PHONY: run_test
+run_test: $(LIBFT) $(OBJS) $(TEST_BINS)
 	@for test in $(TEST_BINS) ; do ./$$test -j4; done
 
 test:
 	$(MAKE) clean
-	$(MAKE) build_test BUILD_TEST=1
+	$(MAKE) run_test BUILD_TEST=1
