@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/07 17:43:17 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/03 00:36:01 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/03 14:57:27 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ t_token lx_tokenize_dollar(char *s)
 		k = TOKEN_ERROR;
 	while (s[i] && !lx_is_metachar(s[i]))
 	{
+		if (s[i] == '$')
+			break;
 		if (!lx_is_varchar(s[i]) && !ft_isdigit(s[i]))
 			k = TOKEN_ERROR;
 		i++;
