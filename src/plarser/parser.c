@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/02 18:49:07 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/03 01:56:22 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,25 @@
 t_cmd_frame pr_parse_text(t_cmd_frame frame, t_tok_list *tokens)
 {
 	size_t i = 0;
+	char *s_alloc;
 
 	if (!frame.argv)
 		frame.argv = ft_calloc(1, sizeof(char *));
+	if (!frame.argv)
+		UNIMPLEMENTED("Handle malloc failure");
 
 	while (frame.argv[i])
 		i++;
 
-
-	char *s = sized_strdup(tokens->token.content, tokens->token.content_len);
-	if (!s)
-	{
-		printf("strdup_sized failed\n");
-	}
-
-	frame.argv = str_arr_append(frame.argv, s);
+	if (tokens->token.kind == TOKEN_ALLOC)
+		s_alloc = tokens->token.content;
+	else
+		s_alloc = sized_strdup(tokens->token.content, tokens->token.content_len);
+	if (!s_alloc)
+		UNIMPLEMENTED("Handle malloc failure");
+	frame.argv = str_arr_append(frame.argv, s_alloc);
 	if (!frame.argv)
-	{
-		printf("str_arr_append failed\n");
-	}
+		UNIMPLEMENTED("Handle malloc failure");
 	return (frame);
 }
 
@@ -127,7 +127,7 @@ t_cmd_list *pr_main(t_tok_list *tokens)
 				pr_list_add_cmd(&cmds, frame);
 			ft_bzero(&frame, sizeof(t_cmd_frame));
 		}
-		if (tokens->token.kind == TOKEN_TEXT)
+		if (tokens->token.kind == TOKEN_TEXT || tokens->token.kind == TOKEN_ALLOC)
 		{
 			frame = pr_parse_text(frame, tokens);
 		}

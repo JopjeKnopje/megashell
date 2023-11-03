@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/29 23:35:50 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/03 01:06:29 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/03 01:45:58 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ static char *ex_find_var(char **envp, char *name, size_t len)
 		name++;
 		len--;
 	}
-	printf("looking for name [%s]\n", name);
-
 	while (envp[i])
 	{
 		if (!ft_strncmp(envp[i], name, len))
@@ -89,18 +87,16 @@ static void ex_step_into_quote(t_token *t)
 	}
 }
 
-static char *ex_str_append(char *s_base, char *s_append)
+static char *ex_str_append(char *s_base, char *s_append, size_t append_size)
 {
 	char	*s_new;
 	size_t	base_size;
-	size_t	append_size;
 
 	if (!s_base)
 		s_base = ft_calloc(1, sizeof(char));
 	if (!s_base)
 		return (NULL);
 	base_size = ft_strlen(s_base);
-	append_size = ft_strlen(s_append);;
 	s_new = ft_calloc(base_size + append_size + 1, sizeof(char));
 	if (!s_new)
 		return (NULL);
@@ -124,29 +120,36 @@ static void ex_expand_quote(char **envp, t_token *t)
 	{
 		if (*s == '$')
 		{
-			// tokenize the variable 
 			t_token var = lx_tokenize_dollar(s);
-			// expand variable
 			print_token(var);
 			char *exp = ex_find_var(envp, var.content, var.content_len);
 			if (!exp)
-				UNIMPLEMENTED("handle variable not found, (remove var from line)");
-
-			// append expansion to s_exp
-			s_exp = ex_str_append(s_exp, exp);
-			// increment s by len of token_len
+			{
+				exp = ft_strdup("");
+				if (!exp)
+					UNIMPLEMENTED("Handle malloc failure");
+			}
+			s_exp = ex_str_append(s_exp, exp, ft_strlen(exp));
+			if (!s_exp)
+				UNIMPLEMENTED("Handle malloc failure");
 			s += var.content_len;
 		}
 		else
 		{
-			// find start next variable 
-			// substr from current index to start of next var
-			// append to s_exp
-			// increment s by len of substr
-			s++;
+			char *var_next = ft_strchr(s, '$');
+			size_t len = var_next - s;
+			if (!var_next)
+				len = ft_strlen(s);
+			s_exp = ex_str_append(s_exp, s, len);
+			if (!s_exp)
+				UNIMPLEMENTED("Handle malloc failure");
+			s += len;
 	 	}
 	}
-	// set `t` to our s_exp.
+
+	t->content = s_exp;
+	t->content_len = ft_strlen(s_exp);
+	t->kind = TOKEN_ALLOC;
 	printf("expanded string [%s]\n", s_exp);
 }
 

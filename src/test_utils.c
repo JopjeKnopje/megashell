@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:05:42 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/02 18:24:26 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/03 01:42:10 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void print_2d_arr(char **s, char *name)
 	size_t i = 0;
 	while (s[i])
 	{
-		printf("%s[%ld] -> [%s]\n", name, i, s[i]);
+		if (s[i])
+			printf("%s[%ld] -> [%s]\n", name, i, s[i]);
 		i++;
 	}
 }
