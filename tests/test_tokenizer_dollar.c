@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   argv_test.c                                       :+:    :+:             */
+/*   test_tokenizer_dollar.c                           :+:    :+:             */
 /*                                                    +:+                     */
-/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
+/*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
-/*   Created: 2023/08/14 10:20:53 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/14 10:23:57 by joppe         ########   odam.nl         */
+/*   Created: 2023/11/03 16:05:40 by jboeve        #+#    #+#                 */
+/*   Updated: 2023/11/03 16:26:24 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include <stdio.h>
-int main(int argc, char *argv[])
+#include <stdlib.h>
+
+int main()
 {
-	int i = 0;
 
-	(void) (argc);
+	printf("test 213\n");
 
-	while (argv[i])
-	{
-		printf("argv[%d] => [%s]\n", i, argv[i]);
-		i++;
-	}
-	return 0;
+	return EXIT_SUCCESS;
 }

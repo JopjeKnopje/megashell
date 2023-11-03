@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/03 00:28:58 by joppe         ########   odam.nl          #
+#    Updated: 2023/11/03 16:27:38 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,9 @@ ifeq ($(UNAME_S),Darwin)
 	CFLAGS = -DOS_MAC
 endif
 
+ifdef BUILD_TEST
+	CFLAGS += -DBUILD_TEST
+endif
 
 RUN_CMD = ./$(NAME)
 
@@ -78,7 +81,7 @@ SRCS =  execute/error.c \
 		redirections/heredoc.c \
 		test_utils.c \
 	  	megashell.c \
-		main.c \
+		main.c
 
 HEADER_DIR = include
 HEADERS = input.h \
@@ -91,6 +94,15 @@ HEADERS = input.h \
 
 OBJ_DIR = obj
 
+
+TEST_DIR = tests
+TESTS = test_tokenizer_dollar.c
+
+TESTS := $(addprefix $(TEST_DIR)/, $(TESTS))
+TEST_INC = $(INC)
+TEST_BIN_DIR = bin
+TEST_BIN_DIR := $(addprefix $(TEST_DIR)/, $(TEST_BIN_DIR))
+TEST_BINS = $(patsubst $(TEST_DIR)/%.c, $(TEST_DIR)/bin/%, $(TESTS))
 
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
@@ -117,6 +129,7 @@ make_libs:
 
 clean:
 	rm -rf $(OBJ_DIR)
+	rm -rf $(TEST_BIN_DIR)
 
 fclean: clean
 	$(MAKE) -C libft fclean
@@ -135,3 +148,17 @@ norm:
 
 dre: re
 	$(MAKE) -C libft re
+
+
+
+$(TEST_BIN_DIR)/%: $(TEST_DIR)/%.c
+	@mkdir -p $(TEST_BIN_DIR)
+	$(CC) $(CFLAGS) $(INC) $(TEST_INC) $< $(OBJS) $(LIBFT) -o $@ -lcriterion 
+
+.PHONY: build_test
+build_test: $(LIBFT) $(OBJS) $(TEST_BINS)
+	@for test in $(TEST_BINS) ; do ./$$test -j4; done
+
+test:
+	$(MAKE) clean
+	$(MAKE) build_test BUILD_TEST=1

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 12:26:52 by jboeve            #+#    #+#             */
-/*   Updated: 2023/11/03 01:18:26 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/03 15:06:37 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,28 +40,28 @@ t_cmd_list *plarser_main(char **envp, char *line)
 		return (NULL);
 	}
 	print_tokens(tokens);
-	if (contains_error(tokens))
-		goto syntax_check;
-
-	printf("\n\n\n\n\n\n\n\n\n\n\n\n");
-
-	if (!ex_main(envp, tokens))
-	{
-		UNIMPLEMENTED("ex_main failed");
-	}
-
-
-syntax_check:
-	printf("\n\n\n\n\n\n\n\n\n\n\n\n");
-	print_tokens(tokens);
-	t_tok_list *err = sy_main(tokens);
-	if (err)
-	{
-		printf("syntax error at token '%.*s'\n", (int) err->token.content_len, err->token.content);
-		lx_lst_free(tokens);
-		return (NULL);
-	}
-	cmds = pr_main(tokens);
+// 	if (contains_error(tokens))
+// 		goto syntax_check;
+//
+// 	printf("\n\n\n\n\n\n\n\n\n\n\n\n");
+//
+// 	if (!ex_main(envp, tokens))
+// 	{
+// 		UNIMPLEMENTED("ex_main failed");
+// 	}
+//
+//
+// syntax_check:
+// 	printf("\n\n\n\n\n\n\n\n\n\n\n\n");
+// 	print_tokens(tokens);
+// 	t_tok_list *err = sy_main(tokens);
+// 	if (err)
+// 	{
+// 		printf("syntax error at token '%.*s'\n", (int) err->token.content_len, err->token.content);
+// 		lx_lst_free(tokens);
+// 		return (NULL);
+// 	}
+// 	cmds = pr_main(tokens);
 	lx_lst_free(tokens);
 
 	return (cmds);

@@ -6,11 +6,12 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/03 00:52:08 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/03 15:10:05 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "plarser.h"
+#include "test_utils.h"
 #include <stdio.h>
 
 static void lx_trim_space(char **cursor)
