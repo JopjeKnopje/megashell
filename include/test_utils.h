@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:06:33 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/20 18:50:00 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/05 23:58:17 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@ void	print_cf_list(t_cmd_list *list);
 void	print_token(t_token t);
 void	print_tokens(t_tok_list *lst);
 void	print_cmds(t_cmd_list *cmds);
+const char *get_token_name(t_token_kind k);
 
 #endif 

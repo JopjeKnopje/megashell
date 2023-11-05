@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/05 22:01:34 by joppe         ########   odam.nl          #
+#    Updated: 2023/11/05 23:22:40 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 ######################
 # OS Dependend flags #
 ######################
-UNAME_S := $(shell uname -s)
+UNAME_S		:= $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
 endif
 ifeq ($(UNAME_S),Darwin)
@@ -93,7 +93,7 @@ TEST_SRCS	:= 	test_tokenizer_dollar.c
 TEST		:=	tests
 TEST_SRCS	:=	$(addprefix $(TEST)/, $(TEST_SRCS))
 TEST_BINS	:=	$(patsubst $(TEST)/%.c, $(TEST)/bin/%, $(TEST_SRCS))
-
+TFLAGS 		:=	-lm
 
 SRCS 		:=	$(addprefix $(SRC_DIR)/, $(SRCS))
 HEADERS 	:=	$(addprefix $(HEADER_DIR)/, $(HEADERS))
@@ -146,7 +146,7 @@ $(TEST)/bin:
 	mkdir $@
 
 $(TEST)/bin/%: $(TEST)/%.c $(OBJS)
-	$(CC) $(CFLAGS) $(IFLAGS) $(LFLAGS) $< $(OBJS) $(LIBFT) -o $@ -lcriterion
+	$(CC) $(CFLAGS) $(LFLAGS) $(IFLAGS) $(TFLAGS) $< $(OBJS) $(LIBFT) -o $@ -lcriterion
 
 test: make_libs $(OBJS) $(TEST)/bin $(TEST_BINS)
 	for test in $(TEST_BINS) ; do ./$$test ; done

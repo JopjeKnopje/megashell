@@ -3,118 +3,64 @@
 /*                                                       ::::::::             */
 /*   test_tokenizer_dollar.c                           :+:    :+:             */
 /*                                                    +:+                     */
-/*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
+/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
-/*   Created: 2023/11/03 16:05:40 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/05 21:41:46 by joppe         ########   odam.nl         */
+/*   Created: 2023/11/05 22:56:47 by joppe         #+#    #+#                 */
+/*   Updated: 2023/11/06 00:49:35 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "libft.h"
+#include <criterion/criterion.h>
 #include "plarser.h"
+#include "test_utils.h"
 
-
-
-typedef struct s_testcase {
+typedef struct s_test_params {
 	char *input;
-	t_token output;
+	t_token result;
 	t_token expected;
-
-} t_testcase;
-
-typedef enum e_token_compare_err {
-	TCE_PASSED,
-	TCE_CONTENT_LEN,
-	TCE_CONTENT,
-	TCE_KIND,
-	TCE_COUNT,
-} t_token_compare_err;
-
-static const char *TOKEN_NAMES[] = {
-	"TOKEN_UNKNOWN",
-	"TOKEN_QUOTE_SINGLE",
-	"TOKEN_QUOTE_DOUBLE",
-	"TOKEN_DOLLAR",
-	"TOKEN_PIPE",
-	"TOKEN_LESS_THAN",
-	"TOKEN_GREATER_THAN",
-	"TOKEN_APPEND",
-	"TOKEN_HEREDOC",
-	"TOKEN_TEXT",
-	"TOKEN_ALLOC",
-	"TOKEN_ERROR",
-	"TOKEN_COUNT",
-};
+} t_test_params;
 
 
-
-void test_log(t_token_compare_err err, t_testcase test)
+int	test_strncmp(const char *s1, const char *s2, size_t n1, size_t n2)
 {
-	// TODO Print the error value
-	if (!err)
-	{
-		printf("[PASSED] ");
-		printf("\tINPUT: [%s] ", test.input);
-		printf("\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%ld]\n", TOKEN_NAMES[test.output.kind], (int) test.output.content_len, test.output.content, test.output.content_len);
-		printf("\n");
-	}
-	else
-	{
-		printf("[FAILED] ");
-		printf("\tINPUT: [%s] ", test.input);
-		printf("\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%ld]\n", TOKEN_NAMES[test.expected.kind], (int) test.expected.content_len, test.expected.content, test.expected.content_len);
-		printf("got\n");
-		printf("\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%ld]\n", TOKEN_NAMES[test.output.kind], (int) test.output.content_len, test.output.content, test.output.content_len);
-		printf("\n");
-	}
+	size_t	i;
+	size_t n = ((n1 < n2) * n2 + (!(n1 < n2)) * n1);
+
+	i = 0;
+	while (i < n && s1[i] && (s1[i] == s2[i]))
+		i++;
+	if (i == n)
+		return (0);
+	return ((unsigned char) s1[i] - (unsigned char) s2[i]);
 }
 
-t_token_compare_err token_compare(t_token t1, t_token t2)
+void test_assert_params(t_test_params params)
 {
-	if (t1.content_len != t2.content_len)
-	{
-		return TCE_CONTENT_LEN;	
-	}
-	if (t1.kind != t2.kind)
-	{
-		return TCE_KIND;	
-	}
-	if (ft_strncmp(t1.content, t2.content, t1.content_len))
-	{
-		return TCE_CONTENT;	
-	}
-	return TCE_PASSED;
-
+	cr_expect(params.result.kind == params.expected.kind, "result [%s]\texpected [%s]\n", get_token_name(params.result.kind), get_token_name(params.expected.kind));
+	cr_expect(params.result.content_len == params.expected.content_len, "result [%ld]\texpected[%ld]\n", params.result.content_len, params.expected.content_len);
+	cr_expect(!test_strncmp(params.result.content, params.expected.content,
+				params.result.content_len, params.expected.content_len), 
+				"result [%.*s] \t expected [%.*s]\n",
+				(int) params.result.content_len, params.result.content,
+				(int) params.expected.content_len, params.expected.content);
 }
 
-void run_test(t_testcase test)
+Test(tokenizer_dollar, single_dollar)
 {
-	test.output = lx_tokenize_dollar(test.input);
-	t_token_compare_err err = token_compare(test.expected, test.output);
-	test_log(err, test);
-}
-
-int main()
-{
-	t_testcase case1 = {
+	t_test_params params = {
 		.input = "$",
-		.output = {
+		.result = {
 			0,
-			NULL,
-			NULL,
+			0,
+			0,
 		},
 		.expected = {
-			TOKEN_TEXT,
+			TOKEN_DOLLAR,
 			1,
 			"$",
-		}
+		},
 	};
 
-	run_test(case1);
-
-
-	return EXIT_SUCCESS;
+	params.result = lx_tokenize_dollar(params.input);
+	test_assert_params(params);
 }

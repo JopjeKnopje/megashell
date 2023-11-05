@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:05:42 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/03 01:42:10 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/05 23:58:30 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ static const char *TOKEN_NAMES[] = {
 	"TOKEN_COUNT",
 };
 
+
+const char *get_token_name(t_token_kind k)
+{
+	return TOKEN_NAMES[k];
+}
 
 void print_bits(size_t const size, void const * const ptr)
 {
