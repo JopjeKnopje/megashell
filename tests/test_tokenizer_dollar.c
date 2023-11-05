@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/03 16:05:40 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/03 19:45:16 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/05 21:41:46 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,6 @@
 #include <stdbool.h>
 #include "libft.h"
 #include "plarser.h"
-
-
-typedef enum e_token_kind {
-	TOKEN_UNKNOWN 		= 0,
-	TOKEN_QUOTE_SINGLE 	= 1, // '[content]'
-	TOKEN_QUOTE_DOUBLE 	= 2, // "[content]"
-	TOKEN_DOLLAR 		= 3, // $
-	TOKEN_PIPE 			= 4, // |
-	TOKEN_LESS_THAN 	= 5, // <
-	TOKEN_GREATER_THAN 	= 6, // >
-	TOKEN_APPEND 		= 7, // >>
-	TOKEN_HEREDOC 		= 8, // <<
-	TOKEN_TEXT 			= 9,
-	TOKEN_ALLOC			= 10,
-	TOKEN_ERROR 		= 11,
-	TOKEN_COUNT 		= 12,
-}	t_token_kind;
-
-typedef struct s_token {
-	t_token_kind	kind;
-	size_t			content_len;
-	char			*content;
-}	t_token;
 
 
 
@@ -116,7 +93,7 @@ t_token_compare_err token_compare(t_token t1, t_token t2)
 void run_test(t_testcase test)
 {
 	test.output = lx_tokenize_dollar(test.input);
-	t_token_compare_err err = token_compare(test.input, test.output);
+	t_token_compare_err err = token_compare(test.expected, test.output);
 	test_log(err, test);
 }
 
@@ -125,7 +102,7 @@ int main()
 	t_testcase case1 = {
 		.input = "$",
 		.output = {
-			NULL,
+			0,
 			NULL,
 			NULL,
 		},

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:33:28 by jboeve            #+#    #+#             */
-/*   Updated: 2023/11/03 16:26:09 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/05 21:42:48 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,4 @@ int main(int argc, char *argv[], char *envp[])
 	return megashell(argc, argv, envp);
 }
 
-#endif /* ifndef BUILD_TEST */
+#endif
