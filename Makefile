@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/06 20:10:31 by joppe         ########   odam.nl          #
+#    Updated: 2023/11/06 20:45:09 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -145,4 +145,3 @@ $(TEST)/bin/%: $(TEST)/%.c $(OBJS)
 
 test: make_libs $(OBJS) $(TEST)/bin $(TEST_BINS)
 	for test in $(TEST_BINS) ; do ./$$test -j1 ; done
-

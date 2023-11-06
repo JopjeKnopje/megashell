@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/06 01:45:51 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/06 20:04:59 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 20:57:13 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ Test(tokenizer, single_dollar)
 	t_test_params params = {
 		.input = "$",
 		.expected = {
-			TOKEN_BLOCK_DOLLAR,
+			TOKEN_TEXT,
 			1,
 			"$",
 		},
@@ -179,6 +179,66 @@ Test(tokenizer, variable_name_quote)
 			TOKEN_ERROR,
 			2,
 			"$'",
+		},
+	};
+
+	params.result = lx_tokenize_dollar_block(params.input);
+	TEST_ASSERT_PARAMS(params);
+}
+
+Test(tokenizer, variable_dollar_multiple_2)
+{
+	t_test_params params = {
+		.input = "$$",
+		.expected = {
+			TOKEN_ERROR,
+			2,
+			"$$",
+		},
+	};
+
+	params.result = lx_tokenize_dollar_block(params.input);
+	TEST_ASSERT_PARAMS(params);
+}
+
+Test(tokenizer, variable_dollar_multiple_3)
+{
+	t_test_params params = {
+		.input = "$$$",
+		.expected = {
+			TOKEN_ERROR,
+			3,
+			"$$$",
+		},
+	};
+
+	params.result = lx_tokenize_dollar_block(params.input);
+	TEST_ASSERT_PARAMS(params);
+}
+
+Test(tokenizer, variable_dollar_multiple_4)
+{
+	t_test_params params = {
+		.input = "$$$$",
+		.expected = {
+			TOKEN_ERROR,
+			4,
+			"$$$$",
+		},
+	};
+
+	params.result = lx_tokenize_dollar_block(params.input);
+	TEST_ASSERT_PARAMS(params);
+}
+
+Test(tokenizer, variable_dollar_multiple_5)
+{
+	t_test_params params = {
+		.input = "$$$$$",
+		.expected = {
+			TOKEN_ERROR,
+			5,
+			"$$$$$",
 		},
 	};
 
