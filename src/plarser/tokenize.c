@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/07 17:43:17 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/06 02:55:32 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 16:26:40 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ t_token lx_token_set(t_token_kind k, char *s, uint32_t len)
 	return (t);
 }
 
-t_token lx_tokenize_quote(char *s, char c)
+t_token lx_tokenize_quote_block(char *s, char c)
 {
 	uint32_t i;
 	t_token_kind k;
 
 	i = 1;
-	k = (c == '\'') * TOKEN_QUOTE_SINGLE + (c == '\"') * TOKEN_QUOTE_DOUBLE;
+	k = (c == '\'') * TOKEN_BLOCK_QUOTE_SINGLE + (c == '\"') * TOKEN_BLOCK_QUOTE_DOUBLE;
 	while (s[i])
 	{
 		if (s[i] == c)
@@ -43,7 +43,9 @@ t_token lx_tokenize_quote(char *s, char c)
 	return (lx_token_set(TOKEN_ERROR, s, i));
 }
 
-t_token lx_tokenize_dollar(char *s)
+
+// Tokenizes a "dollar_block"
+t_token	lx_tokenize_dollar_block(char *s)
 {
 	uint32_t		i;
 	t_token_kind	k;
@@ -57,13 +59,8 @@ t_token lx_tokenize_dollar(char *s)
 	while (s[i] && !lx_is_metachar(s[i]))
 	{
 		if (s[i] == '$')
-			break;
-		if (s[i] == '?')
-		{
 			i++;
-			break;
-		}
-		if (!lx_is_varchar(s[i]) && !ft_isdigit(s[i]) && s[i] != ' ')
+		if (!lx_is_varchar(s[i]) && !ft_isdigit(s[i]) && s[i] != ' ' && s[i] != '?')
 			k = TOKEN_ERROR;
 		i++;
 	}

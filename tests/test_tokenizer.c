@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/06 01:45:51 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/06 02:56:58 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 16:14:23 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	test_strncmp(const char *s1, const char *s2, size_t n1, size_t n2)
 	return ((unsigned char) s1[i] - (unsigned char) s2[i]);
 }
 
-Test(tokenizer_dollar, single_dollar)
+Test(tokenizer_dollar_block, single_dollar)
 {
 	t_test_params params = {
 		.input = "$",
@@ -57,26 +57,11 @@ Test(tokenizer_dollar, single_dollar)
 		},
 	};
 
-	params.result = lx_tokenize_dollar(params.input);
+	params.result = lx_tokenize_dollar_block(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
-Test(tokenizer, single_dollar_space)
-{
-	t_test_params params = {
-		.input = "$  ",
-		.expected = {
-			TOKEN_DOLLAR,
-			1,
-			"$",
-		},
-	};
-
-	params.result = lx_tokenize_dollar(params.input);
-	TEST_ASSERT_PARAMS(params);
-}
-
-Test(tokenizer_dollar, var_exit_status)
+Test(tokenizer_dollar_block, var_exit_status)
 {
 	t_test_params params = {
 		.input = "$?",
@@ -87,11 +72,11 @@ Test(tokenizer_dollar, var_exit_status)
 		},
 	};
 
-	params.result = lx_tokenize_dollar(params.input);
+	params.result = lx_tokenize_dollar_block(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
-Test(tokenizer, single_var)
+Test(tokenizer_dollar_block, single_var)
 {
 	t_test_params params = {
 		.input = "$VAR",
@@ -102,26 +87,26 @@ Test(tokenizer, single_var)
 		},
 	};
 
-	params.result = lx_tokenize_dollar(params.input);
+	params.result = lx_tokenize_dollar_block(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
-Test(tokenizer, two_vars)
+Test(tokenizer_dollar_block, two_vars)
 {
 	t_test_params params = {
 		.input = "$VAR1$VAR2",
 		.expected = {
 			TOKEN_DOLLAR,
-			5,
-			"$VAR1",
+			10,
+			"$VAR1$VAR2",
 		},
 	};
 
-	params.result = lx_tokenize_dollar(params.input);
+	params.result = lx_tokenize_dollar_block(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
-Test(tokenizer, variable_underscore_name)
+Test(tokenizer_dollar_block, variable_underscore_name)
 {
 	t_test_params params = {
 		.input = "$_var",
@@ -132,11 +117,11 @@ Test(tokenizer, variable_underscore_name)
 		},
 	};
 
-	params.result = lx_tokenize_dollar(params.input);
+	params.result = lx_tokenize_dollar_block(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
-Test(tokenizer, variable_name_underscore)
+Test(tokenizer_dollar_block, variable_name_underscore)
 {
 	t_test_params params = {
 		.input = "$var_",
@@ -147,11 +132,11 @@ Test(tokenizer, variable_name_underscore)
 		},
 	};
 
-	params.result = lx_tokenize_dollar(params.input);
+	params.result = lx_tokenize_dollar_block(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
-Test(tokenizer, variable_name_digit)
+Test(tokenizer_dollar_block, variable_name_digit)
 {
 	t_test_params params = {
 		.input = "$1",
@@ -162,11 +147,11 @@ Test(tokenizer, variable_name_digit)
 		},
 	};
 
-	params.result = lx_tokenize_dollar(params.input);
+	params.result = lx_tokenize_dollar_block(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
-Test(tokenizer, variable_name_digit_ascii)
+Test(tokenizer_dollar_block, variable_name_digit_ascii)
 {
 	t_test_params params = {
 		.input = "$1VAR",
@@ -177,11 +162,11 @@ Test(tokenizer, variable_name_digit_ascii)
 		},
 	};
 
-	params.result = lx_tokenize_dollar(params.input);
+	params.result = lx_tokenize_dollar_block(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
-Test(tokenizer, variable_name_quote)
+Test(tokenizer_dollar_block, variable_name_quote)
 {
 	t_test_params params = {
 		.input = "$'",
@@ -192,6 +177,6 @@ Test(tokenizer, variable_name_quote)
 		},
 	};
 
-	params.result = lx_tokenize_dollar(params.input);
+	params.result = lx_tokenize_dollar_block(params.input);
 	TEST_ASSERT_PARAMS(params);
 }

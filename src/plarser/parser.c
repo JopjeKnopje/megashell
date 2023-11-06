@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/03 01:56:22 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 15:54:49 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ static bool pr_is_redirect(t_token_kind k)
 {
 	const bool is_redir[TOKEN_COUNT] = {
 		[TOKEN_UNKNOWN] 		=	NULL,
-		[TOKEN_QUOTE_SINGLE]	=	false,
-		[TOKEN_QUOTE_DOUBLE]	=	false,
+		[TOKEN_BLOCK_QUOTE_SINGLE]	=	false,
+		[TOKEN_BLOCK_QUOTE_DOUBLE]	=	false,
 		[TOKEN_TEXT]			=	false,
 		[TOKEN_PIPE] 			=	false,
 		[TOKEN_LESS_THAN] 		=	true,

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/29 23:35:50 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/06 02:38:46 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 15:43:13 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ static void ex_expand_quote(char **envp, t_token *t)
 		{
 			// we totally ignore the fact that the token is an TOKEN_DOLLAR.
 			// we just check if its an TOKEN_ERROR
-			t_token var = lx_tokenize_dollar(s);
+			t_token var = lx_tokenize_dollar_block(s);
 			print_token(var);
 			char *exp = ex_find_var(envp, var.content, var.content_len);
 			if (!exp)
@@ -162,7 +162,7 @@ bool ex_main(char **envp, t_tok_list *tokens)
 	while (tokens)
 	{
 		t = &tokens->token;
-		if (t->kind == TOKEN_QUOTE_DOUBLE)
+		if (t->kind == TOKEN_BLOCK_QUOTE_DOUBLE)
 		{
 			ex_expand_quote(envp, t);
 		}

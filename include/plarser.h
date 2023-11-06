@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/11/06 02:35:05 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 15:43:03 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,19 @@
 
 
 typedef enum e_token_kind {
-	TOKEN_UNKNOWN 		= 0,
-	TOKEN_QUOTE_SINGLE 	= 1, // '[content]'
-	TOKEN_QUOTE_DOUBLE 	= 2, // "[content]"
-	TOKEN_DOLLAR 		= 3, // $
-	TOKEN_PIPE 			= 4, // |
-	TOKEN_LESS_THAN 	= 5, // <
-	TOKEN_GREATER_THAN 	= 6, // >
-	TOKEN_APPEND 		= 7, // >>
-	TOKEN_HEREDOC 		= 8, // <<
-	TOKEN_TEXT 			= 9,
-	TOKEN_ALLOC			= 10,
-	TOKEN_ERROR 		= 11,
-	TOKEN_COUNT 		= 12,
+	TOKEN_UNKNOWN 				= 0,
+	TOKEN_BLOCK_QUOTE_SINGLE 	= 1, // '[content]'
+	TOKEN_BLOCK_QUOTE_DOUBLE 	= 2, // "[content]"
+	TOKEN_DOLLAR 				= 3, // $
+	TOKEN_PIPE 					= 4, // |
+	TOKEN_LESS_THAN 			= 5, // <
+	TOKEN_GREATER_THAN 			= 6, // >
+	TOKEN_APPEND 				= 7, // >>
+	TOKEN_HEREDOC 				= 8, // <<
+	TOKEN_TEXT 					= 9,
+	TOKEN_ALLOC					= 10,
+	TOKEN_ERROR 				= 11,
+	TOKEN_COUNT 				= 12,
 }	t_token_kind;
 
 typedef struct s_token {
@@ -125,8 +125,8 @@ void			lx_lst_free(t_tok_list *lst);
 
 // tokenize.c
 t_token			lx_token_set(t_token_kind k, char *s, uint32_t len);
-t_token			lx_tokenize_quote(char *s, char c);
-t_token lx_tokenize_dollar(char *s);
+t_token			lx_tokenize_quote_block(char *s, char c);
+t_token lx_tokenize_dollar_block(char *s);
 t_token			lx_tokenize_text(char *s);
 
 #endif

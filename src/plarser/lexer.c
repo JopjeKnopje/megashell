@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/06 01:29:06 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 15:42:27 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static t_token lx_next(char *s)
 	t_token	t;
 
 	if (*s == '\'' || *s == '\"')
-		t = lx_tokenize_quote(s, *s);
+		t = lx_tokenize_quote_block(s, *s);
 	else if (*s == '$')
-		t = lx_tokenize_dollar(s);
+		t = lx_tokenize_dollar_block(s);
 	else if (*s == '|')
 		t = lx_token_set(TOKEN_PIPE, s, 1);
 
