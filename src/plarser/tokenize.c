@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/07 17:43:17 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/06 01:07:15 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 02:55:32 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,21 @@ t_token lx_tokenize_dollar(char *s)
 	t_token_kind	k;
 
 	i = 1;
-	// Nasty hack
-	while (s[1] == '?' && s[i] && !lx_is_metachar(s[i]))
-	{
-		i++;
-	}
-	if (i == 2)
-		return (lx_token_set(TOKEN_DOLLAR, s, i));
-	i = 1;
 	k = TOKEN_DOLLAR;
-	if ((!lx_is_varchar(s[i]) || ft_isdigit(s[i])))
+	if (s[i] && !lx_is_valid_var_char(s[i], true))
+	{
 		k = TOKEN_ERROR;
+	}
 	while (s[i] && !lx_is_metachar(s[i]))
 	{
 		if (s[i] == '$')
 			break;
-		if (!lx_is_varchar(s[i]) && !ft_isdigit(s[i]))
+		if (s[i] == '?')
+		{
+			i++;
+			break;
+		}
+		if (!lx_is_varchar(s[i]) && !ft_isdigit(s[i]) && s[i] != ' ')
 			k = TOKEN_ERROR;
 		i++;
 	}

@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/06 01:04:57 by joppe         ########   odam.nl          #
+#    Updated: 2023/11/06 01:23:48 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,7 +89,7 @@ HEADERS 	:=	input.h \
 OBJ_DIR		:=	obj
 
 
-TEST_SRCS	:= 	test_tokenizer_dollar.c
+TEST_SRCS	:= 	test_tokenizer.c
 TEST		:=	tests
 TEST_SRCS	:=	$(addprefix $(TEST)/, $(TEST_SRCS))
 TEST_BINS	:=	$(patsubst $(TEST)/%.c, $(TEST)/bin/%, $(TEST_SRCS))
@@ -143,5 +143,5 @@ $(TEST)/bin/%: $(TEST)/%.c $(OBJS)
 	$(CC) $(CFLAGS) $(IFLAGS) $< $(OBJS) $(LIBFT) -o $@ -lcriterion $(LFLAGS) 
 
 test: make_libs $(OBJS) $(TEST)/bin $(TEST_BINS)
-	for test in $(TEST_BINS) ; do ./$$test ; done
+	for test in $(TEST_BINS) ; do ./$$test -j1 ; done
 

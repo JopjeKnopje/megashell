@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/11/03 19:36:30 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 02:35:05 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ t_tok_list *lx_main(char *s);
 // lexer_utils.c
 bool			lx_is_metachar(char c);
 bool			lx_is_varchar(char c);
+bool lx_is_valid_var_char(char c, bool first_letter);
 bool			lx_is_valid_var_name(char *s);
 bool			lx_is_redir_heredoc(char *s, t_token_kind k);
 

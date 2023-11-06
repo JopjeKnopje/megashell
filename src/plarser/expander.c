@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/29 23:35:50 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/03 01:45:58 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 02:38:46 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ static void ex_expand_quote(char **envp, t_token *t)
 	{
 		if (*s == '$')
 		{
+			// we totally ignore the fact that the token is an TOKEN_DOLLAR.
+			// we just check if its an TOKEN_ERROR
 			t_token var = lx_tokenize_dollar(s);
 			print_token(var);
 			char *exp = ex_find_var(envp, var.content, var.content_len);

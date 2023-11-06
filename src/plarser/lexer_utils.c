@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/04 15:11:36 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/10/31 00:01:24 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 02:58:42 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,15 @@ bool lx_is_varchar(char c)
 {
 	return ((ft_isalpha(c) || c == '_') && !lx_is_metachar(c));
 }
+
+bool lx_is_valid_var_char(char c, bool first_letter)
+{
+	if (first_letter)
+		return (ft_isalpha(c) || c == '_' || c == '?' || c == '$') && !ft_isdigit(c) && !lx_is_metachar(c);
+	else
+		return (ft_isalpha(c) || ft_isdigit(c) || c == '_') && !lx_is_metachar(c);
+}
+
 
 bool lx_is_valid_var_name(char *s)
 {
