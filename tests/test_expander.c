@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/06 19:51:49 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/06 23:35:37 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 23:38:03 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ Test(expander, basic_variable_unfinished)
 	t_test_params params = {
 		.input = {
 			TOKEN_BLOCK_DOLLAR,
-			.content_len = 2,
+			.content_len = 3,
 			.content = "$?$",
 		},
 		.expected = "123$",

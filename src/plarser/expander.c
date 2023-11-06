@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/29 23:35:50 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/06 23:33:08 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 23:42:23 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,16 +146,14 @@ char *ex_expand_var_block(char **envp, t_token *t)
 	{
 		if (t->content[i] == '$')
 		{
-			i++;
-			len = ex_var_len(t->content + i);
-			var = ex_find_var(envp, t->content + i, len);
+			len = ex_var_len(t->content + i + 1);
+			var = ex_find_var(envp, t->content + i + 1, len);
 			if (!var)
 				var = "";
 			s_exp = ex_str_append(s_exp, var, ft_strlen(var));
 			if (!s_exp)
 				UNIMPLEMENTED("Handle malloc failure");
 			i += len;
-			continue;
 		}
 		i++;
 	}
@@ -164,7 +162,6 @@ char *ex_expand_var_block(char **envp, t_token *t)
 	t->kind = TOKEN_ALLOC;
 	return s_exp;
 }
-
 
 bool ex_main(char **envp, t_tok_list *tokens)
 {
