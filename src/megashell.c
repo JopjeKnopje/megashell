@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/03 15:06:52 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/06 00:54:13 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ int	megashell(int argc, char *argv[], char *envp[])
 			return (0);
 		}
 		cmds = plarser_main(meta.envp, line);
-		// if (cmds)
-		// {
-		// 	print_cmds(cmds);
-		// 	execute(&meta, cmds);
-		// }
-		// pr_lst_free(cmds);
+		if (cmds)
+		{
+			print_cmds(cmds);
+			execute(&meta, cmds);
+		}
+		pr_lst_free(cmds);
 		free(line);
 	}
 	return (0);

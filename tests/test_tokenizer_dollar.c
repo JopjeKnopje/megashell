@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/05 22:56:47 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/06 00:49:35 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 01:07:08 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ Test(tokenizer_dollar, single_dollar)
 			0,
 		},
 		.expected = {
-			TOKEN_DOLLAR,
+			TOKEN_TEXT,
 			1,
 			"$",
 		},

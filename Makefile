@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/05 23:22:40 by joppe         ########   odam.nl          #
+#    Updated: 2023/11/06 01:04:57 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ RUN_CMD		:= ./$(NAME)
 
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra
-CFLAGS		+= -g -fsanitize=address
+# CFLAGS		+= -g -fsanitize=address
 
 LIBFT		:=	libft/build/libft.a
 
@@ -93,7 +93,6 @@ TEST_SRCS	:= 	test_tokenizer_dollar.c
 TEST		:=	tests
 TEST_SRCS	:=	$(addprefix $(TEST)/, $(TEST_SRCS))
 TEST_BINS	:=	$(patsubst $(TEST)/%.c, $(TEST)/bin/%, $(TEST_SRCS))
-TFLAGS 		:=	-lm
 
 SRCS 		:=	$(addprefix $(SRC_DIR)/, $(SRCS))
 HEADERS 	:=	$(addprefix $(HEADER_DIR)/, $(HEADERS))
@@ -106,7 +105,7 @@ OBJ_DIRS 	:=	$(dir $(OBJS))
 
 all: make_libs $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) 
+$(NAME): $(OBJS) $(LIBFT) $(SRC_DIR)/main.c
 	$(CC) $(SRC_DIR)/main.c $(OBJS) $(LIBFT) $(CFLAGS) $(IFLAGS) $(LFLAGS) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
@@ -137,16 +136,11 @@ compile_commands: fclean
 norm:
 	norminette libft include src
 
-dre: re
-	$(MAKE) -C libft re
-
-
-
 $(TEST)/bin:
 	mkdir $@
 
 $(TEST)/bin/%: $(TEST)/%.c $(OBJS)
-	$(CC) $(CFLAGS) $(LFLAGS) $(IFLAGS) $(TFLAGS) $< $(OBJS) $(LIBFT) -o $@ -lcriterion
+	$(CC) $(CFLAGS) $(IFLAGS) $< $(OBJS) $(LIBFT) -o $@ -lcriterion $(LFLAGS) 
 
 test: make_libs $(OBJS) $(TEST)/bin $(TEST_BINS)
 	for test in $(TEST_BINS) ; do ./$$test ; done
