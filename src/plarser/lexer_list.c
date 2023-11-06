@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/13 18:59:15 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/02 18:47:46 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/06 23:29:10 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,6 @@ t_tok_list	*lx_lstnew(t_token content)
 	node->next = NULL;
 	node->prev = NULL;
 	return (node);
-}
-
-t_tok_list *lx_insert_after(t_tok_list *lst)
-{
-
-	
-	return (NULL);
 }
 
 void lx_lst_free(t_tok_list *lst)

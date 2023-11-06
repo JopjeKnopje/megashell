@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/06 20:45:09 by joppe         ########   odam.nl          #
+#    Updated: 2023/11/06 23:28:57 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ RUN_CMD		:= ./$(NAME)
 
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra
-# CFLAGS		+= -g -fsanitize=address
+CFLAGS		+= -g -fsanitize=address
 
 LIBFT		:=	libft/build/libft.a
 
@@ -59,7 +59,6 @@ SRCS		:= 	execute/error.c \
 				input/prompt.c \
 			  	input/signals.c \
 			  	input/history_file.c \
-			  	input/aliases.c \
 			  	plarser/lexer.c \
 			  	plarser/lexer_list.c \
 			  	plarser/lexer_utils.c \

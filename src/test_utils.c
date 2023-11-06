@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:05:42 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/05 23:58:30 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 21:19:51 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 
 static const char *TOKEN_NAMES[] = {
 	"TOKEN_UNKNOWN",
-	"TOKEN_QUOTE_SINGLE",
-	"TOKEN_QUOTE_DOUBLE",
-	"TOKEN_DOLLAR",
+	"TOKEN_BLOCK_QUOTE_SINGLE",
+	"TOKEN_BLOCK_QUOTE_DOUBLE",
+	"TOKEN_BLOCK_DOLLAR",
 	"TOKEN_PIPE",
 	"TOKEN_LESS_THAN",
 	"TOKEN_GREATER_THAN",

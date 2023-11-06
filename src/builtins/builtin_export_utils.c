@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export_utils.c                             :+:      :+:    :+:   */
+/*   builtin_export_utils.c                            :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 13:58:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/06 19:44:21 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/11/06 23:28:04 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,9 @@ char	**fill_environment(char **envp, char **new_envp, \
 char	**add_to_env(char **envp, char *arg, char *cmd_start)
 {
 	int		i;
-	int		j;
 	char	**new_envp;
 
 	i = 0;
-	j = 0;
 	while (envp[i])
 		i++;
 	new_envp = ft_calloc(sizeof(char *), i + 2);
@@ -90,9 +88,6 @@ bool	handle_export_existing_variable(char **envp, char *cmd_start)
 
 bool	handle_export_new_variable(t_meta *meta, char *arg, char *cmd_start)
 {
-	int	i;
-
-	i = 0;
 	if (!correct_input(cmd_start))
 	{
 		handle_export_input_errors(cmd_start);

@@ -6,20 +6,21 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/06 19:51:49 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/06 20:38:42 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 23:35:37 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <criterion/criterion.h>
 #include <criterion/logging.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "plarser.h"
 
-#define TEST_ASSERT_PARAMS(param) \
+#define TEST_ASSERT_PARAMS(params) \
 	do { \
 	size_t size_res = ft_strlen(params.result); \
 	size_t size_exp = ft_strlen(params.expected); \
-	cr_expect(size_res == size_exp && !test_strncmp(params.result, params.expected, size_res, size_exp), "result [%ld]\t\texpected [%ld]\nresult [%s]\t\texpected [%s]\n" , size_res, size_exp, params.result, params.expected); \
+	cr_expect(size_res == size_exp && !test_strncmp(params.result, params.expected, size_res, size_exp), "input [%.*s]\nresult [%ld]\t\texpected [%ld]\nresult [%s]\t\texpected [%s]\n", (int) params.input.content_len, params.input.content, size_res, size_exp, params.result, params.expected); \
 	} while (0)
 
 typedef struct s_test_params {
@@ -43,7 +44,7 @@ int	test_strncmp(const char *s1, const char *s2, size_t n1, size_t n2)
 	return ((unsigned char) s1[i] - (unsigned char) s2[i]);
 }
 
-char *ex_expand_var(char **envp, t_token *t);
+char *ex_expand_var_block(char **envp, t_token *t);
 
 Test(expander, basic_variable)
 {
@@ -57,8 +58,9 @@ Test(expander, basic_variable)
 	};
 
 	char *envp[] = {"VAR=value", NULL};
-	params.result = ex_expand_var(envp, &params.input);
+	params.result = ex_expand_var_block(envp, &params.input);
 	TEST_ASSERT_PARAMS(params);
+	free(params.result);
 }
 
 Test(expander, basic_variable_underscore)
@@ -73,8 +75,9 @@ Test(expander, basic_variable_underscore)
 	};
 	char *envp[] = {"_VAR=_value", NULL};
 
-	params.result = ex_expand_var(envp, &params.input);
+	params.result = ex_expand_var_block(envp, &params.input);
 	TEST_ASSERT_PARAMS(params);
+	free(params.result);
 }
 
 Test(expander, basic_variable_multiple)
@@ -89,8 +92,9 @@ Test(expander, basic_variable_multiple)
 	};
 	char *envp[] = {"VAR1=value1", "VAR2=value2", NULL};
 
-	params.result = ex_expand_var(envp, &params.input);
+	params.result = ex_expand_var_block(envp, &params.input);
 	TEST_ASSERT_PARAMS(params);
+	free(params.result);
 }
 
 Test(expander, basic_variable_question_mark)
@@ -105,6 +109,25 @@ Test(expander, basic_variable_question_mark)
 	};
 	char *envp[] = {"?=123", NULL};
 
-	params.result = ex_expand_var(envp, &params.input);
+	params.result = ex_expand_var_block(envp, &params.input);
 	TEST_ASSERT_PARAMS(params);
+	free(params.result);
 }
+
+Test(expander, basic_variable_unfinished)
+{
+	t_test_params params = {
+		.input = {
+			TOKEN_BLOCK_DOLLAR,
+			.content_len = 2,
+			.content = "$?$",
+		},
+		.expected = "123$",
+	};
+	char *envp[] = {"?=123", NULL};
+
+	params.result = ex_expand_var_block(envp, &params.input);
+	TEST_ASSERT_PARAMS(params);
+	free(params.result);
+}
+

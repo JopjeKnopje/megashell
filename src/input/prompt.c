@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:01 by joppe             #+#    #+#             */
-/*   Updated: 2023/10/10 00:21:39 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 23:28:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	disable_echoctl(void)
 void prompt_env_setup()
 {
 	sigals_setup();
-	// disable_echoctl();
+	UNUSED(disable_echoctl);
 }
 
 char *prompt_get_line()

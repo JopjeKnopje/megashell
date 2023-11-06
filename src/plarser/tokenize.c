@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/07 17:43:17 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/06 21:03:15 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 23:26:59 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_token	lx_tokenize_dollar_block(char *s)
 
 t_token lx_tokenize_text(char *s)
 {
-	int32_t i;
+	size_t i;
 
 	i = 0;
 	while (s[i] && s[i] != ' ' && !lx_is_metachar(s[i]) && s[i] != '$')
