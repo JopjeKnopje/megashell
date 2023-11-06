@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/06 01:23:48 by joppe         ########   odam.nl          #
+#    Updated: 2023/11/06 20:10:31 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,7 +89,8 @@ HEADERS 	:=	input.h \
 OBJ_DIR		:=	obj
 
 
-TEST_SRCS	:= 	test_tokenizer.c
+TEST_SRCS	:= 	test_tokenizer.c \
+				test_expander.c
 TEST		:=	tests
 TEST_SRCS	:=	$(addprefix $(TEST)/, $(TEST_SRCS))
 TEST_BINS	:=	$(patsubst $(TEST)/%.c, $(TEST)/bin/%, $(TEST_SRCS))

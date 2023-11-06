@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/29 23:35:50 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/06 15:43:13 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 20:31:01 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,22 @@ static char *ex_skip_var(char *s)
 }
 
 // TODO Not use this func cuz its kinda shit.
-static void ex_expand_var(char **envp, t_token *t)
-{
-	char	*exp;
-
-	exp = ex_find_var(envp, t->content, t->content_len);
-	if (!exp)
-	{
-		printf("[%s] not found, skipping..\n", exp);
-		t->content = ex_skip_var(t->content);
-		return;
-	}
-
-	t->content = exp;
-	t->content_len = ft_strlen(exp);
-	t->kind = TOKEN_TEXT;
-}
+// static void ex_expand_var(char **envp, t_token *t)
+// {
+// 	char	*exp;
+//
+// 	exp = ex_find_var(envp, t->content, t->content_len);
+// 	if (!exp)
+// 	{
+// 		printf("[%s] not found, skipping..\n", exp);
+// 		t->content = ex_skip_var(t->content);
+// 		return;
+// 	}
+//
+// 	t->content = exp;
+// 	t->content_len = ft_strlen(exp);
+// 	t->kind = TOKEN_TEXT;
+// }
 
 static void ex_step_into_quote(t_token *t)
 {
@@ -106,7 +106,7 @@ static char *ex_str_append(char *s_base, char *s_append, size_t append_size)
 	return (s_new);
 }
 
-static void ex_expand_quote(char **envp, t_token *t)
+void ex_expand_quote(char **envp, t_token *t)
 {
 	char *s_exp = NULL;
 	char *s;
@@ -155,6 +155,55 @@ static void ex_expand_quote(char **envp, t_token *t)
 	printf("expanded string [%s]\n", s_exp);
 }
 
+
+char *ex_expand_var(char **envp, t_token *t)
+{
+	char *s_exp = NULL;
+	char *s;
+
+	s = sized_strdup(t->content, t->content_len);
+	if (!s)
+		UNIMPLEMENTED("malloc failure check");
+
+	while (*s)
+	{
+		if (*s == '$')
+		{
+			// we totally ignore the fact that the token is an TOKEN_DOLLAR.
+			// we just check if its an TOKEN_ERROR
+			t_token var = lx_tokenize_dollar_block(s);
+			char *exp = ex_find_var(envp, var.content, var.content_len);
+			if (!exp)
+			{
+				exp = ft_strdup("");
+				if (!exp)
+					UNIMPLEMENTED("Handle malloc failure");
+			}
+			s_exp = ex_str_append(s_exp, exp, ft_strlen(exp));
+			if (!s_exp)
+				UNIMPLEMENTED("Handle malloc failure");
+			s += var.content_len;
+		}
+		else
+		{
+			char *var_next = ft_strchr(s, '$');
+			size_t len = var_next - s;
+			if (!var_next)
+				len = ft_strlen(s);
+			s_exp = ex_str_append(s_exp, s, len);
+			if (!s_exp)
+				UNIMPLEMENTED("Handle malloc failure");
+			s += len;
+	 	}
+	}
+
+	t->content = s_exp;
+	t->content_len = ft_strlen(s_exp);
+	t->kind = TOKEN_ALLOC;
+	return s_exp;
+}
+
+
 bool ex_main(char **envp, t_tok_list *tokens)
 {
 	t_token	*t;
@@ -166,7 +215,7 @@ bool ex_main(char **envp, t_tok_list *tokens)
 		{
 			ex_expand_quote(envp, t);
 		}
-		if (t->kind == TOKEN_DOLLAR)
+		if (t->kind == TOKEN_BLOCK_DOLLAR)
 		{
 			ex_expand_var(envp, t);
 		}

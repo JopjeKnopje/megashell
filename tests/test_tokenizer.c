@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/06 01:45:51 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/06 16:14:23 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 20:04:59 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_test_params {
 } t_test_params;
 
 
+
 int	test_strncmp(const char *s1, const char *s2, size_t n1, size_t n2)
 {
 	size_t	i;
@@ -46,12 +47,16 @@ int	test_strncmp(const char *s1, const char *s2, size_t n1, size_t n2)
 	return ((unsigned char) s1[i] - (unsigned char) s2[i]);
 }
 
-Test(tokenizer_dollar_block, single_dollar)
+
+
+
+
+Test(tokenizer, single_dollar)
 {
 	t_test_params params = {
 		.input = "$",
 		.expected = {
-			TOKEN_DOLLAR,
+			TOKEN_BLOCK_DOLLAR,
 			1,
 			"$",
 		},
@@ -61,12 +66,12 @@ Test(tokenizer_dollar_block, single_dollar)
 	TEST_ASSERT_PARAMS(params);
 }
 
-Test(tokenizer_dollar_block, var_exit_status)
+Test(tokenizer, var_exit_status)
 {
 	t_test_params params = {
 		.input = "$?",
 		.expected = {
-			TOKEN_DOLLAR,
+			TOKEN_BLOCK_DOLLAR,
 			2,
 			"$?",
 		},
@@ -76,12 +81,12 @@ Test(tokenizer_dollar_block, var_exit_status)
 	TEST_ASSERT_PARAMS(params);
 }
 
-Test(tokenizer_dollar_block, single_var)
+Test(tokenizer, single_var)
 {
 	t_test_params params = {
 		.input = "$VAR",
 		.expected = {
-			TOKEN_DOLLAR,
+			TOKEN_BLOCK_DOLLAR,
 			4,
 			"$VAR",
 		},
@@ -91,12 +96,12 @@ Test(tokenizer_dollar_block, single_var)
 	TEST_ASSERT_PARAMS(params);
 }
 
-Test(tokenizer_dollar_block, two_vars)
+Test(tokenizer, two_vars)
 {
 	t_test_params params = {
 		.input = "$VAR1$VAR2",
 		.expected = {
-			TOKEN_DOLLAR,
+			TOKEN_BLOCK_DOLLAR,
 			10,
 			"$VAR1$VAR2",
 		},
@@ -106,12 +111,12 @@ Test(tokenizer_dollar_block, two_vars)
 	TEST_ASSERT_PARAMS(params);
 }
 
-Test(tokenizer_dollar_block, variable_underscore_name)
+Test(tokenizer, variable_underscore_name)
 {
 	t_test_params params = {
 		.input = "$_var",
 		.expected = {
-			TOKEN_DOLLAR,
+			TOKEN_BLOCK_DOLLAR,
 			5,
 			"$_var",
 		},
@@ -121,12 +126,12 @@ Test(tokenizer_dollar_block, variable_underscore_name)
 	TEST_ASSERT_PARAMS(params);
 }
 
-Test(tokenizer_dollar_block, variable_name_underscore)
+Test(tokenizer, variable_name_underscore)
 {
 	t_test_params params = {
 		.input = "$var_",
 		.expected = {
-			TOKEN_DOLLAR,
+			TOKEN_BLOCK_DOLLAR,
 			5,
 			"$var_",
 		},
@@ -136,7 +141,7 @@ Test(tokenizer_dollar_block, variable_name_underscore)
 	TEST_ASSERT_PARAMS(params);
 }
 
-Test(tokenizer_dollar_block, variable_name_digit)
+Test(tokenizer, variable_name_digit)
 {
 	t_test_params params = {
 		.input = "$1",
@@ -151,7 +156,7 @@ Test(tokenizer_dollar_block, variable_name_digit)
 	TEST_ASSERT_PARAMS(params);
 }
 
-Test(tokenizer_dollar_block, variable_name_digit_ascii)
+Test(tokenizer, variable_name_digit_ascii)
 {
 	t_test_params params = {
 		.input = "$1VAR",
@@ -166,7 +171,7 @@ Test(tokenizer_dollar_block, variable_name_digit_ascii)
 	TEST_ASSERT_PARAMS(params);
 }
 
-Test(tokenizer_dollar_block, variable_name_quote)
+Test(tokenizer, variable_name_quote)
 {
 	t_test_params params = {
 		.input = "$'",

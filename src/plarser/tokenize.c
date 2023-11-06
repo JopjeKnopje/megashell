@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/07 17:43:17 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/06 16:26:40 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 20:04:59 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_token	lx_tokenize_dollar_block(char *s)
 	t_token_kind	k;
 
 	i = 1;
-	k = TOKEN_DOLLAR;
+	k = TOKEN_BLOCK_DOLLAR;
 	if (s[i] && !lx_is_valid_var_char(s[i], true))
 	{
 		k = TOKEN_ERROR;
