@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/10/18 00:33:42 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 20:08:37 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,25 @@
 t_cmd_frame pr_parse_text(t_cmd_frame frame, t_tok_list *tokens)
 {
 	size_t i = 0;
+	char *s_alloc;
 
 	if (!frame.argv)
 		frame.argv = ft_calloc(1, sizeof(char *));
+	if (!frame.argv)
+		UNIMPLEMENTED("Handle malloc failure");
 
 	while (frame.argv[i])
 		i++;
 
-
-	char *s = sized_strdup(tokens->token.content, tokens->token.content_len);
-	if (!s)
-	{
-		printf("strdup_sized failed\n");
-	}
-
-	frame.argv = str_arr_append(frame.argv, s);
+	if (tokens->token.kind == TOKEN_ALLOC)
+		s_alloc = tokens->token.content;
+	else
+		s_alloc = sized_strdup(tokens->token.content, tokens->token.content_len);
+	if (!s_alloc)
+		UNIMPLEMENTED("Handle malloc failure");
+	frame.argv = str_arr_append(frame.argv, s_alloc);
 	if (!frame.argv)
-	{
-		printf("str_arr_append failed\n");
-	}
+		UNIMPLEMENTED("Handle malloc failure");
 	return (frame);
 }
 
@@ -76,15 +76,15 @@ static bool pr_is_redirect(t_token_kind k)
 {
 	const bool is_redir[TOKEN_COUNT] = {
 		[TOKEN_UNKNOWN] 		=	NULL,
-		[TOKEN_QUOTE_SINGLE]	=	false,
-		[TOKEN_QUOTE_DOUBLE]	=	false,
+		[TOKEN_BLOCK_QUOTE_SINGLE]	=	false,
+		[TOKEN_BLOCK_QUOTE_DOUBLE]	=	false,
 		[TOKEN_TEXT]			=	false,
 		[TOKEN_PIPE] 			=	false,
 		[TOKEN_LESS_THAN] 		=	true,
 		[TOKEN_GREATER_THAN]	=	true,
 		[TOKEN_APPEND] 			=	true,
 		[TOKEN_HEREDOC]			=	true,
-		[TOKEN_DOLLAR] 			=	false,
+		[TOKEN_BLOCK_DOLLAR] 	=	false,
 		[TOKEN_ERROR]			=	NULL,
 	};
 
@@ -127,7 +127,7 @@ t_cmd_list *pr_main(t_tok_list *tokens)
 				pr_list_add_cmd(&cmds, frame);
 			ft_bzero(&frame, sizeof(t_cmd_frame));
 		}
-		if (tokens->token.kind == TOKEN_TEXT)
+		if (tokens->token.kind == TOKEN_TEXT || tokens->token.kind == TOKEN_ALLOC)
 		{
 			frame = pr_parse_text(frame, tokens);
 		}

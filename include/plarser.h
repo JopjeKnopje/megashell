@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/10/30 23:22:45 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 21:07:32 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,22 @@
 
 
 typedef enum e_token_kind {
-	TOKEN_UNKNOWN 		= 0,
-	TOKEN_QUOTE_SINGLE 	= 1, // '[content]'
-	TOKEN_QUOTE_DOUBLE 	= 2, // "[content]"
-	TOKEN_DOLLAR 		= 3, // $
-	TOKEN_PIPE 			= 4, // |
-	TOKEN_LESS_THAN 	= 5, // <
-	TOKEN_GREATER_THAN 	= 6, // >
-	TOKEN_APPEND 		= 7, // >>
-	TOKEN_HEREDOC 		= 8, // <<
-	TOKEN_TEXT 			= 9,
-	TOKEN_ERROR 		= 10,
-	TOKEN_COUNT 		= 11,
+	TOKEN_UNKNOWN 				= 0,
+	TOKEN_BLOCK_QUOTE_SINGLE 	= 1,	// '[content]'
+	TOKEN_BLOCK_QUOTE_DOUBLE 	= 2,	// "[content]"
+	TOKEN_BLOCK_DOLLAR 			= 3,	// $
+	TOKEN_PIPE 					= 4,	// |
+	TOKEN_LESS_THAN 			= 5,	// <
+	TOKEN_GREATER_THAN 			= 6,	// >
+	TOKEN_APPEND 				= 7,	// >>
+	TOKEN_HEREDOC 				= 8,	// <<
+	TOKEN_TEXT 					= 9,
+	TOKEN_ALLOC					= 10, 	// We know its allocated memory
+	TOKEN_ERROR 				= 11, 	// Error which the syntax checker will handle
+	TOKEN_COUNT 				= 12,
 }	t_token_kind;
 
-typedef struct e_token {
+typedef struct s_token {
 	t_token_kind	kind;
 	size_t			content_len;
 	char			*content;
@@ -103,13 +104,16 @@ bool			sy_token_variable(t_tok_list *token);
 bool			sy_token_pipe(t_tok_list *token);
 bool			sy_token_pass(t_tok_list *node);
 bool			sy_token_err(t_tok_list *node);
+bool sy_token_unknown(t_tok_list *node);
 
 // lexer.c
-t_tok_list		*lx_main(char *s);
+t_tok_list *lx_list_add_token(t_tok_list **token_lst, t_token t);
+t_tok_list *lx_main(char *s);
 
 // lexer_utils.c
 bool			lx_is_metachar(char c);
 bool			lx_is_varchar(char c);
+bool lx_is_valid_var_char(char c, bool first_letter);
 bool			lx_is_valid_var_name(char *s);
 bool			lx_is_redir_heredoc(char *s, t_token_kind k);
 
@@ -121,8 +125,8 @@ void			lx_lst_free(t_tok_list *lst);
 
 // tokenize.c
 t_token			lx_token_set(t_token_kind k, char *s, uint32_t len);
-t_token			lx_tokenize_quote(char *s, char c);
-t_token			lx_tokenize_dollar(char *s);
+t_token			lx_tokenize_quote_block(char *s, char c);
+t_token lx_tokenize_dollar_block(char *s);
 t_token			lx_tokenize_text(char *s);
 
 #endif

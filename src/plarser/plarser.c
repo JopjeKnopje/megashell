@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 12:26:52 by jboeve            #+#    #+#             */
-/*   Updated: 2023/10/30 23:16:41 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 00:54:55 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_cmd_list *plarser_main(char **envp, char *line)
 	if (contains_error(tokens))
 		goto syntax_check;
 
+	printf("\n\n\n\n\n\n\n\n\n\n\n\n");
 
 	if (!ex_main(envp, tokens))
 	{
@@ -51,12 +52,12 @@ t_cmd_list *plarser_main(char **envp, char *line)
 
 
 syntax_check:
-	printf("\n\n\n");
+	printf("\n\n\n\n\n\n\n\n\n\n\n\n");
 	print_tokens(tokens);
 	t_tok_list *err = sy_main(tokens);
 	if (err)
 	{
-		printf("syntax error at token '%.*s'\n", err->token.content_len, err->token.content);
+		printf("syntax error at token '%.*s'\n", (int) err->token.content_len, err->token.content);
 		lx_lst_free(tokens);
 		return (NULL);
 	}

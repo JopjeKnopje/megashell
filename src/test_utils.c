@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:05:42 by joppe         #+#    #+#                 */
-/*   Updated: 2023/10/30 23:23:57 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/06 21:19:51 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,25 @@
 
 static const char *TOKEN_NAMES[] = {
 	"TOKEN_UNKNOWN",
-	"TOKEN_QUOTE_SINGLE",
-	"TOKEN_QUOTE_DOUBLE",
-	"TOKEN_DOLLAR",
+	"TOKEN_BLOCK_QUOTE_SINGLE",
+	"TOKEN_BLOCK_QUOTE_DOUBLE",
+	"TOKEN_BLOCK_DOLLAR",
 	"TOKEN_PIPE",
 	"TOKEN_LESS_THAN",
 	"TOKEN_GREATER_THAN",
 	"TOKEN_APPEND",
 	"TOKEN_HEREDOC",
 	"TOKEN_TEXT",
+	"TOKEN_ALLOC",
 	"TOKEN_ERROR",
 	"TOKEN_COUNT",
 };
 
+
+const char *get_token_name(t_token_kind k)
+{
+	return TOKEN_NAMES[k];
+}
 
 void print_bits(size_t const size, void const * const ptr)
 {
@@ -70,7 +76,8 @@ void print_2d_arr(char **s, char *name)
 	size_t i = 0;
 	while (s[i])
 	{
-		printf("%s[%ld] -> [%s]\n", name, i, s[i]);
+		if (s[i])
+			printf("%s[%ld] -> [%s]\n", name, i, s[i]);
 		i++;
 	}
 }

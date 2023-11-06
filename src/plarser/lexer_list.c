@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/13 18:59:15 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/16 12:35:03 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/06 23:29:10 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void lx_lst_free(t_tok_list *lst)
 	{
 		tmp = lst;
 		lst = lst->next;
+		// if (tmp->token.kind == TOKEN_ALLOC)
+		// 	free(tmp->token.content);
 		free(tmp);
 	}
 

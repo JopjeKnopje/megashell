@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd_utils.c                                 :+:      :+:    :+:   */
+/*   builtin_cd_utils.c                                :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 13:09:14 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/18 16:25:57 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/11/06 23:27:39 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ char	*change_oldpwd(char *dir, char *cur_pwd)
 	char	*old_pwd;
 	char	*path;
 	char	*new_pwd;
-	int		i;
 
-	i = 0;
 	new_pwd = NULL;
 	if (!dir)
 		return (NULL);
@@ -39,9 +37,7 @@ char	*change_pwd(char *dir, char *cur_pwd)
 	char	*old_pwd;
 	char	*path;
 	char	*new_pwd;
-	int		i;
 
-	i = 0;
 	new_pwd = NULL;
 	if (!dir)
 		return (NULL);
@@ -73,14 +69,12 @@ bool	set_pwd(t_meta *meta, char *pwd_now)
 	char	*pwd;
 	char	*arg;
 	char	*cur_pwd;
-	char	*new_pwd;
 
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		return (false);
 	cur_pwd = ft_strdup(cwd);
 	if (!cur_pwd)
 		return (false);
-	new_pwd = cur_pwd;
 	pwd_now = getcwd(cwd, sizeof(cwd));
 	pwd = change_pwd(pwd_now, cur_pwd);
 	arg = ft_strdup(pwd);
