@@ -245,3 +245,18 @@ Test(tokenizer, variable_dollar_multiple_5)
 	params.result = lx_tokenize_dollar_block(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
+
+Test(tokenizer, single_var_unfinished)
+{
+	t_test_params params = {
+		.input = "$VAR$",
+		.expected = {
+			TOKEN_BLOCK_DOLLAR,
+			5,
+			"$VAR$",
+		},
+	};
+
+	params.result = lx_tokenize_dollar_block(params.input);
+	TEST_ASSERT_PARAMS(params);
+}

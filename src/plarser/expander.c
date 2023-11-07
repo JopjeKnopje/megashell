@@ -24,6 +24,11 @@ static char *ex_find_var(char **envp, char *name, size_t len)
 	size_t	i = 0;
 	char	*var;
 
+	if (!len)
+		return (NULL);
+	// TODO Make proper function for this line.
+	if (!ft_strncmp("?", name, len))
+		return "69";
 	while (envp[i])
 	{
 		if (!ft_strncmp(envp[i], name, len))

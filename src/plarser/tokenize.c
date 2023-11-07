@@ -49,8 +49,9 @@ t_token lx_tokenize_quote_block(char *s, char c)
 // Tokenizes a "dollar_block"
 t_token	lx_tokenize_dollar_block(char *s)
 {
-	size_t		i;
+	size_t			i;
 	t_token_kind	k;
+
 
 	i = 0;
 	while (s[i] == '$')
@@ -59,13 +60,14 @@ t_token	lx_tokenize_dollar_block(char *s)
 		return (lx_token_set(((i != 1) * TOKEN_ERROR) + ((i == 1) * TOKEN_TEXT), s, i));
 	k = TOKEN_BLOCK_DOLLAR;
 	if (s[i] && !lx_is_valid_var_char(s[i], true))
-	{
 		k = TOKEN_ERROR;
-	}
 	while (s[i] && !lx_is_metachar(s[i]))
 	{
 		if (s[i] == '$')
+		{
 			i++;
+			continue;
+		}
 		if (!lx_is_varchar(s[i]) && !ft_isdigit(s[i]) && s[i] != ' ' && s[i] != '?')
 			k = TOKEN_ERROR;
 		i++;
