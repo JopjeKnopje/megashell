@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/29 23:35:50 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/07 00:14:02 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/13 00:43:28 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char *ex_find_var(char **envp, char *name, size_t len)
 
 	if (!len)
 		return (NULL);
-	// TODO Make proper function for this line.
+	// TODO Get the actual exit code instead of this place holder.
 	if (!ft_strncmp("?", name, len))
 		return "69";
 	while (envp[i])
@@ -45,13 +45,12 @@ static char *ex_find_var(char **envp, char *name, size_t len)
 
 static size_t ex_var_len(char *s)
 {
-	size_t i = 0;
+	size_t	i;
 
+	i = 0;
 	while (s[i] && lx_is_valid_var_char(s[i], i == 0))
-	{
 		i++;
-	}
-	return i;
+	return (i);
 }
 
 static void ex_step_into_quote(t_token *t)
@@ -83,21 +82,30 @@ static char *ex_str_append(char *s_base, char *s_append, size_t append_size)
 	return (s_new);
 }
 
-void ex_expand_quote_block(char **envp, t_token *t)
+static size_t ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
 {
+	char	*var;
+	size_t	len;
+
+	len = 0;
+	if (i + 1 >= t->content_len)
+		var = "$";	
+	else
+	{
+		len = ex_var_len(t->content + i + 1);
+		var = ex_find_var(envp, t->content + i + 1, len);
+		if (!var)
+			var = "";
+	}
+	*s_exp = ex_str_append(*s_exp, var, ft_strlen(var));
+	if (!(*s_exp))
+		UNIMPLEMENTED("Handle malloc failure");
+	return (len);
 }
 
-
-// iterate over var_block
-// single out each variable
-// expand each single variable
-// append expanded variable to string
-// set token with expanded string and set t_token_kind to TOKEN_TEXT
 char *ex_expand_var_block(char **envp, t_token *t)
 {
 	char	*s_exp;
-	char	*var;
-	size_t	len;
 	size_t	i;
 
 	i = 0;
@@ -106,14 +114,9 @@ char *ex_expand_var_block(char **envp, t_token *t)
 	{
 		if (t->content[i] == '$')
 		{
-			len = ex_var_len(t->content + i + 1);
-			var = ex_find_var(envp, t->content + i + 1, len);
-			if (!var)
-				var = "";
-			s_exp = ex_str_append(s_exp, var, ft_strlen(var));
+			i += ex_expand_var(envp, t, i, &s_exp);
 			if (!s_exp)
 				UNIMPLEMENTED("Handle malloc failure");
-			i += len;
 		}
 		i++;
 	}
@@ -122,6 +125,12 @@ char *ex_expand_var_block(char **envp, t_token *t)
 	t->kind = TOKEN_ALLOC;
 	return s_exp;
 }
+
+void ex_expand_quote_block(char **envp, t_token *t)
+{
+	ex_step_into_quote(t);
+	ex_expand_var_block(envp, t);
+};
 
 bool ex_main(char **envp, t_tok_list *tokens)
 {
