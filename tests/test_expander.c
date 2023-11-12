@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/06 19:51:49 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/07 12:22:38 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/13 00:51:19 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,24 @@ Test(expander, basic_variable_unfinished)
 		.expected = "69$",
 	};
 	char *envp[] = {"?=123", NULL};
+
+	params.result = ex_expand_var_block(envp, &params.input);
+	TEST_ASSERT_PARAMS(params);
+	free(params.result);
+}
+
+
+Test(expander, text_variable_unfinished)
+{
+	t_test_params params = {
+		.input = {
+			TOKEN_BLOCK_DOLLAR,
+			.content_len = 8,
+			.content = "abc$var$",
+		},
+		.expected = "abc123$",
+	};
+	char *envp[] = {"var=123", NULL};
 
 	params.result = ex_expand_var_block(envp, &params.input);
 	TEST_ASSERT_PARAMS(params);
