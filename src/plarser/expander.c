@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/10/29 23:35:50 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/07 00:14:02 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/13 00:22:49 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,6 @@ void ex_expand_quote_block(char **envp, t_token *t)
 {
 }
 
-
-// iterate over var_block
-// single out each variable
-// expand each single variable
-// append expanded variable to string
-// set token with expanded string and set t_token_kind to TOKEN_TEXT
 char *ex_expand_var_block(char **envp, t_token *t)
 {
 	char	*s_exp;
@@ -106,15 +100,21 @@ char *ex_expand_var_block(char **envp, t_token *t)
 	{
 		if (t->content[i] == '$')
 		{
-			len = ex_var_len(t->content + i + 1);
-			var = ex_find_var(envp, t->content + i + 1, len);
-			if (!var)
-				var = "";
+			if (i + 1 >= t->content_len)
+				var = "$";	
+			else
+			{
+				len = ex_var_len(t->content + i + 1);
+				var = ex_find_var(envp, t->content + i + 1, len);
+				if (!var)
+					var = "";
+			}
 			s_exp = ex_str_append(s_exp, var, ft_strlen(var));
 			if (!s_exp)
 				UNIMPLEMENTED("Handle malloc failure");
 			i += len;
 		}
+
 		i++;
 	}
 	t->content = s_exp;
