@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/13 22:00:38 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/13 22:22:09 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/wait.h>
+#include <unistd.h>
 
 
 void	cmd_free(t_cmd_list *cmd)
@@ -46,7 +47,8 @@ int	megashell(int argc, char *argv[], char *envp[])
 	(void) argc;
 	(void) argv;
 	ft_bzero(&meta, sizeof(t_meta));
-	prompt_env_setup();
+	if (!prompt_env_setup())
+		return (EXIT_FAILURE);
 	hs_read_history_file(HISTORY_FILE_NAME);
 	if (search_path(&meta, envp) == EXIT_FAILURE)
 		printf("error search path\n");

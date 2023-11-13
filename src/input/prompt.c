@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:01 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/13 21:59:13 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/13 22:35:04 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,14 @@ static void	disable_echoctl(void)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attributes);
 }
 
-void prompt_env_setup()
+bool prompt_env_setup()
 {
+	if (!isatty(STDOUT_FILENO))
+		return (false);
+	// TODO Error handling.
 	sigals_setup();
 	UNUSED(disable_echoctl);
+	return (true);
 }
 
 char *prompt_get_line()
