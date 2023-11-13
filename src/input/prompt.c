@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:01 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/06 23:28:33 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/13 21:59:13 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char *prompt_get_line()
 	
 	while (1)
 	{
-		line = readline(READLINE_PROMPT);
+		line = readline(SHELL_PROMPT);
 		if (line == NULL)
 			return (NULL);
 		if (ft_strisempty(line))

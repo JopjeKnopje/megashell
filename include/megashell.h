@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/09/19 11:40:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/10/30 19:32:14 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/13 22:12:24 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@
 #include "libft.h"
 #include "plarser.h"
 
-#define HISTORY_FILE_NAME ".ms_history"
-#define READLINE_PROMPT	"\033[mmegashell> "
+#define HISTORY_FILE_NAME	".ms_history"
+#define HEREDOC_PROMPT		"\033[36;49m>\033[0m "
+// #define SHELL_PROMPT		"\033[mmegashell> "
+#define SHELL_PROMPT		"\033[32;49mmegashell>\033[0m "
 
 typedef struct s_exec {
 	int			args;
