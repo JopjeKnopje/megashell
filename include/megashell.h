@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   megashell.h                                       :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/09/19 11:40:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/13 22:33:34 by joppe         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   megashell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/19 11:40:37 by jboeve            #+#    #+#             */
+/*   Updated: 2023/11/22 17:07:13 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ typedef struct s_meta {
 	char	**envp;
 	t_exec	execute;
 } t_meta;
-
-
 
 // megashell.c
 int			megashell(int argc, char *argv[], char *envp[]);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   pipeline.c                                        :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/10/05 02:54:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/10/31 00:37:18 by joppe         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   pipeline.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
+/*   Updated: 2023/11/22 18:19:21 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "plarser.h"
 #include "heredoc.h"
 #include "execute.h"
+#include "input.h"
 #include <assert.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -73,6 +74,7 @@ static bool pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 		print_error(get_error_name(ERROR_PIPE));
 		return (false);
 	}
+	signals_setup(CHILD);
 	cmd->pid = fork();
 	if (cmd->pid == -1)
 	{
@@ -88,6 +90,7 @@ static bool pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 		close(cmd->prev->pipe[PIPE_READ]);
 		close(cmd->prev->pipe[PIPE_WRITE]);
 	}
+	signals_setup(MAIN);
 	return (true);
 }
 
@@ -129,7 +132,5 @@ bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 	hd_lst_free(heredoc_pipes);
 
 	return (true);
-
-
 	(void) last_exit;
 }

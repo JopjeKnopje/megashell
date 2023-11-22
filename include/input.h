@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   input.h                                           :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/07/31 16:03:58 by joppe         #+#    #+#                 */
-/*   Updated: 2023/08/28 18:19:20 by joppe         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   input.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/31 16:03:58 by joppe             #+#    #+#             */
+/*   Updated: 2023/11/22 17:08:50 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 #define INPUT_H
 
 #include "megashell.h"
+
+typedef	enum e_signal {
+	MAIN,
+	CHILD,
+	EXEC,
+	HEREDOC,
+}	t_signal;
 
 typedef struct s_alias {
 	char *key;
@@ -25,8 +32,7 @@ typedef struct e_alias_list {
 	struct e_alias_list	*next;
 }	t_alias_list;
 
-// signals.c
-void	sigals_setup();
+void	signals_setup(int mode);
 
 
 #endif // !INPUT_H

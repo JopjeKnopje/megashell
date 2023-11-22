@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                          :+:    :+:             */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:01 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/13 22:35:04 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/22 17:53:32 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ bool prompt_env_setup()
 	if (!isatty(STDOUT_FILENO))
 		return (false);
 	// TODO Error handling.
-	sigals_setup();
-	UNUSED(disable_echoctl);
+	// sigals_setup();
+	disable_echoctl();
 	return (true);
 }
 
