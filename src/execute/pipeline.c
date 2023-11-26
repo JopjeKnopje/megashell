@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline.c                                         :+:      :+:    :+:   */
+/*   pipeline.c                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/26 20:38:38 by iris             ###   ########.fr       */
+/*   Updated: 2023/11/26 21:53:53 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "megashell.h"
 #include "plarser.h"
 #include "heredoc.h"
 #include "execute.h"
@@ -95,7 +96,7 @@ static bool pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 	return (true);
 }
 
-// TODO: maybe handle when the child segfaults n stuff.
+// TODO: Test wether handle when the child segfaults n stuff.
 static int pipeline_wait(t_cmd_list *cmds)
 {
 	int		status;
@@ -105,8 +106,8 @@ static int pipeline_wait(t_cmd_list *cmds)
 		waitpid(cmds->pid, &status, 0);
 		cmds = cmds->next;
 	}
-	// if (!WIFEXITED(status))
-	// 	assert(0 && "Handle segfaults etc.\n");
+	if (WIFSIGNALED(status))
+		return (WTERMSIG(status) + 128);
 	return (WEXITSTATUS(status));
 }
 
@@ -132,6 +133,7 @@ bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 	}
 	last_exit = pipeline_wait(cmds_head);
 	hd_lst_free(heredoc_pipes);
+	g_signal_num = last_exit;
 	signals_setup(MAIN);
 	return (true);
 }

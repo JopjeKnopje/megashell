@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   signals.c                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:28:16 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/26 21:06:48 by iris             ###   ########.fr       */
+/*   Updated: 2023/11/26 21:36:52 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ static void	parent_signal(int sig)
 {
 	if (sig == SIGINT)
 	{
-		g_signal_num = 130;
+		// g_signal_num = 130;
 		write(STDOUT_FILENO, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	else
-		g_signal_num = 131;
+	// else
+	// 	g_signal_num = 131;
 }
 
 // static void	child_signal(int sig)
