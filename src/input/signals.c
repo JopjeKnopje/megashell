@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   signals.c                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:28:16 by joppe             #+#    #+#             */
-/*   Updated: 2023/08/22 14:53:25 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/11/26 22:42:43 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,63 @@
 #include <unistd.h>
 #include <readline/readline.h>
 #include <signal.h>
+#include "input.h"
 
-static void	signal_handler(int sig)
+extern int g_signal_num;
+
+static void	parent_signal(int sig)
 {
 	if (sig == SIGINT)
+	{
+		// g_signal_num = 130;
 		write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	// else
+	// 	g_signal_num = 131;
 }
 
-void	sigals_setup()
+// static void	child_signal(int sig)
+// {
+// 	if (sig == SIGQUIT)
+// 		g_signal_num = 131;
+// 	else if (sig == SIGINT)
+// 		g_signal_num = 130;
+// }
+
+// static void	hd_handler(int sig)
+// {
+// 	if (sig == SIGINT)
+// 	{
+// 		write(STDOUT_FILENO, "\n", 1);
+// 		rl_replace_line("", 0);
+// 		rl_on_new_line();
+// 		exit(130);
+// 	}
+// }
+
+void	signals_setup(int mode)
 {
-	struct sigaction act_int;
-	struct sigaction act_quit;
-
-	sigemptyset(&act_int.sa_mask);
-	act_int.sa_handler = &signal_handler;
-	act_int.sa_flags = SA_RESTART;
-
-	sigemptyset(&act_quit.sa_mask);
-	act_quit.sa_handler = SIG_IGN;
-	act_quit.sa_flags = 0;
-
-	if (sigaction(SIGINT, &act_int, NULL) == -1)
+	if (mode == MAIN)
 	{
-		
+		signal(SIGINT, parent_signal);
+		signal(SIGQUIT, SIG_IGN);
 	}
-
-	if (sigaction(SIGQUIT, &act_int, NULL) == -1)
+	else if (mode == CHILD)
 	{
-
+		signal(SIGINT, parent_signal);
+		signal(SIGQUIT, parent_signal);
+	}
+	else if (mode == HEREDOC)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (mode == IGNORE)
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 	}
 }

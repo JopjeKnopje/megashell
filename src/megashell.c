@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   megashell.c                                       :+:    :+:             */
+/*   megashell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/13 22:22:09 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/25 13:59:48 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "megashell.h"
 #include "libft.h"
 #include "plarser.h"
+#include "input.h"
 #include "utils.h"
 #include "execute.h"
 #include "test_utils.h"
@@ -22,6 +23,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+int g_signal_num;
 
 void	cmd_free(t_cmd_list *cmd)
 {
@@ -46,6 +48,7 @@ int	megashell(int argc, char *argv[], char *envp[])
 
 	(void) argc;
 	(void) argv;
+	signals_setup(MAIN);
 	ft_bzero(&meta, sizeof(t_meta));
 	if (!prompt_env_setup())
 		return (EXIT_FAILURE);

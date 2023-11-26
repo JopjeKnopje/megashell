@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:01 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/22 14:35:06 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/26 23:18:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool prompt_env_setup()
 	if (!isatty(STDOUT_FILENO))
 		return (false);
 	// TODO Error handling.
-	sigals_setup();
+	// sigals_setup();
 	disable_echoctl();
 	return (true);
 }

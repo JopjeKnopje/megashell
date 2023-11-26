@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
+/*                                                        :::      ::::::::   */
 /*   megashell.h                                       :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/09/19 11:40:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/13 22:33:34 by joppe         ########   odam.nl         */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/19 11:40:37 by jboeve            #+#    #+#             */
+/*   Updated: 2023/11/26 22:35:32 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #define HISTORY_FILE_NAME	".ms_history"
 #define HEREDOC_PROMPT		"\033[36;49m>\033[0m "
 #define SHELL_PROMPT		"\033[32;49mmegashell>\033[0m "
+#define LAST_EXIT_VAR 		"LAST_EXIT="
 
 typedef struct s_exec {
 	int			args;
@@ -36,7 +37,7 @@ typedef struct s_meta {
 	t_exec	execute;
 } t_meta;
 
-
+extern int g_signal_num;
 
 // megashell.c
 int			megashell(int argc, char *argv[], char *envp[]);

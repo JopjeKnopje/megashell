@@ -1,16 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment.c                                      :+:      :+:    :+:   */
+/*   environment.c                                     :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:17:38 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/08/11 16:18:59 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/11/26 22:36:01 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
+#include "libft.h"
+#include "megashell.h"
+#include "plarser.h"
+#include <stdio.h>
 
 char	**get_environment(char **envp)
 {
@@ -35,4 +39,27 @@ char	**get_environment(char **envp)
 		i++;
 	}
 	return (environment);
+}
+
+char *env_set_var(char **envp, char *name, char *value)
+{
+	size_t i = 0;
+	size_t len = ft_strlen(name);
+
+	char *tmp;
+
+	while (envp[i])
+	{
+		if (!ft_strncmp(envp[i], name, len))
+		{
+			tmp = ft_strjoin(LAST_EXIT_VAR, value);
+			if (!tmp)
+				UNIMPLEMENTED("Mem protection");
+			free(envp[i]);
+			envp[i] = tmp;
+			return (tmp);
+		}
+		i++;
+	}
+	return (NULL);
 }
