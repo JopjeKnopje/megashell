@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/11/22 18:21:17 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/11/26 20:45:42 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ t_hd_list *run_heredocs(t_cmd_list *cmds)
 	int			fd;
 
 	head = NULL;
+	signals_setup(IGNORE);
 	while (cmds)
 	{
 		if (cmds->content.heredoc_delim)

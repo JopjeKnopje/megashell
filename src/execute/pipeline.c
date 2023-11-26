@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/22 18:19:21 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/11/26 20:38:38 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static int child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 			perror(strerror(errno));
 		close(cmd->pipe[PIPE_WRITE]);
 	}
+	signals_setup(CHILD);
 	redirections(&cmd->content, heredocs);
 	return (!run_command(meta, &cmd->content));
 }
@@ -74,7 +75,6 @@ static bool pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 		print_error(get_error_name(ERROR_PIPE));
 		return (false);
 	}
-	signals_setup(CHILD);
 	cmd->pid = fork();
 	if (cmd->pid == -1)
 	{
@@ -83,6 +83,7 @@ static bool pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 	}
 	if (!cmd->pid)
 	{
+		signals_setup(CHILD);
 		exit(child_proc(meta, cmd, heredocs));
 	}
 	if (cmd->prev)
@@ -90,7 +91,7 @@ static bool pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 		close(cmd->prev->pipe[PIPE_READ]);
 		close(cmd->prev->pipe[PIPE_WRITE]);
 	}
-	signals_setup(MAIN);
+	signals_setup(1);
 	return (true);
 }
 
@@ -104,8 +105,8 @@ static int pipeline_wait(t_cmd_list *cmds)
 		waitpid(cmds->pid, &status, 0);
 		cmds = cmds->next;
 	}
-	if (!WIFEXITED(status))
-		assert(0 && "Handle segfaults etc.\n");
+	// if (!WIFEXITED(status))
+	// 	assert(0 && "Handle segfaults etc.\n");
 	return (WEXITSTATUS(status));
 }
 
@@ -115,11 +116,12 @@ bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 	t_cmd_list	*cmds_head;
 	int			last_exit;
 
+	(void) last_exit;
 	cmds_head = cmds;
+	signals_setup(IGNORE);
 	heredoc_pipes = run_heredocs(cmds);
 	if (contains_heredoc(cmds) && !heredoc_pipes)
 		return (false);
-
 	while (cmds)
 	{
 		if (!pipeline_node(meta, cmds, &heredoc_pipes))
@@ -130,7 +132,6 @@ bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 	}
 	last_exit = pipeline_wait(cmds_head);
 	hd_lst_free(heredoc_pipes);
-
+	signals_setup(MAIN);
 	return (true);
-	(void) last_exit;
 }

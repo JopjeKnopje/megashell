@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   expander.c                                        :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/10/29 23:35:50 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/13 00:43:28 by joppe         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
+/*   Updated: 2023/11/25 13:38:58 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char *ex_find_var(char **envp, char *name, size_t len)
 		return (NULL);
 	// TODO Get the actual exit code instead of this place holder.
 	if (!ft_strncmp("?", name, len))
-		return "69";
+		return (ft_itoa(g_signal_num));
 	while (envp[i])
 	{
 		if (!ft_strncmp(envp[i], name, len))
