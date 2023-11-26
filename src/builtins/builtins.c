@@ -6,12 +6,13 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/31 00:33:46 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/26 22:11:20 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "execute.h"
+#include "heredoc.h"
 #include "megashell.h"
 #include "plarser.h"
 #include "utils.h"

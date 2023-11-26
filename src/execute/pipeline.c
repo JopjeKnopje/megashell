@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/26 21:53:53 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/26 22:35:53 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,16 @@ static int pipeline_wait(t_cmd_list *cmds)
 	return (WEXITSTATUS(status));
 }
 
+void set_lastexit_var(char **envp, int status)
+{
+	char *s = ft_itoa(status);
+	if (!s)
+		UNIMPLEMENTED("no mem prot");
+	char *value = env_set_var(envp, LAST_EXIT_VAR, s);
+	free(s);
+	printf("value = [%s]\n", value);
+}
+
 bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 {
 	t_hd_list	*heredoc_pipes;
@@ -133,7 +143,9 @@ bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 	}
 	last_exit = pipeline_wait(cmds_head);
 	hd_lst_free(heredoc_pipes);
-	g_signal_num = last_exit;
+	set_lastexit_var(meta->envp, last_exit);
+
+	// g_signal_num = last_exit;
 	signals_setup(MAIN);
 	return (true);
 }

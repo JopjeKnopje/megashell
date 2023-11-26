@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.h                                          :+:      :+:    :+:   */
+/*   execute.h                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/11/25 11:43:05 by iris             ###   ########.fr       */
+/*   Updated: 2023/11/26 22:27:13 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int			search_path(t_meta *meta, char **environment);
 
 // environment:
 char		**get_environment(char **envp);
+char		*env_set_var(char **envp, char *name, char *value);
+
 
 // pipeline.c
 bool		pipeline_start(t_meta *meta, t_cmd_list *cmds);
