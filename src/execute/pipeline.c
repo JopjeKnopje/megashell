@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/26 22:35:53 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/26 22:44:38 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static int child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 		close(cmd->pipe[PIPE_WRITE]);
 	}
 	signals_setup(CHILD);
+	// TODO Check if the heredoc gets INTERRUPTED by a signal, if so don't run the `run_command`.
 	redirections(&cmd->content, heredocs);
 	return (!run_command(meta, &cmd->content));
 }
