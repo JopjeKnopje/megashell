@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/30 00:07:45 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/30 00:17:43 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,10 @@ void ex_expand_quote_block(char **envp, t_token *t)
 			char *end = ft_strchr(t->content + i , '$');
 			if (!end)
 				end = t->content + t->content_len;
-			var_exp = ft_substr(t->content + i, 0, end - t->content);
+			size_t len = end - t->content;
+			if (len > t->content_len)
+				len = t->content_len;
+			var_exp = ft_substr(t->content + i, 0, len);
 			var_len = ft_strlen(var_exp);
 			s_exp = ex_str_append(s_exp, var_exp, var_len);
 			free(var_exp);
@@ -190,7 +193,7 @@ void ex_expand_quote_block(char **envp, t_token *t)
 		i += var_len;
 	}
 	t->content = s_exp;
-	t->content_len = ft_strlen(t->content) - 1;
+	t->content_len = ft_strlen(t->content);
 	t->kind = TOKEN_ALLOC;
 };
 
