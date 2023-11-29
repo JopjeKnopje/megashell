@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/29 18:40:37 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/30 00:07:45 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,6 @@ static size_t ex_var_len(char *s)
 	while (s[i] && lx_is_valid_var_char(s[i], i == 0))
 		i++;
 	return (i);
-}
-
-static void ex_step_into_quote(t_token *t)
-{
-	if (t->content[0] == '"')
-	{
-		t->content++;
-		t->content_len -= 2;
-		t->kind = TOKEN_UNUSED;
-	}
 }
 
 static char *ex_str_append(char *s_base, char *s_append, size_t append_size)
@@ -135,23 +125,73 @@ char *ex_expand_var_block(char **envp, t_token *t)
 	return s_exp;
 }
 
+
+
+
+// QUOTE Stuff
+static void ex_step_into_quote(t_token *t)
+{
+	if (t->content[0] == '"')
+	{
+		t->content++;
+		t->content_len -= 2;
+		t->kind = TOKEN_TEXT;
+	}
+}
+
+static char *expand_var(char **envp, t_token *t, size_t i)
+{
+	char	*var;
+	size_t	len;
+
+	len = 0;
+	if (i + 1 >= t->content_len)
+		var = "$";	
+	else
+	{
+		len = ex_var_len(t->content + i + 1);
+		var = ex_find_var(envp, t->content + i + 1, len);
+		if (!var)
+			var = "";
+	}
+	return (var);
+}
+
 void ex_expand_quote_block(char **envp, t_token *t)
 {
+	size_t i = 0;
+	size_t var_len;
+	char *s_exp = NULL;
+	char *var_exp = NULL;
+
 	ex_step_into_quote(t);
 
-	size_t i = 0;
-	char *s_exp = NULL;
 	while (t->content[i])
 	{
 		if (t->content[i] == '$')
 		{
-			i += ex_expand_var(envp, t, i, &s_exp);
-			if (!s_exp)
+			var_len = ex_var_len(t->content + i);
+			var_exp = expand_var(envp, t, i);
+
+			if (!var_exp)
 				UNIMPLEMENTED("Handle malloc failure");
+			s_exp = ex_str_append(s_exp, var_exp, var_len);
 		}
-	
-		i++;
+		else
+		{
+			char *end = ft_strchr(t->content + i , '$');
+			if (!end)
+				end = t->content + t->content_len;
+			var_exp = ft_substr(t->content + i, 0, end - t->content);
+			var_len = ft_strlen(var_exp);
+			s_exp = ex_str_append(s_exp, var_exp, var_len);
+			free(var_exp);
+		}
+		i += var_len;
 	}
+	t->content = s_exp;
+	t->content_len = ft_strlen(t->content) - 1;
+	t->kind = TOKEN_ALLOC;
 };
 
 bool ex_main(char **envp, t_tok_list *tokens)

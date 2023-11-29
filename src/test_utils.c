@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:05:42 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/29 14:23:29 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/29 23:25:51 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <stdio.h>
 
 static const char *TOKEN_NAMES[] = {
-	"TOKEN_UNKNOWN",
+	"TOKEN_UNUSED",
 	"TOKEN_BLOCK_QUOTE_SINGLE",
 	"TOKEN_BLOCK_QUOTE_DOUBLE",
 	"TOKEN_BLOCK_DOLLAR",
