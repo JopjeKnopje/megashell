@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/06 20:08:37 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/29 18:12:11 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,17 @@ t_cmd_frame pr_parse_redirect(t_cmd_frame frame, t_tok_list *tokens)
 static bool pr_is_redirect(t_token_kind k)
 {
 	const bool is_redir[TOKEN_COUNT] = {
-		[TOKEN_UNKNOWN] 		=	NULL,
+		[TOKEN_UNUSED] 				=	NULL,
 		[TOKEN_BLOCK_QUOTE_SINGLE]	=	false,
 		[TOKEN_BLOCK_QUOTE_DOUBLE]	=	false,
-		[TOKEN_TEXT]			=	false,
-		[TOKEN_PIPE] 			=	false,
-		[TOKEN_LESS_THAN] 		=	true,
-		[TOKEN_GREATER_THAN]	=	true,
-		[TOKEN_APPEND] 			=	true,
-		[TOKEN_HEREDOC]			=	true,
-		[TOKEN_BLOCK_DOLLAR] 	=	false,
-		[TOKEN_ERROR]			=	NULL,
+		[TOKEN_TEXT]				=	false,
+		[TOKEN_PIPE] 				=	false,
+		[TOKEN_LESS_THAN] 			=	true,
+		[TOKEN_GREATER_THAN]		=	true,
+		[TOKEN_APPEND] 				=	true,
+		[TOKEN_HEREDOC]				=	true,
+		[TOKEN_BLOCK_DOLLAR]	 	=	false,
+		[TOKEN_ERROR]				=	NULL,
 	};
 
 	return is_redir[k];
@@ -111,11 +111,44 @@ static t_cmd_list *pr_list_add_cmd(t_cmd_list **cmd_list, t_cmd_frame t)
 	return (*cmd_list);
 }
 
+t_tok_list *join_tokens(t_tok_list *tokens)
+{
+	t_tok_list *head = tokens;
+
+	while (tokens)
+	{
+		// if token is connected.
+		if (tokens->token.kind != TOKEN_UNUSED && tokens->next && tokens->token.padding == 0)
+		{
+			char *joined = sized_strjoin(tokens->token.content, tokens->token.content_len, tokens->next->token.content, tokens->next->token.content_len);
+			if (!tokens->token.content)
+				UNIMPLEMENTED("protect sized_strjoin");
+
+			if (tokens->token.kind == TOKEN_ALLOC)
+				free(tokens->token.content);
+
+			if (tokens->next->token.kind == TOKEN_ALLOC)
+				free(tokens->next->token.content);
+
+			tokens->token.content = joined;
+
+			tokens->token.content_len = ft_strlen(tokens->token.content);
+			tokens->token.kind = TOKEN_ALLOC;
+			tokens->next->token.kind = TOKEN_UNUSED;
+		}
+		tokens = tokens->next;
+	}
+	return (head);
+}
+
 t_cmd_list *pr_main(t_tok_list *tokens)
 {
 	t_cmd_list	*cmds = NULL;
 	t_cmd_frame	frame;
 	ft_bzero(&frame, sizeof(t_cmd_frame));
+
+	if (!join_tokens(tokens))
+		UNIMPLEMENTED("protect join_tokens");
 
 
 	// every frame can contain at max one of each redirection (in / out).

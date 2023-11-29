@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:05:42 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/06 21:19:51 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/29 14:23:29 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void print_bits(size_t const size, void const * const ptr)
 void print_token(t_token t)
 {
 	printf("\x1b[36;49m");
-	printf("token_kind \t\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%ld]\n", TOKEN_NAMES[t.kind], (int) t.content_len, t.content, t.content_len);
+	printf("token_kind \t\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%ld]\t\tpadding[%ld]\n", TOKEN_NAMES[t.kind], (int) t.content_len, t.content, t.content_len, t.padding);
 	printf("\x1b[0m");
 }
 

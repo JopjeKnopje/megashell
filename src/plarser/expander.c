@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/26 22:47:57 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/29 18:31:09 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void ex_step_into_quote(t_token *t)
 	{
 		t->content++;
 		t->content_len -= 2;
-		t->kind = TOKEN_UNKNOWN;
+		t->kind = TOKEN_UNUSED;
 	}
 }
 
@@ -123,6 +123,11 @@ char *ex_expand_var_block(char **envp, t_token *t)
 				UNIMPLEMENTED("Handle malloc failure");
 		}
 		i++;
+	}
+	// dirty af.
+	if (s_exp[0] == 0)
+	{
+		t->padding = 0;
 	}
 	t->content = s_exp;
 	t->content_len = ft_strlen(s_exp);

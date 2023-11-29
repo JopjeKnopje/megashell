@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/06 01:45:51 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/06 20:57:13 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/29 18:21:02 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ Test(tokenizer, single_dollar)
 		.expected = {
 			TOKEN_TEXT,
 			1,
+			0,
 			"$",
 		},
 	};
@@ -73,6 +74,7 @@ Test(tokenizer, var_exit_status)
 		.expected = {
 			TOKEN_BLOCK_DOLLAR,
 			2,
+			0,
 			"$?",
 		},
 	};
@@ -88,6 +90,7 @@ Test(tokenizer, single_var)
 		.expected = {
 			TOKEN_BLOCK_DOLLAR,
 			4,
+			0,
 			"$VAR",
 		},
 	};
@@ -103,6 +106,7 @@ Test(tokenizer, two_vars)
 		.expected = {
 			TOKEN_BLOCK_DOLLAR,
 			10,
+			0,
 			"$VAR1$VAR2",
 		},
 	};
@@ -118,6 +122,7 @@ Test(tokenizer, variable_underscore_name)
 		.expected = {
 			TOKEN_BLOCK_DOLLAR,
 			5,
+			0,
 			"$_var",
 		},
 	};
@@ -133,6 +138,7 @@ Test(tokenizer, variable_name_underscore)
 		.expected = {
 			TOKEN_BLOCK_DOLLAR,
 			5,
+			0,
 			"$var_",
 		},
 	};
@@ -148,6 +154,7 @@ Test(tokenizer, variable_name_digit)
 		.expected = {
 			TOKEN_ERROR,
 			2,
+			0,
 			"$1",
 		},
 	};
@@ -163,6 +170,7 @@ Test(tokenizer, variable_name_digit_ascii)
 		.expected = {
 			TOKEN_ERROR,
 			5,
+			0,
 			"$1VAR",
 		},
 	};
@@ -178,6 +186,7 @@ Test(tokenizer, variable_name_quote)
 		.expected = {
 			TOKEN_ERROR,
 			2,
+			0,
 			"$'",
 		},
 	};
@@ -193,6 +202,7 @@ Test(tokenizer, variable_dollar_multiple_2)
 		.expected = {
 			TOKEN_ERROR,
 			2,
+			0,
 			"$$",
 		},
 	};
@@ -208,6 +218,7 @@ Test(tokenizer, variable_dollar_multiple_3)
 		.expected = {
 			TOKEN_ERROR,
 			3,
+			0,
 			"$$$",
 		},
 	};
@@ -223,6 +234,7 @@ Test(tokenizer, variable_dollar_multiple_4)
 		.expected = {
 			TOKEN_ERROR,
 			4,
+			0,
 			"$$$$",
 		},
 	};
@@ -238,6 +250,7 @@ Test(tokenizer, variable_dollar_multiple_5)
 		.expected = {
 			TOKEN_ERROR,
 			5,
+			0,
 			"$$$$$",
 		},
 	};
@@ -253,6 +266,7 @@ Test(tokenizer, single_var_unfinished)
 		.expected = {
 			TOKEN_BLOCK_DOLLAR,
 			5,
+			0,
 			"$VAR$",
 		},
 	};
