@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/29 18:31:09 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/29 18:40:37 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,20 @@ char *ex_expand_var_block(char **envp, t_token *t)
 void ex_expand_quote_block(char **envp, t_token *t)
 {
 	ex_step_into_quote(t);
-	ex_expand_var_block(envp, t);
+
+	size_t i = 0;
+	char *s_exp = NULL;
+	while (t->content[i])
+	{
+		if (t->content[i] == '$')
+		{
+			i += ex_expand_var(envp, t, i, &s_exp);
+			if (!s_exp)
+				UNIMPLEMENTED("Handle malloc failure");
+		}
+	
+		i++;
+	}
 };
 
 bool ex_main(char **envp, t_tok_list *tokens)
