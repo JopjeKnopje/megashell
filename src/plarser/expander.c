@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/30 17:40:28 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/30 17:43:48 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ void ex_expand_quote_block(char **envp, t_token *t)
 			step = key_len;
 			if (step)
 			{
-				s_exp = ex_str_append(s_exp, var_exp, step);
+				s_exp = ex_str_append(s_exp, var_exp, ft_strlen(var_exp));
 			}
 
 			printf("\n");
