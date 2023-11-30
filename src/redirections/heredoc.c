@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/11/26 20:45:42 by iris             ###   ########.fr       */
+/*   Updated: 2023/11/30 13:14:24 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,10 @@ uint8_t	read_from_heredoc(char *close_line, int pipe_fd)
 	return (EXIT_SUCCESS);
 }
 
-int	handle_heredoc(t_cmd_frame *f)
+int	handle_heredoc(t_cmd_frame *f, int *status)
 {
 	int		pipe_fd[2];
 	int		pid;
-	int		status;
 	uint8_t	child_exit_code;
 
 	if (pipe(pipe_fd) == -1)
@@ -64,10 +63,9 @@ int	handle_heredoc(t_cmd_frame *f)
 		exit(child_exit_code);
 	}
 	close(pipe_fd[PIPE_WRITE]);
-	waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status))
-		return (-1);
-	
+	waitpid(pid, status, 0);
+	// if (WIFSIGNALED(status))
+	// 	return (-1);
 	// child_exit_code = WEXITSTATUS(status);
 	// dprintf(STDERR_FILENO, "child_exit %d\n", child_exit_code);
 	return (pipe_fd[PIPE_READ]);
@@ -99,6 +97,7 @@ t_hd_list *run_heredocs(t_cmd_list *cmds)
 {
 	t_hd_list	*head;
 	int			fd;
+	int			status;
 
 	head = NULL;
 	signals_setup(IGNORE);
@@ -106,7 +105,8 @@ t_hd_list *run_heredocs(t_cmd_list *cmds)
 	{
 		if (cmds->content.heredoc_delim)
 		{
-			fd = handle_heredoc(&cmds->content);
+			fd = handle_heredoc(&cmds->content, &status);
+			
 			if (fd == -1 || !append_heredoc(&head, fd))
 			{
 				hd_lst_free(head);
@@ -115,5 +115,6 @@ t_hd_list *run_heredocs(t_cmd_list *cmds)
 		}
 		cmds = cmds->next;
 	}
+	append_heredoc(&head, status);
 	return (head);
 }

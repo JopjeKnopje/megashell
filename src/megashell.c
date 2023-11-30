@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   megashell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/25 13:59:48 by iris             ###   ########.fr       */
+/*   Updated: 2023/11/30 13:17:02 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
-
-int g_signal_num;
 
 void	cmd_free(t_cmd_list *cmd)
 {

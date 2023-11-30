@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline.c                                        :+:    :+:             */
+/*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/26 22:44:38 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/30 17:12:29 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static bool pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 		close(cmd->prev->pipe[PIPE_READ]);
 		close(cmd->prev->pipe[PIPE_WRITE]);
 	}
-	signals_setup(1);
+	signals_setup(MAIN);
 	return (true);
 }
 
@@ -122,6 +122,20 @@ void set_lastexit_var(char **envp, int status)
 	printf("value = [%s]\n", value);
 }
 
+bool	has_heredoc_failed(t_meta *meta, t_hd_list *heredoc_pipes)
+{
+	int status;
+	
+	while (heredoc_pipes->next)
+		heredoc_pipes = heredoc_pipes->next;
+	status = heredoc_pipes->fd;
+	if (WIFSIGNALED(status))
+		set_lastexit_var(meta->envp, 128 + WTERMSIG(status));
+	else 
+		set_lastexit_var(meta->envp, WEXITSTATUS(status));
+	return (status != 0);
+}
+
 bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 {
 	t_hd_list	*heredoc_pipes;
@@ -130,9 +144,9 @@ bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 
 	(void) last_exit;
 	cmds_head = cmds;
-	signals_setup(IGNORE);
 	heredoc_pipes = run_heredocs(cmds);
-	if (contains_heredoc(cmds) && !heredoc_pipes)
+	if (contains_heredoc(cmds) && (!heredoc_pipes || \
+		has_heredoc_failed(meta, heredoc_pipes)))
 		return (false);
 	while (cmds)
 	{
@@ -145,8 +159,5 @@ bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 	last_exit = pipeline_wait(cmds_head);
 	hd_lst_free(heredoc_pipes);
 	set_lastexit_var(meta->envp, last_exit);
-
-	// g_signal_num = last_exit;
-	signals_setup(MAIN);
 	return (true);
 }
