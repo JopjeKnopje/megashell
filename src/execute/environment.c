@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:17:38 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/11/26 22:36:01 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/30 20:07:19 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,8 @@ char	**get_environment(char **envp)
 	return (environment);
 }
 
-char *env_set_var(char **envp, char *name, char *value)
+void set_exit_code(int code)
 {
-	size_t i = 0;
-	size_t len = ft_strlen(name);
-
-	char *tmp;
-
-	while (envp[i])
-	{
-		if (!ft_strncmp(envp[i], name, len))
-		{
-			tmp = ft_strjoin(LAST_EXIT_VAR, value);
-			if (!tmp)
-				UNIMPLEMENTED("Mem protection");
-			free(envp[i]);
-			envp[i] = tmp;
-			return (tmp);
-		}
-		i++;
-	}
-	return (NULL);
+	g_exit_code = code;
+	printf("g_last_exit [%d]\n", code);
 }

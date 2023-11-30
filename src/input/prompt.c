@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   prompt.c                                          :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:01 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/22 17:53:32 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/11/30 20:13:53 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <readline/history.h>
 #include <stdlib.h>
 #include <termios.h>
+#include "execute.h"
 #include "libft.h"
 #include "input.h"
 #include "megashell.h"
@@ -34,6 +35,7 @@ bool prompt_env_setup()
 		return (false);
 	// TODO Error handling.
 	// sigals_setup();
+	set_exit_code(0);
 	disable_echoctl();
 	return (true);
 }

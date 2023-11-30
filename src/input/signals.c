@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   signals.c                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:28:16 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/30 17:20:12 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/11/30 20:05:46 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <readline/readline.h>
 #include <signal.h>
+#include "execute.h"
 #include "input.h"
 
 
@@ -25,6 +26,7 @@ static void	parent_signal(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		set_exit_code(130);
 	}
 }
 
@@ -37,8 +39,6 @@ static void	hd_handler(int sig)
 		rl_on_new_line();
 		exit(130);
 	}
-	else
-		exit(0);
 }
 
 void	signals_setup(int mode)

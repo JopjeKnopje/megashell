@@ -6,10 +6,11 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/26 22:47:57 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/30 19:46:49 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
 #include "heredoc.h"
 #include "libft.h"
 #include "megashell.h"
@@ -19,7 +20,10 @@
 #include <readline/readline.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "execute.h"
+
+int g_exit_code;
 
 static char *ex_find_var(char **envp, char *name, size_t len)
 {
@@ -28,11 +32,6 @@ static char *ex_find_var(char **envp, char *name, size_t len)
 
 	if (!len)
 		return (NULL);
-	if (!ft_strncmp("?", name, len))
-	{
-		name = LAST_EXIT_VAR;
-		len = ft_strlen(LAST_EXIT_VAR);
-	}
 	while (envp[i])
 	{
 		if (!ft_strncmp(envp[i], name, len))
@@ -90,18 +89,26 @@ static size_t ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
 {
 	char	*var;
 	size_t	len;
+	bool is_exit_code;
 
+	is_exit_code = false;
 	len = 0;
 	if (i + 1 >= t->content_len)
 		var = "$";	
 	else
 	{
 		len = ex_var_len(t->content + i + 1);
-		var = ex_find_var(envp, t->content + i + 1, len);
+		is_exit_code = !ft_strncmp("?", t->content + i + 1, len);
+		if (is_exit_code)
+			var = ft_itoa(g_exit_code);
+		else
+			var = ex_find_var(envp, t->content + i + 1, len);
 		if (!var)
 			var = "";
 	}
 	*s_exp = ex_str_append(*s_exp, var, ft_strlen(var));
+	if (is_exit_code)
+		free(var);
 	if (!(*s_exp))
 		UNIMPLEMENTED("Handle malloc failure");
 	return (len);
