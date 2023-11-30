@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/30 17:01:30 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/30 17:40:28 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ static char *expand_var(char **envp, t_token *t, size_t i)
 void ex_expand_quote_block(char **envp, t_token *t)
 {
 	size_t i = 0;
-	size_t exp_var_len;
+	size_t step;
 	char *s_exp = NULL;
 	char *var_exp = NULL;
 	char *end = NULL;
@@ -184,18 +184,24 @@ void ex_expand_quote_block(char **envp, t_token *t)
 		if (t->content[i] == '$')
 		{
 			var_exp = expand_var(envp, t, i);
-			exp_var_len = ft_strlen(var_exp);
+			// set step to len of expanded variable.
+			step = ft_strlen(var_exp);
+			size_t key_len = ex_var_len(t->content + i);
 
-			if (!var_exp)
-				UNIMPLEMENTED("Handle malloc failure");
+			// if (key_len > step)
+			// 	step = key_len;
+
+			// if (var_exp[0])
+			step = key_len;
+			if (step)
+			{
+				s_exp = ex_str_append(s_exp, var_exp, step);
+			}
+
 			printf("\n");
 			printf("found var \t[%s]\n", var_exp);
-			printf("exp_var_len \t[%ld]\n", exp_var_len);
+			printf("step \t\t[%ld]\n", step);
 			printf("\n");
-			if (!var_exp[0])
-				exp_var_len = ex_var_len(t->content + i);
-			else
-				s_exp = ex_str_append(s_exp, var_exp, exp_var_len);
 		}
 		else
 		{
@@ -213,17 +219,17 @@ void ex_expand_quote_block(char **envp, t_token *t)
 
 
 			var_exp = ft_substr(t->content + i, 0, len);
-			exp_var_len = ft_strlen(var_exp);
+			step = ft_strlen(var_exp);
 
 			printf("line until next var [%s]\n", var_exp);
 			printf("len  until next var [%d]\n", len);
 			printf("end [%s]\n", end);
 			printf("\n\n");
 
-			s_exp = ex_str_append(s_exp, var_exp, exp_var_len);
+			s_exp = ex_str_append(s_exp, var_exp, step);
 			free(var_exp);
 		}
-		i += exp_var_len;
+		i += step;
 		if (end == t->content + t->content_len)
 			break;
 	}
