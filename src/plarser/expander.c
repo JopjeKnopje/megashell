@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/30 18:49:06 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/30 19:11:12 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,10 +194,10 @@ void ex_expand_quote_block(char **envp, t_token *t)
 				s_exp = ex_str_append(s_exp, var_exp, ft_strlen(var_exp));
 			}
 
-			printf("\n");
-			printf("found var \t[%s]\n", var_exp);
-			printf("step \t\t[%ld]\n", step);
-			printf("\n");
+			// printf("\n");
+			// printf("found var \t[%s]\n", var_exp);
+			// printf("step \t\t[%ld]\n", step);
+			// printf("\n");
 		}
 		else
 		{
@@ -205,7 +205,7 @@ void ex_expand_quote_block(char **envp, t_token *t)
 			end = ft_strchr(t->content + i, '$');
 			if (!end || end > closing_quote)
 			{
-				printf("next var not found\n");
+				// printf("next var not found\n");
 				end = t->content + t->content_len;
 			}
 
@@ -217,10 +217,10 @@ void ex_expand_quote_block(char **envp, t_token *t)
 			var_exp = ft_substr(t->content + i, 0, len);
 			step = ft_strlen(var_exp);
 
-			printf("line until next var [%s]\n", var_exp);
-			printf("len  until next var [%d]\n", len);
-			printf("end [%s]\n", end);
-			printf("\n\n");
+			// printf("line until next var [%s]\n", var_exp);
+			// printf("len  until next var [%d]\n", len);
+			// printf("end [%s]\n", end);
+			// printf("\n\n");
 
 			s_exp = ex_str_append(s_exp, var_exp, step);
 			free(var_exp);
@@ -241,7 +241,7 @@ bool ex_main(char **envp, t_tok_list *tokens)
 	while (tokens)
 	{
 		t = &tokens->token;
-		printf("expanding token...\n");
+		// printf("expanding token...\n");
 		if (t->kind == TOKEN_BLOCK_QUOTE_DOUBLE)
 		{
 			ex_expand_quote_block(envp, t);
