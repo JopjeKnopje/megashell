@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/29 14:13:28 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/30 12:50:43 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/30 12:59:56 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ size_t sc_count(t_token *t)
 	size_t i;
 
 	i = t->content_len;
-	while (t->content[i] && (!lx_is_metachar(t->content[i]) || t->content[i] == ' '))
+	while (t->content[i] && t->content[i] == ' ')
 	{
 		i++;
 	}

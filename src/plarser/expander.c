@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/30 00:17:43 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/30 17:01:30 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,20 @@
 #include "test_utils.h"
 #include "utils.h"
 #include <readline/readline.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "execute.h"
+
+static size_t get_key_len(char *key)
+{
+	size_t i = 0;
+	while (key[i] && key[i] != '=')
+	{
+		i++;	
+	}
+	return i;
+}
 
 static char *ex_find_var(char **envp, char *name, size_t len)
 {
@@ -35,7 +46,8 @@ static char *ex_find_var(char **envp, char *name, size_t len)
 	}
 	while (envp[i])
 	{
-		if (!ft_strncmp(envp[i], name, len))
+
+		if (get_key_len(envp[i]) == len && !ft_strncmp(envp[i], name, len))
 		{
 			var = ft_strchr(envp[i], '=');
 			if (*var == '=')
@@ -160,37 +172,60 @@ static char *expand_var(char **envp, t_token *t, size_t i)
 void ex_expand_quote_block(char **envp, t_token *t)
 {
 	size_t i = 0;
-	size_t var_len;
+	size_t exp_var_len;
 	char *s_exp = NULL;
 	char *var_exp = NULL;
+	char *end = NULL;
 
 	ex_step_into_quote(t);
 
-	while (t->content[i])
+	while (t->content && t->content[i])
 	{
 		if (t->content[i] == '$')
 		{
-			var_len = ex_var_len(t->content + i);
 			var_exp = expand_var(envp, t, i);
+			exp_var_len = ft_strlen(var_exp);
 
 			if (!var_exp)
 				UNIMPLEMENTED("Handle malloc failure");
-			s_exp = ex_str_append(s_exp, var_exp, var_len);
+			printf("\n");
+			printf("found var \t[%s]\n", var_exp);
+			printf("exp_var_len \t[%ld]\n", exp_var_len);
+			printf("\n");
+			if (!var_exp[0])
+				exp_var_len = ex_var_len(t->content + i);
+			else
+				s_exp = ex_str_append(s_exp, var_exp, exp_var_len);
 		}
 		else
 		{
-			char *end = ft_strchr(t->content + i , '$');
+			// find next occourance of variable or just EOF.
+			end = ft_strchr(t->content + i, '$');
 			if (!end)
+			{
+				printf("next var not found\n");
 				end = t->content + t->content_len;
-			size_t len = end - t->content;
-			if (len > t->content_len)
-				len = t->content_len;
+			}
+
+			int32_t len = t->content + i - end;
+			if (len < 0)
+				len = -len;
+
+
 			var_exp = ft_substr(t->content + i, 0, len);
-			var_len = ft_strlen(var_exp);
-			s_exp = ex_str_append(s_exp, var_exp, var_len);
+			exp_var_len = ft_strlen(var_exp);
+
+			printf("line until next var [%s]\n", var_exp);
+			printf("len  until next var [%d]\n", len);
+			printf("end [%s]\n", end);
+			printf("\n\n");
+
+			s_exp = ex_str_append(s_exp, var_exp, exp_var_len);
 			free(var_exp);
 		}
-		i += var_len;
+		i += exp_var_len;
+		if (end == t->content + t->content_len)
+			break;
 	}
 	t->content = s_exp;
 	t->content_len = ft_strlen(t->content);
