@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   pipeline.c                                        :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/10/05 02:54:41 by joppe         #+#    #+#                 */
-/*   Updated: 2023/10/31 00:37:18 by joppe         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   pipeline.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
+/*   Updated: 2023/11/30 17:12:29 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "megashell.h"
 #include "plarser.h"
 #include "heredoc.h"
 #include "execute.h"
+#include "input.h"
 #include <assert.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -62,6 +64,8 @@ static int child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 			perror(strerror(errno));
 		close(cmd->pipe[PIPE_WRITE]);
 	}
+	signals_setup(CHILD);
+	// TODO Check if the heredoc gets INTERRUPTED by a signal, if so don't run the `run_command`.
 	redirections(&cmd->content, heredocs);
 	return (!run_command(meta, &cmd->content));
 }
@@ -81,6 +85,7 @@ static bool pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 	}
 	if (!cmd->pid)
 	{
+		signals_setup(CHILD);
 		exit(child_proc(meta, cmd, heredocs));
 	}
 	if (cmd->prev)
@@ -88,10 +93,11 @@ static bool pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 		close(cmd->prev->pipe[PIPE_READ]);
 		close(cmd->prev->pipe[PIPE_WRITE]);
 	}
+	signals_setup(MAIN);
 	return (true);
 }
 
-// TODO: maybe handle when the child segfaults n stuff.
+// TODO: Test wether handle when the child segfaults n stuff.
 static int pipeline_wait(t_cmd_list *cmds)
 {
 	int		status;
@@ -101,9 +107,33 @@ static int pipeline_wait(t_cmd_list *cmds)
 		waitpid(cmds->pid, &status, 0);
 		cmds = cmds->next;
 	}
-	if (!WIFEXITED(status))
-		assert(0 && "Handle segfaults etc.\n");
+	if (WIFSIGNALED(status))
+		return (WTERMSIG(status) + 128);
 	return (WEXITSTATUS(status));
+}
+
+void set_lastexit_var(char **envp, int status)
+{
+	char *s = ft_itoa(status);
+	if (!s)
+		UNIMPLEMENTED("no mem prot");
+	char *value = env_set_var(envp, LAST_EXIT_VAR, s);
+	free(s);
+	printf("value = [%s]\n", value);
+}
+
+bool	has_heredoc_failed(t_meta *meta, t_hd_list *heredoc_pipes)
+{
+	int status;
+	
+	while (heredoc_pipes->next)
+		heredoc_pipes = heredoc_pipes->next;
+	status = heredoc_pipes->fd;
+	if (WIFSIGNALED(status))
+		set_lastexit_var(meta->envp, 128 + WTERMSIG(status));
+	else 
+		set_lastexit_var(meta->envp, WEXITSTATUS(status));
+	return (status != 0);
 }
 
 bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
@@ -112,11 +142,12 @@ bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 	t_cmd_list	*cmds_head;
 	int			last_exit;
 
+	(void) last_exit;
 	cmds_head = cmds;
 	heredoc_pipes = run_heredocs(cmds);
-	if (contains_heredoc(cmds) && !heredoc_pipes)
+	if (contains_heredoc(cmds) && (!heredoc_pipes || \
+		has_heredoc_failed(meta, heredoc_pipes)))
 		return (false);
-
 	while (cmds)
 	{
 		if (!pipeline_node(meta, cmds, &heredoc_pipes))
@@ -127,9 +158,6 @@ bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 	}
 	last_exit = pipeline_wait(cmds_head);
 	hd_lst_free(heredoc_pipes);
-
+	set_lastexit_var(meta->envp, last_exit);
 	return (true);
-
-
-	(void) last_exit;
 }

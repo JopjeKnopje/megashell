@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_string.c                                     :+:      :+:    :+:   */
+/*   utils_string.c                                    :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:30:43 by joppe             #+#    #+#             */
-/*   Updated: 2023/10/10 17:02:09 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/11/26 22:31:48 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	**str_arr_append(char **arr, char *s)
 	if (!s)
 		return (NULL);
 	len = ft_strlen_2d(arr);
-	tmp = ft_calloc(len + ft_strlen(s) + 1, sizeof(char *));
+	tmp = ft_calloc(len + 2, sizeof(char *));
 	if (!tmp)
 	{
 		str_free_2d(arr);
