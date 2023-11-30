@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/30 17:43:48 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/30 18:27:55 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,10 +188,6 @@ void ex_expand_quote_block(char **envp, t_token *t)
 			step = ft_strlen(var_exp);
 			size_t key_len = ex_var_len(t->content + i);
 
-			// if (key_len > step)
-			// 	step = key_len;
-
-			// if (var_exp[0])
 			step = key_len;
 			if (step)
 			{
@@ -205,9 +201,9 @@ void ex_expand_quote_block(char **envp, t_token *t)
 		}
 		else
 		{
-			// find next occourance of variable or just EOF.
+			char *closing_quote = ft_strchr(t->content + i, '"');
 			end = ft_strchr(t->content + i, '$');
-			if (!end)
+			if (!end || end > closing_quote)
 			{
 				printf("next var not found\n");
 				end = t->content + t->content_len;
@@ -245,6 +241,7 @@ bool ex_main(char **envp, t_tok_list *tokens)
 	while (tokens)
 	{
 		t = &tokens->token;
+		printf("expanding token...\n");
 		if (t->kind == TOKEN_BLOCK_QUOTE_DOUBLE)
 		{
 			ex_expand_quote_block(envp, t);
