@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/01 22:36:25 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/02 00:20:30 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/02 00:22:19 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ t_tok_list *pr_joiner(t_tok_list *tokens)
 			if (!s_joined)
 				UNIMPLEMENTED("protect sized_strjoin");
 
-			printf("joined [%.*s] with [%.*s] == [%s]\n",
-					(int) tok_base->content_len, tok_base->content,
-					(int) tok_joinee->content_len, tok_joinee->content, s_joined);
+			// printf("joined [%.*s] with [%.*s] == [%s]\n",
+			// 		(int) tok_base->content_len, tok_base->content,
+			// 		(int) tok_joinee->content_len, tok_joinee->content, s_joined);
 
 			if (tok_joinee->kind == TOKEN_ALLOC)
 				free(tok_joinee->content);
