@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                         :+:    :+:             */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/11/30 19:56:10 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/01 15:53:31 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	execute(t_meta *meta, t_cmd_list *cmds)
 	t_builtin	is_builtin;
 	int		status;
 
+	status = 0;
 	is_builtin = BUILTIN_INVALID;
 	if ((cmds->content.argv && cmds->content.argv[0]))
 		is_builtin = get_builtin(cmds->content.argv[0]);

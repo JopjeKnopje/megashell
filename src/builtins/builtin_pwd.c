@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:43:52 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/18 17:01:45 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:57:44 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "plarser.h"
 #include "utils.h"
 
-bool	builtin_run_pwd(t_meta *meta, t_cmd_frame *cmd)
+int	builtin_run_pwd(t_meta *meta, t_cmd_frame *cmd)
 {
 	char	cwd[PATH_MAX];
 	char	**path;
@@ -35,5 +35,5 @@ bool	builtin_run_pwd(t_meta *meta, t_cmd_frame *cmd)
 			i++;
 		}
 	}
-	return (true);
+	return (0);
 }

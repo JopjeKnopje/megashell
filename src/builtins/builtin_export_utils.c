@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export_utils.c                            :+:    :+:             */
+/*   builtin_export_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 13:58:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/11/06 23:28:04 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/01 16:06:15 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ bool	handle_export_existing_variable(char **envp, char *cmd_start)
 	return (true);
 }
 
-bool	handle_export_new_variable(t_meta *meta, char *arg, char *cmd_start)
+int	handle_export_new_variable(t_meta *meta, char *arg, char *cmd_start)
 {
 	if (!correct_input(cmd_start))
 	{
 		handle_export_input_errors(cmd_start);
-		return (true);
+		return (0);
 	}
 	meta->envp = add_to_env(meta->envp, arg, cmd_start);
-	return (true);
+	return (0);
 }
