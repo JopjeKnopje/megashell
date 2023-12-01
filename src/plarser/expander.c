@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/01 16:16:42 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/02 00:06:39 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,7 @@ void ex_expand_quote_block(char **envp, t_token *t)
 				end = t->content + t->content_len;
 			}
 
+			// TODO Fix this.
 			int32_t len = t->content + i - end;
 			if (len < 0)
 				len = -len;

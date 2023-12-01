@@ -6,16 +6,17 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/01 22:36:25 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/01 23:24:41 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/02 00:20:30 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "plarser.h"
+#include "test_utils.h"
 #include "utils.h"
 #include <stdio.h>
 
 // In-case we have an empty token set its state to TOKEN_UNUSED, so the parser will ignore it.
-static void pr_disable_tokens(t_tok_list *tokens)
+static void pr_disable_empty_tokens(t_tok_list *tokens)
 {
 	while (tokens)
 	{
@@ -29,13 +30,14 @@ static void pr_disable_tokens(t_tok_list *tokens)
 	}
 }
 
-t_tok_list *pr_join_tokens(t_tok_list *tokens)
+t_tok_list *pr_joiner(t_tok_list *tokens)
 {
 	t_tok_list	*tail;
 	t_token		*tok_base;
 	t_token		*tok_joinee;
+	char 		*s_joined;
 
-	pr_disable_tokens(tokens);
+	pr_disable_empty_tokens(tokens);
 	tail = lx_lstlast(tokens);
 	while (tail)
 	{
@@ -43,19 +45,22 @@ t_tok_list *pr_join_tokens(t_tok_list *tokens)
 		tok_joinee = &tail->next->token;
 		if (tok_joinee && tok_base->padding == 0)
 		{
-			char	*joined = sized_strjoin(tok_base->content, tok_base->content_len,
+			s_joined = sized_strjoin(tok_base->content, tok_base->content_len,
 					tok_joinee->content, tok_joinee->content_len);
-			// printf("joined [%.*s] with [%.*s] == [%s]\n",
-			// 		(int) tok_base->content_len, tok_base->content,
-			// 		(int) tok_joinee->content_len, tok_joinee->content, joined);
-			if (!joined)
+			if (!s_joined)
 				UNIMPLEMENTED("protect sized_strjoin");
 
-			tok_joinee->kind = TOKEN_UNUSED;
+			printf("joined [%.*s] with [%.*s] == [%s]\n",
+					(int) tok_base->content_len, tok_base->content,
+					(int) tok_joinee->content_len, tok_joinee->content, s_joined);
 
-			tok_base->content = joined;
-			tok_base->content_len = ft_strlen(joined);
-			tok_base->kind = TOKEN_ALLOC;
+			if (tok_joinee->kind == TOKEN_ALLOC)
+				free(tok_joinee->content);
+			*tok_joinee = lx_token_set(TOKEN_UNUSED, NULL, 0);
+
+			if (tok_base->kind == TOKEN_ALLOC)
+				free(tok_base->content);
+			*tok_base = lx_token_set(TOKEN_ALLOC, s_joined, ft_strlen(s_joined));
 		}
 		tail = tail->prev;
 	}
