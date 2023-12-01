@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/29 18:12:11 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/01 16:18:46 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,9 @@ t_tok_list *join_tokens(t_tok_list *tokens)
 		// if token is connected.
 		if (tokens->token.kind != TOKEN_UNUSED && tokens->next && tokens->token.padding == 0)
 		{
-			char *joined = sized_strjoin(tokens->token.content, tokens->token.content_len, tokens->next->token.content, tokens->next->token.content_len);
+			char *joined = sized_strjoin(	tokens->token.content, tokens->token.content_len,
+											tokens->next->token.content, tokens->next->token.content_len);
+			printf("joined [%.*s] with [%.*s] == [%s]\n", (int) tokens->token.content_len, tokens->token.content, (int) tokens->next->token.content_len, tokens->next->token.content, joined);
 			if (!tokens->token.content)
 				UNIMPLEMENTED("protect sized_strjoin");
 

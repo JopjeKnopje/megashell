@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:05:42 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/30 12:46:58 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/01 15:52:46 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ void print_bits(size_t const size, void const * const ptr)
 void print_token(t_token t)
 {
 	printf("\x1b[36;49m");
-	printf("token_kind \t\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%ld]\npadding \t\t[%ld]\n", TOKEN_NAMES[t.kind], (int) t.content_len, t.content, t.content_len, t.padding);
+	if (t.kind == TOKEN_ALLOC)
+		printf("token_kind \t\t[%s]\ntoken_content\t\t[%s]\ntoken_content_len\t[%ld]\npadding \t\t[%ld]\n", TOKEN_NAMES[t.kind], t.content, t.content_len, t.padding);
+	else
+		printf("token_kind \t\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%ld]\npadding \t\t[%ld]\n", TOKEN_NAMES[t.kind], (int) t.content_len, t.content, t.content_len, t.padding);
 	printf("\x1b[0m");
 }
 

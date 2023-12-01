@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/30 19:11:12 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/01 16:16:42 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,8 @@ static void ex_step_into_quote(t_token *t)
 		t->content++;
 		t->content_len -= 2;
 		t->kind = TOKEN_TEXT;
+		if (t->content_len == 0)
+			t->padding = 0;
 	}
 }
 
