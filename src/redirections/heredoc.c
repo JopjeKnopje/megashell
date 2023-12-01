@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/11/30 19:25:03 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/01 12:50:32 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ uint8_t	read_from_heredoc(char *close_line, int pipe_fd)
 	{
 		line = readline(HEREDOC_PROMPT);
 		if (!line)
-			{
-				break;
-			}
+		{
+			break;
+		}
 		if (!ft_strncmp(line, close_line, ft_strlen(close_line) + 1))
 		{
 			free(line);
@@ -59,15 +59,12 @@ int	handle_heredoc(t_cmd_frame *f, int *status)
 		signals_setup(HEREDOC);
 		close (pipe_fd[PIPE_READ]);
 		child_exit_code = read_from_heredoc(f->heredoc_delim, pipe_fd[PIPE_WRITE]);
+		printf("child_exit_code [%d]\n", child_exit_code);
 		close (pipe_fd[PIPE_WRITE]);
 		exit(child_exit_code);
 	}
 	close(pipe_fd[PIPE_WRITE]);
 	waitpid(pid, status, 0);
-	// if (WIFSIGNALED(status))
-	// 	return (-1);
-	// child_exit_code = WEXITSTATUS(status);
-	// dprintf(STDERR_FILENO, "child_exit %d\n", child_exit_code);
 	return (pipe_fd[PIPE_READ]);
 }
 

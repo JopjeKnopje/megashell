@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/30 19:57:38 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/01 12:54:08 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static int pipeline_wait(t_cmd_list *cmds)
 	return (WEXITSTATUS(status));
 }
 
-bool	has_heredoc_failed(t_hd_list *heredoc_pipes)
+int	get_heredoc_exit_status(t_hd_list *heredoc_pipes)
 {
 	int status;
 	
@@ -118,10 +118,9 @@ bool	has_heredoc_failed(t_hd_list *heredoc_pipes)
 		heredoc_pipes = heredoc_pipes->next;
 	status = heredoc_pipes->fd;
 	if (WIFSIGNALED(status))
-		set_exit_code(128 + WTERMSIG(status));
+		return (128 + WTERMSIG(status));
 	else 
-		set_exit_code(WEXITSTATUS(status));
-	return (status != 0);
+		return (WEXITSTATUS(status));
 }
 
 int	pipeline_start(t_meta *meta, t_cmd_list *cmds)
@@ -130,12 +129,16 @@ int	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 	t_cmd_list	*cmds_head;
 	int			last_exit;
 
-	(void) last_exit;
 	cmds_head = cmds;
 	heredoc_pipes = run_heredocs(cmds);
-	if (contains_heredoc(cmds) && (!heredoc_pipes || \
-		has_heredoc_failed(heredoc_pipes)))
-		return (false);
+	if (contains_heredoc(cmds) && (!heredoc_pipes))
+		return (0);
+	last_exit = get_heredoc_exit_status(heredoc_pipes);
+	if (last_exit)
+	{
+		hd_lst_free(heredoc_pipes);
+		return (last_exit);
+	}
 	while (cmds)
 	{
 		if (!pipeline_node(meta, cmds, &heredoc_pipes))
@@ -145,7 +148,6 @@ int	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 		cmds = cmds->next;
 	}
 	last_exit = pipeline_wait(cmds_head);
-	set_exit_code(last_exit);
 	hd_lst_free(heredoc_pipes);
 	return (last_exit);
 }
