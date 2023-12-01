@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/30 19:56:04 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/01 13:02:11 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
+
+int g_exit_code;
 
 void	cmd_free(t_cmd_list *cmd)
 {

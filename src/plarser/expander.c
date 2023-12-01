@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/30 19:46:49 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/01 13:04:29 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "execute.h"
-
-int g_exit_code;
 
 static char *ex_find_var(char **envp, char *name, size_t len)
 {

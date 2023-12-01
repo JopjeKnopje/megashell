@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/01 12:54:08 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/01 13:19:18 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "heredoc.h"
 #include "execute.h"
 #include "input.h"
+#include "test_utils.h"
 #include <assert.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -106,8 +107,15 @@ static int pipeline_wait(t_cmd_list *cmds)
 		cmds = cmds->next;
 	}
 	if (WIFSIGNALED(status))
+	{
+		fprintf(stderr, "nope\n");
 		return (WTERMSIG(status) + 128);
-	return (WEXITSTATUS(status));
+	}
+	else 
+	{
+		fprintf(stderr, "yup\n");
+		return (WEXITSTATUS(status));
+	}
 }
 
 int	get_heredoc_exit_status(t_hd_list *heredoc_pipes)
@@ -118,7 +126,7 @@ int	get_heredoc_exit_status(t_hd_list *heredoc_pipes)
 		heredoc_pipes = heredoc_pipes->next;
 	status = heredoc_pipes->fd;
 	if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
+		return (WTERMSIG(status) + 128);
 	else 
 		return (WEXITSTATUS(status));
 }
@@ -126,24 +134,26 @@ int	get_heredoc_exit_status(t_hd_list *heredoc_pipes)
 int	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 {
 	t_hd_list	*heredoc_pipes;
-	t_cmd_list	*cmds_head;
+	t_cmd_list	*const cmds_head = cmds;
 	int			last_exit;
 
-	cmds_head = cmds;
 	heredoc_pipes = run_heredocs(cmds);
-	if (contains_heredoc(cmds) && (!heredoc_pipes))
-		return (0);
-	last_exit = get_heredoc_exit_status(heredoc_pipes);
-	if (last_exit)
+	if (contains_heredoc(cmds))
 	{
-		hd_lst_free(heredoc_pipes);
-		return (last_exit);
+		if (!heredoc_pipes)
+			return (0);
+		last_exit = get_heredoc_exit_status(heredoc_pipes);
+		if (last_exit)
+		{
+			hd_lst_free(heredoc_pipes);
+			return (last_exit);
+		}
 	}
 	while (cmds)
 	{
 		if (!pipeline_node(meta, cmds, &heredoc_pipes))
 		{
-			assert(1 && "pipeline_node failure\n");
+			UNIMPLEMENTED("pipeline_node failure\n");
 		}
 		cmds = cmds->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:17:38 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/01 12:54:35 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/01 13:02:06 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "megashell.h"
 #include "plarser.h"
 #include <stdio.h>
+
 
 char	**get_environment(char **envp)
 {
@@ -44,5 +45,5 @@ char	**get_environment(char **envp)
 void set_exit_code(int code)
 {
 	g_exit_code = code;
-	// printf("g_last_exit [%d]\n", code);
+	printf("g_last_exit [%d]\n", code);
 }
