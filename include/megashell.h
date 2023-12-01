@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   megashell.h                                        :+:      :+:    :+:   */
+/*   megashell.h                                       :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:40:37 by jboeve            #+#    #+#             */
-/*   Updated: 2023/11/30 13:17:03 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/01 13:02:02 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 #define HISTORY_FILE_NAME	".ms_history"
 #define HEREDOC_PROMPT		"\033[36;49m>\033[0m "
 #define SHELL_PROMPT		"\033[32;49mmegashell>\033[0m "
-#define LAST_EXIT_VAR 		"LAST_EXIT="
+
+extern int g_exit_code;
 
 typedef struct s_exec {
 	int			args;

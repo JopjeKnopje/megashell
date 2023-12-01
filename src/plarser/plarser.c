@@ -6,11 +6,12 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 12:26:52 by jboeve            #+#    #+#             */
-/*   Updated: 2023/11/06 00:54:55 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/30 19:50:49 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "plarser.h"
+#include "execute.h"
 #include "test_utils.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -57,6 +58,7 @@ syntax_check:
 	t_tok_list *err = sy_main(tokens);
 	if (err)
 	{
+		set_exit_code(2);
 		printf("syntax error at token '%.*s'\n", (int) err->token.content_len, err->token.content);
 		lx_lst_free(tokens);
 		return (NULL);
