@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:08:55 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/17 15:40:17 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/01 16:14:05 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,19 @@ bool	process_echo_flags(t_cmd_frame *cmd, bool flag)
 	return (flag);
 }
 
-bool	builtin_run_echo(t_meta *meta, t_cmd_frame *cmd)
+int	builtin_run_echo(t_meta *meta, t_cmd_frame *cmd)
 {
-	bool	flag;
+	int	flag;
 
 	(void) meta;
 	flag = true;
 	if (cmd->argv[1] == NULL)
 	{
 		write(1, "\n", 1);
-		return (true);
+		return (0);
 	}
 	flag = process_echo_flags(cmd, flag);
 	if (flag)
 		write(1, "\n", 1);
-	return (true);
+	return (0);
 }

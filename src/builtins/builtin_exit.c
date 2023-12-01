@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:11 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/01 13:32:12 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:32:24 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool	is_a_nb(char *str)
 	return (true);
 }
 
-bool	builtin_run_exit(t_meta *meta, t_cmd_frame *cmd)
+int	builtin_run_exit(t_meta *meta, t_cmd_frame *cmd)
 {
 	int	nb;
 
@@ -49,7 +49,7 @@ bool	builtin_run_exit(t_meta *meta, t_cmd_frame *cmd)
 		printf("exit\n");
 		if ((is_a_nb(cmd->argv[1]) && is_a_nb(cmd->argv[2]))
 			|| (is_a_nb(cmd->argv[1]) && !is_a_nb(cmd->argv[2])))
-			return (printf("exit: too many arguments\n"), false);
+			return (printf("exit: too many arguments\n"), 0);
 		if ((!is_a_nb(cmd->argv[1]) && !is_a_nb(cmd->argv[2])) || \
 			(!is_a_nb(cmd->argv[1]) && is_a_nb(cmd->argv[2])))
 		{

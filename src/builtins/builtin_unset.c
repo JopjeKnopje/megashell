@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:33 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/06 19:44:31 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:56:28 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,14 @@ bool	remove_env_variable(char **envp, const char *variable)
 	return (false);
 }
 
-bool	builtin_run_unset(t_meta *meta, t_cmd_frame *cmd)
+int	builtin_run_unset(t_meta *meta, t_cmd_frame *cmd)
 {
 	char	*variable;
 
 	variable = cmd->argv[1];
 	if (!cmd->argv[1])
-	{
-		return (false);
-	}
+		return (0);
 	if (remove_env_variable(meta->envp, variable) == false)
-		return (false);
-	return (true);
+		return (0);
+	return (0);
 }

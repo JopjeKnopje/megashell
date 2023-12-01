@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.h                                         :+:    :+:             */
+/*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/11/30 19:57:28 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/01 15:33:58 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <errno.h>
 # include <string.h>
 # include <stdbool.h>
-// # include <linux/limits.h>
-# include <limits.h>
+# include <linux/limits.h>
+// # include <limits.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 
@@ -80,7 +80,7 @@ void		dup_io(t_exec *execute, t_cmd_list *cmds);
 
 // builtins:
 t_builtin	get_builtin(char *cmd);
-bool		run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd);
+int			run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd);
 
 // access:
 bool		find_access(t_meta *meta, t_cmd_list *cmds);

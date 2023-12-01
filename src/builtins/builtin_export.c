@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:03 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/06 19:43:42 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/01 16:06:24 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ bool	exists_in_env(char **envp, char *arg, char *variable, int len_var)
 	return (false);
 }
 
-bool	builtin_run_export(t_meta *meta, t_cmd_frame *cmd)
+int	builtin_run_export(t_meta *meta, t_cmd_frame *cmd)
 {
 	char	*cmd_start;
 	char	*variable;
@@ -96,13 +96,13 @@ bool	builtin_run_export(t_meta *meta, t_cmd_frame *cmd)
 	if (!cmd->argv[1])
 	{
 		print_env(meta->envp);
-		return (false);
+		return (0);
 	}
 	cmd_start = ft_strdup(cmd->argv[1]);
 	if (!cmd_start)
-		return (false);
+		return (0);
 	if (!prepare_variable(cmd_start))
-		return (false);
+		return (0);
 	variable = cmd_start;
 	len_var = ft_strlen(variable);
 	if (exists_in_env(meta->envp, cmd->argv[1], variable, len_var) == false)
@@ -110,5 +110,5 @@ bool	builtin_run_export(t_meta *meta, t_cmd_frame *cmd)
 	if (!correct_input(cmd_start))
 		return (handle_export_input_errors(cmd_start));
 	handle_export_existing_variable(meta->envp, cmd_start);
-	return (true);
+	return (0);
 }

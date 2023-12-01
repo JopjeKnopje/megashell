@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                        :+:    :+:             */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/11/30 19:59:36 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/01 15:49:02 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "utils.h"
 #include <stdio.h>
 
-typedef bool	(*t_builtin_func)(t_meta *meta, t_cmd_frame *cmd);
+typedef int	(*t_builtin_func)(t_meta *meta, t_cmd_frame *cmd);
 
 static const char *BUILTINS_NAME[BUILTIN_COUNT] = {
 	"INVALID",
@@ -48,7 +48,7 @@ t_builtin	get_builtin(char *cmd)
 	return (BUILTIN_INVALID);
 }
 
-bool	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
+int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 {
 	const t_builtin_func	funcs[] = {
 		NULL, \
@@ -61,5 +61,5 @@ bool	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 		builtin_run_exit, \
 	};
 
-	return (!(*funcs[builtin])(meta, cmd));
+	return ((*funcs[builtin])(meta, cmd));
 }

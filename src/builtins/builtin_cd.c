@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:09:31 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/18 16:25:26 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/01 16:15:49 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ bool	run_argument(t_meta *meta, t_cmd_frame *cmd)
 	return (true);
 }
 
-bool	builtin_run_cd(t_meta *meta, t_cmd_frame *cmd)
+int	builtin_run_cd(t_meta *meta, t_cmd_frame *cmd)
 {
 	char		cwd[PATH_MAX];
 	char		**tmp_home;
@@ -93,17 +93,17 @@ bool	builtin_run_cd(t_meta *meta, t_cmd_frame *cmd)
 	{
 		tmp_home = search_in_path(meta->envp, "HOME=");
 		if (!tmp_home)
-			return (false);
+			return (0);
 		chdir(tmp_home[0]);
 		free_2d(tmp_home);
 		getcwd(cwd, sizeof(cwd));
-		return (true);
+		return (0);
 	}
 	if (run_argument(meta, cmd) == false)
 	{
 		print_error(strerror(errno));
-		return (false);
+		return (1);
 	}
 	getcwd(cwd, sizeof(cwd));
-	return (true);
+	return (0);
 }
