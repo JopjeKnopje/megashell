@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/01 20:02:34 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/01 20:26:02 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ static t_cmd_list *pr_list_add_cmd(t_cmd_list **cmd_list, t_cmd_frame t)
 	return (*cmd_list);
 }
 
-t_tok_list *join_tokens(t_tok_list *tokens)
+t_tok_list *join_tokens1(t_tok_list *tokens)
 {
 	t_tok_list *head = tokens;
 
@@ -133,7 +133,7 @@ t_tok_list *join_tokens(t_tok_list *tokens)
 			printf("joined [%.*s] with [%.*s] == [%s]\n",
 					(int) t_cur->content_len, t_cur->content,
 					(int) t_next->content_len, t_next->content, joined);
-			if (!t_cur->content)
+			if (!joined)
 				UNIMPLEMENTED("protect sized_strjoin");
 
 			if (t_cur->kind == TOKEN_ALLOC)
@@ -143,12 +143,45 @@ t_tok_list *join_tokens(t_tok_list *tokens)
 				free(t_next->content);
 
 			t_cur->content = joined;
-
 			t_cur->content_len = ft_strlen(t_cur->content);
 			t_cur->kind = TOKEN_ALLOC;
 			t_next->kind = TOKEN_UNUSED;
 		}
 		tokens = tokens->next;
+	}
+	return (head);
+}
+
+// In order to properly join all the tokens. Join them from back to front
+t_tok_list *join_tokens(t_tok_list *tokens)
+{
+	t_tok_list *head = tokens;
+
+	// Goto end of tokens list.
+	while (tokens->next)
+		tokens = tokens->next;	
+
+
+	t_tok_list *join_head;
+	t_tok_list *join_handle;
+
+	// Iterate back to front over all the tokens.
+	while (tokens)
+	{
+		join_head = tokens;
+		// Find the last token that doens't have `padding == 0` safe it.
+		while (join_head && join_head->token.padding == 0)
+		{
+			join_head = join_head->prev;	
+		}
+		join_handle = tokens;
+		while (join_handle && join_head)
+		{
+			// Do the actual joining.
+			join_handle = join_head->prev;
+		}
+		// Again traverse from the end of the list up until that token while joining them.
+		tokens = join_handle;
 	}
 	return (head);
 }
