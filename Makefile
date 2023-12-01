@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/13 22:36:23 by joppe         ########   odam.nl          #
+#    Updated: 2023/12/02 00:13:11 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ LIBFT		:=	libft/build/libft.a
 
 IFLAGS		:= -Ilibft/include -Iinclude $(I_RL)
 LFLAGS		:= -lreadline $(L_RL)
-
+ 
 SRC_DIR		:=	src
 
 SRCS		:= 	execute/error.c \
@@ -67,8 +67,10 @@ SRCS		:= 	execute/error.c \
 			  	plarser/syntax_func.c \
 			  	plarser/tokenize.c \
 			  	plarser/parser.c \
+			  	plarser/parser_joiner.c \
 			  	plarser/parser_list.c \
 			  	plarser/expander.c \
+			  	plarser/space_count.c \
 			  	utils/utils_string.c \
 				utils/utils_path.c \
 				redirections/redirections.c \
@@ -88,6 +90,8 @@ HEADERS 	:=	input.h \
 OBJ_DIR		:=	obj
 
 
+TEST_LFLAGS	:= -L /home/jboeve/.capt/root/usr/lib/x86_64-linux-gnu
+TEST_IFLAGS	:= -I /home/jboeve/.capt/root/usr/include
 TEST_SRCS	:= 	test_tokenizer.c \
 				test_expander.c
 TEST		:=	tests
@@ -140,7 +144,8 @@ $(TEST)/bin:
 	mkdir $@
 
 $(TEST)/bin/%: $(TEST)/%.c $(OBJS)
-	$(CC) $(CFLAGS) $(IFLAGS) $< $(OBJS) $(LIBFT) -o $@ -lcriterion $(LFLAGS) 
+	$(CC) $(CFLAGS) $(IFLAGS) $< $(OBJS) $(LIBFT) -o $@ -lcriterion $(LFLAGS) $(TEST_IFLAGS) $(TEST_LFLAGS)
 
+ 
 test: make_libs $(OBJS) $(TEST)/bin $(TEST_BINS)
 	for test in $(TEST_BINS) ; do ./$$test -j1 ; done

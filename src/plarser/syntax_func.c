@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 23:19:49 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/06 15:43:13 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/29 23:27:11 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ bool sy_token_err(t_tok_list *node)
 	return (false);
 }
 
-bool sy_token_unknown(t_tok_list *node)
+bool sy_token_unused(t_tok_list *node)
 {
 	UNUSED(node);
-	UNIMPLEMENTED("unknown token in syntax");
+	UNIMPLEMENTED("unused token in syntax");
 	return (false);
 }
