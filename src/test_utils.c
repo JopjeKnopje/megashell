@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:05:42 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/06 21:19:51 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/01 15:52:46 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <stdio.h>
 
 static const char *TOKEN_NAMES[] = {
-	"TOKEN_UNKNOWN",
+	"TOKEN_UNUSED",
 	"TOKEN_BLOCK_QUOTE_SINGLE",
 	"TOKEN_BLOCK_QUOTE_DOUBLE",
 	"TOKEN_BLOCK_DOLLAR",
@@ -56,7 +56,10 @@ void print_bits(size_t const size, void const * const ptr)
 void print_token(t_token t)
 {
 	printf("\x1b[36;49m");
-	printf("token_kind \t\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%ld]\n", TOKEN_NAMES[t.kind], (int) t.content_len, t.content, t.content_len);
+	if (t.kind == TOKEN_ALLOC)
+		printf("token_kind \t\t[%s]\ntoken_content\t\t[%s]\ntoken_content_len\t[%ld]\npadding \t\t[%ld]\n", TOKEN_NAMES[t.kind], t.content, t.content_len, t.padding);
+	else
+		printf("token_kind \t\t[%s]\ntoken_content\t\t[%.*s]\ntoken_content_len\t[%ld]\npadding \t\t[%ld]\n", TOKEN_NAMES[t.kind], (int) t.content_len, t.content, t.content_len, t.padding);
 	printf("\x1b[0m");
 }
 

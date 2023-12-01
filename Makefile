@@ -35,7 +35,7 @@ LIBFT		:=	libft/build/libft.a
 
 IFLAGS		:= -Ilibft/include -Iinclude $(I_RL)
 LFLAGS		:= -lreadline $(L_RL)
-
+ 
 SRC_DIR		:=	src
 
 SRCS		:= 	execute/error.c \
@@ -69,8 +69,10 @@ SRCS		:= 	execute/error.c \
 			  	plarser/syntax_func.c \
 			  	plarser/tokenize.c \
 			  	plarser/parser.c \
+			  	plarser/parser_joiner.c \
 			  	plarser/parser_list.c \
 			  	plarser/expander.c \
+			  	plarser/space_count.c \
 			  	utils/utils_string.c \
 				utils/utils_path.c \
 				redirections/redirections.c \
@@ -90,6 +92,8 @@ HEADERS 	:=	input.h \
 OBJ_DIR		:=	obj
 
 
+TEST_LFLAGS	:= -L /home/jboeve/.capt/root/usr/lib/x86_64-linux-gnu
+TEST_IFLAGS	:= -I /home/jboeve/.capt/root/usr/include
 TEST_SRCS	:= 	test_tokenizer.c \
 				test_expander.c
 TEST		:=	tests
@@ -142,7 +146,8 @@ $(TEST)/bin:
 	mkdir $@
 
 $(TEST)/bin/%: $(TEST)/%.c $(OBJS)
-	$(CC) $(CFLAGS) $(IFLAGS) $< $(OBJS) $(LIBFT) -o $@ -lcriterion $(LFLAGS) 
+	$(CC) $(CFLAGS) $(IFLAGS) $< $(OBJS) $(LIBFT) -o $@ -lcriterion $(LFLAGS) $(TEST_IFLAGS) $(TEST_LFLAGS)
 
+ 
 test: make_libs $(OBJS) $(TEST)/bin $(TEST_BINS)
 	for test in $(TEST_BINS) ; do ./$$test -j1 ; done

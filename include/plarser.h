@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/11/06 21:07:32 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/02 00:00:21 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 
 
 typedef enum e_token_kind {
-	TOKEN_UNKNOWN 				= 0,
+	TOKEN_UNUSED 				= 0,
 	TOKEN_BLOCK_QUOTE_SINGLE 	= 1,	// '[content]'
 	TOKEN_BLOCK_QUOTE_DOUBLE 	= 2,	// "[content]"
 	TOKEN_BLOCK_DOLLAR 			= 3,	// $
@@ -45,7 +45,7 @@ typedef enum e_token_kind {
 	TOKEN_APPEND 				= 7,	// >>
 	TOKEN_HEREDOC 				= 8,	// <<
 	TOKEN_TEXT 					= 9,
-	TOKEN_ALLOC					= 10, 	// We know its allocated memory
+	TOKEN_ALLOC					= 10, 	// We know its allocated memory this only happens in the expander.
 	TOKEN_ERROR 				= 11, 	// Error which the syntax checker will handle
 	TOKEN_COUNT 				= 12,
 }	t_token_kind;
@@ -53,6 +53,7 @@ typedef enum e_token_kind {
 typedef struct s_token {
 	t_token_kind	kind;
 	size_t			content_len;
+	size_t 			padding;
 	char			*content;
 }	t_token;
 
@@ -91,6 +92,9 @@ void			pr_lst_free(t_cmd_list *lst);
 void			pr_lstadd_back(t_cmd_list **lst, t_cmd_list *new);
 size_t			pr_lst_count(t_cmd_list *lst);
 
+// space_count.c
+t_tok_list *sc_main(t_tok_list *tokens);
+
 // expander.c
 bool ex_main(char **envp, t_tok_list *tokens);
 
@@ -104,7 +108,10 @@ bool			sy_token_variable(t_tok_list *token);
 bool			sy_token_pipe(t_tok_list *token);
 bool			sy_token_pass(t_tok_list *node);
 bool			sy_token_err(t_tok_list *node);
-bool sy_token_unknown(t_tok_list *node);
+bool sy_token_unused(t_tok_list *node);
+
+// parser_joiner.c
+t_tok_list *pr_joiner(t_tok_list *tokens);
 
 // lexer.c
 t_tok_list *lx_list_add_token(t_tok_list **token_lst, t_token t);

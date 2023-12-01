@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:30:43 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/26 22:31:48 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/01 16:05:28 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,21 @@ void str_free_2d(char **s)
 		i++;
 	}
 	free(s);
+}
+
+char	*sized_strjoin(char const *s1, size_t l1, char const *s2, size_t l2)
+{
+	char	*buf;
+	size_t	total_size;
+
+	total_size = l1 + l2 + 1;
+	buf = (char *) malloc(total_size);
+	if (!buf)
+		return (NULL);
+	ft_bzero(buf, total_size);
+	ft_strlcpy(buf, s1, l1 + 1);
+	ft_strlcat(buf, s2, total_size);
+	return (buf);
 }
 
 char	*sized_strdup(const char *s, size_t len)

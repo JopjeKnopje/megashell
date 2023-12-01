@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 12:26:52 by jboeve            #+#    #+#             */
-/*   Updated: 2023/11/30 19:50:49 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/01 22:33:11 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ t_cmd_list *plarser_main(char **envp, char *line)
 		printf("lexer malloc failure\n");
 		return (NULL);
 	}
+
+	// count spaces LOL
+	tokens = sc_main(tokens);
+
+
 	print_tokens(tokens);
 	if (contains_error(tokens))
 		goto syntax_check;
