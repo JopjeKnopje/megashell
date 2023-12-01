@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/01 16:18:46 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/01 20:02:34 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,26 +117,36 @@ t_tok_list *join_tokens(t_tok_list *tokens)
 
 	while (tokens)
 	{
-		// if token is connected.
-		if (tokens->token.kind != TOKEN_UNUSED && tokens->next && tokens->token.padding == 0)
+		t_token *t_cur	= &tokens->token;
+		t_token *t_next = &tokens->next->token;
+
+		if (!t_cur->content_len)
 		{
-			char *joined = sized_strjoin(	tokens->token.content, tokens->token.content_len,
-											tokens->next->token.content, tokens->next->token.content_len);
-			printf("joined [%.*s] with [%.*s] == [%s]\n", (int) tokens->token.content_len, tokens->token.content, (int) tokens->next->token.content_len, tokens->next->token.content, joined);
-			if (!tokens->token.content)
+			if (t_cur->kind == TOKEN_ALLOC)
+				free(t_cur->content);
+			t_cur->kind = TOKEN_UNUSED;
+		}
+		else if (t_next && t_cur->padding == 0)
+		{
+			char	*joined = sized_strjoin(t_cur->content, t_cur->content_len,
+											t_next->content, t_next->content_len);
+			printf("joined [%.*s] with [%.*s] == [%s]\n",
+					(int) t_cur->content_len, t_cur->content,
+					(int) t_next->content_len, t_next->content, joined);
+			if (!t_cur->content)
 				UNIMPLEMENTED("protect sized_strjoin");
 
-			if (tokens->token.kind == TOKEN_ALLOC)
-				free(tokens->token.content);
+			if (t_cur->kind == TOKEN_ALLOC)
+				free(t_cur->content);
 
-			if (tokens->next->token.kind == TOKEN_ALLOC)
-				free(tokens->next->token.content);
+			if (t_next->kind == TOKEN_ALLOC)
+				free(t_next->content);
 
-			tokens->token.content = joined;
+			t_cur->content = joined;
 
-			tokens->token.content_len = ft_strlen(tokens->token.content);
-			tokens->token.kind = TOKEN_ALLOC;
-			tokens->next->token.kind = TOKEN_UNUSED;
+			t_cur->content_len = ft_strlen(t_cur->content);
+			t_cur->kind = TOKEN_ALLOC;
+			t_next->kind = TOKEN_UNUSED;
 		}
 		tokens = tokens->next;
 	}
@@ -151,6 +161,9 @@ t_cmd_list *pr_main(t_tok_list *tokens)
 
 	if (!join_tokens(tokens))
 		UNIMPLEMENTED("protect join_tokens");
+
+	printf("\nafter join_tokens\n\n");
+	print_tokens(tokens);
 
 
 	// every frame can contain at max one of each redirection (in / out).
