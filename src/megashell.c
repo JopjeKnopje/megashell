@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   megashell.c                                       :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
 /*   Updated: 2023/12/01 16:11:17 by jboeve        ########   odam.nl         */
@@ -23,7 +23,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-int g_signal_num;
+int g_exit_code;
 
 void	cmd_free(t_cmd_list *cmd)
 {
@@ -48,7 +48,6 @@ int	megashell(int argc, char *argv[], char *envp[])
 
 	(void) argc;
 	(void) argv;
-	signals_setup(MAIN);
 	ft_bzero(&meta, sizeof(t_meta));
 	if (!prompt_env_setup())
 		return (EXIT_FAILURE);
@@ -57,6 +56,7 @@ int	megashell(int argc, char *argv[], char *envp[])
 		printf("error search path\n");
 	while (1)
 	{
+		signals_setup(MAIN);
 		line = prompt_get_line();
 		if (!line)
 		{
@@ -67,7 +67,7 @@ int	megashell(int argc, char *argv[], char *envp[])
 		if (cmds)
 		{
 			print_cmds(cmds);
-			execute(&meta, cmds);
+			set_exit_code(execute(&meta, cmds));
 		}
 		pr_lst_free(cmds);
 		free(line);

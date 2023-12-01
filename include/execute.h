@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/11/26 22:27:13 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/30 19:57:28 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,14 @@ int			search_path(t_meta *meta, char **environment);
 
 // environment:
 char		**get_environment(char **envp);
-char		*env_set_var(char **envp, char *name, char *value);
+void set_exit_code(int code);
 
 
 // pipeline.c
-bool		pipeline_start(t_meta *meta, t_cmd_list *cmds);
+int		pipeline_start(t_meta *meta, t_cmd_list *cmds);
 
 // execute:
-bool		execute(t_meta *meta, t_cmd_list *cmds);
+int		execute(t_meta *meta, t_cmd_list *cmds);
 
 // execute_utils:
 bool		dup_stdin(int file);

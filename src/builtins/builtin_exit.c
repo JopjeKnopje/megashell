@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:11 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/10 16:02:38 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/01 13:32:12 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,13 @@ bool	builtin_run_exit(t_meta *meta, t_cmd_frame *cmd)
 	{
 		printf("exit\n");
 		if ((is_a_nb(cmd->argv[1]) && is_a_nb(cmd->argv[2]))
-			|| (!is_a_nb(cmd->argv[2])))
+			|| (is_a_nb(cmd->argv[1]) && !is_a_nb(cmd->argv[2])))
 			return (printf("exit: too many arguments\n"), false);
-		if (!is_a_nb(cmd->argv[1]) && is_a_nb(cmd->argv[2]))
+		if ((!is_a_nb(cmd->argv[1]) && !is_a_nb(cmd->argv[2])) || \
+			(!is_a_nb(cmd->argv[1]) && is_a_nb(cmd->argv[2])))
 		{
 			printf("exit: a numeric argument required\n");
-			exit(EXIT_FAILURE);
+			exit(2);
 		}
 	}
 	printf("exit\n");

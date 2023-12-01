@@ -15,6 +15,7 @@
 #include <readline/history.h>
 #include <stdlib.h>
 #include <termios.h>
+#include "execute.h"
 #include "libft.h"
 #include "input.h"
 #include "megashell.h"
@@ -34,6 +35,7 @@ bool prompt_env_setup()
 		return (false);
 	// TODO Error handling.
 	// sigals_setup();
+	set_exit_code(0);
 	disable_echoctl();
 	return (true);
 }

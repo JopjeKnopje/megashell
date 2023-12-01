@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/26 22:44:38 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/01 13:19:18 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 #include "heredoc.h"
 #include "execute.h"
 #include "input.h"
+#include "test_utils.h"
 #include <assert.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-
 
 static bool	run_command(t_meta *meta, t_cmd_frame *cmd)
 {
@@ -93,7 +93,6 @@ static bool pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 		close(cmd->prev->pipe[PIPE_READ]);
 		close(cmd->prev->pipe[PIPE_WRITE]);
 	}
-	signals_setup(1);
 	return (true);
 }
 
@@ -108,45 +107,57 @@ static int pipeline_wait(t_cmd_list *cmds)
 		cmds = cmds->next;
 	}
 	if (WIFSIGNALED(status))
+	{
+		fprintf(stderr, "nope\n");
 		return (WTERMSIG(status) + 128);
-	return (WEXITSTATUS(status));
+	}
+	else 
+	{
+		fprintf(stderr, "yup\n");
+		return (WEXITSTATUS(status));
+	}
 }
 
-void set_lastexit_var(char **envp, int status)
+int	get_heredoc_exit_status(t_hd_list *heredoc_pipes)
 {
-	char *s = ft_itoa(status);
-	if (!s)
-		UNIMPLEMENTED("no mem prot");
-	char *value = env_set_var(envp, LAST_EXIT_VAR, s);
-	free(s);
-	printf("value = [%s]\n", value);
+	int status;
+	
+	while (heredoc_pipes->next)
+		heredoc_pipes = heredoc_pipes->next;
+	status = heredoc_pipes->fd;
+	if (WIFSIGNALED(status))
+		return (WTERMSIG(status) + 128);
+	else 
+		return (WEXITSTATUS(status));
 }
 
-bool	pipeline_start(t_meta *meta, t_cmd_list *cmds)
+int	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 {
 	t_hd_list	*heredoc_pipes;
-	t_cmd_list	*cmds_head;
+	t_cmd_list	*const cmds_head = cmds;
 	int			last_exit;
 
-	(void) last_exit;
-	cmds_head = cmds;
-	signals_setup(IGNORE);
 	heredoc_pipes = run_heredocs(cmds);
-	if (contains_heredoc(cmds) && !heredoc_pipes)
-		return (false);
+	if (contains_heredoc(cmds))
+	{
+		if (!heredoc_pipes)
+			return (0);
+		last_exit = get_heredoc_exit_status(heredoc_pipes);
+		if (last_exit)
+		{
+			hd_lst_free(heredoc_pipes);
+			return (last_exit);
+		}
+	}
 	while (cmds)
 	{
 		if (!pipeline_node(meta, cmds, &heredoc_pipes))
 		{
-			assert(1 && "pipeline_node failure\n");
+			UNIMPLEMENTED("pipeline_node failure\n");
 		}
 		cmds = cmds->next;
 	}
 	last_exit = pipeline_wait(cmds_head);
 	hd_lst_free(heredoc_pipes);
-	set_lastexit_var(meta->envp, last_exit);
-
-	// g_signal_num = last_exit;
-	signals_setup(MAIN);
-	return (true);
+	return (last_exit);
 }

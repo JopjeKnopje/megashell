@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "plarser.h"
+#include "execute.h"
 #include "test_utils.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,6 +63,7 @@ syntax_check:
 	t_tok_list *err = sy_main(tokens);
 	if (err)
 	{
+		set_exit_code(2);
 		printf("syntax error at token '%.*s'\n", (int) err->token.content_len, err->token.content);
 		lx_lst_free(tokens);
 		return (NULL);
