@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/29 14:13:28 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/30 12:59:56 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/01 22:53:02 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ t_tok_list *sc_main(t_tok_list *tokens)
 	head = tokens;
 	while (tokens)
 	{
-		tokens->token.padding = sc_count(&tokens->token);
+		if (tokens->next)
+			tokens->token.padding = sc_count(&tokens->token);
+		else
+			tokens->token.padding = 0;
 		tokens = tokens->next;
 	}
 	return head;
