@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/01 23:45:37 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/02 20:09:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void lx_trim_space(char **cursor)
 	}
 }
 
-static t_token lx_next(char *s)
+t_token lx_next(char *s)
 {
 	t_token	t;
 
