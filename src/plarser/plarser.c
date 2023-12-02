@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 12:26:52 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/01 22:33:11 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/02 17:40:57 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_cmd_list *plarser_main(char **envp, char *line)
 	if (contains_error(tokens))
 		goto syntax_check;
 
-	printf("\n\n\n\n\n\n\n\n\n\n\n\n");
+	// printf("\n\n\n\n\n\n");
 
 	if (!ex_main(envp, tokens))
 	{
@@ -58,7 +58,7 @@ t_cmd_list *plarser_main(char **envp, char *line)
 
 
 syntax_check:
-	printf("\n\n\n\n\n\n\n\n\n\n\n\n");
+	printf("\n\n\n\n\n\n\n\n");
 	print_tokens(tokens);
 	t_tok_list *err = sy_main(tokens);
 	if (err)

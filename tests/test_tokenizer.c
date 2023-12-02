@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/06 01:45:51 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/29 18:21:02 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/02 20:10:40 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ typedef struct s_test_params {
 } t_test_params;
 
 
+t_token lx_next(char *s);
+
 
 int	test_strncmp(const char *s1, const char *s2, size_t n1, size_t n2)
 {
@@ -49,8 +51,6 @@ int	test_strncmp(const char *s1, const char *s2, size_t n1, size_t n2)
 
 
 
-
-
 Test(tokenizer, single_dollar)
 {
 	t_test_params params = {
@@ -63,7 +63,7 @@ Test(tokenizer, single_dollar)
 		},
 	};
 
-	params.result = lx_tokenize_dollar_block(params.input);
+	params.result = lx_next(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
@@ -79,7 +79,7 @@ Test(tokenizer, var_exit_status)
 		},
 	};
 
-	params.result = lx_tokenize_dollar_block(params.input);
+	params.result = lx_next(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
@@ -95,7 +95,7 @@ Test(tokenizer, single_var)
 		},
 	};
 
-	params.result = lx_tokenize_dollar_block(params.input);
+	params.result = lx_next(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
@@ -111,7 +111,7 @@ Test(tokenizer, two_vars)
 		},
 	};
 
-	params.result = lx_tokenize_dollar_block(params.input);
+	params.result = lx_next(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
@@ -127,7 +127,7 @@ Test(tokenizer, variable_underscore_name)
 		},
 	};
 
-	params.result = lx_tokenize_dollar_block(params.input);
+	params.result = lx_next(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
@@ -143,7 +143,7 @@ Test(tokenizer, variable_name_underscore)
 		},
 	};
 
-	params.result = lx_tokenize_dollar_block(params.input);
+	params.result = lx_next(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
@@ -159,7 +159,7 @@ Test(tokenizer, variable_name_digit)
 		},
 	};
 
-	params.result = lx_tokenize_dollar_block(params.input);
+	params.result = lx_next(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
@@ -175,7 +175,7 @@ Test(tokenizer, variable_name_digit_ascii)
 		},
 	};
 
-	params.result = lx_tokenize_dollar_block(params.input);
+	params.result = lx_next(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
@@ -191,7 +191,7 @@ Test(tokenizer, variable_name_quote)
 		},
 	};
 
-	params.result = lx_tokenize_dollar_block(params.input);
+	params.result = lx_next(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
@@ -207,7 +207,7 @@ Test(tokenizer, variable_dollar_multiple_2)
 		},
 	};
 
-	params.result = lx_tokenize_dollar_block(params.input);
+	params.result = lx_next(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
@@ -223,7 +223,7 @@ Test(tokenizer, variable_dollar_multiple_3)
 		},
 	};
 
-	params.result = lx_tokenize_dollar_block(params.input);
+	params.result = lx_next(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
@@ -239,7 +239,7 @@ Test(tokenizer, variable_dollar_multiple_4)
 		},
 	};
 
-	params.result = lx_tokenize_dollar_block(params.input);
+	params.result = lx_next(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
@@ -255,7 +255,7 @@ Test(tokenizer, variable_dollar_multiple_5)
 		},
 	};
 
-	params.result = lx_tokenize_dollar_block(params.input);
+	params.result = lx_next(params.input);
 	TEST_ASSERT_PARAMS(params);
 }
 
@@ -271,6 +271,38 @@ Test(tokenizer, single_var_unfinished)
 		},
 	};
 
-	params.result = lx_tokenize_dollar_block(params.input);
+	params.result = lx_next(params.input);
+	TEST_ASSERT_PARAMS(params);
+}
+
+Test(tokenizer, text_and_quote)
+{
+	t_test_params params = {
+		.input = "a\"b\"",
+		.expected = {
+			TOKEN_TEXT,
+			1,
+			0,
+			"a",
+		},
+	};
+
+	params.result = lx_next(params.input);
+	TEST_ASSERT_PARAMS(params);
+}
+
+Test(tokenizer, quote_and_text)
+{
+	t_test_params params = {
+		.input = "\"b\"a",
+		.expected = {
+			TOKEN_BLOCK_QUOTE_DOUBLE,
+			3,
+			0,
+			"\"b\"",
+		},
+	};
+
+	params.result = lx_next(params.input);
 	TEST_ASSERT_PARAMS(params);
 }

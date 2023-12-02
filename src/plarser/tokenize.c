@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 17:43:17 by jboeve            #+#    #+#             */
-/*   Updated: 2023/11/29 15:58:27 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/02 20:05:58 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_token lx_tokenize_text(char *s)
 	size_t i;
 
 	i = 0;
-	while (s[i] && s[i] != ' ' && !lx_is_metachar(s[i]) && s[i] != '$')
+	while (s[i] && s[i] != ' ' && !lx_is_metachar(s[i]) && s[i] != '$' && s[i] != '\'' && s[i] != '\"')
 	{
 		i++;
 	}
