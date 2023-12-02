@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input.h                                            :+:      :+:    :+:   */
+/*   input.h                                           :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:03:58 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/25 13:56:44 by iris             ###   ########.fr       */
+/*   Updated: 2023/12/02 23:51:34 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@ typedef struct e_alias_list {
 	struct e_alias_list	*next;
 }	t_alias_list;
 
+// signals.c
 void	signals_setup(int mode);
+
+// prompt.c
+const char *get_prompt(int exit_code);
 
 
 #endif // !INPUT_H

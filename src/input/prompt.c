@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:01 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/26 23:18:33 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/02 23:53:40 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,27 @@ bool prompt_env_setup()
 	if (!isatty(STDOUT_FILENO))
 		return (false);
 	// TODO Error handling.
-	// sigals_setup();
 	set_exit_code(0);
 	disable_echoctl();
 	return (true);
 }
 
+const char *get_prompt(int exit_code)
+{
+	if (!exit_code)
+		return SHELL_PROMPT;
+	else
+		return SHELL_PROMPT_ERROR;
+}
+
 char *prompt_get_line()
 {
 	char	*line;
+
 	
 	while (1)
 	{
-		line = readline(SHELL_PROMPT);
+		line = readline(get_prompt(g_exit_code));
 		if (line == NULL)
 			return (NULL);
 		if (ft_strisempty(line))
