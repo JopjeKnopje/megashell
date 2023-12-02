@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile                                          :+:    :+:              #
 #                                                     +:+ +:+         +:+      #
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/12/01 18:16:35 by ivan-mel         ###   ########.fr        #
+#    Updated: 2023/12/02 20:22:02 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,9 +27,9 @@ RUN_CMD		:= ./$(NAME)
 
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra
-CFLAGS		+= -g
+CFLAGS		+= -g -fsanitize=address
 
-# -fsanitize=address
+
 
 LIBFT		:=	libft/build/libft.a
 
@@ -58,6 +58,7 @@ SRCS		:= 	execute/error.c \
 				builtins/builtin_export_utils.c \
 				builtins/builtin_pwd.c \
 				builtins/builtin_unset.c \
+				builtins/builtin_history.c \
 				input/prompt.c \
 			  	input/signals.c \
 			  	input/history_file.c \
