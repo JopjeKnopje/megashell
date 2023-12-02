@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   builtins.c                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/01 15:49:02 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/02 20:21:06 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static const char *BUILTINS_NAME[BUILTIN_COUNT] = {
 	"export",
 	"unset",
 	"exit",
+	"history",
 };
 
 t_builtin	get_builtin(char *cmd)
@@ -59,6 +60,7 @@ int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 		builtin_run_export, \
 		builtin_run_unset, \
 		builtin_run_exit, \
+		builtin_run_history, \
 	};
 
 	return ((*funcs[builtin])(meta, cmd));

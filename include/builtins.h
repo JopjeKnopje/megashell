@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   builtins.h                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 15:00:42 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/01 16:05:25 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/02 20:21:14 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef enum e_builtin {
 	BUILTIN_EXPORT,
 	BUILTIN_UNSET,
 	BUILTIN_EXIT,
+	BUILTIN_HISTORY,
 	BUILTIN_COUNT,
 }	t_builtin;
 
@@ -38,6 +39,7 @@ int		builtin_run_echo(t_meta *meta, t_cmd_frame *cmd);
 int		builtin_run_cd(t_meta *execute, t_cmd_frame *cmd);
 int		builtin_run_exit(t_meta *meta, t_cmd_frame *cmd);
 int		builtin_run_export(t_meta *execute, t_cmd_frame *cmd);
+int		builtin_run_history(t_meta *execute, t_cmd_frame *cmd);
 
 bool	correct_input(char *content);
 char	**add_to_env(char **envp, char *arg, char *cmd_start);
