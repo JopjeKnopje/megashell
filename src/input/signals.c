@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:28:16 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/30 20:05:46 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/02 22:57:59 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	signals_setup(int mode)
 	else if (mode == HEREDOC)
 	{
 		signal(SIGINT, hd_handler);
-		signal(SIGQUIT, hd_handler);
+		signal(SIGQUIT, SIG_IGN);
 	}
 	else if (mode == IGNORE)
 	{
