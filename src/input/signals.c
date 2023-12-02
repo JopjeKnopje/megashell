@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:28:16 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/02 22:57:59 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/02 23:53:22 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,19 @@
 #include <signal.h>
 #include "execute.h"
 #include "input.h"
+#include "megashell.h"
 
 
 static void	parent_signal(int sig)
 {
 	if (sig == SIGINT)
 	{
+		set_exit_code(130);
+		printf("\x1B[K");
+		printf("%s", get_prompt(g_exit_code));
 		write(STDOUT_FILENO, "\n", 1);
 		rl_replace_line("", 0);
-		rl_on_new_line();
 		rl_redisplay();
-		set_exit_code(130);
 	}
 }
 
