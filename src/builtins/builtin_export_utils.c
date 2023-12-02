@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export_utils.c                             :+:      :+:    :+:   */
+/*   builtin_export_utils.c                            :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 13:58:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/01 16:06:15 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/02 21:02:19 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ char	**add_to_env(char **envp, char *arg, char *cmd_start)
 		return (printf("Memory allocation error\n"), NULL);
 	}
 	new_envp = fill_environment(envp, new_envp, cmd_start, i);
+	free(cmd_start);
 	new_envp[i] = ft_strdup(arg);
 	if (!new_envp[i])
 	{
-		free(cmd_start);
 		free_2d(new_envp);
 		return (printf("Memory allocation error\n"), NULL);
 	}
