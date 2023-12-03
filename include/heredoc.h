@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:31:17 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/21 20:18:40 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/03 00:46:06 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ t_hd_list	*hd_lstnew(int fd);
 
 // heredoc.c
 bool		contains_heredoc(t_cmd_list *cmds);
+int			handle_heredoc(t_cmd_frame *f, int *status);
+t_hd_list	*append_heredoc(t_hd_list **head, int heredoc_fd);
 t_hd_list	*run_heredocs(t_cmd_list *cmds);
 
 #endif

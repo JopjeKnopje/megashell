@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/02 20:21:06 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/03 01:08:01 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include "plarser.h"
 #include "utils.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 typedef int	(*t_builtin_func)(t_meta *meta, t_cmd_frame *cmd);
 
@@ -51,6 +53,7 @@ t_builtin	get_builtin(char *cmd)
 
 int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 {
+	int	exit_status;
 	const t_builtin_func	funcs[] = {
 		NULL, \
 		builtin_run_pwd, \
@@ -63,5 +66,29 @@ int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 		builtin_run_history, \
 	};
 
-	return ((*funcs[builtin])(meta, cmd));
+
+	t_hd_list *head = NULL;
+	if (cmd->heredoc_delim)
+	{
+		int fd = handle_heredoc(cmd, &exit_status);
+		if (fd == -1)
+			UNIMPLEMENTED("return malloc failure signal as exit code?\n");
+		head = append_heredoc(&head, fd);
+	}
+
+	int fd_out = dup(STDOUT_FILENO);
+	int fd_in = dup(STDIN_FILENO);
+	redirections(cmd, &head);
+
+	exit_status = (*funcs[builtin])(meta, cmd);
+
+	if (!dup_stdin(fd_in))
+	{
+		fprintf(stderr, "error dup_stdin\n");
+	}
+	if (!dup_stdout(fd_out))
+	{
+		fprintf(stderr, "error dup_stdout\n");
+	}
+	return (exit_status);
 }

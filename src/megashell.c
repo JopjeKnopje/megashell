@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/02 23:37:03 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/03 00:39:03 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	megashell(int argc, char *argv[], char *envp[])
 	{
 		signals_setup(MAIN);
 		line = prompt_get_line();
-		printf("poep\n");
 		if (!line)
 		{
 			megashell_cleanup(&meta);

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/01 12:50:32 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/03 00:45:55 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	handle_heredoc(t_cmd_frame *f, int *status)
 	return (pipe_fd[PIPE_READ]);
 }
 
-static t_hd_list *append_heredoc(t_hd_list **head, int heredoc_fd)
+t_hd_list *append_heredoc(t_hd_list **head, int heredoc_fd)
 {
 	t_hd_list *tmp;
 

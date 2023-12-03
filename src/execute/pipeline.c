@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/01 13:19:18 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/03 00:38:00 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,10 @@ static int pipeline_wait(t_cmd_list *cmds)
 	}
 	if (WIFSIGNALED(status))
 	{
-		fprintf(stderr, "nope\n");
 		return (WTERMSIG(status) + 128);
 	}
 	else 
 	{
-		fprintf(stderr, "yup\n");
 		return (WEXITSTATUS(status));
 	}
 }
