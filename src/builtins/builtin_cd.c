@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:09:31 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/08 12:33:52 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/08 12:39:54 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,13 @@ int	builtin_run_cd(t_meta *meta, t_cmd_frame *cmd)
 {
 	char		cwd[PATH_MAX];
 	char		**tmp_home;
+	const size_t cmd_len = ft_strlen_2d(cmd->argv);
 
+	if (cmd_len >= 2)	
+	{
+		print_error(get_error_name(ERROR_ARGUMENTS));
+		return (1);
+	}
 	if (!cmd->argv[1])
 	{
 		tmp_home = search_in_path(meta->envp, "HOME=");
