@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 12:26:52 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/02 17:40:57 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 10:17:24 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_cmd_list *plarser_main(char **envp, char *line)
 
 	// printf("\n\n\n\n\n\n");
 
-	if (!ex_main(envp, tokens))
+	if (!ex_main(envp, &tokens))
 	{
 		UNIMPLEMENTED("ex_main failed");
 	}

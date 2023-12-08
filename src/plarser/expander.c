@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/02 00:06:39 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 10:28:01 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "plarser.h"
 #include "test_utils.h"
 #include "utils.h"
+#include <math.h>
 #include <readline/readline.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -114,13 +115,14 @@ static size_t ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
 	return (len);
 }
 
-char *ex_expand_var_block(char **envp, t_token *t)
+t_tok_list *ex_expand_var_block(char **envp, t_tok_list *tokens)
 {
 	char	*s_exp;
 	size_t	i;
 
 	i = 0;
 	s_exp = NULL;
+	t_token *t = &tokens->token;
 	while (i < t->content_len)
 	{
 		if (t->content[i] == '$')
@@ -136,14 +138,8 @@ char *ex_expand_var_block(char **envp, t_token *t)
 	{
 		t->padding = 0;
 	}
-	t->content = s_exp;
-	t->content_len = ft_strlen(s_exp);
-	t->kind = TOKEN_ALLOC;
-	return s_exp;
+	return lx_main(s_exp);
 }
-
-
-
 
 // QUOTE Stuff
 static void ex_step_into_quote(t_token *t)
@@ -242,13 +238,14 @@ void ex_expand_quote_block(char **envp, t_token *t)
 	t->kind = TOKEN_ALLOC;
 };
 
-bool ex_main(char **envp, t_tok_list *tokens)
+bool ex_main(char **envp, t_tok_list **lst)
 {
 	t_token	*t;
+	t_tok_list **tokens = lst;
 
-	while (tokens)
+	while (tokens && *tokens)
 	{
-		t = &tokens->token;
+		t = &(*tokens)->token;
 		// printf("expanding token...\n");
 		if (t->kind == TOKEN_BLOCK_QUOTE_DOUBLE)
 		{
@@ -260,10 +257,17 @@ bool ex_main(char **envp, t_tok_list *tokens)
 		}
 		else if (t->kind == TOKEN_BLOCK_DOLLAR)
 		{
-			ex_expand_var_block(envp, t);
+			t_tok_list *exp_tokens = ex_expand_var_block(envp, *tokens);
+			printf("exp tokens\n");
+			print_tokens(exp_tokens);
+			lx_lst_replace_first(tokens, exp_tokens);
+			printf("tokens\n");
+			print_tokens(*tokens);
 		}
-		tokens = tokens->next;
+		*tokens = (*tokens)->next;
 	}
 
+	printf("----\n\n\n");
+	print_tokens(*tokens);
 	return (true);
 }

@@ -6,11 +6,14 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/13 18:59:15 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/02 00:01:30 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 10:22:02 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "plarser.h"
+#include "test_utils.h"
+#include <criterion/internal/ordered-set.h>
+#include <stdio.h>
 
 t_tok_list	*lx_lstlast(t_tok_list *lst)
 {
@@ -72,3 +75,18 @@ void lx_lst_free(t_tok_list *lst)
 
 }
 
+t_tok_list *lx_lst_replace_first(t_tok_list **lst, t_tok_list *insert)
+{
+	if (!lst || !insert)
+		return (NULL);
+	if (!*lst)
+	{
+		*lst = insert;
+		return (*lst);
+	}
+
+	free(*lst);
+	*lst = insert;
+	// (*lst)->next->prev = *lst;
+	return (*lst);
+}

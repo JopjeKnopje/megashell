@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/14 18:05:42 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/01 15:52:46 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/08 10:21:22 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void print_tokens(t_tok_list *lst)
 	while (lst)
 	{
 		print_token(lst->token);
+		if (lst->prev)
+			printf("has prev\n");
 		if (lst->next)
 			printf("\n");
 		lst = lst->next;

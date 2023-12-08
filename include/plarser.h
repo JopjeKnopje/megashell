@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/02 00:00:21 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 10:01:59 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ size_t			pr_lst_count(t_cmd_list *lst);
 t_tok_list *sc_main(t_tok_list *tokens);
 
 // expander.c
-bool ex_main(char **envp, t_tok_list *tokens);
+bool ex_main(char **envp, t_tok_list **tokens);
 
 // syntax.c
 t_tok_list		*sy_main(t_tok_list *tokens);
@@ -129,6 +129,7 @@ void			lx_lstadd_back(t_tok_list **lst, t_tok_list *new);
 t_tok_list		*lx_lstnew(t_token content);
 t_tok_list		*lx_lstlast(t_tok_list *lst);
 void			lx_lst_free(t_tok_list *lst);
+t_tok_list *lx_lst_replace_first(t_tok_list **lst, t_tok_list *insert);
 
 // tokenize.c
 t_token			lx_token_set(t_token_kind k, char *s, uint32_t len);
