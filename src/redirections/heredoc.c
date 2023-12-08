@@ -6,12 +6,13 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/08 17:21:42 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/08 19:43:29 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "heredoc.h"
 #include "execute.h"
+#include "megashell.h"
 #include "plarser.h"
 #include "libft.h"
 #include "input.h"
@@ -96,7 +97,8 @@ t_hd_list *run_heredocs(t_cmd_list *cmds)
 	int			status;
 
 	head = NULL;
-	set_signal_mode(IGNORE);
+	if (!set_signal_mode(IGNORE))
+		return (NULL);
 	while (cmds)
 	{
 		if (cmds->content.heredoc_delim)

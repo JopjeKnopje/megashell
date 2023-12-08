@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/08 17:44:25 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/08 19:41:01 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ int megashell_init(t_meta *meta, char **envp)
 int	megashell(char *envp[])
 {
 	t_meta		meta;
-	char		*line;
 	t_cmd_list	*cmds;
+	char		*line;
 	int			status;
 
 	status = 0;
