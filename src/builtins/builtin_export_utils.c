@@ -6,12 +6,13 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 13:58:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/02 21:02:19 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 19:36:45 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "builtins.h"
+#include "megashell.h"
 
 char	**fill_environment(char **envp, char **new_envp, \
 			char *cmd_start, int i)
@@ -94,5 +95,9 @@ int	handle_export_new_variable(t_meta *meta, char *arg, char *cmd_start)
 		return (0);
 	}
 	meta->envp = add_to_env(meta->envp, arg, cmd_start);
+	if (!meta->envp)
+	{
+		return (INTERNAL_FAILURE);
+	}
 	return (0);
 }
