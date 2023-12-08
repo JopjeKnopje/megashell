@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:40:37 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/02 23:23:52 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 23:25:42 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define MEGASHELL_H
 
 #include <fcntl.h>
+#include <readline/readline.h>
 #include <stdbool.h>
 #include "libft.h"
 #include "plarser.h"

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:01 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/02 23:53:40 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 23:40:20 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,15 @@ bool prompt_env_setup()
 const char *get_prompt(int exit_code)
 {
 	if (!exit_code)
-		return SHELL_PROMPT;
+		return (SHELL_PROMPT);
 	else
-		return SHELL_PROMPT_ERROR;
+		return (SHELL_PROMPT_ERROR);
 }
 
 char *prompt_get_line()
 {
 	char	*line;
 
-	
 	while (1)
 	{
 		line = readline(get_prompt(g_exit_code));
