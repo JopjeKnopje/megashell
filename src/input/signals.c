@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:28:16 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/02 23:53:22 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 15:07:33 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,26 +43,15 @@ static void	hd_handler(int sig)
 	}
 }
 
-void	signals_setup(int mode)
+bool	set_signal_mode(int mode)
 {
 	if (mode == MAIN)
-	{
-		signal(SIGINT, parent_signal);
-		signal(SIGQUIT, SIG_IGN);
-	}
+		return (!(signal(SIGINT, parent_signal) == SIG_ERR || signal(SIGQUIT, SIG_IGN) == SIG_ERR));
 	else if (mode == CHILD)
-	{
-		signal(SIGINT, parent_signal);
-		signal(SIGQUIT, SIG_DFL);
-	}
+		return (!(signal(SIGINT, parent_signal) == SIG_ERR || signal(SIGQUIT, SIG_DFL) == SIG_ERR));
 	else if (mode == HEREDOC)
-	{
-		signal(SIGINT, hd_handler);
-		signal(SIGQUIT, SIG_IGN);
-	}
+		return (!(signal(SIGINT, hd_handler) == SIG_ERR || signal(SIGQUIT, SIG_IGN) == SIG_ERR));
 	else if (mode == IGNORE)
-	{
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
-	}
+		return (!(signal(SIGINT, SIG_IGN) == SIG_ERR || signal(SIGQUIT, SIG_IGN) == SIG_ERR));
+	return true;
 }

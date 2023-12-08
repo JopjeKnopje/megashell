@@ -6,13 +6,14 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/07/31 16:57:13 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/02 20:09:33 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 15:22:49 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "plarser.h"
 #include "test_utils.h"
 #include <stdio.h>
+#include <unistd.h>
 
 static void lx_trim_space(char **cursor)
 {
@@ -70,7 +71,7 @@ t_tok_list *lx_list_add_token(t_tok_list **token_lst, t_token t)
 
 t_tok_list *lx_main(char *s)
 {
-	t_token	t;
+	t_token		t;
 	t_tok_list	*token_lst;
 
 	token_lst = NULL;
@@ -81,8 +82,11 @@ t_tok_list *lx_main(char *s)
 			return (token_lst);
 		t = lx_next(s);
 
-		// TODO Error handling
-		lx_list_add_token(&token_lst, t);
+		if (!lx_list_add_token(&token_lst, t))
+		{
+			lx_lst_free(token_lst);
+			return (NULL);
+		}
 		s += t.content_len;
 	}
 	return (token_lst);

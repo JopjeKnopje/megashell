@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:03:58 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/02 23:51:34 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 15:06:30 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct e_alias_list {
 }	t_alias_list;
 
 // signals.c
-void	signals_setup(int mode);
+bool	set_signal_mode(int mode);
 
 // prompt.c
 const char *get_prompt(int exit_code);

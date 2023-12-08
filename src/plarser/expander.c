@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/02 00:06:39 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 16:30:13 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "plarser.h"
 #include "test_utils.h"
 #include "utils.h"
+#include <limits.h>
 #include <readline/readline.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -89,7 +90,7 @@ static size_t ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
 {
 	char	*var;
 	size_t	len;
-	bool is_exit_code;
+	bool	is_exit_code;
 
 	is_exit_code = false;
 	len = 0;
@@ -106,11 +107,16 @@ static size_t ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
 		if (!var)
 			var = "";
 	}
+	if (!var)
+	{
+		*s_exp = NULL;
+		return (len);
+	}
 	*s_exp = ex_str_append(*s_exp, var, ft_strlen(var));
 	if (is_exit_code)
 		free(var);
 	if (!(*s_exp))
-		UNIMPLEMENTED("Handle malloc failure");
+		return NULL;
 	return (len);
 }
 
@@ -127,21 +133,20 @@ char *ex_expand_var_block(char **envp, t_token *t)
 		{
 			i += ex_expand_var(envp, t, i, &s_exp);
 			if (!s_exp)
-				UNIMPLEMENTED("Handle malloc failure");
+			{
+				free(s_exp);
+				return (NULL);
+			}
 		}
 		i++;
 	}
-	// dirty af.
 	if (s_exp[0] == 0)
-	{
 		t->padding = 0;
-	}
 	t->content = s_exp;
 	t->content_len = ft_strlen(s_exp);
 	t->kind = TOKEN_ALLOC;
-	return s_exp;
+	return (s_exp);
 }
-
 
 
 
@@ -176,13 +181,15 @@ static char *expand_var(char **envp, t_token *t, size_t i)
 	return (var);
 }
 
-void ex_expand_quote_block(char **envp, t_token *t)
+
+
+t_token ex_expand_quote_block(char **envp, t_token *t)
 {
-	size_t i = 0;
-	size_t step;
-	char *s_exp = NULL;
-	char *var_exp = NULL;
-	char *end = NULL;
+	size_t	i = 0;
+	size_t	step;
+	char	*end = NULL;
+	char	*s_exp = NULL;
+	char	*var_exp = NULL;
 
 	ex_step_into_quote(t);
 
@@ -191,45 +198,28 @@ void ex_expand_quote_block(char **envp, t_token *t)
 		if (t->content[i] == '$')
 		{
 			var_exp = expand_var(envp, t, i);
-			// set step to len of expanded variable.
-			step = ft_strlen(var_exp);
-			size_t key_len = ex_var_len(t->content + i);
-
-			step = key_len;
+			step = ex_var_len(t->content + i);
 			if (step)
 			{
 				s_exp = ex_str_append(s_exp, var_exp, ft_strlen(var_exp));
+				if (!s_exp)
+					return lx_token_set(TOKEN_ERROR, NULL, 0);
 			}
-
-			// printf("\n");
-			// printf("found var \t[%s]\n", var_exp);
-			// printf("step \t\t[%ld]\n", step);
-			// printf("\n");
 		}
 		else
 		{
 			char *closing_quote = ft_strchr(t->content + i, '"');
 			end = ft_strchr(t->content + i, '$');
 			if (!end || end > closing_quote)
-			{
-				// printf("next var not found\n");
 				end = t->content + t->content_len;
+			var_exp = ft_substr(t->content + i, 0, ft_abs(t->content + i - end));
+			if (!var_exp)
+			{
+				if (s_exp)
+					free(s_exp);
+				return lx_token_set(TOKEN_ERROR, NULL, 0);
 			}
-
-			// TODO Fix this.
-			int32_t len = t->content + i - end;
-			if (len < 0)
-				len = -len;
-
-
-			var_exp = ft_substr(t->content + i, 0, len);
 			step = ft_strlen(var_exp);
-
-			// printf("line until next var [%s]\n", var_exp);
-			// printf("len  until next var [%d]\n", len);
-			// printf("end [%s]\n", end);
-			// printf("\n\n");
-
 			s_exp = ex_str_append(s_exp, var_exp, step);
 			free(var_exp);
 		}
@@ -237,9 +227,7 @@ void ex_expand_quote_block(char **envp, t_token *t)
 		if (end == t->content + t->content_len)
 			break;
 	}
-	t->content = s_exp;
-	t->content_len = ft_strlen(t->content);
-	t->kind = TOKEN_ALLOC;
+	return lx_token_set(TOKEN_ALLOC, s_exp, ft_strlen(t->content));
 };
 
 bool ex_main(char **envp, t_tok_list *tokens)
@@ -249,10 +237,14 @@ bool ex_main(char **envp, t_tok_list *tokens)
 	while (tokens)
 	{
 		t = &tokens->token;
-		// printf("expanding token...\n");
 		if (t->kind == TOKEN_BLOCK_QUOTE_DOUBLE)
 		{
-			ex_expand_quote_block(envp, t);
+			tokens->token = ex_expand_quote_block(envp, t);
+			// TODO Test if this works.
+			if (tokens->token.kind == TOKEN_ERROR)
+			{
+				return (false);
+			}
 		}
 		else if (t->kind == TOKEN_BLOCK_QUOTE_SINGLE)
 		{
@@ -260,7 +252,10 @@ bool ex_main(char **envp, t_tok_list *tokens)
 		}
 		else if (t->kind == TOKEN_BLOCK_DOLLAR)
 		{
-			ex_expand_var_block(envp, t);
+			if (!ex_expand_var_block(envp, t))
+			{
+				return (false);
+			}
 		}
 		tokens = tokens->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:01 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/02 23:53:40 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 15:22:23 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ bool prompt_env_setup()
 {
 	if (!isatty(STDOUT_FILENO))
 		return (false);
-	// TODO Error handling.
 	set_exit_code(0);
 	disable_echoctl();
 	return (true);
@@ -50,7 +49,6 @@ const char *get_prompt(int exit_code)
 char *prompt_get_line()
 {
 	char	*line;
-
 	
 	while (1)
 	{
@@ -63,7 +61,11 @@ char *prompt_get_line()
 			continue;
 		}
 		add_history(line);
-		hs_add_history_file(HISTORY_FILE_NAME, line);
+		if (!hs_add_history_file(HISTORY_FILE_NAME, line))
+		{
+			print_error(strerror(errno));
+			return (NULL);
+		}
 		return (line);
 	}
 }

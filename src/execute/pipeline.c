@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/03 01:20:17 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 15:06:30 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 			perror(strerror(errno));
 		close(cmd->pipe[PIPE_WRITE]);
 	}
-	signals_setup(CHILD);
+	set_signal_mode(CHILD);
 	// TODO Check if the heredoc gets INTERRUPTED by a signal, if so don't run the `run_command`.
 	redirections(&cmd->content, heredocs);
 	return (!run_command(meta, &cmd->content));
@@ -85,7 +85,7 @@ static bool pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 	}
 	if (!cmd->pid)
 	{
-		signals_setup(CHILD);
+		set_signal_mode(CHILD);
 		exit(child_proc(meta, cmd, heredocs));
 	}
 	if (cmd->prev)
