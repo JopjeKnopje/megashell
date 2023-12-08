@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/30 17:35:04 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/03 00:38:40 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	exit_errors(char *cmd, int status)
 	{
 		if (is_a_directory(cmd) == true)
 		{
-			printf("bash: ./: is a directory\n");
+			printf("megashell: ./: is a directory\n");
 			exit (126);
 		}
 	}
@@ -39,12 +39,12 @@ void	exit_errors(char *cmd, int status)
 	{
 		if (access(cmd, F_OK | X_OK) != 0)
 		{
-			printf("bash: %s: No such file or directory\n", cmd);
+			printf("megashell: %s: No such file or directory\n", cmd);
 			exit (127);
 		}
 		if (!cmd)
 		{
-			printf("bash: %s: command not found", cmd);
+			printf("megashell: %s: command not found", cmd);
 			exit (127);
 		}
 	}
@@ -101,7 +101,7 @@ char	*access_possible(t_meta *meta, char *cmd)
 	executable_path = find_executable_in_path(meta->execute.split_path, cmd);
 	if (!executable_path)
 	{
-		printf("bash: %s: command not found\n", cmd);
+		printf("megashell: %s: command not found\n", cmd);
 		exit(127);
 	}
 	return (executable_path);
