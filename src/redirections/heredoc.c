@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/08 15:06:30 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/08 17:21:42 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	handle_heredoc(t_cmd_frame *f, int *status)
 		set_signal_mode(HEREDOC);
 		close (pipe_fd[PIPE_READ]);
 		child_exit_code = read_from_heredoc(f->heredoc_delim, pipe_fd[PIPE_WRITE]);
-		printf("child_exit_code [%d]\n", child_exit_code);
 		close (pipe_fd[PIPE_WRITE]);
 		exit(child_exit_code);
 	}

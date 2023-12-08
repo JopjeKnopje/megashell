@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/03 01:08:01 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 17:45:30 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,23 @@ static const char *BUILTINS_NAME[BUILTIN_COUNT] = {
 	"history",
 };
 
+static t_builtin_func get_builtin_func(t_builtin builtin)
+{
+	const t_builtin_func	funcs[] = {
+		NULL, \
+		builtin_run_pwd, \
+		builtin_run_env, \
+		builtin_run_echo, \
+		builtin_run_cd, \
+		builtin_run_export, \
+		builtin_run_unset, \
+		builtin_run_exit, \
+		builtin_run_history, \
+	};
+	return funcs[builtin];
+}
+
+
 t_builtin	get_builtin(char *cmd)
 {
 	int	i;
@@ -53,42 +70,51 @@ t_builtin	get_builtin(char *cmd)
 
 int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 {
-	int	exit_status;
-	const t_builtin_func	funcs[] = {
-		NULL, \
-		builtin_run_pwd, \
-		builtin_run_env, \
-		builtin_run_echo, \
-		builtin_run_cd, \
-		builtin_run_export, \
-		builtin_run_unset, \
-		builtin_run_exit, \
-		builtin_run_history, \
-	};
-
-
 	t_hd_list *head = NULL;
+	int	exit_status;
+	int fds[2];
+	int heredoc_fd;
+
 	if (cmd->heredoc_delim)
 	{
-		int fd = handle_heredoc(cmd, &exit_status);
-		if (fd == -1)
-			UNIMPLEMENTED("return malloc failure signal as exit code?\n");
-		head = append_heredoc(&head, fd);
+		heredoc_fd = handle_heredoc(cmd, &exit_status);
+		if (heredoc_fd == INTERNAL_FAILURE)
+		{
+			return (INTERNAL_FAILURE);
+		}
+		head = append_heredoc(&head, heredoc_fd);
+		if (!head)
+			return (INTERNAL_FAILURE);
 	}
-
-	int fd_out = dup(STDOUT_FILENO);
-	int fd_in = dup(STDIN_FILENO);
-	redirections(cmd, &head);
-
-	exit_status = (*funcs[builtin])(meta, cmd);
-
-	if (!dup_stdin(fd_in))
+	fds[PIPE_WRITE] = dup(STDOUT_FILENO);
+	if (fds[PIPE_WRITE] == INTERNAL_FAILURE)
 	{
-		fprintf(stderr, "error dup_stdin\n");
+		hd_lst_free(head);
+		close(heredoc_fd);
+		return (INTERNAL_FAILURE);
 	}
-	if (!dup_stdout(fd_out))
+	fds[PIPE_READ] = dup(STDIN_FILENO);
+	if (fds[PIPE_READ] == INTERNAL_FAILURE)
 	{
-		fprintf(stderr, "error dup_stdout\n");
+		hd_lst_free(head);
+		close(heredoc_fd);
+		close(fds[PIPE_WRITE]);
+		return (INTERNAL_FAILURE);
 	}
+	if (!redirections(cmd, &head))
+	{
+		hd_lst_free(head);
+		close(fds[PIPE_WRITE]);
+		close(fds[PIPE_READ]);
+		print_error(strerror(errno));
+		return (INTERNAL_FAILURE);
+	}
+
+	exit_status = (*get_builtin_func(builtin))(meta, cmd);
+
+	if (!dup_stdin(fds[PIPE_READ]))
+		return ((print_error(get_error_name(ERROR_DUP2)) * 0) - 1);
+	if (!dup_stdin(fds[PIPE_WRITE]))
+		return ((print_error(get_error_name(ERROR_DUP2)) * 0) - 1);
 	return (exit_status);
 }

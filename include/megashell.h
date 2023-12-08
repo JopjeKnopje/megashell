@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:40:37 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/08 16:24:27 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/08 17:44:03 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #define HEREDOC_PROMPT		"\033[36;49m>\033[0m "
 #define SHELL_PROMPT		"\033[32;49mmegashell>\033[0m "
 #define SHELL_PROMPT_ERROR	"\033[31;49mmegashell>\033[0m "
-// #define DEBUG
+#define INTERNAL_FAILURE -1
 
 extern int g_exit_code;
 

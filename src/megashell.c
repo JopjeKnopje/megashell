@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/08 16:29:17 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/08 17:44:25 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void megashell_cleanup(t_meta *meta, int code)
 
 int megashell_init(t_meta *meta, char **envp)
 {
+	ft_bzero(meta, sizeof(t_meta));
 	if (!prompt_env_setup())
 		return (EXIT_FAILURE);
 	if (!hs_read_history_file(HISTORY_FILE_NAME))
@@ -63,9 +64,9 @@ int	megashell(char *envp[])
 	t_meta		meta;
 	char		*line;
 	t_cmd_list	*cmds;
-	int			status = 1;
+	int			status;
 
-	ft_bzero(&meta, sizeof(t_meta));
+	status = 0;
 	if (!megashell_init(&meta, envp))
 		return (EXIT_FAILURE);
 	while (1)
@@ -80,7 +81,12 @@ int	megashell(char *envp[])
 		if (!cmds && status)
 			megashell_cleanup(&meta, EXIT_FAILURE);
 		if (cmds)
-			set_exit_code(execute(&meta, cmds));
+		{
+			status = execute(&meta, cmds);
+			if (status == INTERNAL_FAILURE)
+				megashell_cleanup(&meta, EXIT_FAILURE);
+			set_exit_code(status);
+		}
 		pr_lst_free(cmds);
 	}
 	megashell_cleanup(&meta, EXIT_FAILURE);

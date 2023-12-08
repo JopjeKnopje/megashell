@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/03 01:19:16 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 17:44:59 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,7 @@ int	execute(t_meta *meta, t_cmd_list *cmds)
 		status = run_builtin(is_builtin, meta, &cmds->content);
 	else
 		status = pipeline_start(meta, cmds);
+	if (status == INTERNAL_FAILURE)
+		pr_lst_free(cmds);
 	return (status);
 }

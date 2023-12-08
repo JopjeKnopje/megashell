@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/12/08 16:13:50 by jboeve        ########   odam.nl          #
+#    Updated: 2023/12/08 17:53:42 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ RUN_CMD		:= ./$(NAME)
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra
 CFLAGS		+= -g -fsanitize=address
+# CFLAGS		+= -g
 
 
 

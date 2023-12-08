@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*   builtin_echo.c                                    :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:08:55 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/01 16:14:05 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/08 17:56:43 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "megashell.h"
 #include "plarser.h"
 
-void	print_echo_output(t_cmd_frame *cmd, int i)
+static void	print_echo_output(t_cmd_frame *cmd, int i)
 {
 	while (cmd->argv && cmd->argv[i])
 	{
@@ -25,7 +25,7 @@ void	print_echo_output(t_cmd_frame *cmd, int i)
 	}
 }
 
-bool	process_echo_flags(t_cmd_frame *cmd, bool flag)
+static bool	process_echo_flags(t_cmd_frame *cmd, bool flag)
 {
 	int		i;
 	int		j;
@@ -53,7 +53,7 @@ int	builtin_run_echo(t_meta *meta, t_cmd_frame *cmd)
 
 	(void) meta;
 	flag = true;
-	if (cmd->argv[1] == NULL)
+	if (!cmd->argv[1])
 	{
 		write(1, "\n", 1);
 		return (0);
