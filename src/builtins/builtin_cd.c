@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:09:31 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/08 13:29:58 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/08 13:38:37 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,7 @@ bool	run_argument(t_meta *meta, t_cmd_frame *cmd)
 	bool pwd = set_pwd(meta, pwd_now);
 	if (!oldpwd || !pwd)
 	{
-		printf("oldpwd [%s] pwd [%s]\n", oldpwd ? "TRUE" : "FALSE", pwd ? "TRUE" : "FALSE");
 		free_2d(prev_pwd);
-		printf("yup\n");
 		return (false);
 	}
 	free_2d(prev_pwd);

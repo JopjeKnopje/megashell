@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 13:09:14 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/08 13:30:51 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/08 13:38:28 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,10 @@ bool	set_pwd(t_meta *meta, char *pwd_now)
 	if (!arg)
 		return (false);
 	bool prep_var = prepare_variable(arg);
-	printf("arg [%s]\n", arg);
 	bool exists = exists_in_env(meta->envp, pwd, arg, ft_strlen(arg));
 
 	if (!prep_var || !exists)
 	{
-		printf("prep_var [%s] exists [%s]\n", prep_var ? "TRUE" : "FALSE", exists ? "TRUE" : "FALSE");
 		free(arg);
 		free(cur_pwd);
 		return (false);
