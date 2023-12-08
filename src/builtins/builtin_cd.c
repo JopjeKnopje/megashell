@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   builtin_cd.c                                      :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:09:31 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/01 18:08:51 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/08 13:38:37 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "megashell.h"
 #include "utils.h"
+#include <stdio.h>
 
 bool	set_pwds(t_meta *meta, char *pwd_now, char *cur_pwd)
 {
@@ -29,6 +30,7 @@ bool	set_pwds(t_meta *meta, char *pwd_now, char *cur_pwd)
 		return (false);
 	}
 	handle_export_oldpwd_variable(meta->envp, cur_pwd);
+	free(cur_pwd);
 	free(arg);
 	free(new_pwd);
 	return (true);
@@ -53,7 +55,10 @@ bool	set_oldpwd(t_meta *meta, char *cmd, char **prev_pwd)
 		chdir(*prev_pwd);
 	else
 		if (chdir(cmd) == -1)
+		{
+			free(cur_pwd);
 			return (false);
+		}
 	pwd_now = getcwd(cwd, sizeof(cwd));
 	if (set_pwds(meta, pwd_now, cur_pwd) == false)
 	{
@@ -88,8 +93,9 @@ bool	run_argument(t_meta *meta, t_cmd_frame *cmd)
 		free_2d(prev_pwd);
 		return (true);
 	}
-	if (set_oldpwd(meta, cmd->argv[1], prev_pwd) == false \
-		|| set_pwd(meta, pwd_now) == false)
+	bool oldpwd = set_oldpwd(meta, cmd->argv[1], prev_pwd);
+	bool pwd = set_pwd(meta, pwd_now);
+	if (!oldpwd || !pwd)
 	{
 		free_2d(prev_pwd);
 		return (false);
@@ -102,7 +108,13 @@ int	builtin_run_cd(t_meta *meta, t_cmd_frame *cmd)
 {
 	char		cwd[PATH_MAX];
 	char		**tmp_home;
+	const size_t cmd_len = ft_strlen_2d(cmd->argv);
 
+	if (cmd_len > 2)	
+	{
+		print_error(get_error_name(ERROR_ARGUMENTS));
+		return (1);
+	}
 	if (!cmd->argv[1])
 	{
 		tmp_home = search_in_path(meta->envp, "HOME=");

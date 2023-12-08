@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:03 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/02 20:57:02 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 13:37:42 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	builtin_run_export(t_meta *meta, t_cmd_frame *cmd)
 	if (!cmd_start)
 	{
 		UNIMPLEMENTED("Protect malloc");
-		return (123);
+		return (0);
 	}
 	if (!prepare_variable(cmd_start))
 	{
