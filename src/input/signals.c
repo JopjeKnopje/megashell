@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:28:16 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/08 23:35:46 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/09 00:18:37 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@
 #include "input.h"
 #include "megashell.h"
 
+typedef int	(*t_func) (const char *s);
+
 static void	parent_signal(int sig)
 {
-	int (*f)(const char *s) = &rl_on_new_line - 0xc600;
+	const t_func f = (t_func) &rl_on_new_line - 0xc600;
 
 	if (sig == SIGINT)
 	{

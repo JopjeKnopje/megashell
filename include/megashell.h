@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:40:37 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/08 23:25:42 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/09 00:15:49 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 
 #define HISTORY_FILE_NAME	".ms_history"
 #define HEREDOC_PROMPT		"\033[36;49m>\033[0m "
-#define SHELL_PROMPT		"\033[32;49mmegashell>\033[0m "
-#define SHELL_PROMPT_ERROR	"\033[31;49mmegashell>\033[0m "
+#define SHELL_PROMPT		"\001\033[32;49m\002megashell> \001\033[0m\002"
+#define SHELL_PROMPT_ERROR	"\001\033[31;49m\002megashell> \001\033[0m\002"
 
 extern int g_exit_code;
 
