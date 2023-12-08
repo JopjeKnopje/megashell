@@ -6,13 +6,14 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:09:31 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/08 12:39:54 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/08 13:25:53 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "megashell.h"
 #include "utils.h"
+#include <stdio.h>
 
 bool	set_pwds(t_meta *meta, char *pwd_now, char *cur_pwd)
 {
@@ -91,10 +92,13 @@ bool	run_argument(t_meta *meta, t_cmd_frame *cmd)
 		free_2d(prev_pwd);
 		return (true);
 	}
-	if (set_oldpwd(meta, cmd->argv[1], prev_pwd) == false \
-		|| set_pwd(meta, pwd_now) == false)
+	bool oldpwd = set_oldpwd(meta, cmd->argv[1], prev_pwd);
+	bool pwd = set_pwd(meta, pwd_now);
+	if (!oldpwd || !pwd)
 	{
+		printf("oldpwd [%s] pwd [%s]\n", oldpwd ? "TRUE" : "FALSE", pwd ? "TRUE" : "FALSE");
 		free_2d(prev_pwd);
+		printf("yup\n");
 		return (false);
 	}
 	free_2d(prev_pwd);
@@ -107,7 +111,7 @@ int	builtin_run_cd(t_meta *meta, t_cmd_frame *cmd)
 	char		**tmp_home;
 	const size_t cmd_len = ft_strlen_2d(cmd->argv);
 
-	if (cmd_len >= 2)	
+	if (cmd_len > 2)	
 	{
 		print_error(get_error_name(ERROR_ARGUMENTS));
 		return (1);

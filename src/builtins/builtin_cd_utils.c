@@ -1,17 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd_utils.c                                 :+:      :+:    :+:   */
+/*   builtin_cd_utils.c                                :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 13:09:14 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/01 17:58:49 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/08 13:27:15 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
+#include "libft.h"
 #include "megashell.h"
+#include <stdio.h>
 
 char	*change_oldpwd(char *dir, char *cur_pwd)
 {
@@ -104,12 +106,16 @@ bool	set_pwd(t_meta *meta, char *pwd_now)
 		free(cur_pwd);
 		return (false);
 	}
-	arg = pwd;
+	arg = ft_strdup(pwd);
 	if (!arg)
 		return (false);
-	if (!prepare_variable(arg) || exists_in_env(meta->envp, \
-		pwd, arg, ft_strlen(arg)) == false)
+	bool prep_var = prepare_variable(arg);
+	printf("arg [%s]\n", arg);
+	bool exists = exists_in_env(meta->envp, pwd, arg, ft_strlen(arg));
+
+	if (!prep_var || !exists)
 	{
+		printf("prep_var [%s] exists [%s]\n", prep_var ? "TRUE" : "FALSE", exists ? "TRUE" : "FALSE");
 		free(arg);
 		free(cur_pwd);
 		return (false);
