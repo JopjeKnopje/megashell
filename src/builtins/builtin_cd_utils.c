@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 13:09:14 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/08 13:27:15 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/08 13:30:51 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,10 @@ char	*change_pwd(char *dir, char *cur_pwd)
 bool	handle_export_oldpwd_variable(char **envp, char *cmd_start)
 {
 	int	i;
-
+	UNUSED(cmd_start);
 	i = 0;
 	while (envp[i])
 		i++;
-	if (cmd_start)
-		free(cmd_start);
 	return (true);
 }
 
@@ -121,6 +119,8 @@ bool	set_pwd(t_meta *meta, char *pwd_now)
 		return (false);
 	}
 	handle_export_oldpwd_variable(meta->envp, cur_pwd);
+	free(cur_pwd);
 	free(arg);
+	free(pwd);
 	return (true);
 }
