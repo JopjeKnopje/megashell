@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   parser_joiner.c                                   :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/12/01 22:36:25 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/11 16:28:28 by jboeve        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parser_joiner.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/01 22:36:25 by joppe             #+#    #+#             */
+/*   Updated: 2023/12/11 17:44:04 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static void pr_disable_empty_tokens(t_tok_list *tokens)
+static void	pr_disable_empty_tokens(t_tok_list *tokens)
 {
 	while (tokens)
 	{
@@ -26,16 +26,32 @@ static void pr_disable_empty_tokens(t_tok_list *tokens)
 				free(tokens->token.content);
 			tokens->token.kind = TOKEN_UNUSED;
 		}
-		tokens = tokens->next;	
+		tokens = tokens->next;
 	}
 }
 
-t_tok_list *pr_joiner(t_tok_list *tokens)
+char	if_padding_is_zero(t_token *tok_base, t_token *tok_joinee)
+{
+	char	*s_joined;
+
+	s_joined = sized_strjoin(tok_base->content, tok_base->content_len,
+			tok_joinee->content, tok_joinee->content_len);
+	if (!s_joined)
+		return (NULL);
+	if (tok_joinee->kind == TOKEN_ALLOC)
+		free(tok_joinee->content);
+	*tok_joinee = lx_token_set(TOKEN_UNUSED, NULL, 0);
+	if (tok_base->kind == TOKEN_ALLOC)
+		free(tok_base->content);
+	*tok_base = lx_token_set(TOKEN_ALLOC, s_joined, \
+		ft_strlen(s_joined));
+}
+
+t_tok_list	*pr_joiner(t_tok_list *tokens)
 {
 	t_tok_list	*tail;
 	t_token		*tok_base;
 	t_token		*tok_joinee;
-	char 		*s_joined;
 
 	pr_disable_empty_tokens(tokens);
 	tail = lx_lstlast(tokens);
@@ -45,19 +61,10 @@ t_tok_list *pr_joiner(t_tok_list *tokens)
 		tok_joinee = &tail->next->token;
 		if (tok_joinee && tok_base->padding == 0)
 		{
-			s_joined = sized_strjoin(tok_base->content, tok_base->content_len,
-					tok_joinee->content, tok_joinee->content_len);
-			if (!s_joined)
+			if (!if_padding_is_zero(tok_base, tok_joinee))
 				return (NULL);
-			if (tok_joinee->kind == TOKEN_ALLOC)
-				free(tok_joinee->content);
-			*tok_joinee = lx_token_set(TOKEN_UNUSED, NULL, 0);
-			if (tok_base->kind == TOKEN_ALLOC)
-				free(tok_base->content);
-			*tok_base = lx_token_set(TOKEN_ALLOC, s_joined, ft_strlen(s_joined));
 		}
 		tail = tail->prev;
 	}
 	return (tokens);
 }
-

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:01 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/11 16:02:48 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/11 16:57:35 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	disable_echoctl(void)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attributes);
 }
 
-bool	prompt_env_setup()
+bool	prompt_env_setup(void)
 {
 	if (!isatty(STDOUT_FILENO))
 		return (false);
@@ -38,18 +38,18 @@ bool	prompt_env_setup()
 	return (true);
 }
 
-const char *get_prompt(int exit_code)
+const char	*get_prompt(int exit_code)
 {
 	if (!exit_code)
-		return SHELL_PROMPT;
+		return (SHELL_PROMPT);
 	else
-		return SHELL_PROMPT_ERROR;
+		return (SHELL_PROMPT_ERROR);
 }
 
-char *prompt_get_line()
+char	*prompt_get_line(void)
 {
 	char	*line;
-	
+
 	while (1)
 	{
 		line = readline(get_prompt(g_exit_code));
@@ -58,7 +58,7 @@ char *prompt_get_line()
 		if (ft_strisempty(line))
 		{
 			free(line);
-			continue;
+			continue ;
 		}
 		add_history(line);
 		if (!hs_add_history_file(HISTORY_FILE_NAME, line))
