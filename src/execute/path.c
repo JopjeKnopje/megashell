@@ -73,7 +73,8 @@ int	search_path(t_meta *meta, char **environment)
 	char	**path_after_split;
 
 	meta->envp = get_environment(environment);
-	meta->envp = str_arr_append(meta->envp, ft_strdup("LAST_EXIT=0"));
+	if (!meta->envp)
+		return (1);
 	path = find_path(meta->envp);
 	if (!path)
 		return (print_error(get_error_name(ERROR_FIND_PATH)));
@@ -83,5 +84,5 @@ int	search_path(t_meta *meta, char **environment)
 	meta->execute.split_path = put_slash(path_after_split);
 	if (!meta->execute.split_path)
 		return (print_error(get_error_name(ERROR_PATH)));
-	return (EXIT_SUCCESS);
+	return (0);
 }

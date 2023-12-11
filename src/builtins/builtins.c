@@ -56,6 +56,23 @@ t_builtin_func	get_builtin_func(t_builtin builtin)
 	return (funcs[builtin]);
 }
 
+static t_builtin_func get_builtin_func(t_builtin builtin)
+{
+	const t_builtin_func	funcs[] = {
+		NULL, \
+		builtin_run_pwd, \
+		builtin_run_env, \
+		builtin_run_echo, \
+		builtin_run_cd, \
+		builtin_run_export, \
+		builtin_run_unset, \
+		builtin_run_exit, \
+		builtin_run_history, \
+	};
+	return funcs[builtin];
+}
+
+
 t_builtin	get_builtin(char *cmd)
 {
 	int	i;
@@ -75,26 +92,51 @@ t_builtin	get_builtin(char *cmd)
 
 int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 {
-	t_hd_list	*head;
-	int			exit_status;
-	int			fd;
-	int			fds[2];
+	t_hd_list *head = NULL;
+	int	exit_status;
+	int fds[2];
+	int heredoc_fd;
 
-	head = NULL;
 	if (cmd->heredoc_delim)
 	{
-		fd = handle_heredoc(cmd, &exit_status);
-		if (fd == -1)
-			UNIMPLEMENTED("return malloc failure signal as exit code?\n");
-		head = append_heredoc(&head, fd);
+		heredoc_fd = handle_heredoc(cmd, &exit_status);
+		if (heredoc_fd == INTERNAL_FAILURE)
+		{
+			return (INTERNAL_FAILURE);
+		}
+		head = append_heredoc(&head, heredoc_fd);
+		if (!head)
+			return (INTERNAL_FAILURE);
 	}
 	fds[PIPE_WRITE] = dup(STDOUT_FILENO);
+	if (fds[PIPE_WRITE] == INTERNAL_FAILURE)
+	{
+		hd_lst_free(head);
+		close(heredoc_fd);
+		return (INTERNAL_FAILURE);
+	}
 	fds[PIPE_READ] = dup(STDIN_FILENO);
-	redirections(cmd, &head);
-	exit_status = (get_builtin_func(builtin)(meta, cmd));
+	if (fds[PIPE_READ] == INTERNAL_FAILURE)
+	{
+		hd_lst_free(head);
+		close(heredoc_fd);
+		close(fds[PIPE_WRITE]);
+		return (INTERNAL_FAILURE);
+	}
+	if (!redirections(cmd, &head))
+	{
+		hd_lst_free(head);
+		close(fds[PIPE_WRITE]);
+		close(fds[PIPE_READ]);
+		print_error(strerror(errno));
+		return (INTERNAL_FAILURE);
+	}
+
+	exit_status = (*get_builtin_func(builtin))(meta, cmd);
+
 	if (!dup_stdin(fds[PIPE_READ]))
-		printf("error dup_stdin\n");
-	if (!dup_stdout(fds[PIPE_WRITE]))
-		printf("error dup_stdout\n");
+		return ((print_error(get_error_name(ERROR_DUP2)) * 0) - 1);
+	if (!dup_stdin(fds[PIPE_WRITE]))
+		return ((print_error(get_error_name(ERROR_DUP2)) * 0) - 1);
 	return (exit_status);
 }

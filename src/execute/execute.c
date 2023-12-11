@@ -43,5 +43,7 @@ int	execute(t_meta *meta, t_cmd_list *cmds)
 		status = run_builtin(is_builtin, meta, &cmds->content);
 	else
 		status = pipeline_start(meta, cmds);
+	if (status == INTERNAL_FAILURE)
+		pr_lst_free(cmds);
 	return (status);
 }

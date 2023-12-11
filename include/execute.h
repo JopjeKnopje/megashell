@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.h                                          :+:      :+:    :+:   */
+/*   execute.h                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -51,6 +51,7 @@ typedef enum e_error {
 	ERROR_ACCESS,
 	ERROR_ALLOC,
 	ERROR_DOT,
+	ERROR_LEXER,
 }	t_error;
 
 // error:

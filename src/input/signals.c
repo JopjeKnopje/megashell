@@ -42,26 +42,15 @@ static void	hd_handler(int sig)
 	}
 }
 
-void	signals_setup(int mode)
+bool	set_signal_mode(int mode)
 {
 	if (mode == MAIN)
-	{
-		signal(SIGINT, parent_signal);
-		signal(SIGQUIT, SIG_IGN);
-	}
+		return (!(signal(SIGINT, parent_signal) == SIG_ERR || signal(SIGQUIT, SIG_IGN) == SIG_ERR));
 	else if (mode == CHILD)
-	{
-		signal(SIGINT, parent_signal);
-		signal(SIGQUIT, SIG_DFL);
-	}
+		return (!(signal(SIGINT, parent_signal) == SIG_ERR || signal(SIGQUIT, SIG_DFL) == SIG_ERR));
 	else if (mode == HEREDOC)
-	{
-		signal(SIGINT, hd_handler);
-		signal(SIGQUIT, SIG_IGN);
-	}
+		return (!(signal(SIGINT, hd_handler) == SIG_ERR || signal(SIGQUIT, SIG_IGN) == SIG_ERR));
 	else if (mode == IGNORE)
-	{
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
-	}
+		return (!(signal(SIGINT, SIG_IGN) == SIG_ERR || signal(SIGQUIT, SIG_IGN) == SIG_ERR));
+	return true;
 }

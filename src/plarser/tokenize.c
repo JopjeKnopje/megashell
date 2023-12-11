@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 17:43:17 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/02 20:05:58 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 15:16:23 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ t_token lx_token_set(t_token_kind k, char *s, uint32_t len)
 
 t_token lx_tokenize_quote_block(char *s, char c)
 {
-	uint32_t i;
-	t_token_kind k;
+	uint32_t		i;
+	t_token_kind	k;
 
 	i = 1;
 	k = (c == '\'') * TOKEN_BLOCK_QUOTE_SINGLE + (c == '\"') * TOKEN_BLOCK_QUOTE_DOUBLE;

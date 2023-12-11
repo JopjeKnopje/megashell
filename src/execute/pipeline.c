@@ -18,9 +18,11 @@
 #include "input.h"
 #include "test_utils.h"
 #include <assert.h>
+#include <errno.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <signal.h>
 
@@ -52,7 +54,8 @@ static int	child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 	if (cmd->prev)
 	{
 		if (dup2(cmd->prev->pipe[PIPE_READ], STDIN_FILENO) == -1)
-			perror(strerror(errno));
+			// perror(strerror(errno));
+			return (errno);
 		close(cmd->prev->pipe[PIPE_READ]);
 		close(cmd->prev->pipe[PIPE_WRITE]);
 	}
@@ -60,7 +63,8 @@ static int	child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 	{
 		close(cmd->pipe[PIPE_READ]);
 		if (dup2(cmd->pipe[PIPE_WRITE], STDOUT_FILENO) == -1)
-			perror(strerror(errno));
+			// perror(strerror(errno));
+			return (errno);
 		close(cmd->pipe[PIPE_WRITE]);
 	}
 	signals_setup(CHILD);
@@ -83,7 +87,8 @@ bool	pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 	}
 	if (!cmd->pid)
 	{
-		signals_setup(CHILD);
+		if (!set_signal_mode(CHILD))
+			exit(EXIT_FAILURE);
 		exit(child_proc(meta, cmd, heredocs));
 	}
 	if (cmd->prev)
@@ -123,7 +128,7 @@ int	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 	if (contains_heredoc(cmds))
 	{
 		if (!heredoc_pipes)
-			return (0);
+			return (INTERNAL_FAILURE);
 		last_exit = get_heredoc_exit_status(heredoc_pipes);
 		if (last_exit)
 		{

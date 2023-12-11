@@ -23,7 +23,8 @@ char	*get_error_name(t_error er)
 		[ERROR_DUP2] = "Duplication Error", \
 		[ERROR_ACCESS] = "Access Failure", \
 		[ERROR_ALLOC] = "Allocation Error", \
-		[ERROR_DOT] = ".: filename argument required"};
+		[ERROR_DOT]	= ".: filename argument required", \
+		[ERROR_LEXER] = "Lexer failed\n"};
 
 	return (str[er]);
 }

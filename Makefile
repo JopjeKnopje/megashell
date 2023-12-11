@@ -28,6 +28,7 @@ RUN_CMD		:= ./$(NAME)
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra
 CFLAGS		+= -g -fsanitize=address
+# CFLAGS		+= -g
 
 
 
@@ -77,6 +78,7 @@ SRCS		:= 	execute/error.c \
 			  	plarser/space_count.c \
 			  	utils/utils_string.c \
 				utils/utils_path.c \
+				utils/utils_math.c \
 				redirections/redirections.c \
 				redirections/heredoc.c \
 				test_utils.c \

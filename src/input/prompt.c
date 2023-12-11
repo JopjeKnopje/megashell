@@ -33,7 +33,6 @@ bool	prompt_env_setup()
 {
 	if (!isatty(STDOUT_FILENO))
 		return (false);
-	// TODO Error handling.
 	set_exit_code(0);
 	disable_echoctl();
 	return (true);
@@ -50,7 +49,6 @@ const char *get_prompt(int exit_code)
 char *prompt_get_line()
 {
 	char	*line;
-
 	
 	while (1)
 	{
@@ -63,7 +61,11 @@ char *prompt_get_line()
 			continue;
 		}
 		add_history(line);
-		hs_add_history_file(HISTORY_FILE_NAME, line);
+		if (!hs_add_history_file(HISTORY_FILE_NAME, line))
+		{
+			print_error(strerror(errno));
+			return (NULL);
+		}
 		return (line);
 	}
 }
