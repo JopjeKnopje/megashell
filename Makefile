@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                          :+:    :+:              #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/12/08 17:53:42 by jboeve        ########   odam.nl          #
+#    Updated: 2023/12/11 15:35:13 by ivan-mel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ SRCS		:= 	execute/error.c \
 				execute/environment.c \
 				execute/execute.c \
 				execute/execute_utils.c \
+				execute/pipeline_utils.c \
 				execute/pipeline.c \
 				execute/access.c \
 				execute/access_utils.c \

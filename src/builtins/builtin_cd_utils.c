@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd_utils.c                                :+:    :+:             */
+/*   builtin_cd_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 13:09:14 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/08 13:38:28 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/11 13:31:19 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,7 @@ char	*change_oldpwd(char *dir, char *cur_pwd)
 		return (NULL);
 	path = ft_strdup(dir);
 	if (!path)
-	{
-		free(old_pwd);
-		return (NULL);
-	}
+		return (free(old_pwd), NULL);
 	new_pwd = ft_strjoin(old_pwd, cur_pwd);
 	if (!new_pwd)
 	{
@@ -59,10 +56,7 @@ char	*change_pwd(char *dir, char *cur_pwd)
 		return (NULL);
 	path = ft_strdup(dir);
 	if (!path)
-	{
-		free(old_pwd);
-		return (NULL);
-	}
+		return (free(old_pwd), NULL);
 	new_pwd = ft_strjoin(old_pwd, cur_pwd);
 	if (!new_pwd)
 	{
@@ -75,13 +69,29 @@ char	*change_pwd(char *dir, char *cur_pwd)
 	return (new_pwd);
 }
 
-bool	handle_export_oldpwd_variable(char **envp, char *cmd_start)
+bool	handle_export_oldpwd_variable(char **envp)
 {
 	int	i;
-	UNUSED(cmd_start);
+
 	i = 0;
 	while (envp[i])
 		i++;
+	return (true);
+}
+
+bool	check_in_env(t_meta *meta, char *arg, char *pwd, char *cur_pwd)
+{
+	bool	prep_var;
+	bool	exists;
+
+	prep_var = prepare_variable(arg);
+	exists = exists_in_env(meta->envp, pwd, arg, ft_strlen(arg));
+	if (!prep_var || !exists)
+	{
+		free(arg);
+		free(cur_pwd);
+		return (false);
+	}
 	return (true);
 }
 
@@ -105,18 +115,9 @@ bool	set_pwd(t_meta *meta, char *pwd_now)
 		return (false);
 	}
 	arg = ft_strdup(pwd);
-	if (!arg)
+	if (!arg || !check_in_env(meta, arg, pwd, cur_pwd))
 		return (false);
-	bool prep_var = prepare_variable(arg);
-	bool exists = exists_in_env(meta->envp, pwd, arg, ft_strlen(arg));
-
-	if (!prep_var || !exists)
-	{
-		free(arg);
-		free(cur_pwd);
-		return (false);
-	}
-	handle_export_oldpwd_variable(meta->envp, cur_pwd);
+	handle_export_oldpwd_variable(meta->envp);
 	free(cur_pwd);
 	free(arg);
 	free(pwd);

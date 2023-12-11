@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                          :+:    :+:             */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:01 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/08 15:22:23 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/11 16:02:48 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	disable_echoctl(void)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &attributes);
 }
 
-bool prompt_env_setup()
+bool	prompt_env_setup()
 {
 	if (!isatty(STDOUT_FILENO))
 		return (false);

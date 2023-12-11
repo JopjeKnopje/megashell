@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline.c                                        :+:    :+:             */
+/*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/11 15:49:29 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/11 16:00:40 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <signal.h>
 
 static bool	run_command(t_meta *meta, t_cmd_frame *cmd)
 {
@@ -32,11 +33,9 @@ static bool	run_command(t_meta *meta, t_cmd_frame *cmd)
 
 	if (!cmd->argv)
 		return (true);
-
 	is_builtin = get_builtin(cmd->argv[0]);
 	if (is_builtin)
 		return (run_builtin(is_builtin, meta, cmd));
-
 	cmd_in_path = access_possible(meta, cmd->argv[0]);
 	if (cmd_in_path)
 	{
@@ -50,7 +49,7 @@ static bool	run_command(t_meta *meta, t_cmd_frame *cmd)
 	return (false);
 }
 
-static int child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
+static int	child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 {
 	if (cmd->prev)
 	{
@@ -68,12 +67,12 @@ static int child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 			return (errno);
 		close(cmd->pipe[PIPE_WRITE]);
 	}
-	if (!set_signal_mode(CHILD) || !redirections(&cmd->content, heredocs))
-		return (errno);
+	signals_setup(CHILD);
+	redirections(&cmd->content, heredocs);
 	return (!run_command(meta, &cmd->content));
 }
 
-static bool pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
+bool	pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 {
 	if (cmd->next && pipe(cmd->pipe) == -1)
 	{
@@ -100,8 +99,7 @@ static bool pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 	return (true);
 }
 
-// TODO: Test wether handle when the child segfaults n stuff.
-static int pipeline_wait(t_cmd_list *cmds)
+static int	pipeline_wait(t_cmd_list *cmds)
 {
 	int		status;
 
@@ -114,30 +112,17 @@ static int pipeline_wait(t_cmd_list *cmds)
 	{
 		return (WTERMSIG(status) + 128);
 	}
-	else 
+	else
 	{
 		return (WEXITSTATUS(status));
 	}
 }
 
-int	get_heredoc_exit_status(t_hd_list *heredoc_pipes)
-{
-	int status;
-	
-	while (heredoc_pipes->next)
-		heredoc_pipes = heredoc_pipes->next;
-	status = heredoc_pipes->fd;
-	if (WIFSIGNALED(status))
-		return (WTERMSIG(status) + 128);
-	else 
-		return (WEXITSTATUS(status));
-}
-
 int	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 {
-	t_hd_list	*heredoc_pipes;
-	t_cmd_list	*const cmds_head = cmds;
-	int			last_exit;
+	t_hd_list			*heredoc_pipes;
+	t_cmd_list *const	cmds_head = cmds;
+	int					last_exit;
 
 	heredoc_pipes = run_heredocs(cmds);
 	if (contains_heredoc(cmds))
@@ -151,14 +136,8 @@ int	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 			return (last_exit);
 		}
 	}
-	while (cmds)
-	{
-		if (!pipeline_node(meta, cmds, &heredoc_pipes))
-		{
-			UNIMPLEMENTED("pipeline_node failure\n");
-		}
-		cmds = cmds->next;
-	}
+	if (!run_multiple_cmds(meta, cmds, cmds_head, heredoc_pipes))
+		return (-1);
 	last_exit = pipeline_wait(cmds_head);
 	hd_lst_free(heredoc_pipes);
 	return (last_exit);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   heredoc_list.c                                    :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/10/17 14:43:47 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/03 00:50:15 by joppe         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   heredoc_list.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/17 14:43:47 by jboeve            #+#    #+#             */
+/*   Updated: 2023/12/11 13:46:27 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	hd_lstadd_back(t_hd_list **lst, t_hd_list *new)
 	}
 }
 
-t_hd_list *hd_lstremove_first(t_hd_list **lst)
+t_hd_list	*hd_lstremove_first(t_hd_list **lst)
 {
 	t_hd_list	*first;
 
@@ -68,13 +68,13 @@ t_hd_list	*hd_lstnew(int fd)
 	return (node);
 }
 
-void hd_lst_free(t_hd_list *lst)
+void	hd_lst_free(t_hd_list *lst)
 {
-	t_hd_list *tmp = lst;
+	t_hd_list	*tmp;
 
+	tmp = lst;
 	if (!lst)
-		return;
-
+		return ;
 	while (lst)
 	{
 		tmp = lst;

@@ -20,25 +20,24 @@
 #include <sys/fcntl.h>
 #include <unistd.h>
 
-static void hs_replace_char(char *s, char delim)
+static void	hs_replace_char(char *s, char delim)
 {
 	while (*s)
 	{
-		if (*s == delim)	
+		if (*s == delim)
 			*s = 0;
 		s++;
 	}
 }
 
-bool hs_read_history_file(char *file)
+bool	hs_read_history_file(char *file)
 {
-	int fd;
-	char *line;
+	int		fd;
+	char	*line;
 
 	fd = open(file, O_RDONLY);
 	if (!fd)
 		return (false);
-
 	line = get_next_line(fd);
 	while (line)
 	{
@@ -51,17 +50,15 @@ bool hs_read_history_file(char *file)
 	return (true);
 }
 
-bool hs_add_history_file(char *file, char *line)
+bool	hs_add_history_file(char *file, char *line)
 {
-	int fd;
+	int	fd;
 
 	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (!fd)
 		return (false);
-
 	write(fd, line, ft_strlen(line));
 	write(fd, "\n", 1);
-
 	close(fd);
 	return (true);
 }

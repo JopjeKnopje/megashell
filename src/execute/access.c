@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   access.c                                          :+:    :+:             */
+/*   access.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/03 00:38:40 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/11 13:41:53 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,23 @@ char	*check_relative_path(char *cmd, char *buffer)
 	return (buffer);
 }
 
+bool	check_existing_path(t_meta *meta)
+{
+	char	**s;
+
+	s = search_in_path(meta->envp, "PATH=");
+	if (!s)
+	{
+		if (execve(meta->execute.argv[0], meta->execute.argv, meta->envp) == -1)
+		{
+			printf("%s: No such file or directory\n", meta->execute.argv[0]);
+			return (false);
+		}
+	}
+	free_2d(s);
+	return (true);
+}
+
 char	*access_possible(t_meta *meta, char *cmd)
 {
 	char	*cmd_copy;
@@ -88,16 +105,8 @@ char	*access_possible(t_meta *meta, char *cmd)
 	cmd_copy = check_relative_path(cmd, cmd_copy);
 	if (cmd_copy)
 		return (cmd_copy);
-	char **s = search_in_path(meta->envp, "PATH=");
-	if (!s)
-	{
-		if (execve(meta->execute.argv[0], meta->execute.argv, meta->envp) == -1)
-		{
-			printf("%s: No such file or directory\n", meta->execute.argv[0]);
-			return (NULL);
-		}
-	}
-	free_2d(s);
+	if (!check_existing_path(meta))
+		return (NULL);
 	executable_path = find_executable_in_path(meta->execute.split_path, cmd);
 	if (!executable_path)
 	{

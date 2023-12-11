@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                        :+:    :+:             */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/08 17:45:30 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/11 15:09:15 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,39 @@
 
 typedef int	(*t_builtin_func)(t_meta *meta, t_cmd_frame *cmd);
 
-static const char *BUILTINS_NAME[BUILTIN_COUNT] = {
-	"INVALID",
-	"pwd",
-	"env",
-	"echo",
-	"cd",
-	"export",
-	"unset",
-	"exit",
-	"history",
-};
+const char	*get_builtin_name(int i)
+{
+	static const char	*builtin_names[BUILTIN_COUNT] = { 
+		"INVALID",
+		"pwd",
+		"env",
+		"echo",
+		"cd",
+		"export",
+		"unset",
+		"exit",
+		"history",
+	};
+
+	return (builtin_names[i]);
+}
+
+t_builtin_func	get_builtin_func(t_builtin builtin)
+{
+	const t_builtin_func	funcs[] = {
+		NULL, \
+		builtin_run_pwd, \
+		builtin_run_env, \
+		builtin_run_echo, \
+		builtin_run_cd, \
+		builtin_run_export, \
+		builtin_run_unset, \
+		builtin_run_exit, \
+		builtin_run_history, \
+	};
+
+	return (funcs[builtin]);
+}
 
 static t_builtin_func get_builtin_func(t_builtin builtin)
 {
@@ -60,8 +82,8 @@ t_builtin	get_builtin(char *cmd)
 		return (BUILTIN_INVALID);
 	while (i < BUILTIN_COUNT)
 	{
-		if (ft_strncmp(cmd, BUILTINS_NAME[i], \
-		strlen_largest(BUILTINS_NAME[i], cmd)) == 0)
+		if (ft_strncmp(cmd, get_builtin_name(i), \
+		strlen_largest(get_builtin_name(i), cmd)) == 0)
 			return (i);
 		i++;
 	}
