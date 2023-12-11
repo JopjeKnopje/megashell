@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   builtins.c                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/11 15:09:15 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/11 16:15:01 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,6 @@ const char	*get_builtin_name(int i)
 	};
 
 	return (builtin_names[i]);
-}
-
-t_builtin_func	get_builtin_func(t_builtin builtin)
-{
-	const t_builtin_func	funcs[] = {
-		NULL, \
-		builtin_run_pwd, \
-		builtin_run_env, \
-		builtin_run_echo, \
-		builtin_run_cd, \
-		builtin_run_export, \
-		builtin_run_unset, \
-		builtin_run_exit, \
-		builtin_run_history, \
-	};
-
-	return (funcs[builtin]);
 }
 
 static t_builtin_func get_builtin_func(t_builtin builtin)

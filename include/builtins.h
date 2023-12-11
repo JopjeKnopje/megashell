@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   builtins.h                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 15:00:42 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/11 12:57:26 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/11 16:14:28 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ bool	handle_export_oldpwd_variable(char **envp);
 bool	set_pwd(t_meta *meta, char *pwd_now);
 
 // builtins:
-t_builtin	get_builtin(char *cmd);
 int			run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd);
 
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline.c                                         :+:      :+:    :+:   */
+/*   pipeline.c                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/11 16:00:40 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/11 16:15:50 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 			return (errno);
 		close(cmd->pipe[PIPE_WRITE]);
 	}
-	signals_setup(CHILD);
+	set_signal_mode(CHILD);
 	redirections(&cmd->content, heredocs);
 	return (!run_command(meta, &cmd->content));
 }
