@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   lexer_list.c                                      :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/08/13 18:59:15 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/02 00:01:30 by joppe         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   lexer_list.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/13 18:59:15 by joppe             #+#    #+#             */
+/*   Updated: 2023/12/11 17:06:14 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,15 @@ t_tok_list	*lx_lstnew(t_token content)
 	return (node);
 }
 
-void lx_lst_free(t_tok_list *lst)
+void	lx_lst_free(t_tok_list *lst)
 {
+	t_tok_list	*tmp;
 
-	t_tok_list *tmp = lst;
+	tmp = lst;
 	while (lst)
 	{
 		tmp = lst;
 		lst = lst->next;
-		// if (tmp->token.kind == TOKEN_ALLOC)
-		// 	free(tmp->token.content);
 		free(tmp);
 	}
-
 }
-

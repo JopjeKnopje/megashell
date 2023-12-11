@@ -26,7 +26,7 @@ static void	pr_disable_empty_tokens(t_tok_list *tokens)
 				free(tokens->token.content);
 			tokens->token.kind = TOKEN_UNUSED;
 		}
-		tokens = tokens->next;	
+		tokens = tokens->next;
 	}
 }
 
@@ -49,7 +49,6 @@ t_tok_list *pr_joiner(t_tok_list *tokens)
 	t_tok_list	*tail;
 	t_token		*tok_base;
 	t_token		*tok_joinee;
-	char 		*s_joined;
 
 	pr_disable_empty_tokens(tokens);
 	tail = lx_lstlast(tokens);
@@ -59,9 +58,10 @@ t_tok_list *pr_joiner(t_tok_list *tokens)
 		tok_joinee = &tail->next->token;
 		if (tok_joinee && tok_base->padding == 0)
 		{
+			if (!if_padding_is_zero(tok_base, tok_joinee))
+				return (NULL);
 		}
 		tail = tail->prev;
 	}
 	return (tokens);
 }
-
