@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/08 19:57:19 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/11 15:49:29 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 			return (errno);
 		close(cmd->pipe[PIPE_WRITE]);
 	}
-	if (!set_signal_mode(CHILD) || redirections(&cmd->content, heredocs))
+	if (!set_signal_mode(CHILD) || !redirections(&cmd->content, heredocs))
 		return (errno);
 	return (!run_command(meta, &cmd->content));
 }
