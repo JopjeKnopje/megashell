@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path.c                                            :+:    :+:             */
+/*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:34:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/11/26 22:36:22 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/11 13:32:24 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "test_utils.h"
 #include "utils.h"
 #include <stdio.h>
-
 
 char	*find_path(char **envp)
 {
@@ -74,7 +73,6 @@ int	search_path(t_meta *meta, char **environment)
 	char	**path_after_split;
 
 	meta->envp = get_environment(environment);
-	// TODO Very moeilijke strjoin.
 	meta->envp = str_arr_append(meta->envp, ft_strdup("LAST_EXIT=0"));
 	path = find_path(meta->envp);
 	if (!path)

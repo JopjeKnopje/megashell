@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                        :+:    :+:             */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/03 01:08:01 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/11 15:09:15 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,38 +22,25 @@
 
 typedef int	(*t_builtin_func)(t_meta *meta, t_cmd_frame *cmd);
 
-static const char *BUILTINS_NAME[BUILTIN_COUNT] = {
-	"INVALID",
-	"pwd",
-	"env",
-	"echo",
-	"cd",
-	"export",
-	"unset",
-	"exit",
-	"history",
-};
-
-t_builtin	get_builtin(char *cmd)
+const char	*get_builtin_name(int i)
 {
-	int	i;
+	static const char	*builtin_names[BUILTIN_COUNT] = { 
+		"INVALID",
+		"pwd",
+		"env",
+		"echo",
+		"cd",
+		"export",
+		"unset",
+		"exit",
+		"history",
+	};
 
-	i = 0;
-	if (!cmd)
-		return (BUILTIN_INVALID);
-	while (i < BUILTIN_COUNT)
-	{
-		if (ft_strncmp(cmd, BUILTINS_NAME[i], \
-		strlen_largest(BUILTINS_NAME[i], cmd)) == 0)
-			return (i);
-		i++;
-	}
-	return (BUILTIN_INVALID);
+	return (builtin_names[i]);
 }
 
-int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
+t_builtin_func	get_builtin_func(t_builtin builtin)
 {
-	int	exit_status;
 	const t_builtin_func	funcs[] = {
 		NULL, \
 		builtin_run_pwd, \
@@ -66,29 +53,48 @@ int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 		builtin_run_history, \
 	};
 
+	return (funcs[builtin]);
+}
 
-	t_hd_list *head = NULL;
+t_builtin	get_builtin(char *cmd)
+{
+	int	i;
+
+	i = 0;
+	if (!cmd)
+		return (BUILTIN_INVALID);
+	while (i < BUILTIN_COUNT)
+	{
+		if (ft_strncmp(cmd, get_builtin_name(i), \
+		strlen_largest(get_builtin_name(i), cmd)) == 0)
+			return (i);
+		i++;
+	}
+	return (BUILTIN_INVALID);
+}
+
+int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
+{
+	t_hd_list	*head;
+	int			exit_status;
+	int			fd;
+	int			fds[2];
+
+	head = NULL;
 	if (cmd->heredoc_delim)
 	{
-		int fd = handle_heredoc(cmd, &exit_status);
+		fd = handle_heredoc(cmd, &exit_status);
 		if (fd == -1)
 			UNIMPLEMENTED("return malloc failure signal as exit code?\n");
 		head = append_heredoc(&head, fd);
 	}
-
-	int fd_out = dup(STDOUT_FILENO);
-	int fd_in = dup(STDIN_FILENO);
+	fds[PIPE_WRITE] = dup(STDOUT_FILENO);
+	fds[PIPE_READ] = dup(STDIN_FILENO);
 	redirections(cmd, &head);
-
-	exit_status = (*funcs[builtin])(meta, cmd);
-
-	if (!dup_stdin(fd_in))
-	{
-		fprintf(stderr, "error dup_stdin\n");
-	}
-	if (!dup_stdout(fd_out))
-	{
-		fprintf(stderr, "error dup_stdout\n");
-	}
+	exit_status = (get_builtin_func(builtin)(meta, cmd));
+	if (!dup_stdin(fds[PIPE_READ]))
+		printf("error dup_stdin\n");
+	if (!dup_stdout(fds[PIPE_WRITE]))
+		printf("error dup_stdout\n");
 	return (exit_status);
 }

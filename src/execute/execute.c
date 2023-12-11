@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                         :+:    :+:             */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:29:30 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/03 01:19:16 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/11 13:38:44 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "plarser.h"
 #include <stdio.h>
 
-static size_t count_cmds(t_cmd_list *cmds)
+static size_t	count_cmds(t_cmd_list *cmds)
 {
 	size_t	i;
 

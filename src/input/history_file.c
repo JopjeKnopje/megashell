@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   history_file.c                                    :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: jboeve <marvin@42.fr>                       +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/08/15 17:00:05 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/15 17:27:07 by jboeve        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   history_file.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/15 17:00:05 by jboeve            #+#    #+#             */
+/*   Updated: 2023/12/11 16:02:16 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,20 @@
 #include <sys/fcntl.h>
 #include <unistd.h>
 
-static void hs_replace_char(char *s, char delim)
+static void	hs_replace_char(char *s, char delim)
 {
 	while (*s)
 	{
-		if (*s == delim)	
+		if (*s == delim)
 			*s = 0;
 		s++;
 	}
 }
 
-bool hs_read_history_file(char *file)
+bool	hs_read_history_file(char *file)
 {
-	int fd;
-	char *line;
+	int		fd;
+	char	*line;
 
 	fd = open(file, O_RDONLY);
 	if (!fd)
@@ -41,7 +41,6 @@ bool hs_read_history_file(char *file)
 		assert(0 && "UNIMPLEMENTED");
 		return (false);
 	}
-
 	line = get_next_line(fd);
 	while (line)
 	{
@@ -54,9 +53,9 @@ bool hs_read_history_file(char *file)
 	return (true);
 }
 
-bool hs_add_history_file(char *file, char *line)
+bool	hs_add_history_file(char *file, char *line)
 {
-	int fd;
+	int	fd;
 
 	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (!fd)
@@ -64,10 +63,8 @@ bool hs_add_history_file(char *file, char *line)
 		assert(0 && "UNIMPLEMENTED");
 		return (false);
 	}
-
 	write(fd, line, ft_strlen(line));
 	write(fd, "\n", 1);
-
 	close(fd);
 	return (true);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment.c                                     :+:    :+:             */
+/*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 17:17:38 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/02 23:39:29 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/11 13:38:15 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "megashell.h"
 #include "plarser.h"
 #include <stdio.h>
-
 
 char	**get_environment(char **envp)
 {
@@ -42,8 +41,7 @@ char	**get_environment(char **envp)
 	return (environment);
 }
 
-void set_exit_code(int code)
+void	set_exit_code(int code)
 {
 	g_exit_code = code;
-	// printf("g_last_exit [%d]", code);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                  :+:    :+:             */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:03 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/08 13:37:42 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/11 13:50:29 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,7 @@ int	builtin_run_export(t_meta *meta, t_cmd_frame *cmd)
 	}
 	cmd_start = ft_strdup(cmd->argv[1]);
 	if (!cmd_start)
-	{
-		UNIMPLEMENTED("Protect malloc");
 		return (0);
-	}
 	if (!prepare_variable(cmd_start))
 	{
 		free(cmd_start);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                      :+:    :+:             */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:09:31 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/08 13:38:37 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/11 13:25:48 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ bool	set_pwds(t_meta *meta, char *pwd_now, char *cur_pwd)
 		free(new_pwd);
 		return (false);
 	}
-	handle_export_oldpwd_variable(meta->envp, cur_pwd);
+	handle_export_oldpwd_variable(meta->envp);
 	free(cur_pwd);
 	free(arg);
 	free(new_pwd);
@@ -53,20 +53,26 @@ bool	set_oldpwd(t_meta *meta, char *cmd, char **prev_pwd)
 	cur_pwd = ft_strdup(tmp);
 	if (ft_strncmp(cmd, "-", 1) == 0)
 		chdir(*prev_pwd);
-	else
-		if (chdir(cmd) == -1)
-		{
-			free(cur_pwd);
-			return (false);
-		}
+	else if (chdir(cmd) == -1)
+		return (free(cur_pwd), false);
 	pwd_now = getcwd(cwd, sizeof(cwd));
 	if (set_pwds(meta, pwd_now, cur_pwd) == false)
-	{
-		free(cur_pwd);
-		return (false);
-	}
+		return (free(cur_pwd), false);
 	if (ft_strncmp(cmd, "-", 1) == 0)
 		printf("%s\n", pwd_now);
+	return (true);
+}
+
+bool	cd_with_dash(t_meta *meta, t_cmd_frame *cmd, \
+		char **prev_pwd, char *pwd_now)
+{
+	if (set_oldpwd(meta, cmd->argv[1], prev_pwd) == false \
+		|| set_pwd(meta, pwd_now) == false)
+	{
+		free_2d(prev_pwd);
+		return (false);
+	}
+	free_2d(prev_pwd);
 	return (true);
 }
 
@@ -75,6 +81,8 @@ bool	run_argument(t_meta *meta, t_cmd_frame *cmd)
 	int		path_len;
 	char	*pwd_now;
 	char	**prev_pwd;
+	bool	oldpwd;
+	bool	pwd;
 
 	pwd_now = NULL;
 	path_len = ft_strlen(cmd->argv[1]);
@@ -84,37 +92,27 @@ bool	run_argument(t_meta *meta, t_cmd_frame *cmd)
 	if (ft_strncmp(cmd->argv[1], "-", 1) == 0 \
 			&& path_len == 1)
 	{
-		if (set_oldpwd(meta, cmd->argv[1], prev_pwd) == false \
-			|| set_pwd(meta, pwd_now) == false)
-		{
-			free_2d(prev_pwd);
+		if (cd_with_dash(meta, cmd, prev_pwd, pwd_now) == false)
 			return (false);
-		}
-		free_2d(prev_pwd);
-		return (true);
+		else
+			return (true);
 	}
-	bool oldpwd = set_oldpwd(meta, cmd->argv[1], prev_pwd);
-	bool pwd = set_pwd(meta, pwd_now);
+	oldpwd = set_oldpwd(meta, cmd->argv[1], prev_pwd);
+	pwd = set_pwd(meta, pwd_now);
 	if (!oldpwd || !pwd)
-	{
-		free_2d(prev_pwd);
-		return (false);
-	}
-	free_2d(prev_pwd);
-	return (true);
+		return (free(prev_pwd), false);
+	return (free_2d(prev_pwd), true);
 }
 
 int	builtin_run_cd(t_meta *meta, t_cmd_frame *cmd)
 {
-	char		cwd[PATH_MAX];
-	char		**tmp_home;
-	const size_t cmd_len = ft_strlen_2d(cmd->argv);
+	char	cwd[PATH_MAX];
+	char	**tmp_home;
+	size_t	cmd_len;
 
-	if (cmd_len > 2)	
-	{
-		print_error(get_error_name(ERROR_ARGUMENTS));
-		return (1);
-	}
+	cmd_len = ft_strlen_2d(cmd->argv);
+	if (cmd_len > 2)
+		return (print_error(get_error_name(ERROR_ARGUMENTS)), 1);
 	if (!cmd->argv[1])
 	{
 		tmp_home = search_in_path(meta->envp, "HOME=");
