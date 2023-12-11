@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
+/*                                                       ::::::::             */
 /*   utils_path.c                                      :+:    :+:             */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/10 17:02:40 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/08 17:48:57 by jboeve        ########   odam.nl         */
+/*                                                    +:+                     */
+/*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
+/*                                                  +#+                       */
+/*   Created: 2023/12/11 16:21:53 by jboeve        #+#    #+#                 */
+/*   Updated: 2023/12/11 16:24:32 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "execute.h"
 #include "libft.h"
 #include "plarser.h"
 
-// TODO Don't alloc.
 char	**search_in_path(char **envp, char *cmd)
 {
 	int		i;
@@ -26,7 +26,7 @@ char	**search_in_path(char **envp, char *cmd)
 	i = 0;
 	dup_cmd_index = 0;
 	envp_len = ft_strlen(envp[i]);
-	dup_cmd = (char **)malloc(sizeof(char *) * (envp_len + 1));
+	dup_cmd = ft_calloc(sizeof(char *), envp_len + 1);
 	if (!dup_cmd)
 		return (NULL);
 	while (envp[i])
@@ -36,7 +36,8 @@ char	**search_in_path(char **envp, char *cmd)
 			dup_cmd[dup_cmd_index] = ft_strdup(envp[i] + ft_strlen(cmd));
 			if (!dup_cmd[dup_cmd_index])
 			{
-				UNIMPLEMENTED("protec");
+				free_2d(dup_cmd);
+				return (NULL);
 			}
 			dup_cmd_index++;
 		}

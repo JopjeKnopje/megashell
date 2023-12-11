@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/02 00:00:21 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/11 16:48:29 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-
-
-#define UNUSED(x) (void)(x)
-#define UNIMPLEMENTED(message) \
-	do { \
-		fprintf(stderr, "\x1b[0m%s:%d: UNIMPLEMENTED: %s\n", __FILE__, __LINE__, message); \
-		exit(1); \
-	} while (0)
-#define UNREACHABLE(message) \
-	do { \
-		fprintf(stderr, "\x1b[0m%s:%d: UNREACHABLE: %s\n", __FILE__, __LINE__, message); \
-		exit(1); \
-	} while (0)
 
 
 
