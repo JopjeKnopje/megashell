@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                    :+:    :+:             */
+/*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/08 17:34:54 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/11 16:34:11 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,23 +62,21 @@ bool	handle_redir_output(t_cmd_frame *f)
 	return (true);
 }
 
-static bool attach_heredoc(t_hd_list **heredoc)
+static bool	attach_heredoc(t_hd_list **heredoc)
 {
 	t_hd_list	*first;
-	int 		fd;
+	int			fd;
 
 	first = hd_lstremove_first(heredoc);
 	fd = first->fd;
 	free(first);
-
 	if (!dup_stdin(fd))
 		return (false);
 	return (true);
 }
 
-bool redirections(t_cmd_frame *f, t_hd_list **heredocs)
+bool	redirections(t_cmd_frame *f, t_hd_list **heredocs)
 {
-	// TODO Optimize if staemten.
 	if (f->heredoc_delim)
 	{
 		if (!attach_heredoc(heredocs) || !handle_redir_output(f))

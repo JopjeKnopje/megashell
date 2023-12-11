@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_string.c                                    :+:    :+:             */
+/*   utils_string.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:30:43 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/01 16:05:28 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/11 16:37:03 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 #include <stdlib.h>
 #include "libft.h"
 
-void str_free_2d(char **s)
+void	str_free_2d(char **s)
 {
-	size_t i = 0;
+	size_t	i;
+
+	i = 0;
 	while (s[i])
 	{
 		free(s[i]);

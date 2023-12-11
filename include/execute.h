@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.h                                         :+:    :+:             */
+/*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/11 16:00:49 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/11 16:40:48 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTE_H
 # define EXECUTE_H
 
-#include "megashell.h"
+# include "megashell.h"
 # include "libft.h"
 # include "builtins.h"
 # include <stdio.h>
@@ -36,7 +36,7 @@ typedef enum e_files {
 	PIPE_WRITE,
 }	t_files;
 
-typedef	enum e_access {
+typedef enum e_access {
 	CHECK_DIR,
 	CHECK_ACCESS,
 }	t_access;
@@ -66,19 +66,18 @@ int			search_path(t_meta *meta, char **environment);
 
 // environment:
 char		**get_environment(char **envp);
-void 		set_exit_code(int code);
-
+void		set_exit_code(int code);
 
 // pipeline.c
 int			pipeline_start(t_meta *meta, t_cmd_list *cmds);
 int			get_heredoc_exit_status(t_hd_list *heredoc_pipes);
 void		pipeline_kill_nodes(t_cmd_list *cmds, t_cmd_list *end);
-bool	pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs);
+bool		pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs);
 int			run_multiple_cmds(t_meta *meta, t_cmd_list *cmds, t_cmd_list \
 			*const cmds_head, t_hd_list *heredoc_pipes);
 
 // execute:
-int		execute(t_meta *meta, t_cmd_list *cmds);
+int			execute(t_meta *meta, t_cmd_list *cmds);
 
 // execute_utils:
 bool		dup_stdin(int file);

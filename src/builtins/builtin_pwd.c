@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                     :+:    :+:             */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:43:52 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/08 17:53:28 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/11 16:23:46 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ int	builtin_run_pwd(t_meta *meta, t_cmd_frame *cmd)
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 		printf("%s\n", cwd);
 	else
-	 	return (-1);
+		return (-1);
 	return (0);
 }

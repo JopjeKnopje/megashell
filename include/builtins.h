@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                        :+:    :+:             */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 15:00:42 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/11 16:14:28 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/11 16:39:53 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 # define BUILTINS_H
 
 # include <stdbool.h>
-#include "megashell.h"
+# include "megashell.h"
 # include "plarser.h"
 
-typedef struct s_exec t_exec;
+typedef struct s_exec	t_exec;
 
 typedef enum e_builtin {
 	BUILTIN_INVALID,
@@ -55,7 +55,6 @@ bool	handle_export_oldpwd_variable(char **envp);
 bool	set_pwd(t_meta *meta, char *pwd_now);
 
 // builtins:
-int			run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd);
-
+int		run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd);
 
 #endif
