@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 00:11:49 by joppe             #+#    #+#             */
-/*   Updated: 2023/10/17 14:17:41 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/11 16:36:08 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,12 @@ void pr_lst_free(t_cmd_list *lst)
 		lst = lst->next;
 		if (tmp->content.argv)
 			str_free_2d(tmp->content.argv);
-		free(tmp->content.infile);
-		free(tmp->content.outfile);
-		free(tmp->content.heredoc_delim);
+		if (tmp->content.infile)
+			free(tmp->content.infile);
+		if (tmp->content.outfile)
+			free(tmp->content.outfile);
+		if (tmp->content.heredoc_delim)
+			free(tmp->content.heredoc_delim);
 		free(tmp);
 	}
 }

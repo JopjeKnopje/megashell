@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/11 15:35:11 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/11 16:49:27 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ static size_t ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
 	if (is_exit_code)
 		free(var);
 	if (!(*s_exp))
-		return NULL;
+		return (0);
 	return (len);
 }
 
