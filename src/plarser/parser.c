@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/02 00:22:57 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/11 16:02:36 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ t_cmd_frame pr_parse_text(t_cmd_frame frame, t_tok_list *tokens)
 	if (!frame.argv)
 		frame.argv = ft_calloc(1, sizeof(char *));
 	if (!frame.argv)
+	{
 		UNIMPLEMENTED("Handle malloc failure");
+	}
 
 	while (frame.argv[i])
 		i++;
@@ -119,13 +121,10 @@ t_cmd_list *pr_main(t_tok_list *tokens)
 	ft_bzero(&frame, sizeof(t_cmd_frame));
 
 	if (!pr_joiner(tokens))
-		UNIMPLEMENTED("protect join_tokens");
-
-	// printf("\nafter join_tokens\n\n");
-	// print_tokens(tokens);
-
-
-	// every frame can contain at max one of each redirection (in / out).
+	{
+		return (NULL);
+		// UNIMPLEMENTED("protect join_tokens");
+	}
 	while (tokens)
 	{
 		if (!tokens->prev || tokens->token.kind == TOKEN_PIPE)

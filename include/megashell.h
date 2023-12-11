@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:40:37 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/02 23:23:52 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 17:44:03 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #define HEREDOC_PROMPT		"\033[36;49m>\033[0m "
 #define SHELL_PROMPT		"\033[32;49mmegashell>\033[0m "
 #define SHELL_PROMPT_ERROR	"\033[31;49mmegashell>\033[0m "
+#define INTERNAL_FAILURE -1
 
 extern int g_exit_code;
 
@@ -41,18 +42,18 @@ typedef struct s_meta {
 
 
 // megashell.c
-int			megashell(int argc, char *argv[], char *envp[]);
+int			megashell(char *envp[]);
 
 // plarser.c
-t_cmd_list	*plarser_main(char **envp, char *line);
+t_cmd_list *plarser_main(char **envp, char *line, int *error);
 
 // prompt.c
 bool		prompt_env_setup();
 char		*prompt_get_line();
 
 // history_file.c
-void		hs_read_history_file(char *s);
-void		hs_add_history_file(char *s, char *line);
+bool		hs_read_history_file(char *s);
+bool		hs_add_history_file(char *s, char *line);
 
 // aliases.c
 void		aliases_init(t_meta *meta);

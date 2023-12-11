@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/10/21 20:31:59 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/08 17:34:54 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ bool	handle_redir_input(t_cmd_frame *f)
 		fd = open(f->infile, O_RDONLY);
 		if (fd == -1)
 		{
-			print_error(strerror(errno));
-			exit(errno);
+			return (false);
 		}
-		dup_stdin(fd);
+		if (!dup_stdin(fd))
+		{
+			return (false);
+		}
 	}
 	return (true);
 }
@@ -50,10 +52,12 @@ bool	handle_redir_output(t_cmd_frame *f)
 		fd = open(f->outfile, flags, 0644);
 		if (fd == -1)
 		{
-			print_error(strerror(errno));
-			exit(errno);
+			return (false);
 		}
-		dup_stdout(fd);
+		if (!dup_stdout(fd))
+		{
+			return (false);
+		}
 	}
 	return (true);
 }
@@ -68,15 +72,13 @@ static bool attach_heredoc(t_hd_list **heredoc)
 	free(first);
 
 	if (!dup_stdin(fd))
-	{
-		// TODO Error
-	}
-	return true;
+		return (false);
+	return (true);
 }
 
 bool redirections(t_cmd_frame *f, t_hd_list **heredocs)
 {
-	// TODO Redirect heredoc read pipe to stdin.
+	// TODO Optimize if staemten.
 	if (f->heredoc_delim)
 	{
 		if (!attach_heredoc(heredocs) || !handle_redir_output(f))

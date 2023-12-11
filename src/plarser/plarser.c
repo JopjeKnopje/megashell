@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 12:26:52 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/02 17:40:57 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/11 15:42:44 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,47 +29,40 @@ static bool contains_error(t_tok_list *tokens)
 	return (false);
 }
 
-t_cmd_list *plarser_main(char **envp, char *line)
+static void *handle_error(t_tok_list *tokens, t_token *err, int *error)
 {
-	t_tok_list *tokens;
-	t_cmd_list *cmds;
+	set_exit_code(2);
+	printf("syntax error at token '%.*s'\n", (int) err->content_len, err->content);
+	lx_lst_free(tokens);
+	*error = 0;
+	return (NULL);
+}
+
+t_cmd_list *plarser_main(char **envp, char *line, int *error)
+{
+	t_tok_list	*tokens;
+	t_cmd_list	*cmds;
 
 	tokens = lx_main(line);
 	if (!tokens)
 	{
-		printf("lexer malloc failure\n");
+		print_error(get_error_name(ERROR_LEXER));
 		return (NULL);
 	}
-
-	// count spaces LOL
 	tokens = sc_main(tokens);
-
-
-	print_tokens(tokens);
-	if (contains_error(tokens))
-		goto syntax_check;
-
-	// printf("\n\n\n\n\n\n");
-
-	if (!ex_main(envp, tokens))
-	{
-		UNIMPLEMENTED("ex_main failed");
-	}
-
-
-syntax_check:
-	printf("\n\n\n\n\n\n\n\n");
-	print_tokens(tokens);
+	// print_tokens(tokens);
+	if (!contains_error(tokens) && !ex_main(envp, tokens))
+		return (NULL);
+	// printf("\n\n\n\n\n\n\n\n");
+	// print_tokens(tokens);
 	t_tok_list *err = sy_main(tokens);
 	if (err)
-	{
-		set_exit_code(2);
-		printf("syntax error at token '%.*s'\n", (int) err->token.content_len, err->token.content);
-		lx_lst_free(tokens);
-		return (NULL);
-	}
+		return (handle_error(tokens, &err->token, error));
 	cmds = pr_main(tokens);
+	if (!cmds)
+	{
+		printf("pr_main failed\n");
+	}
 	lx_lst_free(tokens);
-
 	return (cmds);
 }

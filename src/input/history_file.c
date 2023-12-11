@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/15 17:00:05 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/08/15 17:27:07 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/08 15:10:21 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ bool hs_read_history_file(char *file)
 
 	fd = open(file, O_RDONLY);
 	if (!fd)
-	{
-		assert(0 && "UNIMPLEMENTED");
 		return (false);
-	}
 
 	line = get_next_line(fd);
 	while (line)
@@ -60,10 +57,7 @@ bool hs_add_history_file(char *file, char *line)
 
 	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (!fd)
-	{
-		assert(0 && "UNIMPLEMENTED");
 		return (false);
-	}
 
 	write(fd, line, ft_strlen(line));
 	write(fd, "\n", 1);

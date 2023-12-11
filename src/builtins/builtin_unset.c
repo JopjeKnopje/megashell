@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*   builtin_unset.c                                   :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:33 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/01 15:56:28 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/08 17:58:00 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
-#include "megashell.h"
-#include "plarser.h"
 
-bool	remove_env_variable(char **envp, const char *variable)
+static bool	remove_env_variable(char **envp, const char *variable)
 {
 	int	i;
 	int	len_var;
@@ -45,7 +43,7 @@ int	builtin_run_unset(t_meta *meta, t_cmd_frame *cmd)
 	variable = cmd->argv[1];
 	if (!cmd->argv[1])
 		return (0);
-	if (remove_env_variable(meta->envp, variable) == false)
+	if (!remove_env_variable(meta->envp, variable))
 		return (0);
 	return (0);
 }

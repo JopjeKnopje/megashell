@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/03 01:20:17 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/11 15:49:29 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@
 #include "input.h"
 #include "test_utils.h"
 #include <assert.h>
+#include <errno.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 static bool	run_command(t_meta *meta, t_cmd_frame *cmd)
@@ -53,7 +55,8 @@ static int child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 	if (cmd->prev)
 	{
 		if (dup2(cmd->prev->pipe[PIPE_READ], STDIN_FILENO) == -1)
-			perror(strerror(errno));
+			// perror(strerror(errno));
+			return (errno);
 		close(cmd->prev->pipe[PIPE_READ]);
 		close(cmd->prev->pipe[PIPE_WRITE]);
 	}
@@ -61,12 +64,12 @@ static int child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 	{
 		close(cmd->pipe[PIPE_READ]);
 		if (dup2(cmd->pipe[PIPE_WRITE], STDOUT_FILENO) == -1)
-			perror(strerror(errno));
+			// perror(strerror(errno));
+			return (errno);
 		close(cmd->pipe[PIPE_WRITE]);
 	}
-	signals_setup(CHILD);
-	// TODO Check if the heredoc gets INTERRUPTED by a signal, if so don't run the `run_command`.
-	redirections(&cmd->content, heredocs);
+	if (!set_signal_mode(CHILD) || !redirections(&cmd->content, heredocs))
+		return (errno);
 	return (!run_command(meta, &cmd->content));
 }
 
@@ -85,7 +88,8 @@ static bool pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 	}
 	if (!cmd->pid)
 	{
-		signals_setup(CHILD);
+		if (!set_signal_mode(CHILD))
+			exit(EXIT_FAILURE);
 		exit(child_proc(meta, cmd, heredocs));
 	}
 	if (cmd->prev)
@@ -139,7 +143,7 @@ int	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 	if (contains_heredoc(cmds))
 	{
 		if (!heredoc_pipes)
-			return (0);
+			return (INTERNAL_FAILURE);
 		last_exit = get_heredoc_exit_status(heredoc_pipes);
 		if (last_exit)
 		{
