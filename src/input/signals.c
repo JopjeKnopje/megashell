@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:28:16 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/11 16:02:54 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/11 16:32:28 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,16 @@ static void	hd_handler(int sig)
 bool	set_signal_mode(int mode)
 {
 	if (mode == MAIN)
-		return (!(signal(SIGINT, parent_signal) == SIG_ERR || signal(SIGQUIT, SIG_IGN) == SIG_ERR));
+		return (!(signal(SIGINT, parent_signal) == SIG_ERR \
+				|| signal(SIGQUIT, SIG_IGN) == SIG_ERR));
 	else if (mode == CHILD)
-		return (!(signal(SIGINT, parent_signal) == SIG_ERR || signal(SIGQUIT, SIG_DFL) == SIG_ERR));
+		return (!(signal(SIGINT, parent_signal) == SIG_ERR \
+				|| signal(SIGQUIT, SIG_DFL) == SIG_ERR));
 	else if (mode == HEREDOC)
-		return (!(signal(SIGINT, hd_handler) == SIG_ERR || signal(SIGQUIT, SIG_IGN) == SIG_ERR));
+		return (!(signal(SIGINT, hd_handler) == SIG_ERR \
+				|| signal(SIGQUIT, SIG_IGN) == SIG_ERR));
 	else if (mode == IGNORE)
-		return (!(signal(SIGINT, SIG_IGN) == SIG_ERR || signal(SIGQUIT, SIG_IGN) == SIG_ERR));
-	return true;
+		return (!(signal(SIGINT, SIG_IGN) == SIG_ERR \
+				|| signal(SIGQUIT, SIG_IGN) == SIG_ERR));
+	return (true);
 }

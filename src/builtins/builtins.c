@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                        :+:    :+:             */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/11 16:15:01 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/11 16:29:45 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ const char	*get_builtin_name(int i)
 	return (builtin_names[i]);
 }
 
-static t_builtin_func get_builtin_func(t_builtin builtin)
+static t_builtin_func	get_builtin_func(t_builtin builtin)
 {
 	const t_builtin_func	funcs[] = {
 		NULL, \
@@ -52,9 +52,9 @@ static t_builtin_func get_builtin_func(t_builtin builtin)
 		builtin_run_exit, \
 		builtin_run_history, \
 	};
-	return funcs[builtin];
-}
 
+	return (funcs[builtin]);
+}
 
 t_builtin	get_builtin(char *cmd)
 {
@@ -73,24 +73,9 @@ t_builtin	get_builtin(char *cmd)
 	return (BUILTIN_INVALID);
 }
 
-int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
+int	check_fds_and_redirects(int fds[2], int heredoc_fd, t_cmd_frame *cmd, \
+	t_hd_list *head)
 {
-	t_hd_list *head = NULL;
-	int	exit_status;
-	int fds[2];
-	int heredoc_fd;
-
-	if (cmd->heredoc_delim)
-	{
-		heredoc_fd = handle_heredoc(cmd, &exit_status);
-		if (heredoc_fd == INTERNAL_FAILURE)
-		{
-			return (INTERNAL_FAILURE);
-		}
-		head = append_heredoc(&head, heredoc_fd);
-		if (!head)
-			return (INTERNAL_FAILURE);
-	}
 	fds[PIPE_WRITE] = dup(STDOUT_FILENO);
 	if (fds[PIPE_WRITE] == INTERNAL_FAILURE)
 	{
@@ -106,6 +91,7 @@ int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 		close(fds[PIPE_WRITE]);
 		return (INTERNAL_FAILURE);
 	}
+	return (1);
 	if (!redirections(cmd, &head))
 	{
 		hd_lst_free(head);
@@ -114,9 +100,30 @@ int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 		print_error(strerror(errno));
 		return (INTERNAL_FAILURE);
 	}
+}
 
+int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
+{
+	t_hd_list	*head;
+	int			exit_status;
+	int			fds[2];
+	int			heredoc_fd;
+
+	head = NULL;
+	if (cmd->heredoc_delim)
+	{
+		heredoc_fd = handle_heredoc(cmd, &exit_status);
+		if (heredoc_fd == INTERNAL_FAILURE)
+		{
+			return (INTERNAL_FAILURE);
+		}
+		head = append_heredoc(&head, heredoc_fd);
+		if (!head)
+			return (INTERNAL_FAILURE);
+	}
+	if (!check_fds_and_redirects(fds, heredoc_fd, cmd, head))
+		return (INTERNAL_FAILURE);
 	exit_status = (*get_builtin_func(builtin))(meta, cmd);
-
 	if (!dup_stdin(fds[PIPE_READ]))
 		return ((print_error(get_error_name(ERROR_DUP2)) * 0) - 1);
 	if (!dup_stdin(fds[PIPE_WRITE]))

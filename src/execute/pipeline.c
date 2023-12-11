@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline.c                                        :+:    :+:             */
+/*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/11 16:15:50 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/11 16:31:09 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ static int	child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 	if (cmd->prev)
 	{
 		if (dup2(cmd->prev->pipe[PIPE_READ], STDIN_FILENO) == -1)
-			// perror(strerror(errno));
 			return (errno);
 		close(cmd->prev->pipe[PIPE_READ]);
 		close(cmd->prev->pipe[PIPE_WRITE]);
@@ -63,7 +62,6 @@ static int	child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 	{
 		close(cmd->pipe[PIPE_READ]);
 		if (dup2(cmd->pipe[PIPE_WRITE], STDOUT_FILENO) == -1)
-			// perror(strerror(errno));
 			return (errno);
 		close(cmd->pipe[PIPE_WRITE]);
 	}
