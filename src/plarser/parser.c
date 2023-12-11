@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/02 00:22:57 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/11 15:02:21 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,6 @@ t_cmd_list *pr_main(t_tok_list *tokens)
 	if (!pr_joiner(tokens))
 		UNIMPLEMENTED("protect join_tokens");
 
-	// printf("\nafter join_tokens\n\n");
-	// print_tokens(tokens);
 
 
 	// every frame can contain at max one of each redirection (in / out).
