@@ -6,10 +6,11 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/11 16:02:36 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/11 16:48:03 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "execute.h"
 #include "libft.h"
 #include "utils.h"
 #include "plarser.h"
@@ -20,58 +21,60 @@
 #include <unistd.h>
 
 
-t_cmd_frame pr_parse_text(t_cmd_frame frame, t_tok_list *tokens)
+static int pr_parse_text(t_cmd_frame *frame, t_tok_list *tokens)
 {
 	size_t i = 0;
 	char *s_alloc;
 
-	if (!frame.argv)
-		frame.argv = ft_calloc(1, sizeof(char *));
-	if (!frame.argv)
-	{
-		UNIMPLEMENTED("Handle malloc failure");
-	}
-
-	while (frame.argv[i])
+	if (!frame->argv)
+		frame->argv = ft_calloc(1, sizeof(char *));
+	if (!frame->argv)
+		return (0);
+	while (frame->argv[i])
 		i++;
-
 	if (tokens->token.kind == TOKEN_ALLOC)
 		s_alloc = tokens->token.content;
 	else
 		s_alloc = sized_strdup(tokens->token.content, tokens->token.content_len);
 	if (!s_alloc)
-		UNIMPLEMENTED("Handle malloc failure");
-	frame.argv = str_arr_append(frame.argv, s_alloc);
-	if (!frame.argv)
-		UNIMPLEMENTED("Handle malloc failure");
-	return (frame);
+	{
+		free_2d(frame->argv);
+		return (0);
+	}
+	frame->argv = str_arr_append(frame->argv, s_alloc);
+	if (!frame->argv)
+	{
+		free(s_alloc);
+		return (0);
+	}
+	return (1);
 }
 
-t_cmd_frame pr_parse_redirect(t_cmd_frame frame, t_tok_list *tokens)
+static int  pr_parse_redirect(t_cmd_frame *frame, t_tok_list *tokens)
 {
 	const t_token_kind k = tokens->token.kind;
 
 	if (k == TOKEN_APPEND || k  == TOKEN_GREATER_THAN)
 	{
-		frame.is_append = (k == TOKEN_APPEND);
-		frame.outfile = sized_strdup(tokens->next->token.content, tokens->next->token.content_len);
-		if (!frame.outfile)
+		frame->is_append = (k == TOKEN_APPEND);
+		frame->outfile = sized_strdup(tokens->next->token.content, tokens->next->token.content_len);
+		if (!frame->outfile)
 			printf("sized_strdup failure\n");
 	}
 	else if (k == TOKEN_LESS_THAN)
 	{
-		frame.infile = sized_strdup(tokens->next->token.content, tokens->next->token.content_len);
-		if (!frame.infile)
+		frame->infile = sized_strdup(tokens->next->token.content, tokens->next->token.content_len);
+		if (!frame->infile)
 			printf("sized_strdup failure\n");
 	}
 	else if (k == TOKEN_HEREDOC)
 	{
-		frame.heredoc_delim = sized_strdup(tokens->next->token.content, tokens->next->token.content_len);
-		if (!frame.heredoc_delim)
+		frame->heredoc_delim = sized_strdup(tokens->next->token.content, tokens->next->token.content_len);
+		if (!frame->heredoc_delim)
 			printf("sized_strdup failure\n");
 	}
 
-	return (frame);
+	return (1);
 }
 
 static bool pr_is_redirect(t_token_kind k)
@@ -113,7 +116,6 @@ static t_cmd_list *pr_list_add_cmd(t_cmd_list **cmd_list, t_cmd_frame t)
 	return (*cmd_list);
 }
 
-// In order to properly join all the tokens. Join them from back to front
 t_cmd_list *pr_main(t_tok_list *tokens)
 {
 	t_cmd_list	*cmds = NULL;
@@ -121,10 +123,7 @@ t_cmd_list *pr_main(t_tok_list *tokens)
 	ft_bzero(&frame, sizeof(t_cmd_frame));
 
 	if (!pr_joiner(tokens))
-	{
 		return (NULL);
-		// UNIMPLEMENTED("protect join_tokens");
-	}
 	while (tokens)
 	{
 		if (!tokens->prev || tokens->token.kind == TOKEN_PIPE)
@@ -135,16 +134,26 @@ t_cmd_list *pr_main(t_tok_list *tokens)
 		}
 		if (tokens->token.kind == TOKEN_TEXT || tokens->token.kind == TOKEN_ALLOC)
 		{
-			frame = pr_parse_text(frame, tokens);
+			if (!pr_parse_text(&frame, tokens))
+			{
+				pr_lst_free(cmds);
+				return (NULL);
+			}
 		}
 		else if (pr_is_redirect(tokens->token.kind))
 		{
-			frame = pr_parse_redirect(frame, tokens);
+			if (!pr_parse_redirect(&frame, tokens))
+			{
+				pr_lst_free(cmds);
+				return (NULL);
+			}
 			tokens = tokens->next;
 		}
-
-		if (!tokens->next)
-			pr_list_add_cmd(&cmds, frame);
+		if (!tokens->next && !pr_list_add_cmd(&cmds, frame))
+		{
+			pr_lst_free(cmds);
+			return (NULL);
+		}
 		tokens = tokens->next;
 	}
 	return (cmds);

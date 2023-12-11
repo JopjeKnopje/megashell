@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "execute.h"
 #include "libft.h"
 #include "plarser.h"
 
@@ -23,6 +24,7 @@ char	**search_in_path(char **envp, char *cmd)
 
 	i = 0;
 	dup_cmd_index = 0;
+
 	dup_cmd = (char **)malloc(sizeof(char *) * (ft_strlen(envp[i]) + 1));
 	if (!dup_cmd)
 		return (NULL);

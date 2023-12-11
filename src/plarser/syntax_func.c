@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 23:19:49 by joppe             #+#    #+#             */
-/*   Updated: 2023/11/29 23:27:11 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/11 16:48:58 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,25 +51,24 @@ bool sy_token_pipe(t_tok_list *node)
 
 bool sy_token_variable(t_tok_list *node)
 {
-	UNUSED(node);
+	(void) node;
 	return (true);
 }
 
 bool sy_token_pass(t_tok_list *node)
 {
-	UNUSED(node);
+	(void) node;
 	return (true);
 }
 
 bool sy_token_err(t_tok_list *node)
 {
-	UNUSED(node);
+	(void) node;
 	return (false);
 }
 
 bool sy_token_unused(t_tok_list *node)
 {
-	UNUSED(node);
-	UNIMPLEMENTED("unused token in syntax");
+	(void) node;
 	return (false);
 }
