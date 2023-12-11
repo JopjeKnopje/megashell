@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   lexer_utils.c                                     :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: jboeve <marvin@42.fr>                       +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/08/04 15:11:36 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/06 21:59:51 by joppe         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/04 15:11:36 by jboeve            #+#    #+#             */
+/*   Updated: 2023/12/11 17:04:03 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,44 +17,51 @@
 #include "libft.h"
 #include "plarser.h"
 
-static const char METACHARS[] = {
-	'|',
-	'<',
-	'>',
-	' ',
-	'\t',
-	'\n',
-	'\0'
-};
-
-bool lx_is_metachar(char c)
+static const char	*get_metachars(int i)
 {
-	uint32_t i = 0;
+	static const char	*metachars[] = { 
+		'|',
+		'<',
+		'>',
+		' ',
+		'\t',
+		'\n',
+		'\0'
+	};
 
-	while (METACHARS[i])
+	return (metachars[i]);
+}
+
+bool	lx_is_metachar(char c)
+{
+	uint32_t	i;
+
+	i = 0;
+	while (get_metachars(i))
 	{
-		if (c == METACHARS[i])	
+		if (c == get_metachars(i))
 			return (true);
 		i++;
 	}
 	return (false);
 }
 
-bool lx_is_varchar(char c)
+bool	lx_is_varchar(char c)
 {
 	return ((ft_isalpha(c) || c == '_') && !lx_is_metachar(c));
 }
 
-bool lx_is_valid_var_char(char c, bool first_letter)
+bool	lx_is_valid_var_char(char c, bool first_letter)
 {
 	if (first_letter)
-		return (ft_isalpha(c) || c == '_' || c == '?' || c == '$') && !ft_isdigit(c) && !lx_is_metachar(c);
+		return ((ft_isalpha(c) || c == '_' || c == '?' || \
+			c == '$') && !ft_isdigit(c) && !lx_is_metachar(c));
 	else
-		return (ft_isalpha(c) || ft_isdigit(c) || c == '_') && !lx_is_metachar(c) && c != '$';
+		return ((ft_isalpha(c) || ft_isdigit(c) || c == '_') \
+			&& !lx_is_metachar(c) && c != '$');
 }
 
-
-bool lx_is_valid_var_name(char *s)
+bool	lx_is_valid_var_name(char *s)
 {
 	uint32_t	i;
 
@@ -68,20 +75,4 @@ bool lx_is_valid_var_name(char *s)
 		i++;
 	}
 	return (true);
-}
-
-bool lx_is_redir_heredoc(char *s, t_token_kind k)
-{
-	int32_t i = 0;
-	char c;
-	if (k == TOKEN_APPEND)
-		c = '>';
-	else if (k == TOKEN_HEREDOC)
-		c = '<';
-	while (s[i] && s[i] == c)
-	{
-		i++;
-	}
-	// printf("i: %d\n", i);
-	return (i == 2);
 }
