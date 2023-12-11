@@ -1,42 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   space_count.c                                     :+:    :+:             */
+/*   syntax_func2.c                                    :+:    :+:             */
 /*                                                    +:+                     */
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
-/*   Created: 2023/11/29 14:13:28 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/11 17:36:22 by jboeve        ########   odam.nl         */
+/*   Created: 2023/12/11 17:24:40 by jboeve        #+#    #+#                 */
+/*   Updated: 2023/12/11 17:25:11 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "plarser.h"
-#include <stdio.h>
 
-size_t	sc_count(t_token *t)
+bool	sy_token_unused(t_tok_list *node)
 {
-	size_t	i;
-
-	i = t->content_len;
-	while (t->content[i] && t->content[i] == ' ')
-	{
-		i++;
-	}
-	i -= t->content_len;
-	return (i);
-}
-
-t_tok_list	*sc_main(t_tok_list *tokens)
-{
-	t_tok_list *const	head = tokens;
-
-	while (tokens)
-	{
-		if (tokens->next)
-			tokens->token.padding = sc_count(&tokens->token);
-		else
-			tokens->token.padding = 0;
-		tokens = tokens->next;
-	}
-	return (head);
+	(void) node;
+	return (false);
 }

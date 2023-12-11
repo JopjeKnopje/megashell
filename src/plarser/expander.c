@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/11 16:49:27 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/11 17:10:59 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,7 @@ bool ex_main(char **envp, t_tok_list *tokens)
 	while (tokens)
 	{
 		t = &tokens->token;
-		if (t->kind == TOKEN_BLOCK_QUOTE_DOUBLE)
+		if (t->kind == TOKEN_QUOTE_DOUBLE)
 		{
 			tokens->token = ex_expand_quote_block(envp, t);
 			// TODO Test if this works.
@@ -246,7 +246,7 @@ bool ex_main(char **envp, t_tok_list *tokens)
 				return (false);
 			}
 		}
-		else if (t->kind == TOKEN_BLOCK_QUOTE_SINGLE)
+		else if (t->kind == TOKEN_QUOTE_SINGLE)
 		{
 			ex_step_into_quote(t);
 		}

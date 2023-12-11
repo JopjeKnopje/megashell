@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/20 00:11:49 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/11 16:36:08 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/11 17:38:58 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_cmd_list	*pr_lstnew(t_cmd_frame content)
 	return (node);
 }
 
-void pr_lst_free(t_cmd_list *lst)
+void	pr_lst_free(t_cmd_list *lst)
 {
 	t_cmd_list	*tmp;
 
@@ -79,9 +79,11 @@ void pr_lst_free(t_cmd_list *lst)
 	}
 }
 
-size_t pr_lst_count(t_cmd_list *lst)
+size_t	pr_lst_count(t_cmd_list *lst)
 {
-	size_t count = 0;
+	size_t	count;
+
+	count = 0;
 	while (lst)
 	{
 		lst = lst->next;
