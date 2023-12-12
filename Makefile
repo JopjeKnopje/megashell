@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/12/12 16:36:21 by jboeve        ########   odam.nl          #
+#    Updated: 2023/12/12 18:40:31 by jboeve        ########   odam.nl          #
 
 #                                                                              #
 # **************************************************************************** #
@@ -75,6 +75,7 @@ SRCS		:= 	execute/error.c \
 			  	plarser/syntax_func2.c \
 			  	plarser/tokenize.c \
 			  	plarser/parser.c \
+			  	plarser/parser_utils.c \
 			  	plarser/parser_joiner.c \
 			  	plarser/parser_list.c \
 			  	plarser/expander.c \

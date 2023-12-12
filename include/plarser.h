@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   plarser.h                                          :+:      :+:    :+:   */
+/*   plarser.h                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/11 17:10:59 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/12 18:39:47 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@ bool			sy_token_unused(t_tok_list *node);
 
 // parser_joiner.c
 t_tok_list		*pr_joiner(t_tok_list *tokens);
+
+// parser_util.c
+bool	pr_is_redirect(t_token_kind k);
 
 // lexer.c
 t_tok_list		*lx_list_add_token(t_tok_list **token_lst, t_token t);

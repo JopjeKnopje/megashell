@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/12 16:47:55 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/12 18:40:11 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,38 +72,19 @@ static int	pr_parse_redirect(t_cmd_frame *frame, t_tok_list *tokens)
 	return (1);
 }
 
-static bool	pr_is_redirect(t_token_kind k)
-{
-	const bool	is_redir[TOKEN_COUNT] = {
-	[TOKEN_UNUSED] = NULL,
-	[TOKEN_QUOTE_SINGLE] = false,
-	[TOKEN_QUOTE_DOUBLE] = false,
-	[TOKEN_TEXT] = false,
-	[TOKEN_PIPE] = false,
-	[TOKEN_LESS_THAN] = true,
-	[TOKEN_GREATER_THAN] = true,
-	[TOKEN_APPEND] = true,
-	[TOKEN_HEREDOC] = true,
-	[TOKEN_BLOCK_DOLLAR] = false,
-	[TOKEN_ERROR] = NULL,
-	};
-
-	return (is_redir[k]);
-}
-
-static t_cmd_list	*pr_list_add_cmd(t_cmd_list **cmd_list, t_cmd_frame t)
+static t_cmd_list	*pr_list_add_cmd(t_cmd_list **cmd_list, t_cmd_frame frame)
 {
 	t_cmd_list	*node;
 
 	if (!cmd_list)
 	{
-		*cmd_list = pr_lstnew(t);
+		*cmd_list = pr_lstnew(frame);
 		if (!cmd_list)
 			return (NULL);
 	}
 	else
 	{
-		node = pr_lstnew(t);
+		node = pr_lstnew(frame);
 		if (!node)
 			return (NULL);
 		pr_lstadd_back(cmd_list, node);
@@ -111,40 +92,42 @@ static t_cmd_list	*pr_list_add_cmd(t_cmd_list **cmd_list, t_cmd_frame t)
 	return (*cmd_list);
 }
 
+static int	pr_iterate(t_tok_list **tl, t_cmd_list **cmds, t_cmd_frame *frame)
+{
+	if (!(*tl)->prev || (*tl)->token.kind == TOKEN_PIPE)
+	{
+		if ((*tl)->token.kind == TOKEN_PIPE)
+			pr_list_add_cmd(cmds, *frame);
+		ft_bzero(frame, sizeof(t_cmd_frame));
+	}
+	if ((*tl)->token.kind == TOKEN_TEXT || (*tl)->token.kind == TOKEN_ALLOC)
+	{
+		if (!pr_parse_text(frame, *tl))
+			return (0);
+	}
+	else if (pr_is_redirect((*tl)->token.kind))
+	{
+		if (!pr_parse_redirect(frame, (*tl)))
+			return (0);
+		*tl = (*tl)->next;
+	}
+	if (!(*tl)->next && !pr_list_add_cmd(cmds, *frame))
+		return (0);
+	return (1);
+}
+
 t_cmd_list	*pr_main(t_tok_list *tokens)
 {
-	t_cmd_list	*cmds = NULL;
+	t_cmd_list	*cmds;
 	t_cmd_frame	frame;
-	ft_bzero(&frame, sizeof(t_cmd_frame));
 
+	cmds = NULL;
+	ft_bzero(&frame, sizeof(t_cmd_frame));
 	if (!pr_joiner(tokens))
 		return (NULL);
 	while (tokens)
 	{
-		if (!tokens->prev || tokens->token.kind == TOKEN_PIPE)
-		{
-			if (tokens->token.kind == TOKEN_PIPE)
-				pr_list_add_cmd(&cmds, frame);
-			ft_bzero(&frame, sizeof(t_cmd_frame));
-		}
-		if (tokens->token.kind == TOKEN_TEXT || tokens->token.kind == TOKEN_ALLOC)
-		{
-			if (!pr_parse_text(&frame, tokens))
-			{
-				pr_lst_free(cmds);
-				return (NULL);
-			}
-		}
-		else if (pr_is_redirect(tokens->token.kind))
-		{
-			if (!pr_parse_redirect(&frame, tokens))
-			{
-				pr_lst_free(cmds);
-				return (NULL);
-			}
-			tokens = tokens->next;
-		}
-		if (!tokens->next && !pr_list_add_cmd(&cmds, frame))
+		if (!pr_iterate(&tokens, &cmds, &frame))
 		{
 			pr_lst_free(cmds);
 			return (NULL);
