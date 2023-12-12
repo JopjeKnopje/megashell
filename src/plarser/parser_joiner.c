@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/01 22:36:25 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/11 17:44:27 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/12 16:36:11 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,22 @@ static void	pr_disable_empty_tokens(t_tok_list *tokens)
 	}
 }
 
-static void pr_join()
+static int pr_join(t_token *tok_base, t_token *tok_joinee)
 {
-	s_joined = sized_strjoin(tok_base->content, tok_base->content_len,
+	char *s_joined = sized_strjoin(tok_base->content, tok_base->content_len,
 			tok_joinee->content, tok_joinee->content_len);
 	if (!s_joined)
-		return (NULL);
+		return (0);
 	if (tok_joinee->kind == TOKEN_ALLOC)
 		free(tok_joinee->content);
 	*tok_joinee = lx_token_set(TOKEN_UNUSED, NULL, 0);
 	if (tok_base->kind == TOKEN_ALLOC)
 		free(tok_base->content);
 	*tok_base = lx_token_set(TOKEN_ALLOC, s_joined, ft_strlen(s_joined));
+	return (1);
 }
 
-t_tok_list *pr_joiner(t_tok_list *tokens)
+t_tok_list	*pr_joiner(t_tok_list *tokens)
 {
 	t_tok_list	*tail;
 	t_token		*tok_base;
@@ -58,7 +59,7 @@ t_tok_list *pr_joiner(t_tok_list *tokens)
 		tok_joinee = &tail->next->token;
 		if (tok_joinee && tok_base->padding == 0)
 		{
-			if (!if_padding_is_zero(tok_base, tok_joinee))
+			if (!pr_join(tok_base, tok_joinee))
 				return (NULL);
 		}
 		tail = tail->prev;
