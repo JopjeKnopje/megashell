@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   builtins.c                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/11 15:09:15 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/12 16:35:59 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ t_builtin	get_builtin(char *cmd)
 	return (BUILTIN_INVALID);
 }
 
-int	check_fds_and_redirects(int fds[2], int heredoc_fd, t_cmd_frame *cmd, \
-	t_hd_list *head)
+int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 {
 	t_hd_list	*head;
 	int			exit_status;
@@ -86,7 +85,9 @@ int	check_fds_and_redirects(int fds[2], int heredoc_fd, t_cmd_frame *cmd, \
 	{
 		fd = handle_heredoc(cmd, &exit_status);
 		if (fd == -1)
-			UNIMPLEMENTED("return malloc failure signal as exit code?\n");
+		{
+
+		}
 		head = append_heredoc(&head, fd);
 	}
 	fds[PIPE_WRITE] = dup(STDOUT_FILENO);

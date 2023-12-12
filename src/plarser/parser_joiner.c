@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/01 22:36:25 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/12 15:39:39 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/12 16:36:11 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,9 @@ static void	pr_disable_empty_tokens(t_tok_list *tokens)
 	}
 }
 
-static int	pr_join(t_token *tok_base, t_token *tok_joinee)
+static int pr_join(t_token *tok_base, t_token *tok_joinee)
 {
-	char	*s_joined;
-
-	s_joined = sized_strjoin(tok_base->content, tok_base->content_len,
+	char *s_joined = sized_strjoin(tok_base->content, tok_base->content_len,
 			tok_joinee->content, tok_joinee->content_len);
 	if (!s_joined)
 		return (0);
