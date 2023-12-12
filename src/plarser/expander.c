@@ -1,50 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander.c                                         :+:      :+:    :+:   */
+/*   expander.c                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/11 17:10:59 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/12 19:00:08 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "get_next_line.h"
-# include "heredoc.h"
-# include "libft.h"
-# include "megashell.h"
-# include "plarser.h"
-# include "test_utils.h"
-# include "utils.h"
-# include <limits.h>
-# include <readline/readline.h>
-# include <stdint.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include "execute.h"
+#include "expander.h"
+#include "get_next_line.h"
+#include "heredoc.h"
+#include "libft.h"
+#include "megashell.h"
+#include "plarser.h"
+#include "test_utils.h"
+#include "utils.h"
+#include <limits.h>
+#include <readline/readline.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include "execute.h"
 
-static size_t get_key_len(char *key)
+static	size_t	get_key_len(char *key)
 {
-	size_t i = 0;
+	size_t	i;
+
+	i = 0;
 	while (key[i] && key[i] != '=')
 	{
-		i++;	
+		i++;
 	}
-	return i;
+	return (i);
 }
 
-static char *ex_find_var(char **envp, char *name, size_t len)
+static char	*ex_find_var(char **envp, char *name, size_t len)
 {
-	size_t	i = 0;
+	size_t	i;
 	char	*var;
 
+	i = 0;
 	if (!len)
 		return (NULL);
 	while (envp[i])
 	{
-
 		if (get_key_len(envp[i]) == len && !ft_strncmp(envp[i], name, len))
 		{
 			var = ft_strchr(envp[i], '=');
@@ -57,7 +60,7 @@ static char *ex_find_var(char **envp, char *name, size_t len)
 	return (NULL);
 }
 
-static size_t ex_var_len(char *s)
+size_t	ex_var_len(char *s)
 {
 	size_t	i;
 
@@ -67,7 +70,7 @@ static size_t ex_var_len(char *s)
 	return (i);
 }
 
-static char *ex_str_append(char *s_base, char *s_append, size_t append_size)
+char	*ex_str_append(char *s_base, char *s_append, size_t append_size)
 {
 	char	*s_new;
 	size_t	base_size;
@@ -86,7 +89,7 @@ static char *ex_str_append(char *s_base, char *s_append, size_t append_size)
 	return (s_new);
 }
 
-static size_t ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
+static size_t	ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
 {
 	char	*var;
 	size_t	len;
@@ -95,7 +98,7 @@ static size_t ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
 	is_exit_code = false;
 	len = 0;
 	if (i + 1 >= t->content_len)
-		var = "$";	
+		var = "$";
 	else
 	{
 		len = ex_var_len(t->content + i + 1);
@@ -163,7 +166,7 @@ static void ex_step_into_quote(t_token *t)
 	}
 }
 
-static char *expand_var(char **envp, t_token *t, size_t i)
+char *expand_var(char **envp, t_token *t, size_t i)
 {
 	char	*var;
 	size_t	len;
@@ -185,52 +188,25 @@ static char *expand_var(char **envp, t_token *t, size_t i)
 
 t_token ex_expand_quote_block(char **envp, t_token *t)
 {
-	size_t	i = 0;
-	size_t	step;
 	char	*end = NULL;
-	char	*s_exp = NULL;
-	char	*var_exp = NULL;
+	t_exp exp = ex_pack_struct(t, envp);
 
 	ex_step_into_quote(t);
 
-	while (t->content && t->content[i])
+	while (t->content && t->content[exp.i])
 	{
-		if (t->content[i] == '$')
+		if (!ex_iterate(&exp))
 		{
-			var_exp = expand_var(envp, t, i);
-			step = ex_var_len(t->content + i);
-			if (step)
-			{
-				s_exp = ex_str_append(s_exp, var_exp, ft_strlen(var_exp));
-				if (!s_exp)
-					return lx_token_set(TOKEN_ERROR, NULL, 0);
-			}
+			printf("ex_iterate failed\n");
 		}
-		else
-		{
-			char *closing_quote = ft_strchr(t->content + i, '"');
-			end = ft_strchr(t->content + i, '$');
-			if (!end || end > closing_quote)
-				end = t->content + t->content_len;
-			var_exp = ft_substr(t->content + i, 0, ft_abs(t->content + i - end));
-			if (!var_exp)
-			{
-				if (s_exp)
-					free(s_exp);
-				return lx_token_set(TOKEN_ERROR, NULL, 0);
-			}
-			step = ft_strlen(var_exp);
-			s_exp = ex_str_append(s_exp, var_exp, step);
-			free(var_exp);
-		}
-		i += step;
-		if (end == t->content + t->content_len)
+		exp.i += exp.step;
+		if (end == exp.t->content + exp.t->content_len)
 			break;
 	}
-	return lx_token_set(TOKEN_ALLOC, s_exp, ft_strlen(t->content));
+	return lx_token_set(TOKEN_ALLOC, exp.s_exp, ft_strlen(t->content));
 };
 
-bool ex_main(char **envp, t_tok_list *tokens)
+bool	ex_main(char **envp, t_tok_list *tokens)
 {
 	t_token	*t;
 
@@ -240,25 +216,17 @@ bool ex_main(char **envp, t_tok_list *tokens)
 		if (t->kind == TOKEN_QUOTE_DOUBLE)
 		{
 			tokens->token = ex_expand_quote_block(envp, t);
-			// TODO Test if this works.
 			if (tokens->token.kind == TOKEN_ERROR)
-			{
 				return (false);
-			}
 		}
 		else if (t->kind == TOKEN_QUOTE_SINGLE)
-		{
 			ex_step_into_quote(t);
-		}
 		else if (t->kind == TOKEN_BLOCK_DOLLAR)
 		{
 			if (!ex_expand_var_block(envp, t))
-			{
 				return (false);
-			}
 		}
 		tokens = tokens->next;
 	}
-
 	return (true);
 }
