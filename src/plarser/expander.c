@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/13 01:01:07 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/13 01:06:05 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,64 +184,17 @@ char *expand_var(char **envp, t_token *t, size_t i)
 	return (var);
 }
 
-
-
-// t_token ex_expand_quote_block(char **envp, t_token *t)
-// {
-// 	t_exp exp = ex_pack_struct(t, envp);
-//
-// 	ex_step_into_quote(t);
-//
-// 	while (t->content && t->content[exp.i])
-// 	{
-// 		if (!ex_iterate(&exp))
-// 		{
-// 			printf("ex_iterate failed\n");
-// 		}
-// 		exp.i += exp.step;
-// 		if (exp.end == exp.t->content + exp.t->content_len)
-// 			break;
-// 	}
-// 	return lx_token_set(TOKEN_ALLOC, exp.s_exp, ft_strlen(t->content));
-// };
-
 t_token ex_expand_quote_block(char **envp, t_token *t)
 {
 	t_exp 	exp;
 	exp = ex_pack_struct(t, envp);
-
 	ex_step_into_quote(exp.t);
 
-	char	*var_exp = NULL;
 	while (exp.t->content && exp.t->content[exp.i])
 	{
-		if (exp.t->content[exp.i] == '$')
+		if (!ex_iterate(&exp))
 		{
-			var_exp = expand_var(envp, t, exp.i);
-			exp.step = ex_var_len(exp.t->content + exp.i);
-			if (exp.step)
-			{
-				exp.s_exp = ex_str_append(exp.s_exp, var_exp, ft_strlen(var_exp));
-				if (!exp.s_exp)
-					return lx_token_set(TOKEN_ERROR, NULL, 0);
-			}
-		}
-		else
-		{
-			char *closing_quote = ft_strchr(t->content + exp.i, '"');
-			exp.end = ft_strchr(t->content + exp.i, '$');
-			if (!exp.end || exp.end > closing_quote)
-				exp.end = t->content + t->content_len;
-			var_exp = ft_substr(t->content + exp.i, 0, ft_abs(t->content + exp.i - exp.end));
-			if (!var_exp)
-			{
-				if (exp.s_exp)
-					free(exp.s_exp);
-				return lx_token_set(TOKEN_ERROR, NULL, 0);
-			}
-			exp.step = ft_strlen(var_exp);
-			exp.s_exp = ex_str_append(exp.s_exp, var_exp, exp.step);
-			free(var_exp);
+			printf("ex_iterate failed\n");
 		}
 		exp.i += exp.step;
 		if (exp.end == exp.t->content + exp.t->content_len)

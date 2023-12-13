@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:32:52 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/13 00:52:29 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/13 01:11:00 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,5 @@ char	**search_in_path(char **envp, char *cmd);
 
 bool	lx_is_redir_heredoc(char *s, t_token_kind k);
 
-// utils_math.c
-int		ft_abs(int x);
 
 #endif
