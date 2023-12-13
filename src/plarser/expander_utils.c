@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/12 18:46:47 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/12 19:00:57 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/13 00:52:25 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "plarser.h"
 #include <stddef.h>
 
-static int	ft_abs(int x)
+int	ft_abs(int x)
 {
 	if (x < 0)
 		x = -x;

@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/12 18:45:58 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/12 19:00:46 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/13 00:41:23 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 #include "plarser.h"
 
 typedef struct s_exp {
-	char **envp;
-	t_token *t;
-	size_t  i;
+	char	**envp;
+	char	*s_exp;
+	char	*end;
 	size_t  step;
-	char *s_exp;
-	char *end;
+	size_t  i;
+	t_token *t;
 } t_exp;
 
 
