@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/13 01:06:05 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/13 01:15:28 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,7 @@ static size_t	ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
 			var = "";
 	}
 	if (!var)
-	{
-		*s_exp = NULL;
 		return (len);
-	}
 	*s_exp = ex_str_append(*s_exp, var, ft_strlen(var));
 	if (is_exit_code)
 		free(var);
