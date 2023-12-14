@@ -6,13 +6,14 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:11 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/11 13:42:38 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/14 12:58:10 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "megashell.h"
 #include "plarser.h"
+#include <stdlib.h>
 
 bool	is_a_nb(char *str)
 {
@@ -56,7 +57,9 @@ int	builtin_run_exit(t_meta *meta, t_cmd_frame *cmd)
 	if (!cmd->argv[1])
 	{
 		printf("exit\n");
-		exit(EXIT_SUCCESS);
+		meta->should_exit = true;
+		meta->exit_code = nb;
+		return (EXIT_SUCCESS);
 	}
 	nb = ft_atoi(cmd->argv[1]);
 	if (cmd->argv[2])
@@ -65,5 +68,10 @@ int	builtin_run_exit(t_meta *meta, t_cmd_frame *cmd)
 	printf("exit\n");
 	if (!is_a_nb(cmd->argv[1]))
 		printf("exit %s: a numeric argument required\n", cmd->argv[1]);
-	exit(nb);
+	{
+		meta->should_exit = true;
+		meta->exit_code = nb;
+		return (nb);
+		// exit(nb);
+	}
 }

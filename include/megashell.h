@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   megashell.h                                        :+:      :+:    :+:   */
+/*   megashell.h                                       :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:40:37 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/11 16:44:46 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/14 12:56:52 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct s_exec {
 typedef struct s_meta {
 	char	**envp;
 	t_exec	execute;
+	bool should_exit;
+	int exit_code;
 }	t_meta;
 
 // megashell.c
