@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   signals.c                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:28:16 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/11 16:32:28 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/14 02:07:55 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include "execute.h"
 #include "input.h"
 #include "megashell.h"
+
+int	g_exit_code;
 
 static void	parent_signal(int sig)
 {
