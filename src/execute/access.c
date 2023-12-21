@@ -71,18 +71,18 @@ char	*check_relative_path(char *cmd, char *buffer)
 	return (buffer);
 }
 
-bool	check_existing_path(t_meta *meta)
+bool	check_existing_path(t_meta *meta, char *cmd)
 {
 	char	**s;
 
 	s = search_in_path(meta->envp, "PATH=");
 	if (!s)
 	{
-		if (execve(meta->execute.argv[0], meta->execute.argv, meta->envp) == -1)
-		{
-			printf("%s: No such file or directory\n", meta->execute.argv[0]);
+		// if (execve(meta->execute.argv[0], meta->execute.argv, meta->envp) == -1)
+		// {
+			printf("megashell: %s: No such file or directory\n", cmd);
 			return (false);
-		}
+		// }
 	}
 	free_2d(s);
 	return (true);
@@ -105,7 +105,7 @@ char	*access_possible(t_meta *meta, char *cmd)
 	cmd_copy = check_relative_path(cmd, cmd_copy);
 	if (cmd_copy)
 		return (cmd_copy);
-	if (!check_existing_path(meta))
+	if (!check_existing_path(meta, cmd))
 		return (NULL);
 	executable_path = find_executable_in_path(meta->execute.split_path, cmd);
 	if (!executable_path)
