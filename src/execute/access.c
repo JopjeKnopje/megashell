@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   access.c                                           :+:      :+:    :+:   */
+/*   access.c                                          :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/11 13:41:53 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/21 22:21:01 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "megashell.h"
 #include "utils.h"
+#include <stdint.h>
 
 bool	is_a_directory(char *cmd)
 {
@@ -114,4 +115,18 @@ char	*access_possible(t_meta *meta, char *cmd)
 		exit(127);
 	}
 	return (executable_path);
+}
+
+
+char *get_runnable_path(t_meta *meta, char *cmd, int32_t *status)
+{
+	if (cmd[0] == '.' && !cmd[1])
+	{
+
+	}
+	// check if `./`
+		// if not accessable display error.
+	// else iterate over envp->paths
+		//	
+	// iterate until we find a executeable that is runnable
 }

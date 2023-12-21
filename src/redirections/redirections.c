@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirections.c                                     :+:      :+:    :+:   */
+/*   redirections.c                                    :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:10:53 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/11 16:34:11 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/21 22:14:24 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ static bool	attach_heredoc(t_hd_list **heredoc)
 	return (true);
 }
 
+// TODO Handle incorrect permissions.
 bool	redirections(t_cmd_frame *f, t_hd_list **heredocs)
 {
 	if (f->heredoc_delim)

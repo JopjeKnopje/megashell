@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/14 12:44:12 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/21 22:20:55 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <assert.h>
 #include <errno.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -29,13 +30,15 @@ static bool	run_command(t_meta *meta, t_cmd_frame *cmd)
 {
 	t_builtin	is_builtin;
 	char		*cmd_in_path;
+	int32_t 	status;
 
 	if (!cmd->argv)
 		return (true);
 	is_builtin = get_builtin(cmd->argv[0]);
 	if (is_builtin)
 		return (run_builtin(is_builtin, meta, cmd));
-	cmd_in_path = access_possible(meta, cmd->argv[0]);
+	// cmd_in_path = access_possible(meta, cmd->argv[0]);
+	cmd_in_path = get_runnable_path(meta, cmd->argv[0], &status);
 	if (cmd_in_path)
 	{
 		if (execve(cmd_in_path, cmd->argv, meta->envp) == -1)

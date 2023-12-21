@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.h                                          :+:      :+:    :+:   */
+/*   execute.h                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/11 16:40:48 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/21 22:21:36 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "megashell.h"
 # include "libft.h"
 # include "builtins.h"
+#include <stdint.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -93,7 +94,8 @@ bool		find_access(t_meta *meta, t_cmd_list *cmds);
 bool		is_a_directory(char *cmd);
 char		*check_relative_path(char *cmd, char *buffer);
 char		*find_executable_in_path(char **split_path, char *cmd);
-char		*access_possible(t_meta *meta, char *cmd);
+char	*access_possible(t_meta *meta, char *cmd);
+char	*get_runnable_path(t_meta *meta, char *cmd, int32_t *status);
 
 // free:
 void		free_2d(char **str);

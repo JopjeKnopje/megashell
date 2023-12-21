@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/12/21 17:10:46 by joppe         ########   odam.nl          #
+#    Updated: 2023/12/21 22:15:06 by joppe         ########   odam.nl          #
 
 #                                                                              #
 # **************************************************************************** #
@@ -26,8 +26,8 @@ endif
 NAME		:= minishell
 RUN_CMD		:= ./$(NAME)
 
-CFLAGS		+= -Wall -Wextra -Werror
-# CFLAGS		+= -Wall -Wextra
+# CFLAGS		+= -Wall -Wextra -Werror
+CFLAGS		+= -Wall -Wextra
 CFLAGS		+= -g -fsanitize=address
 CFLAGS		+= -g
 
