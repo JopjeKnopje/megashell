@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:28:16 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/14 02:07:55 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/21 13:50:12 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static void	parent_signal(int sig)
 	if (sig == SIGINT)
 	{
 		set_exit_code(130);
-		printf("\x1B[K");
-		printf("%s", get_prompt(g_exit_code));
 		write(STDOUT_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_set_prompt(get_prompt(g_exit_code));
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
