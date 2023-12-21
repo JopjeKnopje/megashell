@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline_utils.c                                   :+:      :+:    :+:   */
+/*   pipeline_utils.c                                  :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:32:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/11 15:50:00 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/14 12:43:56 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "heredoc.h"
 #include "execute.h"
 #include "input.h"
-#include "test_utils.h"
 #include <assert.h>
 #include <stddef.h>
 #include <stdio.h>

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "plarser.h"
-#include "test_utils.h"
 #include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,9 +29,11 @@ static void	pr_disable_empty_tokens(t_tok_list *tokens)
 	}
 }
 
-static int pr_join(t_token *tok_base, t_token *tok_joinee)
+static int	pr_join(t_token *tok_base, t_token *tok_joinee)
 {
-	char *s_joined = sized_strjoin(tok_base->content, tok_base->content_len,
+	char	*s_joined;
+
+	s_joined = sized_strjoin(tok_base->content, tok_base->content_len,
 			tok_joinee->content, tok_joinee->content_len);
 	if (!s_joined)
 		return (0);

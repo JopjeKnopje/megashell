@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   plarser.h                                          :+:      :+:    :+:   */
+/*   plarser.h                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/11 17:10:59 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/14 02:10:56 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,19 @@
 # include <stdint.h>
 
 typedef enum e_token_kind {
-	TOKEN_UNUSED 				= 0,
-	TOKEN_QUOTE_SINGLE 	= 1,	// '[content]'
-	TOKEN_QUOTE_DOUBLE 	= 2,	// "[content]"
-	TOKEN_BLOCK_DOLLAR 			= 3,	// $
-	TOKEN_PIPE 					= 4,	// |
-	TOKEN_LESS_THAN 			= 5,	// <
-	TOKEN_GREATER_THAN 			= 6,	// >
-	TOKEN_APPEND 				= 7,	// >>
-	TOKEN_HEREDOC 				= 8,	// <<
-	TOKEN_TEXT 					= 9,
-	TOKEN_ALLOC					= 10, 	// We know its allocated memory this only happens in the expander.
-	TOKEN_ERROR 				= 11, 	// Error which the syntax checker will handle
-	TOKEN_COUNT 				= 12,
+	TOKEN_UNUSED = 0,
+	TOKEN_QUOTE_SINGLE = 1,
+	TOKEN_QUOTE_DOUBLE = 2,
+	TOKEN_BLOCK_DOLLAR = 3,
+	TOKEN_PIPE = 4,
+	TOKEN_LESS_THAN = 5,
+	TOKEN_GREATER_THAN = 6,
+	TOKEN_APPEND = 7,
+	TOKEN_HEREDOC = 8,
+	TOKEN_TEXT = 9,
+	TOKEN_ALLOC	= 10,
+	TOKEN_ERROR = 11,
+	TOKEN_COUNT = 12,
 }	t_token_kind;
 
 typedef struct s_token {
@@ -94,6 +94,9 @@ bool			sy_token_unused(t_tok_list *node);
 
 // parser_joiner.c
 t_tok_list		*pr_joiner(t_tok_list *tokens);
+
+// parser_util.c
+bool			pr_is_redirect(t_token_kind k);
 
 // lexer.c
 t_tok_list		*lx_list_add_token(t_tok_list **token_lst, t_token t);

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/11 16:49:47 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/14 12:44:09 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "input.h"
 #include "utils.h"
 #include "execute.h"
-#include "test_utils.h"
 #include <math.h>
 #include <readline/readline.h>
 #include <stdio.h>
@@ -24,8 +23,6 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
-
-int g_exit_code;
 
 void	cmd_free(t_cmd_list *cmd)
 {
@@ -36,14 +33,14 @@ void	cmd_free(t_cmd_list *cmd)
 	free(cmd);
 }
 
-void megashell_cleanup(t_meta *meta, int code)
+void	megashell_cleanup(t_meta *meta, int code)
 {
 	free_2d(meta->execute.split_path);
 	free_2d(meta->envp);
 	exit(code);
 }
 
-int megashell_init(t_meta *meta, char **envp)
+int	megashell_init(t_meta *meta, char **envp)
 {
 	ft_bzero(meta, sizeof(t_meta));
 	if (!prompt_env_setup())
@@ -58,11 +55,29 @@ int megashell_init(t_meta *meta, char **envp)
 	return (true);
 }
 
+int	handle_line(t_meta *meta, char *line)
+{
+	t_cmd_list	*cmds;
+	int			status;
+
+	cmds = plarser_main(meta->envp, line, &status);
+	free(line);
+	if (!cmds && status)
+		megashell_cleanup(meta, EXIT_FAILURE);
+	if (cmds)
+	{
+		status = execute(meta, cmds);
+		if (status == INTERNAL_FAILURE)
+			return (INTERNAL_FAILURE);
+		set_exit_code(status);
+	}
+	pr_lst_free(cmds);
+	return (12);
+}
 
 int	megashell(char *envp[])
 {
 	t_meta		meta;
-	t_cmd_list	*cmds;
 	char		*line;
 	int			status;
 
@@ -72,22 +87,13 @@ int	megashell(char *envp[])
 	while (1)
 	{
 		if (!set_signal_mode(MAIN))
-			break;
+			break ;
 		line = prompt_get_line();
 		if (!line)
 			megashell_cleanup(&meta, EXIT_SUCCESS);
-		cmds = plarser_main(meta.envp, line, &status);
-		free(line);
-		if (!cmds && status)
+		status = handle_line(&meta, line);
+		if (status == INTERNAL_FAILURE)
 			megashell_cleanup(&meta, EXIT_FAILURE);
-		if (cmds)
-		{
-			status = execute(&meta, cmds);
-			if (status == INTERNAL_FAILURE)
-				megashell_cleanup(&meta, EXIT_FAILURE);
-			set_exit_code(status);
-		}
-		pr_lst_free(cmds);
 	}
 	megashell_cleanup(&meta, EXIT_FAILURE);
 	return (EXIT_FAILURE);

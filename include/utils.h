@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   utils.h                                           :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 18:32:52 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/11 17:04:36 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/14 02:11:30 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
 
+# include "plarser.h"
 # include <unistd.h>
 
 // utils_string.c
@@ -24,8 +25,5 @@ int		strlen_largest(const char *s1, const char *s2);
 char	**search_in_path(char **envp, char *cmd);
 
 bool	lx_is_redir_heredoc(char *s, t_token_kind k);
-
-// utils_math.c
-int		ft_abs(int x);
 
 #endif

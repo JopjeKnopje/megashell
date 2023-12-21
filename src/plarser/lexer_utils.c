@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*   lexer_utils.c                                     :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 15:11:36 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/11 17:04:03 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/21 13:43:43 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 #include "libft.h"
 #include "plarser.h"
 
-static const char	*get_metachars(int i)
+static char	get_metachars(int i)
 {
-	static const char	*metachars[] = { 
+	static const char	metachars[] = { 
 		'|',
 		'<',
 		'>',

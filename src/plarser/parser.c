@@ -14,7 +14,6 @@
 #include "libft.h"
 #include "utils.h"
 #include "plarser.h"
-#include "test_utils.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -48,7 +47,7 @@ static int	pr_parse_text(t_cmd_frame *frame, t_tok_list *tokens)
 static int	pr_parse_redirect(t_cmd_frame *frame, t_tok_list *tokens)
 {
 	const t_token_kind	k = tokens->token.kind;
-	t_token *next = &tokens->next->token;
+	const t_token		*next = &tokens->next->token;
 
 	if (k == TOKEN_APPEND || k == TOKEN_GREATER_THAN)
 	{
@@ -65,46 +64,28 @@ static int	pr_parse_redirect(t_cmd_frame *frame, t_tok_list *tokens)
 	}
 	else if (k == TOKEN_HEREDOC)
 	{
+		if (frame->heredoc_delim)
+			free(frame->heredoc_delim);
 		frame->heredoc_delim = sized_strdup(next->content, next->content_len);
 		if (!frame->heredoc_delim)
 			printf("sized_strdup failure\n");
 	}
-
 	return (1);
 }
 
-static bool pr_is_redirect(t_token_kind k)
-{
-	const bool is_redir[TOKEN_COUNT] = {
-		[TOKEN_UNUSED] 				=	NULL,
-		[TOKEN_QUOTE_SINGLE]		=	false,
-		[TOKEN_QUOTE_DOUBLE]		=	false,
-		[TOKEN_TEXT]				=	false,
-		[TOKEN_PIPE] 				=	false,
-		[TOKEN_LESS_THAN] 			=	true,
-		[TOKEN_GREATER_THAN]		=	true,
-		[TOKEN_APPEND] 				=	true,
-		[TOKEN_HEREDOC]				=	true,
-		[TOKEN_BLOCK_DOLLAR]	 	=	false,
-		[TOKEN_ERROR]				=	NULL,
-	};
-
-	return is_redir[k];
-}
-
-static t_cmd_list *pr_list_add_cmd(t_cmd_list **cmd_list, t_cmd_frame t)
+static t_cmd_list	*pr_list_add_cmd(t_cmd_list **cmd_list, t_cmd_frame frame)
 {
 	t_cmd_list	*node;
 
 	if (!cmd_list)
 	{
-		*cmd_list = pr_lstnew(t);
+		*cmd_list = pr_lstnew(frame);
 		if (!cmd_list)
 			return (NULL);
 	}
 	else
 	{
-		node = pr_lstnew(t);
+		node = pr_lstnew(frame);
 		if (!node)
 			return (NULL);
 		pr_lstadd_back(cmd_list, node);
@@ -112,40 +93,42 @@ static t_cmd_list *pr_list_add_cmd(t_cmd_list **cmd_list, t_cmd_frame t)
 	return (*cmd_list);
 }
 
-t_cmd_list *pr_main(t_tok_list *tokens)
+static int	pr_iterate(t_tok_list **tl, t_cmd_list **cmds, t_cmd_frame *frame)
 {
-	t_cmd_list	*cmds = NULL;
-	t_cmd_frame	frame;
-	ft_bzero(&frame, sizeof(t_cmd_frame));
+	if (!(*tl)->prev || (*tl)->token.kind == TOKEN_PIPE)
+	{
+		if ((*tl)->token.kind == TOKEN_PIPE)
+			pr_list_add_cmd(cmds, *frame);
+		ft_bzero(frame, sizeof(t_cmd_frame));
+	}
+	if ((*tl)->token.kind == TOKEN_TEXT || (*tl)->token.kind == TOKEN_ALLOC)
+	{
+		if (!pr_parse_text(frame, *tl))
+			return (0);
+	}
+	else if (pr_is_redirect((*tl)->token.kind))
+	{
+		if (!pr_parse_redirect(frame, (*tl)))
+			return (0);
+		*tl = (*tl)->next;
+	}
+	if (!(*tl)->next && !pr_list_add_cmd(cmds, *frame))
+		return (0);
+	return (1);
+}
 
+t_cmd_list	*pr_main(t_tok_list *tokens)
+{
+	t_cmd_list	*cmds;
+	t_cmd_frame	frame;
+
+	cmds = NULL;
+	ft_bzero(&frame, sizeof(t_cmd_frame));
 	if (!pr_joiner(tokens))
 		return (NULL);
 	while (tokens)
 	{
-		if (!tokens->prev || tokens->token.kind == TOKEN_PIPE)
-		{
-			if (tokens->token.kind == TOKEN_PIPE)
-				pr_list_add_cmd(&cmds, frame);
-			ft_bzero(&frame, sizeof(t_cmd_frame));
-		}
-		if (tokens->token.kind == TOKEN_TEXT || tokens->token.kind == TOKEN_ALLOC)
-		{
-			if (!pr_parse_text(&frame, tokens))
-			{
-				pr_lst_free(cmds);
-				return (NULL);
-			}
-		}
-		else if (pr_is_redirect(tokens->token.kind))
-		{
-			if (!pr_parse_redirect(&frame, tokens))
-			{
-				pr_lst_free(cmds);
-				return (NULL);
-			}
-			tokens = tokens->next;
-		}
-		if (!tokens->next && !pr_list_add_cmd(&cmds, frame))
+		if (!pr_iterate(&tokens, &cmds, &frame))
 		{
 			pr_lst_free(cmds);
 			return (NULL);
