@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/12/21 13:42:33 by jboeve        ########   odam.nl          #
+#    Updated: 2023/12/21 17:10:46 by joppe         ########   odam.nl          #
 
 #                                                                              #
 # **************************************************************************** #
@@ -28,7 +28,7 @@ RUN_CMD		:= ./$(NAME)
 
 CFLAGS		+= -Wall -Wextra -Werror
 # CFLAGS		+= -Wall -Wextra
-# CFLAGS		+= -g -fsanitize=address
+CFLAGS		+= -g -fsanitize=address
 CFLAGS		+= -g
 
 
@@ -86,6 +86,7 @@ SRCS		:= 	execute/error.c \
 				utils/utils_path.c \
 				redirections/redirections.c \
 				redirections/heredoc.c \
+				test_utils.c \
 			  	megashell.c
 
 HEADER_DIR	:=	include

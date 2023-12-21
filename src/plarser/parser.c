@@ -6,9 +6,11 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/12 15:46:41 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/21 17:09:25 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "test_utils.h"
 
 #include "execute.h"
 #include "libft.h"
@@ -126,6 +128,8 @@ t_cmd_list	*pr_main(t_tok_list *tokens)
 	ft_bzero(&frame, sizeof(t_cmd_frame));
 	if (!pr_joiner(tokens))
 		return (NULL);
+	print_tokens(tokens);
+	printf("\n\n\n\n");
 	while (tokens)
 	{
 		if (!pr_iterate(&tokens, &cmds, &frame))

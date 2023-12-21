@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/01 22:36:25 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/12 16:36:11 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/21 17:11:20 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_tok_list	*pr_joiner(t_tok_list *tokens)
 	{
 		tok_base = &tail->token;
 		tok_joinee = &tail->next->token;
-		if (tok_joinee && tok_base->padding == 0)
+		if (tok_base->kind == TOKEN_TEXT && tok_joinee && tok_joinee->kind == TOKEN_TEXT && tok_base->padding == 0)
 		{
 			if (!pr_join(tok_base, tok_joinee))
 				return (NULL);
