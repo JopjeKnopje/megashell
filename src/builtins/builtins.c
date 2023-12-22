@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/14 02:00:48 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/22 14:37:55 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 	redirections(cmd, &head);
 	exit_status = (get_builtin_func(builtin)(meta, cmd));
 	if (!dup_stdin(fds[PIPE_READ]))
-		printf("error dup_stdin\n");
+		print_error("error dup_stdin\n");
 	if (!dup_stdout(fds[PIPE_WRITE]))
-		printf("error dup_stdout\n");
+		print_error("error dup_stdout\n");
 	return (exit_status);
 }

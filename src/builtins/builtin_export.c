@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*   builtin_export.c                                  :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:03 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/11 13:50:29 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2023/12/22 14:39:36 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ bool	exists_in_env(char **envp, char *var_value, char *var_name, int len_var)
 			envp[i] = ft_strdup(var_value);
 			if (!envp[i])
 			{
-				printf("Memory allocation error\n");
+				print_error("Memory allocation error\n");
 				return (false);
 			}
 			return (true);
