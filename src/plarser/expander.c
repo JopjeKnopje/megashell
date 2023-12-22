@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/14 12:44:29 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/22 14:39:28 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ t_token	ex_expand_quote_block(char **envp, t_token *t)
 	{
 		if (!ex_iterate(&exp))
 		{
-			printf("ex_iterate failed\n");
+			print_error("ex_iterate failed\n");
 		}
 		exp.i += exp.step;
 		if (exp.end == exp.t->content + exp.t->content_len)

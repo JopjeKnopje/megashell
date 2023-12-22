@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 13:58:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/08 19:36:45 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/22 14:39:07 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	**add_to_env(char **envp, char *arg, char *cmd_start)
 	if (!new_envp)
 	{
 		free(cmd_start);
-		return (printf("Memory allocation error\n"), NULL);
+		return (print_error("Memory allocation error\n"), NULL);
 	}
 	new_envp = fill_environment(envp, new_envp, cmd_start, i);
 	free(cmd_start);
@@ -59,7 +59,7 @@ char	**add_to_env(char **envp, char *arg, char *cmd_start)
 	if (!new_envp[i])
 	{
 		free_2d(new_envp);
-		return (printf("Memory allocation error\n"), NULL);
+		return (print_error("Memory allocation error\n"), NULL);
 	}
 	free_2d(envp);
 	envp = new_envp;
@@ -68,7 +68,7 @@ char	**add_to_env(char **envp, char *arg, char *cmd_start)
 
 bool	handle_export_input_errors(char *cmd_start)
 {
-	printf("Invalid input\n");
+	print_error("Invalid input\n");
 	free(cmd_start);
 	return (false);
 }

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/21 17:58:28 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/22 14:38:38 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	pr_parse_redirect(t_cmd_frame *frame, t_tok_list *tokens)
 		frame->is_append = (k == TOKEN_APPEND);
 		frame->outfile = sized_strdup(next->content, next->content_len);
 		if (!frame->outfile)
-			printf("sized_strdup failure\n");
+			print_error("sized_strdup failure\n");
 	}
 	else if (k == TOKEN_LESS_THAN)
 	{
@@ -69,7 +69,7 @@ static int	pr_parse_redirect(t_cmd_frame *frame, t_tok_list *tokens)
 			free(frame->infile);
 		frame->infile = sized_strdup(next->content, next->content_len);
 		if (!frame->infile)
-			printf("sized_strdup failure\n");
+			print_error("sized_strdup failure\n");
 	}
 	else if (k == TOKEN_HEREDOC)
 	{
@@ -77,7 +77,7 @@ static int	pr_parse_redirect(t_cmd_frame *frame, t_tok_list *tokens)
 			free(frame->heredoc_delim);
 		frame->heredoc_delim = sized_strdup(next->content, next->content_len);
 		if (!frame->heredoc_delim)
-			printf("sized_strdup failure\n");
+			print_error("sized_strdup failure\n");
 	}
 	return (1);
 }
