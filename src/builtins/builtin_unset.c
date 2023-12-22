@@ -24,6 +24,7 @@ static bool	remove_env_variable(char **envp, const char *variable)
 		if (ft_strncmp(envp[i], variable, len_var) == 0
 			&& (envp[i][len_var] == '='))
 		{
+			free(envp[i]);
 			while (envp[i] != NULL)
 			{
 				envp[i] = envp[i + 1];

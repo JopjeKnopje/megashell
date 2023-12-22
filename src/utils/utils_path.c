@@ -39,7 +39,10 @@ char	**search_in_path(char **envp, char *cmd)
 		i++;
 	}
 	if (dup_cmd_index == 0)
+	{
+		free(dup_cmd);
 		return (NULL);
+	}
 	dup_cmd[dup_cmd_index] = NULL;
 	return (dup_cmd);
 }

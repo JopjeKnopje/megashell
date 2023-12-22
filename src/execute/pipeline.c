@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/14 12:44:12 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/22 13:00:45 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,40 +16,44 @@
 #include "heredoc.h"
 #include "execute.h"
 #include "input.h"
+#include <asm-generic/errno-base.h>
 #include <assert.h>
 #include <errno.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <signal.h>
 
-static bool	run_command(t_meta *meta, t_cmd_frame *cmd)
+static int32_t	run_command(t_meta *meta, t_cmd_frame *cmd)
 {
 	t_builtin	is_builtin;
 	char		*cmd_in_path;
+	int32_t 	status;
 
 	if (!cmd->argv)
 		return (true);
 	is_builtin = get_builtin(cmd->argv[0]);
 	if (is_builtin)
 		return (run_builtin(is_builtin, meta, cmd));
-	cmd_in_path = access_possible(meta, cmd->argv[0]);
-	if (cmd_in_path)
+	status = get_runnable_path(meta, cmd->argv[0], &cmd_in_path);
+	if (!status)
 	{
 		if (execve(cmd_in_path, cmd->argv, meta->envp) == -1)
 		{
-			print_error(get_error_name(ERROR_ACCESS));
-			return (false);
+			perror("Megashell");
+			return (INTERNAL_FAILURE);
 		}
-		return (true);
 	}
-	return (false);
+	return (status);
 }
 
 static int	child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 {
+	int32_t	status;
+
 	if (cmd->prev)
 	{
 		if (dup2(cmd->prev->pipe[PIPE_READ], STDIN_FILENO) == -1)
@@ -66,7 +70,10 @@ static int	child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 	}
 	set_signal_mode(CHILD);
 	redirections(&cmd->content, heredocs);
-	return (!run_command(meta, &cmd->content));
+	status = run_command(meta, &cmd->content);
+	if (status)
+		perror("megashell");
+	return (status);
 }
 
 bool	pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
@@ -106,13 +113,9 @@ static int	pipeline_wait(t_cmd_list *cmds)
 		cmds = cmds->next;
 	}
 	if (WIFSIGNALED(status))
-	{
 		return (WTERMSIG(status) + 128);
-	}
 	else
-	{
 		return (WEXITSTATUS(status));
-	}
 }
 
 int	pipeline_start(t_meta *meta, t_cmd_list *cmds)
@@ -134,8 +137,9 @@ int	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 		}
 	}
 	if (!run_multiple_cmds(meta, cmds, cmds_head, heredoc_pipes))
-		return (-1);
+		return (INTERNAL_FAILURE);
 	last_exit = pipeline_wait(cmds_head);
 	hd_lst_free(heredoc_pipes);
+	printf("last_exit [%d]\n", last_exit);
 	return (last_exit);
 }
