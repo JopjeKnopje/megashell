@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/22 16:08:33 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/23 00:26:29 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 static int32_t	run_command(t_meta *meta, t_cmd_frame *cmd)
 {
 	t_builtin	is_builtin;
+	int32_t		status;
 	char		*cmd_in_path;
-	int32_t 	status;
 
 	if (!cmd->argv)
 		return (true);

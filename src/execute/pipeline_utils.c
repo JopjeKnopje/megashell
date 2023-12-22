@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/11 15:32:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/22 16:08:02 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/23 00:32:05 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,19 @@ void	pipeline_kill_nodes(t_cmd_list *cmds, t_cmd_list *end)
 	}
 }
 
-int32_t pop_heredoc(bool has_hd, t_hd_list **heredoc_pipes)
+int32_t	pop_heredoc(bool has_hd, t_hd_list **heredoc_pipes)
 {
-	int32_t fd;
+	int32_t		fd;
+	t_hd_list	*first;
+
+	fd = INTERNAL_FAILURE;
 	if (has_hd)
 	{
-		t_hd_list *first = hd_lstremove_first(heredoc_pipes);
+		first = hd_lstremove_first(heredoc_pipes);
 		fd = first->fd;
 		free(first);
 	}
-	return fd;
+	return (fd);
 }
 
 int	run_multiple_cmds(t_meta *meta, t_cmd_list *cmds, t_cmd_list \
@@ -65,10 +68,11 @@ int	run_multiple_cmds(t_meta *meta, t_cmd_list *cmds, t_cmd_list \
 {
 	while (cmds)
 	{
-		if (!pipeline_node(meta, cmds, pop_heredoc(cmds->content.heredoc_delim != NULL, heredoc_pipes)))
+		if (!pipeline_node(meta, cmds, \
+			pop_heredoc(cmds->content.heredoc_delim != NULL, \
+			heredoc_pipes)))
 		{
-			// TODO Close fds.
-			// hd_lst_free(*heredoc_pipes);
+			hd_lst_free(*heredoc_pipes);
 			pipeline_kill_nodes(cmds_head, cmds);
 			print_error(get_error_name(ERROR_PIPE));
 			return (0);

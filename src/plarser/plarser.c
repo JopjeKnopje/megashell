@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 12:26:52 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/22 14:40:11 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/23 00:09:30 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "execute.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "test_utils.h"
 #include "utils.h"
 
 static bool	contains_error(t_tok_list *tokens)
@@ -57,7 +56,6 @@ t_cmd_list	*plarser_main(char **envp, char *line, int *error)
 	if (err)
 		return (handle_error(tokens, &err->token, error));
 	cmds = pr_main(tokens);
-	print_cmds(cmds);
 	lx_lst_free(tokens);
 	if (!cmds)
 		return (NULL);

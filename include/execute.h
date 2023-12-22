@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/22 23:20:22 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/23 00:08:12 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "megashell.h"
 # include "libft.h"
 # include "builtins.h"
-#include <stdint.h>
+# include <stdint.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -27,7 +27,6 @@
 # include <string.h>
 # include <stdbool.h>
 # include <linux/limits.h>
-// # include <limits.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <heredoc.h>
@@ -73,7 +72,7 @@ void		set_exit_code(int code);
 int			pipeline_start(t_meta *meta, t_cmd_list *cmds);
 int			get_heredoc_exit_status(t_hd_list *heredoc_pipes);
 void		pipeline_kill_nodes(t_cmd_list *cmds, t_cmd_list *end);
-bool	pipeline_node(t_meta *meta, t_cmd_list *cmd, int32_t heredoc_fd);
+bool		pipeline_node(t_meta *meta, t_cmd_list *cmd, int32_t heredoc_fd);
 int			run_multiple_cmds(t_meta *meta, t_cmd_list *cmds, t_cmd_list \
 			*const cmds_head, t_hd_list **heredoc_pipes);
 
@@ -92,8 +91,8 @@ int			run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd);
 // access:
 bool		find_access(t_meta *meta, t_cmd_list *cmds);
 bool		is_a_directory(char *cmd);
-char	*access_possible(t_meta *meta, char *cmd);
-int32_t get_runnable_path(t_meta *meta, char *cmd, char **runnable_cmd);
+char		*access_possible(t_meta *meta, char *cmd);
+int32_t		get_runnable_path(t_meta *meta, char *cmd, char **runnable_cmd);
 
 // free:
 void		free_2d(char **str);

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/22 13:43:06 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/23 00:27:52 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ bool	is_a_directory(char *cmd)
 	return (false);
 }
 
-static bool is_file_path(char *path)
+static bool	is_file_path(char *path)
 {
 	int		i;
 
@@ -64,10 +64,12 @@ static char	*find_executable_in_path(char **split_path, char *cmd)
 	return (NULL);
 }
 
-bool is_path_set(t_meta *meta)
+bool	is_path_set(t_meta *meta)
 {
-	bool status;
-	char **s = search_in_path(meta->envp, "PATH=");
+	bool	status;
+	char	**s;
+
+	s = search_in_path(meta->envp, "PATH=");
 	if (s)
 	{
 		free_2d(s);
@@ -78,7 +80,7 @@ bool is_path_set(t_meta *meta)
 	return (status);
 }
 
-int32_t get_runnable_path(t_meta *meta, char *cmd, char **runnable_cmd)
+int32_t	get_runnable_path(t_meta *meta, char *cmd, char **runnable_cmd)
 {
 	if (cmd[0] == '.' && !cmd[1])
 		return (2);
@@ -94,10 +96,7 @@ int32_t get_runnable_path(t_meta *meta, char *cmd, char **runnable_cmd)
 		return (0);
 	}
 	else if (!is_path_set(meta))
-	{
-		(void) access(" ", F_OK);
-		return (127);
-	}
+		return ((void) access(" ", F_OK), (127));
 	else
 	{
 		*runnable_cmd = find_executable_in_path(meta->execute.split_path, cmd);
