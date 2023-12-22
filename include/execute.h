@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/22 12:04:45 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/22 16:08:47 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ void		set_exit_code(int code);
 int			pipeline_start(t_meta *meta, t_cmd_list *cmds);
 int			get_heredoc_exit_status(t_hd_list *heredoc_pipes);
 void		pipeline_kill_nodes(t_cmd_list *cmds, t_cmd_list *end);
-bool		pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs);
+bool	pipeline_node(t_meta *meta, t_cmd_list *cmd, int32_t heredoc_fd);
 int			run_multiple_cmds(t_meta *meta, t_cmd_list *cmds, t_cmd_list \
-			*const cmds_head, t_hd_list *heredoc_pipes);
+			*const cmds_head, t_hd_list **heredoc_pipes);
 
 // execute:
 int			execute(t_meta *meta, t_cmd_list *cmds);

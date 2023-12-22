@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/22 14:56:46 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/22 16:08:33 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int32_t	run_command(t_meta *meta, t_cmd_frame *cmd)
 	return (status);
 }
 
-static int	child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
+static int	child_proc(t_meta *meta, t_cmd_list *cmd, int32_t heredoc_fd)
 {
 	int32_t	status;
 
@@ -69,7 +69,7 @@ static int	child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 		close(cmd->pipe[PIPE_WRITE]);
 	}
 	set_signal_mode(CHILD);
-	if (!redirections(&cmd->content, heredocs))
+	if (!redirections(&cmd->content, heredoc_fd))
 		status = 1;
 	else
 		status = run_command(meta, &cmd->content);
@@ -78,7 +78,7 @@ static int	child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 	return (status);
 }
 
-bool	pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
+bool	pipeline_node(t_meta *meta, t_cmd_list *cmd, int32_t heredoc_fd)
 {
 	if (cmd->next && pipe(cmd->pipe) == -1)
 	{
@@ -95,7 +95,7 @@ bool	pipeline_node(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 	{
 		if (!set_signal_mode(CHILD))
 			exit(EXIT_FAILURE);
-		exit(child_proc(meta, cmd, heredocs));
+		exit(child_proc(meta, cmd, heredoc_fd));
 	}
 	if (cmd->prev)
 	{
@@ -138,7 +138,7 @@ int	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 			return (last_exit);
 		}
 	}
-	if (!run_multiple_cmds(meta, cmds, cmds_head, heredoc_pipes))
+	if (!run_multiple_cmds(meta, cmds, cmds_head, &heredoc_pipes))
 		return (INTERNAL_FAILURE);
 	last_exit = pipeline_wait(cmds_head);
 	hd_lst_free(heredoc_pipes);
