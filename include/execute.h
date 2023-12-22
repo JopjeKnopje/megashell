@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/22 16:08:47 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/22 23:20:22 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char		**put_slash(char **path);
 int			search_path(t_meta *meta, char **environment);
 
 // environment:
-char		**get_environment(char **envp);
+char		**duplicate_envp(char **envp);
 void		set_exit_code(int code);
 
 // pipeline.c

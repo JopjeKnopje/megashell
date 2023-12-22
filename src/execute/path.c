@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:34:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/14 12:43:45 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/22 23:57:17 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ char	**put_slash(char **path)
 	return (path);
 }
 
-int	search_path(t_meta *meta, char **environment)
+int	search_path(t_meta *meta, char **envp)
 {
 	char	*path;
 	char	**path_after_split;
 
-	meta->envp = get_environment(environment);
+	meta->envp = duplicate_envp(envp);
 	if (!meta->envp)
 		return (1);
 	path = find_path(meta->envp);

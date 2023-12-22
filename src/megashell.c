@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/14 12:44:09 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/22 23:54:22 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,14 @@ int	megashell_init(t_meta *meta, char **envp)
 		return (EXIT_FAILURE);
 	if (!hs_read_history_file(HISTORY_FILE_NAME))
 		return (false);
+	if (!*envp)
+	{
+		print_error("Error no envp given");
+		return (false);
+	}
 	if (search_path(meta, envp))
 	{
-		print_error("error search path\n");
+		print_error("error search path");
 		return (false);
 	}
 	return (true);

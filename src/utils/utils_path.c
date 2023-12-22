@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:02:40 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/12 16:43:51 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/22 23:31:17 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ char	**search_in_path(char **envp, char *cmd)
 	int		i;
 	int		dup_cmd_index;
 	char	**dup_cmd;
+
+	if (!envp || !*envp)
+	{
+		return (NULL);
+	}
 
 	i = 0;
 	dup_cmd_index = 0;
