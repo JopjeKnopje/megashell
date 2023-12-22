@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/22 13:00:45 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/22 14:56:46 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,10 @@ static int	child_proc(t_meta *meta, t_cmd_list *cmd, t_hd_list **heredocs)
 		close(cmd->pipe[PIPE_WRITE]);
 	}
 	set_signal_mode(CHILD);
-	redirections(&cmd->content, heredocs);
-	status = run_command(meta, &cmd->content);
+	if (!redirections(&cmd->content, heredocs))
+		status = 1;
+	else
+		status = run_command(meta, &cmd->content);
 	if (status)
 		perror("megashell");
 	return (status);
