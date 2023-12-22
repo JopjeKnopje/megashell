@@ -1,4 +1,5 @@
 obj/
+.eval_history
 app
 argv_test
 compile_commands.json

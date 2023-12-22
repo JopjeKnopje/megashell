@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/21 17:09:25 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/21 17:58:28 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,13 @@ static int	pr_parse_redirect(t_cmd_frame *frame, t_tok_list *tokens)
 	}
 	else if (k == TOKEN_LESS_THAN)
 	{
+		if (frame->heredoc_delim)
+		{
+			free(frame->heredoc_delim);
+			frame->heredoc_delim = NULL;
+		}
+		if (frame->infile)
+			free(frame->infile);
 		frame->infile = sized_strdup(next->content, next->content_len);
 		if (!frame->infile)
 			printf("sized_strdup failure\n");
@@ -128,8 +135,6 @@ t_cmd_list	*pr_main(t_tok_list *tokens)
 	ft_bzero(&frame, sizeof(t_cmd_frame));
 	if (!pr_joiner(tokens))
 		return (NULL);
-	print_tokens(tokens);
-	printf("\n\n\n\n");
 	while (tokens)
 	{
 		if (!pr_iterate(&tokens, &cmds, &frame))

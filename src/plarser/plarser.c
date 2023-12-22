@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 12:26:52 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/21 17:09:08 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/21 17:41:12 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,8 @@ t_cmd_list	*plarser_main(char **envp, char *line, int *error)
 	err = sy_main(tokens);
 	if (err)
 		return (handle_error(tokens, &err->token, error));
-	print_tokens(tokens);
-	printf("\n\n\n\n");
 	cmds = pr_main(tokens);
+	print_cmds(cmds);
 	lx_lst_free(tokens);
 	if (!cmds)
 		return (NULL);

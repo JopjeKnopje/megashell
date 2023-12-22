@@ -23,13 +23,13 @@ ifeq ($(UNAME_S),Darwin)
 	L_RL	:= -L $(shell brew --prefix readline)/lib
 endif
 
-NAME		:= minishell
+NAME		:= app
 RUN_CMD		:= ./$(NAME)
 
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra
 CFLAGS		+= -g -fsanitize=address
-CFLAGS		+= -g
+# CFLAGS		+= -g
 
 
 
@@ -94,10 +94,19 @@ HEADERS 	:=	input.h \
 		 		megashell.h \
 		 		builtins.h \
 		 		execute.h \
+		 		test_utils.h \
 		 		utils.h
 
 OBJ_DIR		:=	obj
 
+
+TEST_LFLAGS	:= -L /home/jboeve/.capt/root/usr/lib/x86_64-linux-gnu
+TEST_IFLAGS	:= -I /home/jboeve/.capt/root/usr/include
+TEST_SRCS	:= 	test_tokenizer.c \
+				test_expander.c
+TEST		:=	tests
+TEST_SRCS	:=	$(addprefix $(TEST)/, $(TEST_SRCS))
+TEST_BINS	:=	$(patsubst $(TEST)/%.c, $(TEST)/bin/%, $(TEST_SRCS))
 
 SRCS 		:=	$(addprefix $(SRC_DIR)/, $(SRCS))
 HEADERS 	:=	$(addprefix $(HEADER_DIR)/, $(HEADERS))
@@ -123,7 +132,10 @@ make_libs:
 clean:
 	rm -rf $(OBJ_DIR)
 
-fclean: clean
+tclean:
+	rm -rf $(TEST)/bin
+
+fclean: clean tclean
 	$(MAKE) -C libft fclean
 	rm -f $(NAME)
 
@@ -137,3 +149,13 @@ compile_commands: fclean
 
 norm:
 	norminette libft include src
+
+$(TEST)/bin:
+	mkdir $@
+
+$(TEST)/bin/%: $(TEST)/%.c $(OBJS)
+	$(CC) $(CFLAGS) $(IFLAGS) $< $(OBJS) $(LIBFT) -o $@ -lcriterion $(LFLAGS) $(TEST_IFLAGS) $(TEST_LFLAGS)
+
+ 
+test: make_libs $(OBJS) $(TEST)/bin $(TEST_BINS)
+	for test in $(TEST_BINS) ; do ./$$test -j1 ; done
