@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/22 14:38:38 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/22 16:04:49 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,9 @@ static int	pr_parse_redirect(t_cmd_frame *frame, t_tok_list *tokens)
 static t_cmd_list	*pr_list_add_cmd(t_cmd_list **cmd_list, t_cmd_frame frame)
 {
 	t_cmd_list	*node;
+	static int x = 0;
+	frame.index = x;
+	x++;
 
 	if (!cmd_list)
 	{

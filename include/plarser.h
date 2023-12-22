@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/14 02:10:56 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/22 16:23:25 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_cmd_frame {
 	char	*outfile;
 	char	*heredoc_delim;
 	bool	is_append;
+	size_t 	index;
 }	t_cmd_frame;
 
 typedef struct e_token_list {
