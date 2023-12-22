@@ -6,13 +6,14 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:33:28 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/22 13:41:42 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/22 23:18:04 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "libft.h"
 #include "megashell.h"
+#include "test_utils.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
