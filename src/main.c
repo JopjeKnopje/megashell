@@ -6,15 +6,17 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 13:33:28 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/14 02:01:11 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/22 13:41:42 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "libft.h"
 #include "megashell.h"
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int	main(int argc, char *argv[], char *envp[])
 {

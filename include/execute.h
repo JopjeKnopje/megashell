@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/21 22:21:36 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/22 12:04:45 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,8 @@ int			run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd);
 // access:
 bool		find_access(t_meta *meta, t_cmd_list *cmds);
 bool		is_a_directory(char *cmd);
-char		*check_relative_path(char *cmd, char *buffer);
-char		*find_executable_in_path(char **split_path, char *cmd);
 char	*access_possible(t_meta *meta, char *cmd);
-char	*get_runnable_path(t_meta *meta, char *cmd, int32_t *status);
+int32_t get_runnable_path(t_meta *meta, char *cmd, char **runnable_cmd);
 
 // free:
 void		free_2d(char **str);

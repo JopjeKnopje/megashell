@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/12/21 22:15:06 by joppe         ########   odam.nl          #
+#    Updated: 2023/12/22 12:03:25 by jboeve        ########   odam.nl          #
 
 #                                                                              #
 # **************************************************************************** #
@@ -49,7 +49,6 @@ SRCS		:= 	execute/error.c \
 				execute/pipeline_utils.c \
 				execute/pipeline.c \
 				execute/access.c \
-				execute/access_utils.c \
 				execute/heredoc_list.c \
 				builtins/builtins.c \
 				builtins/builtin_cd.c \
