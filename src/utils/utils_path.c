@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:02:40 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/22 23:31:17 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/23 12:05:34 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,33 +16,39 @@
 #include "libft.h"
 #include "plarser.h"
 
-char	**search_in_path(char **envp, char *cmd)
+static void	iterate(char **envp, char *cmd, char **dup_cmd, int *dup_cmd_index)
 {
-	int		i;
-	int		dup_cmd_index;
-	char	**dup_cmd;
-
-	if (!envp || !*envp)
-	{
-		return (NULL);
-	}
+	int	i;
 
 	i = 0;
-	dup_cmd_index = 0;
-	dup_cmd = (char **)malloc(sizeof(char *) * (ft_strlen(envp[i]) + 1));
-	if (!dup_cmd)
-		return (NULL);
 	while (envp[i])
 	{
 		if ((ft_strncmp(envp[i], cmd, ft_strlen(cmd)) == 0))
 		{
-			dup_cmd[dup_cmd_index] = ft_strdup(envp[i] + ft_strlen(cmd));
-			if (!dup_cmd[dup_cmd_index])
-				return (free(dup_cmd), NULL);
-			dup_cmd_index++;
+			dup_cmd[*dup_cmd_index] = ft_strdup(envp[i] + ft_strlen(cmd));
+			if (!dup_cmd[*dup_cmd_index])
+			{
+				free(dup_cmd);
+				break ;
+			}
+			(*dup_cmd_index)++;
 		}
 		i++;
 	}
+}
+
+char	**search_in_path(char **envp, char *cmd)
+{
+	int		dup_cmd_index;
+	char	**dup_cmd;
+
+	if (!envp || !*envp)
+		return (NULL);
+	dup_cmd_index = 0;
+	dup_cmd = (char **)malloc(sizeof(char *) * (ft_strlen(envp[0]) + 1));
+	if (!dup_cmd)
+		return (NULL);
+	iterate(envp, cmd, dup_cmd, &dup_cmd_index);
 	if (dup_cmd_index == 0)
 	{
 		free(dup_cmd);
