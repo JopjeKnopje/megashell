@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/22 14:37:55 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/23 11:54:45 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,22 +75,20 @@ t_builtin	get_builtin(char *cmd)
 
 int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 {
-	t_hd_list	*head;
 	int			exit_status;
 	int			fd;
 	int			fds[2];
 
-	head = NULL;
+	fd = -1;
 	if (cmd->heredoc_delim)
 	{
 		fd = handle_heredoc(cmd, &exit_status);
 		if (fd == -1)
 			return (INTERNAL_FAILURE);
-		head = append_heredoc(&head, fd);
 	}
 	fds[PIPE_WRITE] = dup(STDOUT_FILENO);
 	fds[PIPE_READ] = dup(STDIN_FILENO);
-	redirections(cmd, &head);
+	redirections(cmd, fd);
 	exit_status = (get_builtin_func(builtin)(meta, cmd));
 	if (!dup_stdin(fds[PIPE_READ]))
 		print_error("error dup_stdin\n");
