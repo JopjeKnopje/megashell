@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline.c                                        :+:    :+:             */
+/*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/23 00:26:29 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/16 14:13:37 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "heredoc.h"
 #include "execute.h"
 #include "input.h"
-#include <asm-generic/errno-base.h>
+// #include <asm-generic/errno-base.h>
 #include <assert.h>
 #include <errno.h>
 #include <stddef.h>
