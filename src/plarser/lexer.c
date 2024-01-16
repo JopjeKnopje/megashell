@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:57:13 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/14 12:44:27 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/16 13:33:14 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static void	lx_trim_space(char **cursor)
 {
-	while (*cursor && **cursor == ' ')
+	while (*cursor && (**cursor == ' ' || **cursor == '\t' || **cursor == '\v' || **cursor == '\n'))
 	{
 		(*cursor)++;
 	}

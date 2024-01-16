@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/12/23 00:05:09 by joppe         ########   odam.nl          #
+#    Updated: 2024/01/16 12:46:00 by jboeve        ########   odam.nl          #
 
 #                                                                              #
 # **************************************************************************** #
@@ -85,13 +85,15 @@ SRCS		:= 	execute/error.c \
 				utils/utils_path.c \
 				redirections/redirections.c \
 				redirections/heredoc.c \
-			  	megashell.c
+			  	megashell.c \
+			  	test_utils.c
 
 HEADER_DIR	:=	include
 HEADERS 	:=	input.h \
 		 	 	plarser.h \
 		 		megashell.h \
 		 		builtins.h \
+			  	test_utils.h \
 		 		execute.h \
 		 		utils.h
 
