@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/22 16:23:25 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/23 00:13:40 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef struct s_cmd_frame {
 	char	*outfile;
 	char	*heredoc_delim;
 	bool	is_append;
-	size_t 	index;
 }	t_cmd_frame;
 
 typedef struct e_token_list {
@@ -98,6 +97,7 @@ t_tok_list		*pr_joiner(t_tok_list *tokens);
 
 // parser_util.c
 bool			pr_is_redirect(t_token_kind k);
+void			pr_parse_tokenless(t_cmd_frame *frame, const t_token *next);
 
 // lexer.c
 t_tok_list		*lx_list_add_token(t_tok_list **token_lst, t_token t);

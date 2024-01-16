@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:31:17 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/22 16:06:58 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/23 00:07:50 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct e_heredoc_list {
 }	t_hd_list;
 
 // redirections.c
-bool	redirections(t_cmd_frame *f, int32_t heredoc_fd);
+bool		redirections(t_cmd_frame *f, int32_t heredoc_fd);
 
 // heredoc_list.c
 void		hd_lst_free(t_hd_list *lst);

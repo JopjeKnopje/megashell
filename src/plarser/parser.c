@@ -6,11 +6,9 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/22 16:04:49 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/23 00:13:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "test_utils.h"
 
 #include "execute.h"
 #include "libft.h"
@@ -59,18 +57,7 @@ static int	pr_parse_redirect(t_cmd_frame *frame, t_tok_list *tokens)
 			print_error("sized_strdup failure\n");
 	}
 	else if (k == TOKEN_LESS_THAN)
-	{
-		if (frame->heredoc_delim)
-		{
-			free(frame->heredoc_delim);
-			frame->heredoc_delim = NULL;
-		}
-		if (frame->infile)
-			free(frame->infile);
-		frame->infile = sized_strdup(next->content, next->content_len);
-		if (!frame->infile)
-			print_error("sized_strdup failure\n");
-	}
+		pr_parse_tokenless(frame, next);
 	else if (k == TOKEN_HEREDOC)
 	{
 		if (frame->heredoc_delim)
@@ -85,9 +72,6 @@ static int	pr_parse_redirect(t_cmd_frame *frame, t_tok_list *tokens)
 static t_cmd_list	*pr_list_add_cmd(t_cmd_list **cmd_list, t_cmd_frame frame)
 {
 	t_cmd_list	*node;
-	static int x = 0;
-	frame.index = x;
-	x++;
 
 	if (!cmd_list)
 	{

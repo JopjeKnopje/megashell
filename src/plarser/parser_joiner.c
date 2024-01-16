@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/01 22:36:25 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/21 17:23:02 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/23 00:14:58 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	pr_join(t_token *tok_base, t_token *tok_joinee)
 	return (1);
 }
 
-static bool should_join(t_token *t1)
+static bool	should_join(t_token *t1)
 {
 	return (t1->kind == TOKEN_TEXT || t1->kind == TOKEN_ALLOC);
 }
@@ -63,7 +63,8 @@ t_tok_list	*pr_joiner(t_tok_list *tokens)
 	{
 		tok_base = &tail->token;
 		tok_joinee = &tail->next->token;
-		if (tok_joinee && should_join (tok_base) && should_join (tok_joinee) && tok_base->padding == 0)
+		if (tok_joinee && should_join (tok_base) \
+			&& should_join (tok_joinee) && tok_base->padding == 0)
 		{
 			if (!pr_join(tok_base, tok_joinee))
 				return (NULL);
