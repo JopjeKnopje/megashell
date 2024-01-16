@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                      :+:    :+:             */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:09:31 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/22 23:45:49 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/16 15:03:02 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ bool	run_argument(t_meta *meta, t_cmd_frame *cmd)
 	path_len = ft_strlen(cmd->argv[1]);
 	prev_pwd = search_in_path(meta->envp, "OLDPWD=");
 	if (!prev_pwd)
+	{
+		write(1, "megashell: cd: OLDPWD not set\n", 31);
 		return (false);
+	}
 	if (ft_strncmp(cmd->argv[1], "-", 1) == 0 \
 			&& path_len == 1)
 	{
