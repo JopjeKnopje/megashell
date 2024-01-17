@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/22 23:54:22 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/17 11:16:08 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	megashell(char *envp[])
 			break ;
 		line = prompt_get_line();
 		if (!line)
-			megashell_cleanup(&meta, EXIT_SUCCESS);
+			megashell_cleanup(&meta, g_exit_code);
 		status = handle_line(&meta, line);
 		if (status == INTERNAL_FAILURE)
 			megashell_cleanup(&meta, EXIT_FAILURE);
