@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2024/01/19 15:03:57 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/19 16:41:15 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ static size_t	ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
 	*s_exp = ex_str_append(*s_exp, var, ft_strlen(var));
 	if (is_exit_code)
 		free(var);
-	return (((!(*s_exp)) != 0) * 0 + ((!(!(*s_exp)) != 0) + 1));
+	int32_t ret =(((!(*s_exp)) != 0) * 0 + ((!(!(*s_exp)) != 0) + 1));
+	return ret;
 }
 
 char	*ex_expand_var_block(char **envp, t_token *t)
@@ -66,11 +67,9 @@ char	*ex_expand_var_block(char **envp, t_token *t)
 		if (t->content[i] == '$')
 		{
 			i += ex_expand_var(envp, t, i, &s_exp);
+			printf("s_exp [%s]\n", s_exp);
 			if (!s_exp)
-			{
-				free(s_exp);
 				return (NULL);
-			}
 		}
 		i++;
 	}
