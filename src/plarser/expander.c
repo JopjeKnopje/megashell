@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/22 14:39:28 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/19 15:03:57 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ char	*expand_var(char **envp, t_token *t, size_t i)
 t_token	ex_expand_quote_block(char **envp, t_token *t)
 {
 	t_exp	exp;
+	t_token ret_tok;
 
 	exp = ex_pack_struct(t, envp);
 	ex_step_into_quote(exp.t);
@@ -116,7 +117,9 @@ t_token	ex_expand_quote_block(char **envp, t_token *t)
 		if (exp.end == exp.t->content + exp.t->content_len)
 			break ;
 	}
-	return (lx_token_set(TOKEN_ALLOC, exp.s_exp, ft_strlen(t->content)));
+	ret_tok = lx_token_set(TOKEN_ALLOC, exp.s_exp, ft_strlen(t->content));
+	ret_tok.padding = t->padding;
+	return (ret_tok);
 }
 
 bool	ex_main(char **envp, t_tok_list *tokens)
