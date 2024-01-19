@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/01/19 14:22:34 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2024/01/19 17:09:24 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 	int			fds[2];
 
 	fd = -1;
-	if (cmd->heredoc_delim)
+	if (cmd->heredoc_delim)	
 	{
 		fd = handle_heredoc(cmd, &exit_status);
 		if (fd == -1)

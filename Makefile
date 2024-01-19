@@ -28,8 +28,8 @@ RUN_CMD		:= ./$(NAME)
 
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra
-CFLAGS		+= -g -fsanitize=address
-# CFLAGS		+= -g
+# CFLAGS		+= -g -fsanitize=address
+CFLAGS		+= -g
 
 
 

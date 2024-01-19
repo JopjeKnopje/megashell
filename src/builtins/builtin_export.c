@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:03 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/01/19 14:35:43 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2024/01/19 18:16:08 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,6 @@ int	builtin_run_export(t_meta *meta, t_cmd_frame *cmd)
 		return (handle_export_new_variable(meta, cmd->argv[1], var_name));
 	if (!correct_input(var_name))
 		return (handle_export_input_errors(var_name));
-	handle_export_existing_variable(meta->envp, var_name);
+	handle_export_existing_variable(meta->envp, var_name, meta)
 	return (0);
 }

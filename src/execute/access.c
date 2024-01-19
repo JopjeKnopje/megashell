@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   access.c                                          :+:    :+:             */
+/*   access.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/23 00:27:52 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/19 18:18:49 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ bool	is_path_set(t_meta *meta)
 	bool	status;
 	char	**s;
 
-	s = search_in_path(meta->envp, "PATH=");
+	s = search_in_env(meta->envp, "PATH=");
 	if (s)
 	{
 		free_2d(s);
