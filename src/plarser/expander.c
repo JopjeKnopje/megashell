@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2024/01/21 13:14:11 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/21 21:42:15 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,9 @@ bool	ex_main(char **envp, t_tok_list *tokens)
 	while (tokens)
 	{
 		t = &tokens->token;
+		if ((tokens->prev && tokens->prev->token.kind == TOKEN_HEREDOC) \
+				&& (t->kind == TOKEN_QUOTE_DOUBLE || t->kind == TOKEN_QUOTE_SINGLE || t->kind == TOKEN_BLOCK_DOLLAR))
+			ex_step_into_quote(t);
 		if (t->kind == TOKEN_QUOTE_DOUBLE)
 		{
 			tokens->token = ex_expand_quote_block(envp, t);
