@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/12 16:48:09 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/21 16:54:38 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/21 17:13:14 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	pr_parse_tokenless(t_cmd_frame *frame, const t_token *next)
 		free(frame->heredoc_delim);
 		frame->heredoc_delim = NULL;
 	}
+	if (frame->infile)
+		free(frame->infile);
 	if (frame->infile)
 		free(frame->infile);
 	frame->infile = sized_strdup(next->content, next->content_len);
