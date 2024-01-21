@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 12:26:52 by jboeve            #+#    #+#             */
-/*   Updated: 2024/01/19 16:42:47 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/21 13:04:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,8 @@ t_cmd_list	*plarser_main(char **envp, char *line, int *error)
 		return (handle_error(tokens, &err->token, error));
 	cmds = pr_main(tokens);
 	print_cmds(cmds);
-	t_tok_list *t = tokens;
-	while (t)
-	{
-		if (t->token.kind == TOKEN_ALLOC)
-		{
-			fprintf(stderr, "freeing [%s]\n", t->token.content);
-			// free(tokens->token.content);
-		}
-		t = t->next;
-	}
+
+
 	lx_lst_free(tokens);
 	if (!cmds)
 		return (NULL);

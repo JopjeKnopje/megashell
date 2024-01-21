@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/12 16:48:09 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/23 00:14:13 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/21 16:54:38 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	pr_parse_tokenless(t_cmd_frame *frame, const t_token *next)
 	if (frame->infile)
 		free(frame->infile);
 	frame->infile = sized_strdup(next->content, next->content_len);
+	if (next->kind == TOKEN_ALLOC)
+		free(next->content);
 	if (!frame->infile)
 		print_error("sized_strdup failure\n");
 }
