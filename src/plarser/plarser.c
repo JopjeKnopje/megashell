@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 12:26:52 by jboeve            #+#    #+#             */
-/*   Updated: 2024/01/23 19:28:17 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/23 19:42:19 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,6 @@ t_cmd_list	*plarser_main(char **envp, char *line, int *error)
 
 	printf("\n\n\n\n\n");
 	print_tokens(tokens);
-
-	// printf the expansion of `$USER`.
-	if (tokens->next)
-	{
-		printf("\n\n\n\n\n\n\n\n\n\n");
-		print_token(tokens->next->token);
-		printf("\n\n\n\n\n\n\n\n\n\n");
-	}
-
 
 	err = sy_main(tokens);
 	if (err)
