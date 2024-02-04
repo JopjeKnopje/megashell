@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2024/01/16 12:46:00 by jboeve        ########   odam.nl          #
+#    Updated: 2024/02/03 22:10:11 by joppe         ########   odam.nl          #
 
 #                                                                              #
 # **************************************************************************** #
@@ -81,6 +81,7 @@ SRCS		:= 	execute/error.c \
 			  	plarser/expander_utils.c \
 			  	plarser/expander_utils2.c \
 			  	plarser/space_count.c \
+			  	plarser/heredoc_expander.c \
 			  	utils/utils_string.c \
 				utils/utils_path.c \
 				redirections/redirections.c \

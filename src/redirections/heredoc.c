@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/11 16:33:41 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2024/02/03 22:37:24 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <string.h>
 
-uint8_t	read_from_heredoc(char *close_line, int pipe_fd)
+uint8_t	read_from_heredoc(t_meta *meta, char *close_line, int pipe_fd)
 {
 	char	*line;
 
@@ -37,14 +37,16 @@ uint8_t	read_from_heredoc(char *close_line, int pipe_fd)
 			free(line);
 			break ;
 		}
-		write(pipe_fd, line, strlen(line) + 1);
+		char *exp_line = hd_exp(meta, line);
+		fprintf(stderr, "ERROR EXPANDED HEREDOC NOT HANDLED YET!\n");
+		write(pipe_fd, exp_line, strlen(exp_line) + 1);
 		write(pipe_fd, "\n", 1);
-		free (line);
+		free (exp_line);
 	}
 	return (EXIT_SUCCESS);
 }
 
-int	handle_heredoc(t_cmd_frame *f, int *status)
+int	handle_heredoc(t_meta *meta, t_cmd_frame *f, int *status)
 {
 	int		pipe_fd[2];
 	int		pid;
@@ -60,7 +62,7 @@ int	handle_heredoc(t_cmd_frame *f, int *status)
 		set_signal_mode(HEREDOC);
 		close (pipe_fd[PIPE_READ]);
 		child_exit_code = read_from_heredoc \
-			(f->heredoc_delim, pipe_fd[PIPE_WRITE]);
+			(meta, f->heredoc_delim, pipe_fd[PIPE_WRITE]);
 		close (pipe_fd[PIPE_WRITE]);
 		exit(child_exit_code);
 	}
@@ -91,7 +93,7 @@ bool	contains_heredoc(t_cmd_list *cmds)
 	return (false);
 }
 
-t_hd_list	*run_heredocs(t_cmd_list *cmds)
+t_hd_list	*run_heredocs(t_meta *meta, t_cmd_list *cmds)
 {
 	t_hd_list	*head;
 	int			fd;
@@ -104,7 +106,7 @@ t_hd_list	*run_heredocs(t_cmd_list *cmds)
 	{
 		if (cmds->content.heredoc_delim)
 		{
-			fd = handle_heredoc(&cmds->content, &status);
+			fd = handle_heredoc(meta, &cmds->content, &status);
 			if (fd == -1 || !append_heredoc(&head, fd))
 			{
 				hd_lst_free(head);

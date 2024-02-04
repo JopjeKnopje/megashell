@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2024/01/23 19:31:56 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/04 02:21:18 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static size_t	ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
 	*s_exp = ex_str_append(*s_exp, var, ft_strlen(var));
 	if (is_exit_code)
 		free(var);
-	int32_t ret =(((!(*s_exp)) != 0) * 0 + ((!(!(*s_exp)) != 0) + 1));
+	int32_t ret = (((!(*s_exp)) != 0) * 0 + ((!(!(*s_exp)) != 0) + 1));
 	return ret;
 }
 

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/23 00:26:29 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/03 22:07:31 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 	t_cmd_list *const	cmds_head = cmds;
 	int					last_exit;
 
-	heredoc_pipes = run_heredocs(cmds);
+	heredoc_pipes = run_heredocs(meta, cmds);
 	if (contains_heredoc(cmds))
 	{
 		if (!heredoc_pipes)

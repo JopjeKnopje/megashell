@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/23 00:13:40 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/04 02:10:35 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void			pr_parse_tokenless(t_cmd_frame *frame, const t_token *next);
 // lexer.c
 t_tok_list		*lx_list_add_token(t_tok_list **token_lst, t_token t);
 t_tok_list		*lx_main(char *s);
+void	lx_trim_space(char **cursor);
 
 // lexer_utils.c
 bool			lx_is_metachar(char c);
