@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2024/02/04 02:21:18 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/04 19:12:53 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 #include <unistd.h>
 #include "execute.h"
 
-static size_t	ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
+size_t	ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
 {
 	char	*var;
 	size_t	len;
@@ -68,7 +68,6 @@ char	*ex_expand_var_block(char **envp, t_token *t)
 		if (t->content[i] == '$')
 		{
 			i += ex_expand_var(envp, t, i, &s_exp);
-			printf("s_exp [%s]\n", s_exp);
 			if (!s_exp)
 				return (NULL);
 		}

@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/12 18:45:58 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/14 02:12:08 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/04 21:14:50 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ char	*ex_find_var(char **envp, char *name, size_t len);
 char	*ex_str_append(char *s_base, char *s_append, size_t append_size);
 
 // expander.c
+size_t	ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp);
 size_t	ex_var_len(char *s);
 char	*ex_str_append(char *s_base, char *s_append, size_t append_size);
 char	*expand_var(char **envp, t_token *t, size_t i);
+char	*ex_expand_var_block(char **envp, t_token *t);
 
 #endif

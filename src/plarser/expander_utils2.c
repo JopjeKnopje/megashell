@@ -6,11 +6,12 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/14 01:44:03 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/21 21:41:52 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/04 16:21:09 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "plarser.h"
+#include <stdio.h>
 
 size_t	get_key_len(char *key)
 {

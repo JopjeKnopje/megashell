@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 16:06:19 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/02/03 22:37:24 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/04 22:01:35 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,19 @@
 uint8_t	read_from_heredoc(t_meta *meta, char *close_line, int pipe_fd)
 {
 	char	*line;
+	char	*exp_line;
 
 	while (1)
 	{
 		line = readline(HEREDOC_PROMPT);
 		if (!line)
-		{
 			break ;
-		}
 		if (!ft_strncmp(line, close_line, ft_strlen(close_line) + 1))
 		{
 			free(line);
 			break ;
 		}
-		char *exp_line = hd_exp(meta, line);
-		fprintf(stderr, "ERROR EXPANDED HEREDOC NOT HANDLED YET!\n");
+		exp_line = hd_exp(meta, line);
 		write(pipe_fd, exp_line, strlen(exp_line) + 1);
 		write(pipe_fd, "\n", 1);
 		free (exp_line);

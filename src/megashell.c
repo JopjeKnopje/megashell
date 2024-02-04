@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:41 by joppe             #+#    #+#             */
-/*   Updated: 2024/02/03 22:36:45 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/04 21:17:18 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,9 @@ int	megashell(char *envp[])
 		line = prompt_get_line();
 		if (!line)
 			megashell_cleanup(&meta, g_exit_code);
-		char *line_exp = hd_exp(&meta, line);
-		printf("[line_exp] [%s]\n", line_exp);
-		// Just for testing the hd_exp.
-		// status = handle_line(&meta, line);
-		// if (status == INTERNAL_FAILURE)
-		// 	megashell_cleanup(&meta, EXIT_FAILURE);
+		status = handle_line(&meta, line);
+		if (status == INTERNAL_FAILURE)
+			megashell_cleanup(&meta, EXIT_FAILURE);
 	}
 	megashell_cleanup(&meta, EXIT_FAILURE);
 	return (EXIT_FAILURE);
