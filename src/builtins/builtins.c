@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/02/03 22:37:07 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/04 22:27:56 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 typedef int	(*t_builtin_func)(t_meta *meta, t_cmd_frame *cmd);
@@ -88,7 +89,8 @@ int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 	}
 	fds[PIPE_WRITE] = dup(STDOUT_FILENO);
 	fds[PIPE_READ] = dup(STDIN_FILENO);
-	redirections(cmd, fd);
+	if (!redirections(cmd, fd))
+		return (print_error(strerror(errno)));
 	exit_status = (get_builtin_func(builtin)(meta, cmd));
 	if (!dup_stdin(fds[PIPE_READ]))
 		print_error("error dup_stdin\n");
