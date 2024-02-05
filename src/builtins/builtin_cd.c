@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                      :+:    :+:             */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:09:31 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/22 23:45:49 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/19 16:09:40 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ bool	run_argument(t_meta *meta, t_cmd_frame *cmd)
 
 	pwd_now = NULL;
 	path_len = ft_strlen(cmd->argv[1]);
-	prev_pwd = search_in_path(meta->envp, "OLDPWD=");
+	prev_pwd = search_in_env(meta->envp, "OLDPWD=");
 	if (!prev_pwd)
 		return (false);
 	if (ft_strncmp(cmd->argv[1], "-", 1) == 0 \
@@ -115,7 +115,7 @@ int	builtin_run_cd(t_meta *meta, t_cmd_frame *cmd)
 		return (print_error(get_error_name(ERROR_ARGUMENTS)), 1);
 	if (!cmd->argv[1])
 	{
-		tmp_home = search_in_path(meta->envp, "HOME=");
+		tmp_home = search_in_env(meta->envp, "HOME=");
 		if (!tmp_home)
 			return (0);
 		chdir(tmp_home[0]);
@@ -125,7 +125,7 @@ int	builtin_run_cd(t_meta *meta, t_cmd_frame *cmd)
 	}
 	if (run_argument(meta, cmd) == false)
 	{
-		print_error(strerror(errno));
+		write(1, "Failed!\n", 9);
 		return (1);
 	}
 	getcwd(cwd, sizeof(cwd));

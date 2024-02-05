@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                  :+:    :+:             */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:03 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/22 14:39:36 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/26 13:01:57 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ bool	correct_input(char *content)
 		return (false);
 	while (content[i] && content[i] != '=')
 	{
-		if (!ft_isalpha(content[i]) || !ft_isalnum(content[i]))
+		if (!ft_isalpha(content[i]) && !ft_isdigit(content[i]))
 		{
+			printf("test2\n");
 			if (content[i] != '_' && content[i] != '=')
 				return (false);
 		}
@@ -99,17 +100,17 @@ int	builtin_run_export(t_meta *meta, t_cmd_frame *cmd)
 	}
 	var_name = ft_strdup(cmd->argv[1]);
 	if (!var_name)
-		return (INTERNAL_FAILURE);
+		return (printf("Failed!\n"), 1);
 	if (!prepare_variable(var_name))
 	{
 		free(var_name);
-		return (INTERNAL_FAILURE);
+		return (printf("Please enter valid identifier!\n"), 1);
 	}
 	len_var = ft_strlen(var_name);
 	if (!exists_in_env(meta->envp, cmd->argv[1], var_name, len_var))
 		return (handle_export_new_variable(meta, cmd->argv[1], var_name));
 	if (!correct_input(var_name))
 		return (handle_export_input_errors(var_name));
-	handle_export_existing_variable(meta->envp, var_name);
+	handle_export_existing_variable(meta->envp, var_name, meta);
 	return (0);
 }

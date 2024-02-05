@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_unset.c                                   :+:    :+:             */
+/*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:33 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/08 17:58:00 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/19 17:55:01 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,18 @@ static bool	remove_env_variable(char **envp, const char *variable)
 int	builtin_run_unset(t_meta *meta, t_cmd_frame *cmd)
 {
 	char	*variable;
-
+	char	*path;
+	
 	variable = cmd->argv[1];
 	if (!cmd->argv[1])
 		return (0);
 	if (!remove_env_variable(meta->envp, variable))
 		return (0);
+	path = find_path(meta->envp);
+	if (!path)
+	{
+		free(meta->execute.split_path);
+		meta->execute.split_path = NULL;
+	}
 	return (0);
 }

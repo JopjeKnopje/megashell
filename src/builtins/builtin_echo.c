@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_echo.c                                    :+:    :+:             */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:08:55 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/08 17:56:43 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/16 14:44:08 by iris             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static bool	process_echo_flags(t_cmd_frame *cmd, bool flag)
 
 	i = 1;
 	j = 0;
+	if (cmd->argv[i][0] == '-' && cmd->argv[i][1] == '\0')
+		write (1, "-\n", 2);
 	while (cmd->argv[i] && cmd->argv[i][0] == '-')
 	{
 		j = 1;

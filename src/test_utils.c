@@ -80,7 +80,7 @@ void print_2d_arr(char **s, char *name)
 	while (s[i])
 	{
 		if (s[i])
-			printf("%s[%ld] -> [%s]\n", name, i, s[i]);
+			fprintf(stderr, "%s[%ld] -> [%s]\n", name, i, s[i]);
 		i++;
 	}
 }
