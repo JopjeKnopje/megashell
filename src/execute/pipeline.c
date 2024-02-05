@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/23 00:26:29 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/05 15:29:31 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "heredoc.h"
 #include "execute.h"
 #include "input.h"
-#include <asm-generic/errno-base.h>
 #include <assert.h>
 #include <errno.h>
 #include <stddef.h>
@@ -33,6 +32,7 @@ static int32_t	run_command(t_meta *meta, t_cmd_frame *cmd)
 	int32_t		status;
 	char		*cmd_in_path;
 
+	cmd_in_path = NULL;
 	if (!cmd->argv)
 		return (true);
 	is_builtin = get_builtin(cmd->argv[0]);

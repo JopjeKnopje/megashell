@@ -6,13 +6,14 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/23 00:27:52 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/05 15:28:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "libft.h"
 #include "megashell.h"
+#include "test_utils.h"
 #include "utils.h"
 #include <fcntl.h>
 #include <stdint.h>
@@ -51,6 +52,8 @@ static char	*find_executable_in_path(char **split_path, char *cmd)
 	char	*tmp;
 
 	i = 0;
+	if (!split_path || !*split_path)
+		fprintf(stderr, "poep\n");
 	while (split_path[i])
 	{
 		tmp = ft_strjoin(split_path[i], cmd);
@@ -69,11 +72,15 @@ bool	is_path_set(t_meta *meta)
 	bool	status;
 	char	**s;
 
-	s = search_in_path(meta->envp, "PATH=");
+	s = search_in_env(meta->envp, "PATH=");
 	if (s)
 	{
-		free_2d(s);
 		status = true;
+		if (ft_strisempty(*s))
+		{
+			status = false;
+		}
+		free_2d(s);
 	}
 	else
 		status = false;
@@ -88,9 +95,9 @@ int32_t	get_runnable_path(t_meta *meta, char *cmd, char **runnable_cmd)
 	{
 		if (is_a_directory(cmd) && open(cmd, O_WRONLY) == -1)
 			return (126);
-		if (access(cmd, F_OK))
+		if (access(cmd, F_OK) == -1)
 			return (127);
-		if (access(cmd, X_OK))
+		if (access(cmd, X_OK) == -1)
 			return (126);
 		*runnable_cmd = cmd;
 		return (0);
@@ -100,6 +107,7 @@ int32_t	get_runnable_path(t_meta *meta, char *cmd, char **runnable_cmd)
 	else
 	{
 		*runnable_cmd = find_executable_in_path(meta->execute.split_path, cmd);
+		fprintf(stderr, "[runnable_cmd] [%s]\n", *runnable_cmd);
 		if (!(*runnable_cmd))
 			return (127);
 		return (0);

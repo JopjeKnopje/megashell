@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export_utils.c                            :+:    :+:             */
+/*   builtin_export_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/28 13:58:16 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/22 14:39:07 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/19 18:17:33 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,27 +68,34 @@ char	**add_to_env(char **envp, char *arg, char *cmd_start)
 
 bool	handle_export_input_errors(char *cmd_start)
 {
-	print_error("Invalid input\n");
+	print_error("Invalid input");
 	free(cmd_start);
 	return (false);
 }
 
-bool	handle_export_existing_variable(char **envp, char *cmd_start)
+bool	handle_export_existing_variable(char **envp, char *cmd_start, t_meta \
+		*meta)
 {
-	int	i;
+	int		i;
+	char	*path;
 
 	i = 0;
 	while (envp[i])
-	{
-		printf("%s\n", envp[i]);
 		i++;
-	}
 	free(cmd_start);
+	path = find_path(envp);
+	if (!path)
+	{
+		free(meta->execute.split_path);
+		meta->execute.split_path = NULL;
+	}
 	return (true);
 }
 
 int	handle_export_new_variable(t_meta *meta, char *arg, char *cmd_start)
 {
+	char	*path;
+
 	if (!correct_input(cmd_start))
 	{
 		handle_export_input_errors(cmd_start);
@@ -96,8 +103,13 @@ int	handle_export_new_variable(t_meta *meta, char *arg, char *cmd_start)
 	}
 	meta->envp = add_to_env(meta->envp, arg, cmd_start);
 	if (!meta->envp)
-	{
 		return (INTERNAL_FAILURE);
+	path = find_path(meta->envp);
+	if (!path)
+	{
+		free(meta->execute.split_path);
+		meta->execute.split_path = NULL;
+		return (0);
 	}
 	return (0);
 }

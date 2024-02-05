@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 15:00:42 by ivan-mel          #+#    #+#             */
-/*   Updated: 2023/12/11 16:39:53 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2024/01/19 17:57:13 by ivan-mel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	print_environment(char **envp);
 bool	prepare_variable(char *cmd_start);
 bool	exists_in_env(char **envp, char *arg, char *variable, int len_var);
 bool	handle_export_input_errors(char *cmd_start);
-bool	handle_export_existing_variable(char **execute, char *cmd_start);
+bool	handle_export_existing_variable(char **execute, char *cmd_start, \
+		t_meta *meta);
 int		handle_export_new_variable(t_meta *meta, char *arg, char *cmd_start);
 char	*change_oldpwd(char *dir, char *cur_pwd);
 char	*change_pwd(char *dir, char *cur_pw);

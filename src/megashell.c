@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   megashell.c                                       :+:    :+:             */
+/*   megashell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -37,6 +37,7 @@ void	megashell_cleanup(t_meta *meta, int code)
 {
 	free_2d(meta->execute.split_path);
 	free_2d(meta->envp);
+	rl_clear_history();
 	exit(code);
 }
 
