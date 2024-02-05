@@ -7,7 +7,6 @@
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
 #    Updated: 2024/02/05 15:32:05 by joppe         ########   odam.nl          #
-
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,6 +92,7 @@ HEADERS 	:=	input.h \
 		 	 	plarser.h \
 		 		megashell.h \
 		 		builtins.h \
+			  	test_utils.h \
 		 		execute.h \
 		 		utils.h
 

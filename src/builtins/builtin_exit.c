@@ -56,7 +56,7 @@ int	builtin_run_exit(t_meta *meta, t_cmd_frame *cmd)
 	if (!cmd->argv[1])
 	{
 		printf("exit\n");
-		exit(EXIT_SUCCESS);
+		exit(g_exit_code);
 	}
 	nb = ft_atoi(cmd->argv[1]);
 	if (cmd->argv[2])

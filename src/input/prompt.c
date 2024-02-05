@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   prompt.c                                          :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:01 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/11 16:57:35 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2024/01/16 13:12:27 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,22 @@ const char	*get_prompt(int exit_code)
 		return (SHELL_PROMPT_ERROR);
 }
 
+bool line_is_empty(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (1);
+	while (s[i])
+	{
+		if (s[i] != ' ' && s[i] != '\t' && s[i] != '\v' && s[i] != '\n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 char	*prompt_get_line(void)
 {
 	char	*line;
@@ -55,7 +71,7 @@ char	*prompt_get_line(void)
 		line = readline(get_prompt(g_exit_code));
 		if (line == NULL)
 			return (NULL);
-		if (ft_strisempty(line))
+		if (line_is_empty(line))
 		{
 			free(line);
 			continue ;
