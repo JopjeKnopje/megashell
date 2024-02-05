@@ -18,6 +18,7 @@
 #include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 typedef int	(*t_builtin_func)(t_meta *meta, t_cmd_frame *cmd);
@@ -82,7 +83,7 @@ int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 	fd = -1;
 	if (cmd->heredoc_delim)	
 	{
-		fd = handle_heredoc(cmd, &exit_status);
+		fd = handle_heredoc(meta, cmd, &exit_status);
 		if (fd == -1)
 			return (INTERNAL_FAILURE);
 	}
@@ -90,7 +91,8 @@ int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 		return (get_builtin_func(builtin)(meta, cmd));
 	fds[PIPE_WRITE] = dup(STDOUT_FILENO);
 	fds[PIPE_READ] = dup(STDIN_FILENO);
-	redirections(cmd, fd);
+	if (!redirections(cmd, fd))
+		return (print_error(strerror(errno)));
 	exit_status = (get_builtin_func(builtin)(meta, cmd));
 	if (!dup_stdin(fds[PIPE_READ]))
 		print_error("error dup_stdin\n");

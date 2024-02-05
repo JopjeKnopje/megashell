@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/22 14:39:28 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/04 19:12:53 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "libft.h"
 #include "megashell.h"
 #include "plarser.h"
+#include "test_utils.h"
 #include "utils.h"
 #include <limits.h>
 #include <readline/readline.h>
@@ -25,7 +26,7 @@
 #include <unistd.h>
 #include "execute.h"
 
-static size_t	ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
+size_t	ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
 {
 	char	*var;
 	size_t	len;
@@ -51,7 +52,8 @@ static size_t	ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
 	*s_exp = ex_str_append(*s_exp, var, ft_strlen(var));
 	if (is_exit_code)
 		free(var);
-	return (((!(*s_exp)) != 0) * 0 + ((!(!(*s_exp)) != 0) + 1));
+	int32_t ret = (((!(*s_exp)) != 0) * 0 + ((!(!(*s_exp)) != 0) + 1));
+	return ret;
 }
 
 char	*ex_expand_var_block(char **envp, t_token *t)
@@ -67,10 +69,7 @@ char	*ex_expand_var_block(char **envp, t_token *t)
 		{
 			i += ex_expand_var(envp, t, i, &s_exp);
 			if (!s_exp)
-			{
-				free(s_exp);
 				return (NULL);
-			}
 		}
 		i++;
 	}
@@ -103,6 +102,7 @@ char	*expand_var(char **envp, t_token *t, size_t i)
 t_token	ex_expand_quote_block(char **envp, t_token *t)
 {
 	t_exp	exp;
+	t_token ret_tok;
 
 	exp = ex_pack_struct(t, envp);
 	ex_step_into_quote(exp.t);
@@ -116,7 +116,9 @@ t_token	ex_expand_quote_block(char **envp, t_token *t)
 		if (exp.end == exp.t->content + exp.t->content_len)
 			break ;
 	}
-	return (lx_token_set(TOKEN_ALLOC, exp.s_exp, ft_strlen(t->content)));
+	ret_tok = lx_token_set(TOKEN_ALLOC, exp.s_exp, ft_strlen(exp.s_exp));
+	ret_tok.padding = t->padding;
+	return (ret_tok);
 }
 
 bool	ex_main(char **envp, t_tok_list *tokens)
@@ -126,6 +128,9 @@ bool	ex_main(char **envp, t_tok_list *tokens)
 	while (tokens)
 	{
 		t = &tokens->token;
+		if ((tokens->prev && tokens->prev->token.kind == TOKEN_HEREDOC) \
+				&& (t->kind == TOKEN_QUOTE_DOUBLE || t->kind == TOKEN_QUOTE_SINGLE || t->kind == TOKEN_BLOCK_DOLLAR))
+			ex_step_into_quote(t);
 		if (t->kind == TOKEN_QUOTE_DOUBLE)
 		{
 			tokens->token = ex_expand_quote_block(envp, t);
@@ -138,6 +143,7 @@ bool	ex_main(char **envp, t_tok_list *tokens)
 		{
 			if (!ex_expand_var_block(envp, t))
 				return (false);
+				
 		}
 		tokens = tokens->next;
 	}

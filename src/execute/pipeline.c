@@ -126,7 +126,7 @@ int	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 	t_cmd_list *const	cmds_head = cmds;
 	int					last_exit;
 
-	heredoc_pipes = run_heredocs(cmds);
+	heredoc_pipes = run_heredocs(meta, cmds);
 	if (contains_heredoc(cmds))
 	{
 		if (!heredoc_pipes)

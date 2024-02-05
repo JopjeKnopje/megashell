@@ -6,11 +6,12 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/14 01:44:03 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/14 01:58:27 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/04 16:21:09 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "plarser.h"
+#include <stdio.h>
 
 size_t	get_key_len(char *key)
 {
@@ -81,8 +82,8 @@ void	ex_step_into_quote(t_token *t)
 	{
 		t->content++;
 		t->content_len -= 2;
-		t->kind = TOKEN_TEXT;
 		if (t->content_len == 0)
 			t->padding = 0;
 	}
+	t->kind = TOKEN_TEXT;
 }

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/23 00:13:33 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/21 17:17:20 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,13 @@ static int	pr_parse_redirect(t_cmd_frame *frame, t_tok_list *tokens)
 	if (k == TOKEN_APPEND || k == TOKEN_GREATER_THAN)
 	{
 		frame->is_append = (k == TOKEN_APPEND);
+		if (frame->outfile)
+			free(frame->outfile);
 		frame->outfile = sized_strdup(next->content, next->content_len);
+		if (next->kind == TOKEN_ALLOC)
+			free(next->content);
 		if (!frame->outfile)
-			print_error("sized_strdup failure\n");
+			return print_error("sized_strdup failure\n");
 	}
 	else if (k == TOKEN_LESS_THAN)
 		pr_parse_tokenless(frame, next);
@@ -62,9 +66,13 @@ static int	pr_parse_redirect(t_cmd_frame *frame, t_tok_list *tokens)
 	{
 		if (frame->heredoc_delim)
 			free(frame->heredoc_delim);
+		if (frame->heredoc_delim)
+			free(frame->heredoc_delim);
 		frame->heredoc_delim = sized_strdup(next->content, next->content_len);
+		if (next->kind == TOKEN_ALLOC)
+			free(next->content);
 		if (!frame->heredoc_delim)
-			print_error("sized_strdup failure\n");
+			return print_error("sized_strdup failure\n");
 	}
 	return (1);
 }
@@ -99,6 +107,8 @@ static int	pr_iterate(t_tok_list **tl, t_cmd_list **cmds, t_cmd_frame *frame)
 	}
 	if ((*tl)->token.kind == TOKEN_TEXT || (*tl)->token.kind == TOKEN_ALLOC)
 	{
+		// if ((*tl)->token.kind == TOKEN_ALLOC)
+		// 	free((*tl)->token.content);
 		if (!pr_parse_text(frame, *tl))
 			return (0);
 	}

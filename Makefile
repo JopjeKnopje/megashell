@@ -80,6 +80,7 @@ SRCS		:= 	execute/error.c \
 			  	plarser/expander_utils.c \
 			  	plarser/expander_utils2.c \
 			  	plarser/space_count.c \
+			  	plarser/heredoc_expander.c \
 			  	utils/utils_string.c \
 				utils/utils_path.c \
 				redirections/redirections.c \

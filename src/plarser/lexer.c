@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:57:13 by joppe             #+#    #+#             */
-/*   Updated: 2024/01/16 13:33:14 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/04 02:10:29 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-static void	lx_trim_space(char **cursor)
+void	lx_trim_space(char **cursor)
 {
 	while (*cursor && (**cursor == ' ' || **cursor == '\t' || **cursor == '\v' || **cursor == '\n'))
 	{

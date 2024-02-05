@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/12 18:46:47 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/13 01:13:11 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/19 15:09:09 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 
 static int	ft_abs(int x)
 {
-	const uint32_t	temp = x >> 31;
+	const uint32_t	tmp = x >> 31;
 
-	x ^= temp;
-	x += temp & 1;
+	x ^= tmp;
+	x += tmp & 1;
 	return (x);
 }
 

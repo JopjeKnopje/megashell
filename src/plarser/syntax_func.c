@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 23:19:49 by joppe             #+#    #+#             */
-/*   Updated: 2023/12/11 17:25:15 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/19 16:14:53 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	sy_token_redir(t_tok_list *node)
 	if (!node->next)
 		return (false);
 	k = node->next->token.kind;
-	if (k == TOKEN_TEXT || k == TOKEN_QUOTE_DOUBLE || k == TOKEN_QUOTE_SINGLE)
+	if (k == TOKEN_TEXT || k == TOKEN_QUOTE_DOUBLE || k == TOKEN_QUOTE_SINGLE || k == TOKEN_ALLOC)
 		return (true);
 	return (false);
 }

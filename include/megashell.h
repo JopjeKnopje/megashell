@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   megashell.h                                        :+:      :+:    :+:   */
+/*   megashell.h                                       :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:40:37 by jboeve            #+#    #+#             */
-/*   Updated: 2023/12/11 16:44:46 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2024/02/04 02:11:28 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char		*prompt_get_line(void);
 bool		hs_read_history_file(char *s);
 bool		hs_add_history_file(char *s, char *line);
 
-// aliases.c
-void		aliases_init(t_meta *meta);
+// heredoc_expander.c
+char *hd_exp(t_meta *meta, char *s);
 
 #endif
