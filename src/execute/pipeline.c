@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipeline.c                                         :+:      :+:    :+:   */
+/*   pipeline.c                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2024/01/16 14:13:37 by iris             ###   ########.fr       */
+/*   Updated: 2024/02/05 01:14:36 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "heredoc.h"
 #include "execute.h"
 #include "input.h"
-// #include <asm-generic/errno-base.h>
 #include <assert.h>
 #include <errno.h>
 #include <stddef.h>
@@ -33,12 +32,15 @@ static int32_t	run_command(t_meta *meta, t_cmd_frame *cmd)
 	int32_t		status;
 	char		*cmd_in_path;
 
+	cmd_in_path = NULL;
 	if (!cmd->argv)
 		return (true);
 	is_builtin = get_builtin(cmd->argv[0]);
 	if (is_builtin)
 		return (run_builtin(is_builtin, meta, cmd));
 	status = get_runnable_path(meta, cmd->argv[0], &cmd_in_path);
+	fprintf(stderr, "[run_command] path [%s]\n", cmd_in_path);
+	fprintf(stderr, "[status] [%d]\n", status);
 	if (!status)
 	{
 		if (execve(cmd_in_path, cmd->argv, meta->envp) == -1)

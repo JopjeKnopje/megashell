@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   access.c                                           :+:      :+:    :+:   */
+/*   access.c                                          :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/01/19 18:18:49 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2024/02/05 01:42:08 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static char	*find_executable_in_path(char **split_path, char *cmd)
 	char	*tmp;
 
 	i = 0;
+	if (!split_path || !*split_path)
+		fprintf(stderr, "poep\n");
 	while (split_path[i])
 	{
 		tmp = ft_strjoin(split_path[i], cmd);
@@ -88,9 +90,9 @@ int32_t	get_runnable_path(t_meta *meta, char *cmd, char **runnable_cmd)
 	{
 		if (is_a_directory(cmd) && open(cmd, O_WRONLY) == -1)
 			return (126);
-		if (access(cmd, F_OK))
+		if (access(cmd, F_OK) == -1)
 			return (127);
-		if (access(cmd, X_OK))
+		if (access(cmd, X_OK) == -1)
 			return (126);
 		*runnable_cmd = cmd;
 		return (0);
@@ -100,6 +102,7 @@ int32_t	get_runnable_path(t_meta *meta, char *cmd, char **runnable_cmd)
 	else
 	{
 		*runnable_cmd = find_executable_in_path(meta->execute.split_path, cmd);
+		fprintf(stderr, "[runnable_cmd] [%s]\n", *runnable_cmd);
 		if (!(*runnable_cmd))
 			return (127);
 		return (0);
