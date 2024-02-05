@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   builtins.c                                        :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/01/19 17:09:24 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2024/02/05 16:39:44 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 		if (fd == -1)
 			return (INTERNAL_FAILURE);
 	}
+	if (builtin == BUILTIN_EXIT)
+		return (get_builtin_func(builtin)(meta, cmd));
 	fds[PIPE_WRITE] = dup(STDOUT_FILENO);
 	fds[PIPE_READ] = dup(STDIN_FILENO);
 	redirections(cmd, fd);
