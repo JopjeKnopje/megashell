@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2024/02/05 01:14:36 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/05 15:29:31 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ static int32_t	run_command(t_meta *meta, t_cmd_frame *cmd)
 	if (is_builtin)
 		return (run_builtin(is_builtin, meta, cmd));
 	status = get_runnable_path(meta, cmd->argv[0], &cmd_in_path);
-	fprintf(stderr, "[run_command] path [%s]\n", cmd_in_path);
-	fprintf(stderr, "[status] [%d]\n", status);
 	if (!status)
 	{
 		if (execve(cmd_in_path, cmd->argv, meta->envp) == -1)

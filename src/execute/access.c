@@ -6,13 +6,14 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/02/05 01:42:08 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/05 15:28:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "libft.h"
 #include "megashell.h"
+#include "test_utils.h"
 #include "utils.h"
 #include <fcntl.h>
 #include <stdint.h>
@@ -74,8 +75,12 @@ bool	is_path_set(t_meta *meta)
 	s = search_in_env(meta->envp, "PATH=");
 	if (s)
 	{
-		free_2d(s);
 		status = true;
+		if (ft_strisempty(*s))
+		{
+			status = false;
+		}
+		free_2d(s);
 	}
 	else
 		status = false;
