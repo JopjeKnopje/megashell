@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2024/02/04 19:12:53 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/05 21:21:08 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ size_t	ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
 	*s_exp = ex_str_append(*s_exp, var, ft_strlen(var));
 	if (is_exit_code)
 		free(var);
-	int32_t ret = (((!(*s_exp)) != 0) * 0 + ((!(!(*s_exp)) != 0) + 1));
-	return ret;
+	return (((!(*s_exp)) != 0) * 0 + ((!(!(*s_exp)) != 0) + 1));
 }
 
 char	*ex_expand_var_block(char **envp, t_token *t)
@@ -102,7 +101,7 @@ char	*expand_var(char **envp, t_token *t, size_t i)
 t_token	ex_expand_quote_block(char **envp, t_token *t)
 {
 	t_exp	exp;
-	t_token ret_tok;
+	t_token	ret_tok;
 
 	exp = ex_pack_struct(t, envp);
 	ex_step_into_quote(exp.t);

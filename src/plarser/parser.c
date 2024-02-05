@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/20 00:08:00 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/21 17:17:20 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/05 21:20:08 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,18 @@ static int	pr_parse_text(t_cmd_frame *frame, t_tok_list *tokens)
 	return (1);
 }
 
+static int	pr_parse_redirect_heredoc(t_cmd_frame *frame, const t_token *next)
+{
+	if (frame->heredoc_delim)
+		free(frame->heredoc_delim);
+	frame->heredoc_delim = sized_strdup(next->content, next->content_len);
+	if (next->kind == TOKEN_ALLOC)
+		free(next->content);
+	if (!frame->heredoc_delim)
+		return (print_error("sized_strdup failure\n"));
+	return (0);
+}
+
 static int	pr_parse_redirect(t_cmd_frame *frame, t_tok_list *tokens)
 {
 	const t_token_kind	k = tokens->token.kind;
@@ -58,43 +70,16 @@ static int	pr_parse_redirect(t_cmd_frame *frame, t_tok_list *tokens)
 		if (next->kind == TOKEN_ALLOC)
 			free(next->content);
 		if (!frame->outfile)
-			return print_error("sized_strdup failure\n");
+			return (print_error("sized_strdup failure\n"));
 	}
 	else if (k == TOKEN_LESS_THAN)
 		pr_parse_tokenless(frame, next);
 	else if (k == TOKEN_HEREDOC)
 	{
-		if (frame->heredoc_delim)
-			free(frame->heredoc_delim);
-		if (frame->heredoc_delim)
-			free(frame->heredoc_delim);
-		frame->heredoc_delim = sized_strdup(next->content, next->content_len);
-		if (next->kind == TOKEN_ALLOC)
-			free(next->content);
-		if (!frame->heredoc_delim)
-			return print_error("sized_strdup failure\n");
+		if (pr_parse_redirect_heredoc(frame, next))
+			return (0);
 	}
 	return (1);
-}
-
-static t_cmd_list	*pr_list_add_cmd(t_cmd_list **cmd_list, t_cmd_frame frame)
-{
-	t_cmd_list	*node;
-
-	if (!cmd_list)
-	{
-		*cmd_list = pr_lstnew(frame);
-		if (!cmd_list)
-			return (NULL);
-	}
-	else
-	{
-		node = pr_lstnew(frame);
-		if (!node)
-			return (NULL);
-		pr_lstadd_back(cmd_list, node);
-	}
-	return (*cmd_list);
 }
 
 static int	pr_iterate(t_tok_list **tl, t_cmd_list **cmds, t_cmd_frame *frame)
@@ -107,8 +92,6 @@ static int	pr_iterate(t_tok_list **tl, t_cmd_list **cmds, t_cmd_frame *frame)
 	}
 	if ((*tl)->token.kind == TOKEN_TEXT || (*tl)->token.kind == TOKEN_ALLOC)
 	{
-		// if ((*tl)->token.kind == TOKEN_ALLOC)
-		// 	free((*tl)->token.content);
 		if (!pr_parse_text(frame, *tl))
 			return (0);
 	}

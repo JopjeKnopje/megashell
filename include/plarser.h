@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2024/02/04 02:10:35 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/05 21:14:15 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,10 @@ bool			sy_token_unused(t_tok_list *node);
 // parser_joiner.c
 t_tok_list		*pr_joiner(t_tok_list *tokens);
 
-// parser_util.c
+// parser_utils.c
 bool			pr_is_redirect(t_token_kind k);
 void			pr_parse_tokenless(t_cmd_frame *frame, const t_token *next);
+t_cmd_list		*pr_list_add_cmd(t_cmd_list **cmd_list, t_cmd_frame frame);
 
 // lexer.c
 t_tok_list		*lx_list_add_token(t_tok_list **token_lst, t_token t);

@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/12 16:48:09 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/21 17:13:14 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/05 21:14:01 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,3 +50,24 @@ void	pr_parse_tokenless(t_cmd_frame *frame, const t_token *next)
 	if (!frame->infile)
 		print_error("sized_strdup failure\n");
 }
+
+t_cmd_list	*pr_list_add_cmd(t_cmd_list **cmd_list, t_cmd_frame frame)
+{
+	t_cmd_list	*node;
+
+	if (!cmd_list)
+	{
+		*cmd_list = pr_lstnew(frame);
+		if (!cmd_list)
+			return (NULL);
+	}
+	else
+	{
+		node = pr_lstnew(frame);
+		if (!node)
+			return (NULL);
+		pr_lstadd_back(cmd_list, node);
+	}
+	return (*cmd_list);
+}
+
