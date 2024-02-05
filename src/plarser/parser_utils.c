@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/12 16:48:09 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/02/05 21:14:01 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/06 00:12:02 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,3 @@ t_cmd_list	*pr_list_add_cmd(t_cmd_list **cmd_list, t_cmd_frame frame)
 	}
 	return (*cmd_list);
 }
-

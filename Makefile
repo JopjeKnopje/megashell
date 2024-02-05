@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2024/02/05 15:32:05 by joppe         ########   odam.nl          #
+#    Updated: 2024/02/06 00:15:45 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,10 +25,10 @@ endif
 NAME		:= minishell
 RUN_CMD		:= ./$(NAME)
 
-# CFLAGS		+= -Wall -Wextra -Werror
-CFLAGS		+= -Wall -Wextra
+CFLAGS		+= -Wall -Wextra -Werror
+# CFLAGS		+= -Wall -Wextra 
 # CFLAGS		+= -g -fsanitize=address
-CFLAGS		+= -g
+# CFLAGS		+= -g
 
 
 
@@ -85,15 +85,13 @@ SRCS		:= 	execute/error.c \
 				utils/utils_path.c \
 				redirections/redirections.c \
 				redirections/heredoc.c \
-			  	megashell.c \
-			  	test_utils.c
+			  	megashell.c
 
 HEADER_DIR	:=	include
 HEADERS 	:=	input.h \
 		 	 	plarser.h \
 		 		megashell.h \
 		 		builtins.h \
-			  	test_utils.h \
 		 		execute.h \
 		 		utils.h
 

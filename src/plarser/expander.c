@@ -6,24 +6,11 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2024/02/05 21:21:08 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/06 00:15:05 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
-#include "get_next_line.h"
-#include "heredoc.h"
-#include "libft.h"
-#include "megashell.h"
-#include "plarser.h"
-#include "test_utils.h"
-#include "utils.h"
-#include <limits.h>
-#include <readline/readline.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include "execute.h"
 
 size_t	ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
@@ -127,8 +114,9 @@ bool	ex_main(char **envp, t_tok_list *tokens)
 	while (tokens)
 	{
 		t = &tokens->token;
-		if ((tokens->prev && tokens->prev->token.kind == TOKEN_HEREDOC) \
-				&& (t->kind == TOKEN_QUOTE_DOUBLE || t->kind == TOKEN_QUOTE_SINGLE || t->kind == TOKEN_BLOCK_DOLLAR))
+		if ((tokens->prev && tokens->prev->token.kind == TOKEN_HEREDOC) && \
+			(t->kind == TOKEN_QUOTE_DOUBLE || \
+			t->kind == TOKEN_QUOTE_SINGLE || t->kind == TOKEN_BLOCK_DOLLAR))
 			ex_step_into_quote(t);
 		if (t->kind == TOKEN_QUOTE_DOUBLE)
 		{
@@ -142,7 +130,6 @@ bool	ex_main(char **envp, t_tok_list *tokens)
 		{
 			if (!ex_expand_var_block(envp, t))
 				return (false);
-				
 		}
 		tokens = tokens->next;
 	}

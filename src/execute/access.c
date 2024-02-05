@@ -6,14 +6,13 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/02/05 15:28:33 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/06 00:15:51 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "libft.h"
 #include "megashell.h"
-#include "test_utils.h"
 #include "utils.h"
 #include <fcntl.h>
 #include <stdint.h>
