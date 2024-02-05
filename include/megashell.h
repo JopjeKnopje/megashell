@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:40:37 by jboeve            #+#    #+#             */
-/*   Updated: 2024/02/04 02:11:28 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/06 00:17:45 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ bool		hs_read_history_file(char *s);
 bool		hs_add_history_file(char *s, char *line);
 
 // heredoc_expander.c
-char *hd_exp(t_meta *meta, char *s);
+char		*hd_exp(t_meta *meta, char *s);
 
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*   builtin_unset.c                                   :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:33 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/01/19 17:55:01 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2024/02/06 00:16:37 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	builtin_run_unset(t_meta *meta, t_cmd_frame *cmd)
 {
 	char	*variable;
 	char	*path;
-	
+
 	variable = cmd->argv[1];
 	if (!cmd->argv[1])
 		return (0);
