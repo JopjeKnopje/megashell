@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:03:58 by joppe             #+#    #+#             */
-/*   Updated: 2024/02/07 11:56:18 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/07 12:29:00 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ bool		set_signal_mode(int mode);
 
 // prompt.c
 const char	*get_prompt(int exit_code);
+bool		line_is_empty(char *s);
 
 #endif

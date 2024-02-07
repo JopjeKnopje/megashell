@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   builtin_cd.c                                      :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:09:31 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/01/19 16:09:40 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2024/02/07 12:21:43 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ bool	set_oldpwd(t_meta *meta, char *cmd, char **prev_pwd)
 	pwd_now = getcwd(cwd, sizeof(cwd));
 	if (set_pwds(meta, pwd_now, cur_pwd) == false)
 		return (free(cur_pwd), false);
-	if (ft_strncmp(cmd, "-", 1) == 0)
-		printf("%s\n", pwd_now);
 	return (true);
 }
 
