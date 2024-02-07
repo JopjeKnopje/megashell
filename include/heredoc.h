@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 15:31:17 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/02/03 22:08:01 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/07 11:55:40 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-typedef struct e_heredoc_list {
+typedef struct e_heredoc_list
+{
 	int						fd;
 	struct e_heredoc_list	*next;
 }	t_hd_list;

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2024/02/06 00:17:33 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/07 11:56:01 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 # include <stdbool.h>
 # include <stdint.h>
 
-typedef enum e_token_kind {
+typedef enum e_token_kind
+{
 	TOKEN_UNUSED = 0,
 	TOKEN_QUOTE_SINGLE = 1,
 	TOKEN_QUOTE_DOUBLE = 2,
@@ -35,14 +36,16 @@ typedef enum e_token_kind {
 	TOKEN_COUNT = 12,
 }	t_token_kind;
 
-typedef struct s_token {
+typedef struct s_token
+{
 	t_token_kind	kind;
 	size_t			content_len;
 	size_t			padding;
 	char			*content;
 }	t_token;
 
-typedef struct s_cmd_frame {
+typedef struct s_cmd_frame
+{
 	char	**argv;
 	char	*infile;
 	char	*outfile;
@@ -50,19 +53,23 @@ typedef struct s_cmd_frame {
 	bool	is_append;
 }	t_cmd_frame;
 
-typedef struct e_token_list {
+typedef struct e_token_list
+{
 	t_token				token;
 	struct e_token_list	*next;
 	struct e_token_list	*prev;
 }	t_tok_list;
 
-typedef struct e_cmd_list {
+typedef struct e_cmd_list
+{
 	t_cmd_frame			content;
 	int					pid;
 	int					pipe[2];
 	struct e_cmd_list	*next;
 	struct e_cmd_list	*prev;
 }	t_cmd_list;
+
+typedef bool	(*t_syntax_func)(t_tok_list *t_cur);
 
 // parser.c
 t_cmd_list		*pr_main(t_tok_list *tokens);

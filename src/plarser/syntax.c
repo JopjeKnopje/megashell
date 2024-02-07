@@ -6,13 +6,11 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/18 21:20:04 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/11 17:35:37 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/07 11:54:15 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "plarser.h"
-
-typedef bool	(*t_syntax_func)(t_tok_list *t_cur);
 
 t_tok_list	*sy_main(t_tok_list *tokens)
 {

@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 11:40:37 by jboeve            #+#    #+#             */
-/*   Updated: 2024/02/06 00:17:45 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/07 12:03:30 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 
 extern int	g_exit_code;
 
-typedef struct s_exec {
+typedef struct s_exec
+{
 	int			args;
 	int			pid;
 	int			io_file[2];
@@ -34,7 +35,8 @@ typedef struct s_exec {
 	char		**split_path;
 }	t_exec;
 
-typedef struct s_meta {
+typedef struct s_meta
+{
 	char	**envp;
 	t_exec	execute;
 }	t_meta;

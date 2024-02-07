@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/12 18:45:58 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/02/04 21:14:50 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/07 11:55:34 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define EXPANDER_H
 # include "plarser.h"
 
-typedef struct s_exp {
+typedef struct s_exp
+{
 	char	**envp;
 	char	*s_exp;
 	char	*end;

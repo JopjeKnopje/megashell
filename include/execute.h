@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.h                                          :+:      :+:    :+:   */
+/*   execute.h                                         :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 13:04:59 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/01/19 13:33:27 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2024/02/07 12:03:12 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,20 @@
 # include <sys/types.h>
 # include <heredoc.h>
 
-typedef enum e_files {
+typedef enum e_files
+{
 	PIPE_READ,
 	PIPE_WRITE,
 }	t_files;
 
-typedef enum e_access {
+typedef enum e_access
+{
 	CHECK_DIR,
 	CHECK_ACCESS,
 }	t_access;
 
-typedef enum e_error {
+typedef enum e_error
+{
 	ERROR_ARGUMENTS,
 	ERROR_PATH,
 	ERROR_FIND_PATH,
