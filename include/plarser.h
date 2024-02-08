@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:40:07 by jboeve            #+#    #+#             */
-/*   Updated: 2024/02/04 02:10:35 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/07 11:56:01 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 # include <stdbool.h>
 # include <stdint.h>
 
-typedef enum e_token_kind {
+typedef enum e_token_kind
+{
 	TOKEN_UNUSED = 0,
 	TOKEN_QUOTE_SINGLE = 1,
 	TOKEN_QUOTE_DOUBLE = 2,
@@ -35,14 +36,16 @@ typedef enum e_token_kind {
 	TOKEN_COUNT = 12,
 }	t_token_kind;
 
-typedef struct s_token {
+typedef struct s_token
+{
 	t_token_kind	kind;
 	size_t			content_len;
 	size_t			padding;
 	char			*content;
 }	t_token;
 
-typedef struct s_cmd_frame {
+typedef struct s_cmd_frame
+{
 	char	**argv;
 	char	*infile;
 	char	*outfile;
@@ -50,19 +53,23 @@ typedef struct s_cmd_frame {
 	bool	is_append;
 }	t_cmd_frame;
 
-typedef struct e_token_list {
+typedef struct e_token_list
+{
 	t_token				token;
 	struct e_token_list	*next;
 	struct e_token_list	*prev;
 }	t_tok_list;
 
-typedef struct e_cmd_list {
+typedef struct e_cmd_list
+{
 	t_cmd_frame			content;
 	int					pid;
 	int					pipe[2];
 	struct e_cmd_list	*next;
 	struct e_cmd_list	*prev;
 }	t_cmd_list;
+
+typedef bool	(*t_syntax_func)(t_tok_list *t_cur);
 
 // parser.c
 t_cmd_list		*pr_main(t_tok_list *tokens);
@@ -95,14 +102,15 @@ bool			sy_token_unused(t_tok_list *node);
 // parser_joiner.c
 t_tok_list		*pr_joiner(t_tok_list *tokens);
 
-// parser_util.c
+// parser_utils.c
 bool			pr_is_redirect(t_token_kind k);
 void			pr_parse_tokenless(t_cmd_frame *frame, const t_token *next);
+t_cmd_list		*pr_list_add_cmd(t_cmd_list **cmd_list, t_cmd_frame frame);
 
 // lexer.c
 t_tok_list		*lx_list_add_token(t_tok_list **token_lst, t_token t);
 t_tok_list		*lx_main(char *s);
-void	lx_trim_space(char **cursor);
+void			lx_trim_space(char **cursor);
 
 // lexer_utils.c
 bool			lx_is_metachar(char c);

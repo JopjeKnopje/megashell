@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:45:01 by joppe             #+#    #+#             */
-/*   Updated: 2024/01/16 13:12:27 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/06 00:17:21 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ const char	*get_prompt(int exit_code)
 		return (SHELL_PROMPT_ERROR);
 }
 
-bool line_is_empty(char *s)
+bool	line_is_empty(char *s)
 {
 	int	i;
 

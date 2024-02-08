@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2024/02/03 22:09:57 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/04 21:17:01 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/06 00:16:03 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,13 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include "test_utils.h"
+
+static char	*poep(size_t *i, char *s_line, char *s)
+{
+	s_line = ex_str_append(s_line, s + (*i), 1);
+	(*i)++;
+	return (s_line);
+}
 
 char	*hd_exp(t_meta *meta, char *s)
 {
@@ -46,10 +52,7 @@ char	*hd_exp(t_meta *meta, char *s)
 			free(s_exp);
 		}
 		else
-		{
-			s_line = ex_str_append(s_line, s + i, 1);
-			i++;
-		}
+			s_line = poep(&i, s_line, s);
 	}
-	return s_line;
+	return (s_line);
 }

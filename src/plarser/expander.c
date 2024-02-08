@@ -6,24 +6,11 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 23:35:50 by joppe             #+#    #+#             */
-/*   Updated: 2024/02/04 19:12:53 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/06 00:15:05 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
-#include "get_next_line.h"
-#include "heredoc.h"
-#include "libft.h"
-#include "megashell.h"
-#include "plarser.h"
-#include "test_utils.h"
-#include "utils.h"
-#include <limits.h>
-#include <readline/readline.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include "execute.h"
 
 size_t	ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
@@ -52,8 +39,7 @@ size_t	ex_expand_var(char **envp, t_token *t, size_t i, char **s_exp)
 	*s_exp = ex_str_append(*s_exp, var, ft_strlen(var));
 	if (is_exit_code)
 		free(var);
-	int32_t ret = (((!(*s_exp)) != 0) * 0 + ((!(!(*s_exp)) != 0) + 1));
-	return ret;
+	return (((!(*s_exp)) != 0) * 0 + ((!(!(*s_exp)) != 0) + 1));
 }
 
 char	*ex_expand_var_block(char **envp, t_token *t)
@@ -102,7 +88,7 @@ char	*expand_var(char **envp, t_token *t, size_t i)
 t_token	ex_expand_quote_block(char **envp, t_token *t)
 {
 	t_exp	exp;
-	t_token ret_tok;
+	t_token	ret_tok;
 
 	exp = ex_pack_struct(t, envp);
 	ex_step_into_quote(exp.t);
@@ -128,8 +114,9 @@ bool	ex_main(char **envp, t_tok_list *tokens)
 	while (tokens)
 	{
 		t = &tokens->token;
-		if ((tokens->prev && tokens->prev->token.kind == TOKEN_HEREDOC) \
-				&& (t->kind == TOKEN_QUOTE_DOUBLE || t->kind == TOKEN_QUOTE_SINGLE || t->kind == TOKEN_BLOCK_DOLLAR))
+		if ((tokens->prev && tokens->prev->token.kind == TOKEN_HEREDOC) && \
+			(t->kind == TOKEN_QUOTE_DOUBLE || \
+			t->kind == TOKEN_QUOTE_SINGLE || t->kind == TOKEN_BLOCK_DOLLAR))
 			ex_step_into_quote(t);
 		if (t->kind == TOKEN_QUOTE_DOUBLE)
 		{
@@ -143,7 +130,6 @@ bool	ex_main(char **envp, t_tok_list *tokens)
 		{
 			if (!ex_expand_var_block(envp, t))
 				return (false);
-				
 		}
 		tokens = tokens->next;
 	}

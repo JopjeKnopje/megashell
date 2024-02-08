@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 16:03:10 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/02/05 16:39:44 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/07 11:54:28 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
-typedef int	(*t_builtin_func)(t_meta *meta, t_cmd_frame *cmd);
 
 const char	*get_builtin_name(int i)
 {
@@ -81,7 +79,7 @@ int	run_builtin(t_builtin builtin, t_meta *meta, t_cmd_frame *cmd)
 	int			fds[2];
 
 	fd = -1;
-	if (cmd->heredoc_delim)	
+	if (cmd->heredoc_delim)
 	{
 		fd = handle_heredoc(meta, cmd, &exit_status);
 		if (fd == -1)

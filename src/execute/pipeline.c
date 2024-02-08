@@ -6,7 +6,7 @@
 /*   By: iris <iris@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 02:54:41 by joppe             #+#    #+#             */
-/*   Updated: 2024/02/05 15:29:31 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/07 13:06:27 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int32_t	run_command(t_meta *meta, t_cmd_frame *cmd)
 
 	cmd_in_path = NULL;
 	if (!cmd->argv)
-		return (true);
+		return (0);
 	is_builtin = get_builtin(cmd->argv[0]);
 	if (is_builtin)
 		return (run_builtin(is_builtin, meta, cmd));
@@ -142,6 +142,5 @@ int	pipeline_start(t_meta *meta, t_cmd_list *cmds)
 		return (INTERNAL_FAILURE);
 	last_exit = pipeline_wait(cmds_head);
 	hd_lst_free(heredoc_pipes);
-	printf("last_exit [%d]\n", last_exit);
 	return (last_exit);
 }

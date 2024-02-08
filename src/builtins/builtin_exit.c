@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*   builtin_exit.c                                    :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:11 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/01/19 16:04:30 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2024/02/07 16:39:14 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	multiple_args(char *arg1, char *arg2)
 		(!is_a_nb(arg1) && is_a_nb(arg2)))
 	{
 		printf("exit: a numeric argument required\n");
-		exit(255);
+		exit(2);
 	}
 	return (1);
 }
@@ -66,7 +66,7 @@ int	builtin_run_exit(t_meta *meta, t_cmd_frame *cmd)
 	if (!is_a_nb(cmd->argv[1]))
 	{
 		printf("exit %s: a numeric argument required\n", cmd->argv[1]);
-		exit(255);
+		exit(2);
 	}
 	exit(nb);
 }

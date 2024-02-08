@@ -6,7 +6,7 @@
 /*   By: jboeve <marvin@42.fr>                       +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/08/15 17:00:05 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/26 15:45:34 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/07 13:36:12 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool	hs_read_history_file(char *file)
 	int		fd;
 	char	*line;
 
-	fd = open(file, O_RDONLY);
+	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd == -1)
 		return (false);
 	line = get_next_line(fd);

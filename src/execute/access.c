@@ -6,14 +6,13 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:34:54 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/02/05 15:28:33 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/06 22:40:16 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 #include "libft.h"
 #include "megashell.h"
-#include "test_utils.h"
 #include "utils.h"
 #include <fcntl.h>
 #include <stdint.h>
@@ -52,8 +51,6 @@ static char	*find_executable_in_path(char **split_path, char *cmd)
 	char	*tmp;
 
 	i = 0;
-	if (!split_path || !*split_path)
-		fprintf(stderr, "poep\n");
 	while (split_path[i])
 	{
 		tmp = ft_strjoin(split_path[i], cmd);
@@ -107,7 +104,6 @@ int32_t	get_runnable_path(t_meta *meta, char *cmd, char **runnable_cmd)
 	else
 	{
 		*runnable_cmd = find_executable_in_path(meta->execute.split_path, cmd);
-		fprintf(stderr, "[runnable_cmd] [%s]\n", *runnable_cmd);
 		if (!(*runnable_cmd))
 			return (127);
 		return (0);
