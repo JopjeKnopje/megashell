@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:02:40 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/02/07 15:24:26 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/08 22:52:58 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**search_in_env(char **envp, char *cmd)
 	if (!envp || !*envp)
 		return (NULL);
 	dup_cmd_index = 0;
-	dup_cmd = (char **)malloc(sizeof(char *) * (ft_strlen(envp[0]) + 1));
+	dup_cmd = ft_calloc(sizeof(char *), (ft_strlen_2d(envp) + 1));
 	if (!dup_cmd)
 		return (NULL);
 	iterate(envp, cmd, dup_cmd, &dup_cmd_index);
