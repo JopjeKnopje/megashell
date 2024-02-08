@@ -6,7 +6,7 @@
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:33 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/02/06 00:16:37 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/07 12:26:04 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	builtin_run_unset(t_meta *meta, t_cmd_frame *cmd)
 	path = find_path(meta->envp);
 	if (!path)
 	{
-		free(meta->execute.split_path);
+		free_2d(meta->execute.split_path);
 		meta->execute.split_path = NULL;
 	}
 	return (0);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*   builtin_export.c                                  :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:10:03 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/01/26 13:01:57 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2024/02/06 22:40:34 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ bool	correct_input(char *content)
 	{
 		if (!ft_isalpha(content[i]) && !ft_isdigit(content[i]))
 		{
-			printf("test2\n");
 			if (content[i] != '_' && content[i] != '=')
 				return (false);
 		}

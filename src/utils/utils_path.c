@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_path.c                                       :+:      :+:    :+:   */
+/*   utils_path.c                                      :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 17:02:40 by ivan-mel          #+#    #+#             */
-/*   Updated: 2024/01/26 13:42:00 by ivan-mel         ###   ########.fr       */
+/*   Updated: 2024/02/07 15:24:26 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	**search_in_env(char **envp, char *cmd)
 	iterate(envp, cmd, dup_cmd, &dup_cmd_index);
 	if (dup_cmd_index == 0)
 	{
-		free(dup_cmd);
+		free_2d(dup_cmd);
 		return (NULL);
 	}
 	dup_cmd[dup_cmd_index] = NULL;
