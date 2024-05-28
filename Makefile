@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2024/02/08 22:51:54 by joppe         ########   odam.nl          #
+#    Updated: 2024/05/28 14:58:31 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,8 @@ NAME		:= minishell
 RUN_CMD		:= ./$(NAME)
 
 CFLAGS		+= -Wall -Wextra -Werror
-# CFLAGS		+= -Wall -Wextra 
-CFLAGS		+= -g -fsanitize=address
+# CFLAGS		+= -Wall -Wextra
+# CFLAGS		+= -g -fsanitize=address
 # CFLAGS		+= -g
 
 
@@ -85,17 +85,28 @@ SRCS		:= 	execute/error.c \
 				utils/utils_path.c \
 				redirections/redirections.c \
 				redirections/heredoc.c \
-			  	megashell.c
+			  	megashell.c \
+				test_utils.c
 
 HEADER_DIR	:=	include
 HEADERS 	:=	input.h \
 		 	 	plarser.h \
 		 		megashell.h \
 		 		builtins.h \
+			  	test_utils.h \
 		 		execute.h \
 		 		utils.h
 
 OBJ_DIR		:=	obj
+
+
+TEST_LFLAGS	:= -L /home/jboeve/.capt/root/usr/lib/x86_64-linux-gnu
+TEST_IFLAGS	:= -I /home/jboeve/.capt/root/usr/include
+TEST_SRCS	:= 	test_tokenizer.c \
+				test_expander.c
+TEST		:=	tests
+TEST_SRCS	:=	$(addprefix $(TEST)/, $(TEST_SRCS))
+TEST_BINS	:=	$(patsubst $(TEST)/%.c, $(TEST)/bin/%, $(TEST_SRCS))
 
 SRCS 		:=	$(addprefix $(SRC_DIR)/, $(SRCS))
 HEADERS 	:=	$(addprefix $(HEADER_DIR)/, $(HEADERS))
@@ -121,7 +132,10 @@ make_libs:
 clean:
 	rm -rf $(OBJ_DIR)
 
-fclean: clean 
+tclean:
+	rm -rf $(TEST)/bin
+
+fclean: clean tclean
 	$(MAKE) -C libft fclean
 	rm -f $(NAME)
 
@@ -135,3 +149,13 @@ compile_commands: fclean
 
 norm:
 	norminette libft include src
+
+$(TEST)/bin:
+	mkdir $@
+
+$(TEST)/bin/%: $(TEST)/%.c $(OBJS)
+	$(CC) $(CFLAGS) $(IFLAGS) $< $(OBJS) $(LIBFT) -o $@ -lcriterion $(LFLAGS) $(TEST_IFLAGS) $(TEST_LFLAGS)
+
+ 
+test: make_libs $(OBJS) $(TEST)/bin $(TEST_BINS)
+	for test in $(TEST_BINS) ; do ./$$test -j1 ; done
