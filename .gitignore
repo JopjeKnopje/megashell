@@ -10,4 +10,5 @@ Session.vim
 .ms_history
 tests/bin
 minishell
+megashell
 .eval_history
