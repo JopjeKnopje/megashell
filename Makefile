@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2024/05/28 14:58:31 by joppe         ########   odam.nl          #
+#    Updated: 2024/05/28 15:44:02 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ ifeq ($(UNAME_S),Darwin)
 	L_RL	:= -L $(shell brew --prefix readline)/lib
 endif
 
-NAME		:= minishell
+NAME		:= megashell
 RUN_CMD		:= ./$(NAME)
 
 CFLAGS		+= -Wall -Wextra -Werror
