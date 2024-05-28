@@ -10,8 +10,7 @@ A unix shell written in C.
 - [ ] Aliases
 
 ## Getting Started
-Megashell depends on [readline](https://tiswww.case.edu/php/chet/readline/rltop.html).
-###Installing
+Megashell depends on the [readline](https://tiswww.case.edu/php/chet/readline/rltop.html) library.
 ```
 sudo apt install libreadline-dev
 git clone git@github.com:JopjeKnopje/megashell.git
@@ -19,7 +18,7 @@ cd megashell
 make
 ```
 
-Optionally for the unit tests
+For the unit tests we're using [criterion](https://github.com/Snaipe/Criterion#downloads).
 ```
 apt install libcriterion-dev
 make test
