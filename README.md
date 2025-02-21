@@ -23,3 +23,4 @@ For the unit tests we're using [criterion](https://github.com/Snaipe/Criterion#d
 apt install libcriterion-dev
 make test
 ```
+
